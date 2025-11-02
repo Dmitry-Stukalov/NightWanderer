@@ -58,7 +58,7 @@ public class Health : MonoBehaviour
 			if (CurrentHealth <= MinHealth)
 			{
 				CurrentHealth = MinHealth;
-				Debug.Log("Смерть");
+				//Debug.Log("Смерть");
 			}
 		}
 		else
@@ -66,7 +66,7 @@ public class Health : MonoBehaviour
 			CurrentFireDefense -= firedamage;
 		}
 
-		Debug.Log(CurrentHealth);
+		//Debug.Log(CurrentHealth);
 	}
 
 	public void RestoreDefense(float restoreValue)

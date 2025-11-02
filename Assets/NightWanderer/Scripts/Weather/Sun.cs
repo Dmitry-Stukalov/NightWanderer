@@ -81,3 +81,4 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		}
 	}
 }
+ 
