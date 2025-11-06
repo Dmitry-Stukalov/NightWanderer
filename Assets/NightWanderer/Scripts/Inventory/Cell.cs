@@ -1,32 +1,27 @@
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class Cell : MonoBehaviour
+public class Cell
 {
-	[field: SerializeField] private GameObject ResourcePlace;
+	private GameObject ResourceObject;
+	//private ResourceBase ThisResource;
+	private ResourceCellObject CellObject;
 	public bool IsEmpty = true;
-	//private int CellCapacity;
 
-	public int GetResource(Resource resource)
+	public Cell(GameObject resourceObject)
 	{
-		if (IsEmpty)
-		{
-			IsEmpty = false;
-			resource.transform.SetParent(ResourcePlace.transform, false);
-			resource.transform.position = Vector3.zero;
-			return resource.CurrentCount;
-		}
-		else
-		{
-			return ResourcePlace.GetComponentInChildren<Resource>().ChangeCount(resource.CurrentCount, true);
-		}
+		ResourceObject = resourceObject;
+		CellObject = ResourceObject.GetComponentInChildren<ResourceCellObject>();
 	}
 
-	public void TakeResource()
+	public int GetResourceID() => CellObject.GetId();
+
+	public void AddResource(ResourceBase resource)
 	{
-		IsEmpty = true;
+		if (!IsEmpty && resource.ID != CellObject.GetId()) return;
+
+		CellObject.AddResource(resource);
 	}
 
-	//public void ChangeCapacity(int newCapacity) => CellCapacity = newCapacity;
+	public int TakeResource(int value) => CellObject.TakeResource(value);
 }
-

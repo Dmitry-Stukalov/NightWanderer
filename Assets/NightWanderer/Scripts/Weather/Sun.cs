@@ -20,8 +20,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private Ray SunRay;
 	private RaycastHit[] SunRayCast;
 
-
-	private void Start()
+	public void Initializing()
 	{
 		AllDayTimer = new Timer(AllDayLength);
 		AllDayTimer.OnTimerEnd += ResetDayTimer;
