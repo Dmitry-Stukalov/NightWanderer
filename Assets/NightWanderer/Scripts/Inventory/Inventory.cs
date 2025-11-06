@@ -1,40 +1,39 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
-	[field: SerializeField] private int InventoryLineCount;
-	[field: SerializeField] private int InventoryColumnCount;
-	//[field: SerializeField] private int CellCapacity;
-	[field: SerializeField] private List<Resource> Resources;
+	private int InventoryLineCount;
+	private int InventoryColumnCount;
+	private List<GameObject> ResourceCellObjects;
 	private Cell[,] _Inventory;
 
-	private void Start()
+	public Inventory(int inventoryLineCount, int inventoryColumnCount, List<GameObject> resourceCellObjects)
 	{
+		InventoryLineCount = inventoryLineCount;
+		InventoryColumnCount = inventoryColumnCount;
 		_Inventory = new Cell[InventoryLineCount, InventoryColumnCount];
+		ResourceCellObjects = new List<GameObject>(resourceCellObjects);
 
-		for (int i = 0; i < InventoryLineCount; i++)
+		for (int i = 0;  i < InventoryLineCount; i++)
 		{
 			for (int j = 0; j < InventoryColumnCount; j++)
 			{
-				//_Inventory[i, j].ChangeCapacity(CellCapacity);
-				//_Inventory[i, j].GetResource(null);
+				_Inventory[i, j] = new Cell(ResourceCellObjects[i + j]);
 			}
 		}
 	}
 
-	public void GetResource(Resource resource)
+	public void AddResource(ResourceBase resource)
 	{
-
 		for (int i = 0; i < InventoryLineCount; i++)
 		{
 			for (int j = 0; j < InventoryColumnCount; j++)
 			{
-				if (_Inventory[i,j].IsEmpty)
-				{
-					_Inventory[i, j].GetResource(resource);
-				}
+				if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() != resource.ID) continue;
+
+				//if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() == resource.ID)
+				//Логика добавления ресурса в инвентарь
 			}
 		}
 	}

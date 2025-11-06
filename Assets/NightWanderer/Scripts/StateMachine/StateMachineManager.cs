@@ -10,12 +10,13 @@ public class StateMachineManager
 	private StateMachineState CurrentState;
 	public Transform Ship { get; set; }
 	public Transform PlayerCameraObject { get; set; }
+	public ResourceSource CurrentResourceSource { get; set; }
 	public Vector3 TargetShipPosition { get; set; }
 	public Quaternion TargetShipRotation { get; set; }
 	public Quaternion TargetCameraRotation { get; set; }
 	public float RotationX { get; set; } = -15;
 	public float RotationY { get; set; } = 0;
-	public float ResourceRotationX { get; private set; } = -30;
+	public float ResourceRotationX { get; private set; } = 0;
 	public int NextState { get; set; }
 
 	public void AddState(int ID, StateMachineState newState)

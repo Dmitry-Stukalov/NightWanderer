@@ -24,6 +24,6 @@ public class StateMachineResourceExtraction : StateMachineState
 
 	public override void Update()
 	{
-		if (Keyboard.current.fKey.wasPressedThisFrame) StateManager.SetState(0);
+		if (Keyboard.current.fKey.wasPressedThisFrame) StateManager.SetState(1);
 	}
 }
