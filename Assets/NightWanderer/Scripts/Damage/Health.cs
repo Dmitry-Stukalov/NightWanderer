@@ -19,6 +19,8 @@ public class Health : MonoBehaviour
 		CurrentFireDefense = MinFireDefense;
 	}
 
+
+	//Вычисление получения урона с учетом физической защиты (1 защита = -1 урон)
 	public void GetDamage(float damage)
 	{
 		if (CurrentDefense <= damage)
@@ -43,6 +45,7 @@ public class Health : MonoBehaviour
 		}
 	}
 
+	//Вычисление получения урона с учетом термальной защиты (1 защита = -1 урон)
 	public void GetFireDamage(float firedamage)
 	{
 		if (CurrentFireDefense <= firedamage)
@@ -69,12 +72,15 @@ public class Health : MonoBehaviour
 		//Debug.Log(CurrentHealth);
 	}
 
+	//Восстановление физической защиты на указанное значение
 	public void RestoreDefense(float restoreValue)
 	{
 		CurrentDefense += restoreValue;
 
 		if (CurrentDefense > MaxDefense) CurrentDefense = MaxDefense;
 	}
+
+	//Восстановление термальной защиты на указанное значение
 	public void RestoreFireDefense(float restoreValue)
 	{
 		CurrentFireDefense += restoreValue;
@@ -82,7 +88,7 @@ public class Health : MonoBehaviour
 		if (CurrentFireDefense > MaxFireDefense) CurrentFireDefense = MaxFireDefense;
 	}
 
-
+	//Восстановление здоровья на указанное значение
 	public void Healing(float healValue)
 	{
 		CurrentHealth += healValue;

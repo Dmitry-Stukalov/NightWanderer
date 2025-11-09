@@ -1,28 +1,36 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+//»нвентарь игрока
 public class Inventory
 {
+	private GameObject CellObject;
 	private int InventoryLineCount;
 	private int InventoryColumnCount;
-	private List<GameObject> ResourceCellObjects;
-	private Cell[,] _Inventory;
+	private ResourceCellObject[,] _Inventory; 
 
-	public Inventory(int inventoryLineCount, int inventoryColumnCount, List<GameObject> resourceCellObjects)
+	public Inventory(GameObject cellObject, int inventoryLineCount, int inventoryColumnCount)
 	{
+		CellObject = cellObject;
 		InventoryLineCount = inventoryLineCount;
 		InventoryColumnCount = inventoryColumnCount;
-		_Inventory = new Cell[InventoryLineCount, InventoryColumnCount];
-		ResourceCellObjects = new List<GameObject>(resourceCellObjects);
+		_Inventory = new ResourceCellObject[InventoryLineCount, InventoryColumnCount];
 
-		for (int i = 0;  i < InventoryLineCount; i++)
-		{
-			for (int j = 0; j < InventoryColumnCount; j++)
-			{
-				_Inventory[i, j] = new Cell(ResourceCellObjects[i + j]);
-			}
-		}
+		//for (int i = 0;  i < InventoryLineCount; i++)
+		//{
+		//	for (int j = 0; j < InventoryColumnCount; j++)
+		//	{
+				
+		//	}
+		//}
 	}
+
+	public void InitializeArray(ResourceCellObject obj, int i, int j)
+	{
+		_Inventory[i, j] = obj;
+	}
+
 
 	public void AddResource(ResourceBase resource)
 	{
@@ -30,10 +38,28 @@ public class Inventory
 		{
 			for (int j = 0; j < InventoryColumnCount; j++)
 			{
-				if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() != resource.ID) continue;
+				//–есурс есть, но он другой
+				if (_Inventory[i, j].GetId() != -1 && _Inventory[i, j].GetId() != resource.ID) continue;
 
-				//if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() == resource.ID)
-				//Ћогика добавлени€ ресурса в инвентарь
+				//–есурса нет (€чейка пуста€)
+				if (_Inventory[i, j].GetId() == -1)																				
+				{
+					_Inventory[i, j].AddResource(resource);
+					return;
+				}
+
+				//–есурс есть, он тот же, и места в €чейке хватает дл€ получени€ / не хватает дл€ получени€
+				if (_Inventory[i, j].GetId() == resource.ID && _Inventory[i, j].GetEmptyResourceCount() >= resource.CurrentCount)
+				{
+					_Inventory[i, j].AddResource(resource);
+					return;
+				}
+				else
+				{
+					int countDifference = resource.CurrentCount - _Inventory[i, j].GetEmptyResourceCount();
+					_Inventory[i, j].AddResource(resource);
+					resource.CurrentCount = countDifference;
+				}
 			}
 		}
 	}

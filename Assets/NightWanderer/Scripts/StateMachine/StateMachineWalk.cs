@@ -9,7 +9,7 @@ public class StateMachineWalk : StateMachineMovement
 	public override void Enter()
 	{
 		base.Enter();
-		Debug.Log("Walk");
+		//Debug.Log("Walk");
 	}
 
 	public override void Exit()

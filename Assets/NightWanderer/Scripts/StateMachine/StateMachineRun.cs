@@ -9,7 +9,7 @@ public class StateMachineRun : StateMachineMovement
 	public override void Enter()
 	{
 		base.Enter();
-		Debug.Log("Run");
+		//Debug.Log("Run");
 	}
 
 	public override void Exit()

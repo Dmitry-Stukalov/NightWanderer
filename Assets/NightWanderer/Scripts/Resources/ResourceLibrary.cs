@@ -1,6 +1,9 @@
+using Mono.Cecil;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Хранит информацию о всех типах ресурсов, а также пул объектов ресурсов. Предоставляет источникам объекты из пула когда это требуется.
 public class ResourceLibrary : MonoBehaviour
 {
 	[field: SerializeField] ResourceConfig config;
@@ -10,28 +13,22 @@ public class ResourceLibrary : MonoBehaviour
 
 	public void Initializing()
 	{
-		ResourcesBase = new ResourceBase[config.Resources.Count];
-
-		foreach (var resource in config.Resources)
-		{
-			ResourcesBase[resource.ID] = new ResourceBase(resource.View, resource.Name, resource.ID, resource.MaxCount);
-		}
-
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < Resources.Length; j++)
 			{
+				ResourceBase newResource = new ResourceBase(config.Resources[j].View, config.Resources[j].Name, config.Resources[j].ID, config.Resources[j].MaxCount);
 				GameObject obj = Instantiate(Resources[j], transform.position, Quaternion.identity);
-				obj.GetComponent<ResourceOnLand>().SetResource(ResourcesBase[j]);
+				obj.GetComponent<ResourceOnLand>().SetResource(newResource);
 				obj.GetComponent<ResourceOnLand>().ChangeParent(this);
 				ResourcePool.Add(obj);
 				obj.SetActive(false);
 			}
 		}
-
 		Debug.Log($"В игре всего {Resources.Length} ресурсов");
 	}
 
+	//Получение ресурса из пула
 	public GameObject GetResource(int id)
 	{
 		foreach (var obj in ResourcePool)
@@ -46,15 +43,18 @@ public class ResourceLibrary : MonoBehaviour
 		return CreateObject(id);
 	}
 
+	//Создание ресурса, если его нет в пуле
 	private GameObject CreateObject(int id)
 	{
+		ResourceBase newResource = new ResourceBase(config.Resources[id].View, config.Resources[id].Name, config.Resources[id].ID, config.Resources[id].MaxCount);
 		GameObject obj = Instantiate(Resources[id], transform.position, Quaternion.identity);
-		obj.GetComponent<ResourceOnLand>().SetResource(ResourcesBase[id]);
+		obj.GetComponent<ResourceOnLand>().SetResource(newResource);
 		obj.GetComponent<ResourceOnLand>().ChangeParent(this);
 		ResourcePool.Add(obj);
 		return obj;
 	}
 
+	//Помещение объекта обратно в пул
 	public void OnRelease(GameObject resource)
 	{
 		resource.SetActive(false);

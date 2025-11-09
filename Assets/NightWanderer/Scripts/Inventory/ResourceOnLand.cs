@@ -8,7 +8,10 @@ public class ResourceOnLand : MonoBehaviour
 	private Vector3 TargetDirection;
 	private bool IsCollected = false;
 
+
 	public void SetResource(ResourceBase resource) => ThisResource = resource;
+	public void SetResourceCount(int count) => ThisResource.SetCount(count);
+
 	public ResourceBase GetResource() => ThisResource;
 
 	public void ChangeParent(ResourceLibrary parent)
@@ -27,6 +30,7 @@ public class ResourceOnLand : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+			other.GetComponent<PlayerInventory>().AddResource(ThisResource);
 			IsCollected = false;
 			ParentResource.OnRelease(gameObject);
 		}
@@ -38,5 +42,7 @@ public class ResourceOnLand : MonoBehaviour
 		{
 			transform.position = Vector3.MoveTowards(transform.position, TargetDirection, Time.deltaTime * 10);
 		}
+
+		//Debug.Log($"ResourceOnLand = {ThisResource.CurrentCount}");
 	}
 }

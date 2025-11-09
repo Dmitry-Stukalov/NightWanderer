@@ -1,6 +1,8 @@
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
+
+//Вроде как не нужный класс
 public class Cell
 {
 	private GameObject ResourceObject;
@@ -8,10 +10,10 @@ public class Cell
 	private ResourceCellObject CellObject;
 	public bool IsEmpty = true;
 
-	public Cell(GameObject resourceObject)
+	public Cell(/*GameObject resourceObject*/)
 	{
-		ResourceObject = resourceObject;
-		CellObject = ResourceObject.GetComponentInChildren<ResourceCellObject>();
+		//ResourceObject = resourceObject;
+		//CellObject = ResourceObject.GetComponentInChildren<ResourceCellObject>();
 	}
 
 	public int GetResourceID() => CellObject.GetId();

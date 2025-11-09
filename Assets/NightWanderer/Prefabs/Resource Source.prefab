@@ -48,10 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ExtractionID>k__BackingField: 11
+  Library: {fileID: 0}
   Resources:
   - {fileID: 8761220178640986812, guid: 8a73b5055507cf74fb34118cc39c551f, type: 3}
   ResourceCount: 5
-  OneResourceCapacity: 10
+  MinResourceCapacity: 2
+  MaxResourceCapacity: 7
 --- !u!33 &7200086485668261851
 MeshFilter:
   m_ObjectHideFlags: 0

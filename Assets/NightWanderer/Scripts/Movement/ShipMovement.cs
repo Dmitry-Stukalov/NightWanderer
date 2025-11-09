@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+//’ранит информацию о состо€ни€х игрока, а также базовые значени€ перемещени€ и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
 	[field: SerializeField] private GameObject PlayerCameraRotationObject;
@@ -15,22 +17,10 @@ public class ShipMovement : MonoBehaviour
 	private InputAction MoveAction;
 	private InputAction UpDownMoveAction;
 	private InputAction LookAction;
-	private Vector3 MoveDirection = Vector3.zero;
-	private Vector3 ForwardVector;
-	private Vector3 RightVector;
-	private Vector2 MouseAxis;
 	public Vector3 ResourceSourcePosition;
-	private float SpeedX;
-	private float SpeedY;
-	private float SpeedZ;
-	private float RotationX = 0;
-	private float RotationY = 0;
-	private bool IsCanMove = true;
-	private bool IsBoosted = false;
 	public bool IsCanMiningResource = false;
 	public bool IsOnResource = false;
 	public bool IsShipReady = false;
-	private int ResourceRotationY = 0;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -54,6 +44,7 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.SetState(0);
 	}
 
+	//ѕри входе в область источника ресурса передает его местоположение в машину состо€ний
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("ResourceSource"))
@@ -65,6 +56,7 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
+	//ѕри выходе из области источника ресурса обнул€ет его местоположение в машине состо€ний
 	private void OnTriggerExit(Collider other)
 	{
 		if (other.CompareTag("ResourceSource"))
@@ -72,28 +64,6 @@ public class ShipMovement : MonoBehaviour
 			IsCanMiningResource = false;
 			ResourceSourcePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
-		}
-	}
-
-	private int CompareDifference(float n1)
-	{
-		int t = 0;
-		int divisionResult = (int)n1 / 90;
-		n1 -= 90 * divisionResult;
-
-		if (n1 > 0)
-		{
-			if (Mathf.Abs(0 - n1) > Mathf.Abs(90 - n1)) t = 1;
-			else t = 0;
-
-			return (t + divisionResult) * 90;
-		}
-		else
-		{
-			if (Mathf.Abs(-90 - n1) < Mathf.Abs(0 - n1)) t = 1;
-			else t = 0;
-
-			return (Mathf.Abs(t) + Mathf.Abs(divisionResult)) * -90;
 		}
 	}
 

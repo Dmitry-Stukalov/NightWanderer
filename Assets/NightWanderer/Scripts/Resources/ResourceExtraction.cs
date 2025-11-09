@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+//Вроде как не нужный класс
 public class ResourceExtraction : MonoBehaviour
 {
 	[field: SerializeField] private ShipMovement Ship;

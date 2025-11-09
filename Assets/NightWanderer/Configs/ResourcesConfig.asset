@@ -17,5 +17,4 @@ MonoBehaviour:
       type: 0}
     <Name>k__BackingField: 1
     <ID>k__BackingField: 0
-    <MaxCount>k__BackingField: 200
-    <CurrentCount>k__BackingField: 20
+    <MaxCount>k__BackingField: 10

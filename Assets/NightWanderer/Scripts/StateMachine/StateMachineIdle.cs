@@ -10,7 +10,7 @@ public class StateMachineIdle : StateMachineMovement
 	public override void Enter()
 	{
 		base.Enter();
-		Debug.Log("Idle");
+		//Debug.Log("Idle");
 	}
 
 	public override void Exit()

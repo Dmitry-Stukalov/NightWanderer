@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+//Реализует систему здоровья и получения урона
 public interface ICanTakeDamage
 {
 	public Health PlayerHealth { get; set; }
