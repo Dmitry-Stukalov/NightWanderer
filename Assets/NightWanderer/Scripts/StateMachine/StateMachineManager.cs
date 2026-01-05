@@ -11,6 +11,7 @@ public class StateMachineManager
 	public Transform Ship { get; set; }
 	public Transform PlayerCameraObject { get; set; }
 	public ResourceSource CurrentResourceSource { get; set; }
+	public Animator _Animator { get; set; }
 	public Vector3 TargetShipPosition { get; set; }
 	public Quaternion TargetShipRotation { get; set; }
 	public Quaternion TargetCameraRotation { get; set; }

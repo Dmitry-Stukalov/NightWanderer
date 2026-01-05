@@ -9,12 +9,12 @@ using Mono.Cecil;
 //Создает ресурс после окончания добычи
 public class ResourceSource : MonoBehaviour
 {
-	[field: SerializeField] public int ExtractionID { get; private set; }
-	[field: SerializeField] private ResourceLibrary Library;
-	[field: SerializeField] private GameObject[] Resources;
-	[field: SerializeField] private int ResourceCount;
-	[field: SerializeField] private int MinResourceCapacity;
-	[field: SerializeField] private int MaxResourceCapacity;
+	[SerializeField] public int ExtractionID { get; private set; }
+	[SerializeField] private ResourceLibrary Library;
+	[SerializeField] private GameObject[] Resources;
+	[SerializeField] private int ResourceCount;
+	[SerializeField] private int MinResourceCapacity;
+	[SerializeField] private int MaxResourceCapacity;
 
 	public void ResourceExtracted()
 	{
@@ -26,9 +26,8 @@ public class ResourceSource : MonoBehaviour
 		GameObject resource = Library.GetResource(id);
 		resource.transform.SetParent(gameObject.transform, false);
 		resource.GetComponent<ResourceOnLand>().SetResourceCount(randomCapacity);
-		resource.transform.localPosition = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+		resource.transform.localPosition = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(1, 2));
 
-		Debug.Log($"randomCapacity = {randomCapacity}");
 		Debug.Log($"ResourceOnLandCount = {resource.GetComponent<ResourceOnLand>().GetResource().CurrentCount}");
 		ResourceCount--;
 	}

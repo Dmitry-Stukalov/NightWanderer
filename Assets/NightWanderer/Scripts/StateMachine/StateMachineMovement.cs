@@ -1,12 +1,15 @@
+using System;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class StateMachineMovement : StateMachineState
 {
 	protected readonly GameObject PlayerCameraRotationObject;
+	protected readonly GameObject ShipObject;
 	protected readonly Transform Ship;
 	protected readonly Transform VacuumCleanerObject;
 	protected readonly InputAction MoveAction;
@@ -28,9 +31,10 @@ public class StateMachineMovement : StateMachineState
 	protected float RotationY;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
+		ShipObject = shipObject;
 		Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
 		MoveAction = moveAction;
@@ -56,7 +60,8 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		if (Keyboard.current.spaceKey.IsPressed()) VacuumCleaner();
+		if (Keyboard.current.spaceKey.IsPressed()) VacuumCleaner(true);
+		else VacuumCleaner(false);
 
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
 		{
@@ -74,10 +79,18 @@ public class StateMachineMovement : StateMachineState
 		RightVector = Ship.transform.TransformDirection(Vector3.right);
 		UpVector = Ship.transform.TransformDirection(Vector3.up);
 
-		if (Keyboard.current.wKey.IsPressed() || Keyboard.current.sKey.IsPressed()) SpeedX = Speed * MoveAction.ReadValue<Vector2>().y;
+		if (Keyboard.current.wKey.IsPressed() || Keyboard.current.sKey.IsPressed()) SpeedX = -Speed * MoveAction.ReadValue<Vector2>().y;
 		else SpeedX = 0;
-		if (Keyboard.current.aKey.IsPressed() || Keyboard.current.dKey.IsPressed()) SpeedZ = Speed * MoveAction.ReadValue<Vector2>().x;
+		if (Keyboard.current.aKey.IsPressed() || Keyboard.current.dKey.IsPressed()) SpeedZ = -Speed * MoveAction.ReadValue<Vector2>().x;
 		else SpeedZ = 0;
+		if (StateManager._Animator != null)
+		{
+			StateManager._Animator.SetFloat("SpeedX", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedX"), MoveAction.ReadValue<Vector2>().y, 7 * Time.deltaTime));
+			StateManager._Animator.SetFloat("SpeedY", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedY"), MoveAction.ReadValue<Vector2>().x, 7 * Time.deltaTime));
+
+			if (SpeedX == 0 && SpeedZ == 0) StateManager._Animator.SetBool("IsIdle", true);
+			else StateManager._Animator.SetBool("IsIdle", false);
+		}
 
 		if (Keyboard.current.qKey.IsPressed() || Keyboard.current.eKey.IsPressed()) SpeedY = UpDownSpeed * UpDownMoveAction.ReadValue<Vector2>().y;
 		else SpeedY = 0;
@@ -91,10 +104,10 @@ public class StateMachineMovement : StateMachineState
 	{
 		MouseAxis = LookAction.ReadValue<Vector2>();
 
-		RotationX += MouseAxis.y * LookSpeed;
+		RotationX += -MouseAxis.y * LookSpeed;
 		RotationX = Mathf.Clamp(RotationX, -90, 90);
 
-		RotationY += MouseAxis.x * LookSpeed;
+		RotationY += -MouseAxis.x * LookSpeed;
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, RotationY, 0);
 		Ship.transform.rotation = Quaternion.Euler(0, RotationY, 0);
@@ -122,14 +135,23 @@ public class StateMachineMovement : StateMachineState
 		}
 	}
 
-	protected void VacuumCleaner()
+	protected void VacuumCleaner(bool IsWorking)
 	{
+
 		foreach (var collider in Physics.OverlapBox(VacuumCleanerObject.position, HalfVectorVacuum, Quaternion.identity))
 		{
 			if (collider.CompareTag("ResourceOnLand"))
 			{
-				collider.GetComponent<ResourceOnLand>().ChangeTarget(Ship.position);
-				collider.GetComponent<ResourceOnLand>().Collected();
+				if (IsWorking)
+				{
+					collider.GetComponent<ResourceOnLand>().ChangeTarget(ShipObject);
+					collider.GetComponent<ResourceOnLand>().Collected();
+				}
+				else
+				{
+					collider.GetComponent<ResourceOnLand>().NullTarget();
+					collider.GetComponent<ResourceOnLand>().IsntCollected();
+				}
 			}
 		}
 	}

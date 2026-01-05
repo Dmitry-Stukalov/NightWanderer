@@ -6,8 +6,14 @@ public class ResourceOnLand : MonoBehaviour
 	private ResourceBase ThisResource;
 	private ResourceLibrary ParentResource;
 	private Vector3 TargetDirection;
+	private GameObject Target;
 	private bool IsCollected = false;
+	private Rigidbody _Rigidbody;
 
+	private void Start()
+	{
+		_Rigidbody = GetComponent<Rigidbody>();
+	}
 
 	public void SetResource(ResourceBase resource) => ThisResource = resource;
 	public void SetResourceCount(int count) => ThisResource.SetCount(count);
@@ -19,30 +25,53 @@ public class ResourceOnLand : MonoBehaviour
 		ParentResource = parent;
 		transform.SetParent(ParentResource.transform, true);
 	}
-	public void ChangeTarget(Vector3 targetDirection) => TargetDirection = targetDirection;
+	//public void ChangeTarget(Vector3 targetDirection) => TargetDirection = targetDirection;
+	public void ChangeTarget(GameObject target) => Target = target;
+	public void NullTarget() => Target = null;
 
 	public void Collected() => IsCollected = true;
+	public void IsntCollected() => IsCollected = false;
 
 	public int GetID() => ThisResource.ID;
 
 	//Здесь должна быть логика передачи ThisResource в инвентарь игрока
+	//private void OnTriggerEnter(Collider other)
+	//{
+	//	if (other.CompareTag("Player"))
+	//	{
+	//		other.GetComponent<PlayerInventory>().AddResource(ThisResource);
+	//		IsCollected = false;
+	//		ParentResource.OnRelease(gameObject);
+	//	}
+	//}
+
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Player"))
+		if (other.transform.CompareTag("Player"))
 		{
-			other.GetComponent<PlayerInventory>().AddResource(ThisResource);
+			other.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
 			IsCollected = false;
 			ParentResource.OnRelease(gameObject);
 		}
 	}
 
+	/*private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.transform.CompareTag("Player"))
+		{
+			collision.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
+			IsCollected = false;
+			ParentResource.OnRelease(gameObject);
+		}
+	}*/
+
 	private void Update()
 	{
 		if (IsCollected)
 		{
-			transform.position = Vector3.MoveTowards(transform.position, TargetDirection, Time.deltaTime * 10);
+			_Rigidbody.useGravity = false;
+			transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, Time.deltaTime * 10);
 		}
-
-		//Debug.Log($"ResourceOnLand = {ThisResource.CurrentCount}");
+		else _Rigidbody.useGravity = true;
 	}
 }

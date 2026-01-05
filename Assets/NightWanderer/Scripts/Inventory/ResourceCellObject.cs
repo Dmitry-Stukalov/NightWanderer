@@ -1,97 +1,152 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEditor;
+using TMPro;
 
 
 //Хранит информацию о ресурсе в ячейке + отвечает за перетаскивание этого ресурса в пределах инвентаря
-public class ResourceCellObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ResourceCellObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-	private RectTransform _RectTransform;
+	public GameObject InventoryBackground;
+	[SerializeField] private GameObject ThisCellObject;
+	[SerializeField] private GameObject ResourceUICount;
+	[SerializeField] private GameObject ResourceName;
+	public GameObject InventoryObject;
+	public PlayerInventory _PlayerInventory;
+	public ResourceBase ThisResource = new ResourceBase();
+	private Vector2 StartPosition = Vector3.zero;
 	private Image View;
-	private string Name;
-	private int ID = -1;
-	private int MaxCount;
-	private int CurrentCount;
-
-	private Vector2 Offset = Vector3.zero;
+	private Color color = Color.white;
 
 	public event Action OnUpdate;
 
 
 	public void Initializing()
 	{
-		_RectTransform = GetComponent<RectTransform>();
 		View = GetComponent<Image>();
+		SetViewVisible();
+		ResourceUICount.GetComponentInChildren<ResourceCount>().Initializing();
+		ResourceUICount.SetActive(false);
+
+		ResourceName.SetActive(false);
 	}
 
-	public int GetId() => ID;
+	public int GetId() => ThisResource.ID;
 
-	public void AddResource(ResourceBase resource)
+	public ResourceBase AddResource(ResourceBase resource)
 	{
-		if (ID == -1)
+		if (resource == null || resource.ID == -1) return resource;
+
+		if (ThisResource.ID == -1)
 		{
 			View.sprite = resource.View;
-			Name = resource.Name;
-			ID = resource.ID;
-			MaxCount = resource.MaxCount;
-			CurrentCount = resource.CurrentCount;
+			SetViewVisible();
+			ThisResource.View = resource.View;
+			ThisResource.Name = resource.Name;
+			ThisResource.ID = resource.ID;
+			ThisResource.CurrentCount = resource.CurrentCount;
+			ThisResource.MaxCount = resource.MaxCount;
+			ResourceUICount.SetActive(true);
+			resource.CurrentCount = 0;
 		}
 		else
 		{
-			CurrentCount += resource.CurrentCount;
-			if (CurrentCount > MaxCount) CurrentCount = MaxCount;
+			if (ThisResource.CurrentCount + resource.CurrentCount <= ThisResource.MaxCount)
+			{
+				ThisResource.CurrentCount += resource.CurrentCount;
+				resource.CurrentCount = 0;
+			}
+			else
+			{
+				int countDifference = ThisResource.MaxCount - ThisResource.CurrentCount;
+				ThisResource.CurrentCount = ThisResource.MaxCount;
+				resource.CurrentCount -= countDifference;
+			}
 		}
 
 		OnUpdate?.Invoke();
+		return resource;
 	}
 
-	public int TakeResource(int value)
+	public void ResetResource()
 	{
-		if (CurrentCount >= value)
+		ThisResource.ResetValue(); 
+		View.sprite = null;
+		SetViewVisible();
+		ResourceUICount.SetActive(false);
+	}
+
+	private void SetViewVisible()
+	{
+		if (color.a == 0)
 		{
-			CurrentCount -= value;
-			return value;
+			color.a = 1;
+			View.raycastTarget = true;
 		}
 		else
 		{
-			int canGet = value - CurrentCount;
-			CurrentCount = 0;
-			return canGet;
+			color.a = 0;
+			View.raycastTarget = false;
 		}
+
+		View.color = color;
 	}
 
-	public int GetResourceCount() => CurrentCount;
+	public int GetResourceCount() => ThisResource.CurrentCount;
 
-	public int GetMaxResourceCount() => MaxCount;
+	public int GetMaxResourceCount() => ThisResource.MaxCount;
 
-	public int GetEmptyResourceCount() => MaxCount - CurrentCount;
+	public int GetEmptyResourceCount() => ThisResource.MaxCount - ThisResource.CurrentCount;
 
-	public void SetResourceCount(int count) => CurrentCount = count;
+	public void SetResourceCount(int count) => ThisResource.CurrentCount = count;
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		Vector2 mouseWorldPosition = GetMouseWorldPosition();
-		//Offset = _RectTransform.anchoredPosition - mouseWorldPosition;
+		StartPosition = transform.position;
+		transform.SetParent(InventoryBackground.transform, true);
+		_PlayerInventory.CanvasGroupBlock(false);
+		transform.position = GetMouseUIPosition();
+
+		ResourceName.SetActive(false);
 	}
 
 	public void OnDrag(PointerEventData eventData)
 	{
-		Vector2 mouseWorldPosition = GetMouseWorldPosition();
-		_RectTransform.anchoredPosition = mouseWorldPosition + Offset;
+		transform.position = GetMouseUIPosition();
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
-		//if ()  Логика переноса куда-то
-
-		_RectTransform.anchoredPosition = Vector3.zero;
+		_PlayerInventory.CanvasGroupBlock(true);
+		transform.SetParent(ThisCellObject.transform, true);
+		transform.position = StartPosition;
+		OnUpdate?.Invoke();
 	}
 
-	private Vector3 GetMouseWorldPosition()
+	public void OnPointerClick(PointerEventData eventData)
 	{
-		Vector3 mouseScreenPosition = Input.mousePosition;
-		mouseScreenPosition.z = 0f;
-		return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+		if (eventData.button == PointerEventData.InputButton.Right) ResetResource();
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		ResourceName.SetActive(true);
+		ResourceName.GetComponent<TextMeshProUGUI>().text = ThisResource.Name;
+
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		ResourceName.SetActive(false);
+	}
+
+	private Vector3 GetMouseUIPosition()
+	{
+		return Mouse.current.position.ReadValue();
 	}
 }

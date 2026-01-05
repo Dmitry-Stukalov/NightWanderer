@@ -5,51 +5,35 @@ using UnityEngine;
 
 //Отвечает за инвентарь игрока, добавление и удаление из него ресурсов
 public class PlayerInventory : MonoBehaviour
-{
-	//[field: SerializeField] private UIInventory inventory;
-	//private Inventory _PlayerInventory;
-
-	//public void AddResource(ResourceBase resource)
-	//{
-	//	inventory.AddResource(resource);
-	//}
-
-	//public Inventory GetInventory() => _PlayerInventory;
-
-
-	[field: SerializeField] private GameObject InventoryBackground;
-	[field: SerializeField] private GameObject InventoryLine;
+{	[field: SerializeField] private GameObject InventoryBackground;
+	[field: SerializeField] private GameObject Inventory;
 	[field: SerializeField] private GameObject CellObject;
-	[field: SerializeField] private int InventoryLineCount, InventoryColumnCount;
+	[field: SerializeField] private int InventoryCellCount;
 	private Inventory _PlayerInventory;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
+	private List<CanvasGroup> ResourceCanvasGroups = new List<CanvasGroup>();
 	private bool IsProcessing = false;
 
 	public void Initializing()
 	{
-		GameObject newLine;
 		GameObject newResource;
 
-		_PlayerInventory = new Inventory(CellObject, InventoryLineCount, InventoryColumnCount);
+		_PlayerInventory = new Inventory(InventoryCellCount);
 
-		for (int i = 0; i < InventoryLineCount; i++)
+		for (int i = 0; i < InventoryCellCount; i++)
 		{
-			newLine = Instantiate(InventoryLine, InventoryBackground.transform);
-			for (int j = 0; j < InventoryColumnCount; j++)
-			{
-				newResource = Instantiate(CellObject, newLine.transform);
-				newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
-				newResource.GetComponentInChildren<ResourceCount>().Initializing();
-				_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i, j);
-			}
+			newResource = Instantiate(CellObject, Inventory.transform);
+			ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());
+			newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
+			newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
+			newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
+			newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
+			_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
 		}
 	}
 
 	public void AddResource(ResourceBase newResource)
 	{
-		//Debug.Log(newResource.CurrentCount);
-		Debug.Log($"newResource = {newResource.CurrentCount}");
-
 		if (ResourceQueue.Count > 0 && newResource.CurrentCount > 0)
 		{
 			foreach (var resource in ResourceQueue)
@@ -66,9 +50,11 @@ public class PlayerInventory : MonoBehaviour
 		if (newResource.CurrentCount != 0) ResourceQueue.Add(newResource);
 
 		if (!IsProcessing) StartCoroutine(ProcessResourceQueue());
+	}
 
-		//Debug.Log($"newResource = {newResource.CurrentCount}");
-		//_PlayerInventory.AddResource(newresource);
+	public void CanvasGroupBlock(bool flag)
+	{
+		foreach (var group in ResourceCanvasGroups) group.blocksRaycasts = flag;
 	}
 
 	private IEnumerator ProcessResourceQueue()
