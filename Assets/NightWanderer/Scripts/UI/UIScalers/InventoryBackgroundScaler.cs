@@ -11,10 +11,10 @@ public class InventoryBackgroundScaler : MonoBehaviour
 	{
 		InventoryBackground = GetComponent<RectTransform>();
 
-		Width = Screen.width / 10 * 7;
+		/*Width = Screen.width / 10 * 7;
 		Height = Screen.height / 10 * 7;
 
-		InventoryBackground.sizeDelta = new Vector2(Width, Height);
+		InventoryBackground.sizeDelta = new Vector2(Width, Height);*/
 		DropZone.SetActive(false);
 		gameObject.SetActive(false);
 	}

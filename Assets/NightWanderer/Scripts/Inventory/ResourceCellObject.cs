@@ -116,6 +116,7 @@ public class ResourceCellObject : MonoBehaviour, IDragHandler, IBeginDragHandler
 	}
 
 	public void OnDrag(PointerEventData eventData)
+
 	{
 		transform.position = GetMouseUIPosition();
 	}

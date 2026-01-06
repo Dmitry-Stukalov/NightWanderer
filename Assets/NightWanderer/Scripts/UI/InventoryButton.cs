@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class InventoryButton : MonoBehaviour
 {
+
 	[field: SerializeField] private List<GameObject> UIToClose;
 	[field: SerializeField] private List<GameObject> UIToOpen;
 	private Button _InventoryButton;

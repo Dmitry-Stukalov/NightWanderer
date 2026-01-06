@@ -9,7 +9,7 @@ using Mono.Cecil;
 //Создает ресурс после окончания добычи
 public class ResourceSource : MonoBehaviour
 {
-	[SerializeField] public int ExtractionID { get; private set; }
+	[field: SerializeField] public int ExtractionID { get; private set; }
 	[SerializeField] private ResourceLibrary Library;
 	[SerializeField] private GameObject[] Resources;
 	[SerializeField] private int ResourceCount;

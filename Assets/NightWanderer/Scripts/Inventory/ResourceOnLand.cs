@@ -25,7 +25,6 @@ public class ResourceOnLand : MonoBehaviour
 		ParentResource = parent;
 		transform.SetParent(ParentResource.transform, true);
 	}
-	//public void ChangeTarget(Vector3 targetDirection) => TargetDirection = targetDirection;
 	public void ChangeTarget(GameObject target) => Target = target;
 	public void NullTarget() => Target = null;
 
@@ -33,17 +32,6 @@ public class ResourceOnLand : MonoBehaviour
 	public void IsntCollected() => IsCollected = false;
 
 	public int GetID() => ThisResource.ID;
-
-	//Здесь должна быть логика передачи ThisResource в инвентарь игрока
-	//private void OnTriggerEnter(Collider other)
-	//{
-	//	if (other.CompareTag("Player"))
-	//	{
-	//		other.GetComponent<PlayerInventory>().AddResource(ThisResource);
-	//		IsCollected = false;
-	//		ParentResource.OnRelease(gameObject);
-	//	}
-	//}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -54,16 +42,6 @@ public class ResourceOnLand : MonoBehaviour
 			ParentResource.OnRelease(gameObject);
 		}
 	}
-
-	/*private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.transform.CompareTag("Player"))
-		{
-			collision.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
-			IsCollected = false;
-			ParentResource.OnRelease(gameObject);
-		}
-	}*/
 
 	private void Update()
 	{
