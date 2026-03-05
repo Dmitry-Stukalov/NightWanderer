@@ -37,6 +37,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		AllDayTimer.ResetTimer(false);
 	}
 
+	public bool IsDayNow()
+	{
+		if (AllDayTimer.CurrentTime < AllDayTimer.MaxTime / 2) return true;
+		else return false;
+	}
+
 	private void ResetTakeDamage()
 	{
 		TakeDamage();

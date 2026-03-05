@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using Unity.Hierarchy;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class StateMachineTransition : StateMachineState
 {
@@ -13,6 +15,7 @@ public class StateMachineTransition : StateMachineState
 	private bool PositionReached;
 	private bool RotationReached;
 	private bool RotationCameraReached;
+	private int PositionsIndex;
 
 	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, Transform playerCameraRotationObject): base(id, manager) 
 	{ 
@@ -22,10 +25,10 @@ public class StateMachineTransition : StateMachineState
 	 
 	public override void Enter()
 	{
+		PositionsIndex = 0;
 		TargetShipPosition = StateManager.TargetShipPosition;
 		TargetShipRotation = StateManager.TargetShipRotation;
 		TargetCameraRotation = StateManager.TargetCameraRotation;
-		Debug.Log("Transition");
 	}
 
 	public override void Exit()

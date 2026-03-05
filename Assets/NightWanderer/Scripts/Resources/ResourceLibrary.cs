@@ -1,4 +1,3 @@
-using Mono.Cecil;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ public class ResourceLibrary : MonoBehaviour
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < Resources.Length; j++)
+			for (int j = 0; j < 1; j++)
 			{
 				ResourceBase newResource = new ResourceBase(config.Resources[j].View, config.Resources[j].Name, config.Resources[j].ID, config.Resources[j].MaxCount);
 				GameObject obj = Instantiate(Resources[j], transform.position, Quaternion.identity);
@@ -25,6 +24,20 @@ public class ResourceLibrary : MonoBehaviour
 				obj.SetActive(false);
 			}
 		}
+
+		for (int j = 1; j < 3; j++)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				ResourceBase newResource = new ResourceBase(config.Resources[j].View, config.Resources[j].Name, config.Resources[j].ID, config.Resources[j].MaxCount);
+				GameObject obj = Instantiate(Resources[j], transform.position, Quaternion.identity);
+				obj.GetComponent<ResourceOnLand>().SetResource(newResource);
+				obj.GetComponent<ResourceOnLand>().ChangeParent(this);
+				ResourcePool.Add(obj);
+				obj.SetActive(false);
+			}
+		}
+
 		Debug.Log($"В игре всего {Resources.Length} ресурсов");
 	}
 

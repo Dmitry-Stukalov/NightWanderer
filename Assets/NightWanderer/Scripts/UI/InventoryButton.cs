@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+//UI инвентаря
 public class InventoryButton : MonoBehaviour
 {
-
 	[field: SerializeField] private List<GameObject> UIToClose;
 	[field: SerializeField] private List<GameObject> UIToOpen;
 	private Button _InventoryButton;
@@ -18,7 +18,7 @@ public class InventoryButton : MonoBehaviour
 		_InventoryButton = GetComponent<Button>();
 	}
 
-	private void OpenCloseInventory()
+	public void OpenCloseInventory()
 	{
 		if (!IsOpen)
 		{
@@ -36,10 +36,5 @@ public class InventoryButton : MonoBehaviour
 		}
 
 		IsOpen = !IsOpen;
-	}
-
-	private void Update()
-	{
-		if (Keyboard.current.tabKey.wasPressedThisFrame) OpenCloseInventory();
 	}
 }

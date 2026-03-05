@@ -15,7 +15,7 @@ public class InventoryBackgroundScaler : MonoBehaviour
 		Height = Screen.height / 10 * 7;
 
 		InventoryBackground.sizeDelta = new Vector2(Width, Height);*/
-		DropZone.SetActive(false);
+		DropZone?.SetActive(false);
 		gameObject.SetActive(false);
 	}
 }

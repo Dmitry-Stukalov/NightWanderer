@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 using static UnityEngine.GraphicsBuffer;
 
 public class StateMachineMovement : StateMachineState
@@ -15,6 +16,7 @@ public class StateMachineMovement : StateMachineState
 	protected readonly InputAction MoveAction;
 	protected readonly InputAction UpDownMoveAction;
 	protected readonly InputAction LookAction;
+	protected readonly VacuumCleaner Cleaner;
 	protected readonly float Speed;
 	protected readonly float UpDownSpeed;
 	protected readonly float LookSpeed;
@@ -29,14 +31,16 @@ public class StateMachineMovement : StateMachineState
 	protected float SpeedZ;
 	protected float RotationX;
 	protected float RotationY;
+	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		ShipObject = shipObject;
 		Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
+		Cleaner = vacuumCleaner;
 		MoveAction = moveAction;
 		UpDownMoveAction = upDownMoveAction;
 		LookAction = lookAction;
@@ -60,15 +64,29 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		if (Keyboard.current.spaceKey.IsPressed()) VacuumCleaner(true);
-		else VacuumCleaner(false);
+		if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
 
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
 		{
+			StateManager.IsCleanerWorking = false;
+			VacuumCleaner();
+
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 
 			StateManager.NextState = StateManager.CurrentResourceSource.ExtractionID;
+			StateManager.SetState(10);
+		}
+
+		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame)
+		{
+			StateManager.IsCleanerWorking = false;
+			VacuumCleaner();
+
+			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+
+			StateManager.NextState = 20;
 			StateManager.SetState(10);
 		}
 	}
@@ -109,8 +127,8 @@ public class StateMachineMovement : StateMachineState
 
 		RotationY += -MouseAxis.x * LookSpeed;
 
-		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, RotationY, 0);
-		Ship.transform.rotation = Quaternion.Euler(0, RotationY, 0);
+		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, -RotationY, 0);
+		Ship.transform.rotation = Quaternion.Euler(0, -RotationY, 0);
 	}
 
 	protected int CompareDifference(float n1)
@@ -135,24 +153,11 @@ public class StateMachineMovement : StateMachineState
 		}
 	}
 
-	protected void VacuumCleaner(bool IsWorking)
+	protected void VacuumCleaner()
 	{
+		if (StateManager.IsCleanerWorking) Cleaner.CleanerOn(VacuumCleanerObject.gameObject, HalfVectorVacuum);
+		else Cleaner.CleanerOff();
 
-		foreach (var collider in Physics.OverlapBox(VacuumCleanerObject.position, HalfVectorVacuum, Quaternion.identity))
-		{
-			if (collider.CompareTag("ResourceOnLand"))
-			{
-				if (IsWorking)
-				{
-					collider.GetComponent<ResourceOnLand>().ChangeTarget(ShipObject);
-					collider.GetComponent<ResourceOnLand>().Collected();
-				}
-				else
-				{
-					collider.GetComponent<ResourceOnLand>().NullTarget();
-					collider.GetComponent<ResourceOnLand>().IsntCollected();
-				}
-			}
-		}
+		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;
 	}
 }

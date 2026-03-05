@@ -4,7 +4,10 @@ using UnityEngine.InputSystem;
 
 public class StateMachineIdle : StateMachineMovement
 {
-	public StateMachineIdle(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, moveAction, upDownMoveAction, lookAction, speed, upDownSpeed, lookSpeed) { }
+	public StateMachineIdle(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
+		float speed, float upDownSpeed, float lookSpeed) 
+		: 
+		base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, vacuumCleaner, moveAction, upDownMoveAction, lookAction, speed, upDownSpeed, lookSpeed) { }
 
 
 	public override void Enter()

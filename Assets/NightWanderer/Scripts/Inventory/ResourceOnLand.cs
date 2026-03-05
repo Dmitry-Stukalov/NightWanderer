@@ -43,12 +43,12 @@ public class ResourceOnLand : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (IsCollected)
 		{
 			_Rigidbody.useGravity = false;
-			transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, Time.deltaTime * 10);
+			transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, Time.fixedDeltaTime * 15);
 		}
 		else _Rigidbody.useGravity = true;
 	}

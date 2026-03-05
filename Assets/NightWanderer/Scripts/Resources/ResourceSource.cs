@@ -1,10 +1,4 @@
 using UnityEngine;
-using UnityEngine.Pool;
-using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.NCalc;
-using Mono.Cecil.Cil;
-using UnityEngine.Rendering.RenderGraphModule;
-using Mono.Cecil;
 
 //Создает ресурс после окончания добычи
 public class ResourceSource : MonoBehaviour
@@ -12,6 +6,7 @@ public class ResourceSource : MonoBehaviour
 	[field: SerializeField] public int ExtractionID { get; private set; }
 	[SerializeField] private ResourceLibrary Library;
 	[SerializeField] private GameObject[] Resources;
+	[SerializeField] private GameObject SpawnResourceZone;
 	[SerializeField] private int ResourceCount;
 	[SerializeField] private int MinResourceCapacity;
 	[SerializeField] private int MaxResourceCapacity;
@@ -24,9 +19,9 @@ public class ResourceSource : MonoBehaviour
 		int randomCapacity = Random.Range(MinResourceCapacity, MaxResourceCapacity + 1);
 
 		GameObject resource = Library.GetResource(id);
-		resource.transform.SetParent(gameObject.transform, false);
+		resource.transform.SetParent(gameObject.transform, true);
 		resource.GetComponent<ResourceOnLand>().SetResourceCount(randomCapacity);
-		resource.transform.localPosition = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(1, 2));
+		resource.transform.position = new Vector3(SpawnResourceZone.transform.position.x + Random.Range(-1, 1), SpawnResourceZone.transform.position.y, SpawnResourceZone.transform.position.z + Random.Range(1, 2));
 
 		Debug.Log($"ResourceOnLandCount = {resource.GetComponent<ResourceOnLand>().GetResource().CurrentCount}");
 		ResourceCount--;
