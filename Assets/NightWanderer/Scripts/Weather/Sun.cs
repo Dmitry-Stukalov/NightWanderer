@@ -2,28 +2,35 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.Rendering.HighDefinition;
 
 public class Sun : MonoBehaviour, ICanTakeDamage
 {
-	[field: SerializeField] private GameObject FakeSun;
-	[field: SerializeField] private GameObject Player;
-	[field: SerializeField] public Health PlayerHealth { get; set; }
-	[field: SerializeField] public float MinDamage { get; set; }
-	[field: SerializeField] public float MaxDamage { get; set; }
+	[SerializeField] private GameObject Moon;
+	[SerializeField] private GameObject FakeSun;
+	[SerializeField] private GameObject Player;
+	[SerializeField] public Health PlayerHealth { get; set; }
+	[SerializeField] public float MinDamage { get; set; }
+	[SerializeField] public float MaxDamage { get; set; }
 	[field: NonSerialized] public float Damage { get; set; }
-	[field: SerializeField] private float TakeDamagePause;
-	[field: SerializeField] public bool IsFireDamage { get; set; }
-	[field: SerializeField] private float AllDayLength;
-	[field: SerializeField] private float TransitionDayLength;
+	[SerializeField] private float TakeDamagePause;
+	[SerializeField] public bool IsFireDamage { get; set; }
+	[SerializeField] private float AllDayLength;
+	[SerializeField] private float TransitionDayLength;
 	private Timer AllDayTimer;
 	private Timer TakeDamageTimer;
 	private Ray SunRay;
 	private RaycastHit[] SunRayCast;
 
+	public event Action OnDayStart;
+	public event Action OnNightStart;
+
 	public void Initializing()
 	{
 		AllDayTimer = new Timer(AllDayLength);
 		AllDayTimer.OnTimerEnd += ResetDayTimer;
+		AllDayTimer.OnTimerStart += () => OnDayStart?.Invoke();
+		AllDayTimer.OnTimerHalf += () => OnNightStart?.Invoke();
 
 		TakeDamageTimer = new Timer(TakeDamagePause);
 		TakeDamageTimer.OnTimerEnd += ResetTakeDamage;
@@ -59,6 +66,9 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	{
 		AllDayTimer.Tick(Time.deltaTime);
 		transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
+		Moon.transform.rotation = Quaternion.Euler(-360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
+
+		if (AllDayTimer.CurrentTime >= AllDayTimer.MaxTime / 2) OnNightStart?.Invoke();
 
 		TakeDamageTimer.Tick(Time.deltaTime);
 
