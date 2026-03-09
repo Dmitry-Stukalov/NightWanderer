@@ -8,7 +8,7 @@ public class Timer
 	public bool TimerIsEnd { get; private set; }
 	public bool TimerIsOnStart { get; private set; }
 	public bool Pause { get; private set; }
-	private bool IsHalfTime = false;
+	private bool IsHalfTime;
 
 	public event Action OnTick;
 	public event Action OnTimerEnd;
@@ -21,6 +21,8 @@ public class Timer
 		MaxTime = maxtime;
 		CurrentTime = startvalue;
 		Pause = pause;
+
+		IsHalfTime = false;
 
 		if (CurrentTime >= MaxTime) TimerIsEnd = true;
 	}
@@ -82,7 +84,7 @@ public class Timer
 		CurrentTime += time;
 		CurrentTime = Mathf.Clamp(CurrentTime, 0, MaxTime);
 
-		if (CurrentTime >= MaxTime / 2 && IsHalfTime == false)
+		if (CurrentTime >= MaxTime / 2 && !IsHalfTime)
 		{
 			IsHalfTime = true;
 			OnTimerHalf?.Invoke();

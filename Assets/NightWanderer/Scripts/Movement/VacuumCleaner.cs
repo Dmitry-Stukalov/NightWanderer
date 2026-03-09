@@ -73,6 +73,6 @@ public class VacuumCleaner : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		_cleanerOnPause.Tick(Time.fixedDeltaTime);
+		_cleanerOnPause?.Tick(Time.fixedDeltaTime);
 	}
 }

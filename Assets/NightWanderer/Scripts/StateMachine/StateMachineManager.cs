@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class StateMachineManager
@@ -42,6 +43,8 @@ public class StateMachineManager
 			CurrentState.Enter();
 		}
 	}
+
+	public int GetCurrentState() => CurrentState.ID;
 
 	public void Update()
 	{

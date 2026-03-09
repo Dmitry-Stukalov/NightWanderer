@@ -6,5 +6,5 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = nameof(ResourceConfig), menuName = nameof(ResourceConfig))]
 public class ResourceConfig : ScriptableObject
 {
-	[field: SerializeField] public List<ResourceData> Resources;
+	[field: SerializeField] public List<ResourceData> Resources { get; set; }
 }

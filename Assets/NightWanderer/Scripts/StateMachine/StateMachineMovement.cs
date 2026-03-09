@@ -17,6 +17,7 @@ public class StateMachineMovement : StateMachineState
 	protected readonly InputAction UpDownMoveAction;
 	protected readonly InputAction LookAction;
 	protected readonly VacuumCleaner Cleaner;
+	protected readonly Fuel ShipFuel;
 	protected readonly float Speed;
 	protected readonly float UpDownSpeed;
 	protected readonly float LookSpeed;
@@ -34,13 +35,14 @@ public class StateMachineMovement : StateMachineState
 	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		ShipObject = shipObject;
 		Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
 		Cleaner = vacuumCleaner;
+		ShipFuel = shipFuel;
 		MoveAction = moveAction;
 		UpDownMoveAction = upDownMoveAction;
 		LookAction = lookAction;

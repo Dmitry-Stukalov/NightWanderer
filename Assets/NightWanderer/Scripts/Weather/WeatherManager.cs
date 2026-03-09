@@ -9,6 +9,7 @@ public class WeatherManager : MonoBehaviour
 	[SerializeField] private Sun _Sun;
 	[SerializeField] private ParticleSystem Rain;
 	[SerializeField] private ParticleSystem Sandstorm;
+	[SerializeField] private VisualEffect Rain2;
 	[SerializeField] private VisualEffect Sandstorm2;
 	[SerializeField] private LocalVolumetricFog Fog;
 	private bool IsWeatherActive = false;
@@ -22,16 +23,19 @@ public class WeatherManager : MonoBehaviour
 
 		_Sun.OnDayStart += FogOff;
 		_Sun.OnNightStart += FogOn;
+
+		Sandstorm2.Stop();
+		Rain2.Stop();
 	}
 
 	private void StartWeather()
 	{
-		RandomWeatherTimer = new Timer(Random.Range(5, 7));
+		RandomWeatherTimer = new Timer(Random.Range(15, 17));
 		RandomWeatherTimer.OnTimerEnd += EndWeather;
 		IsWeatherActive = true;
 
 		if (_Sun.IsDayNow()) Sandstorm2.Play();
-		else Rain.Play();
+		else Rain2.Play();
 	}
 
 	private void EndWeather()
@@ -39,7 +43,7 @@ public class WeatherManager : MonoBehaviour
 		RandomWeatherTimer.OnTimerEnd -= EndWeather;
 
 		/*if (Sandstorm.isPlaying)*/ Sandstorm2.Stop();
-		if (Rain.isPlaying) Rain.Stop();
+		/*if (Rain.isPlaying)*/ Rain2.Stop();
 
 		IsWeatherActive = false;
 		RandomWeatherPauseTimer.ResetTimer(false);

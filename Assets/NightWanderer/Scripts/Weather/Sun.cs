@@ -9,12 +9,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	[SerializeField] private GameObject Moon;
 	[SerializeField] private GameObject FakeSun;
 	[SerializeField] private GameObject Player;
-	[SerializeField] public Health PlayerHealth { get; set; }
-	[SerializeField] public float MinDamage { get; set; }
-	[SerializeField] public float MaxDamage { get; set; }
+	[field: NonSerialized] public DefenseSystem Health { get; set; }
+	[field: SerializeField] public float MinDamage { get; set; }
+	[field: SerializeField] public float MaxDamage { get; set; }
 	[field: NonSerialized] public float Damage { get; set; }
 	[SerializeField] private float TakeDamagePause;
-	[SerializeField] public bool IsFireDamage { get; set; }
+	[field: SerializeField] public bool IsFireDamage { get; set; }
 	[SerializeField] private float AllDayLength;
 	[SerializeField] private float TransitionDayLength;
 	private Timer AllDayTimer;
@@ -27,6 +27,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void Initializing()
 	{
+		Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
+
 		AllDayTimer = new Timer(AllDayLength);
 		AllDayTimer.OnTimerEnd += ResetDayTimer;
 		AllDayTimer.OnTimerStart += () => OnDayStart?.Invoke();
@@ -58,8 +60,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void TakeDamage()
 	{
-		if (IsFireDamage) PlayerHealth.GetFireDamage(Damage);
-		else PlayerHealth.GetDamage(Damage);
+		if (IsFireDamage) Health.GetFireDamage(Damage);
+		else Health.GetDamage(Damage);
 	}
 
 	private void FixedUpdate()
@@ -68,7 +70,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 		Moon.transform.rotation = Quaternion.Euler(-360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 
-		if (AllDayTimer.CurrentTime >= AllDayTimer.MaxTime / 2) OnNightStart?.Invoke();
+		//if (AllDayTimer.CurrentTime >= AllDayTimer.MaxTime / 2) OnNightStart?.Invoke();
 
 		TakeDamageTimer.Tick(Time.deltaTime);
 
@@ -81,18 +83,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		{
 			SunRay = new Ray(FakeSun.transform.position, Player.transform.position - FakeSun.transform.position);
 
-			SunRayCast = Physics.RaycastAll(SunRay, 1000f);
+			SunRayCast = Physics.RaycastAll(SunRay, 10000f);
 
 			System.Array.Sort(SunRayCast, (a, b) => a.distance.CompareTo(b.distance));
 
-			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player"))
-			{
-				TakeDamageTimer.Continue();
-			}
-			else
-			{
-				TakeDamageTimer.ResetTimer(true);
-			}
+			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player")) TakeDamageTimer.Continue();
+			else TakeDamageTimer.ResetTimer(true);
 		}
 	}
 }
