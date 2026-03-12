@@ -13,9 +13,12 @@ public class StateMachineRun : StateMachineMovement
 	{
 		base.Enter();
 
-		StateManager.IsCleanerWorking = false;
-		VacuumCleaner();
-		//Debug.Log("Run");
+		if (StateManager.IsCleanerWorking)
+		{
+			StateManager.IsCleanerWorking = false;
+			VacuumCleaner();
+		}
+			//Debug.Log("Run");
 	}
 
 	public override void Exit()

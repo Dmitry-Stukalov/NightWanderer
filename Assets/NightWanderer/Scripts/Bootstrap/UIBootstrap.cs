@@ -11,8 +11,8 @@ public class UIBootstrap : MonoBehaviour
 	private void Start()
 	{
 		//_WeatherScaler.Initializing();
-		_inventoryBackgroundScaler.Initializing();
-		_inventoryButton.Initializing();
+		_inventoryBackgroundScaler?.Initializing();
+		_inventoryButton?.Initializing();
 		//_UIInventory.Initializing();
 	}
 }

@@ -6,6 +6,7 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private ShipMovement _shipMovement;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private PlayerInventory _playerInventory;
+	[SerializeField] private PlayerInventoryBuilder _playerInventorybuilder;
 
 	//Инициализация всех объектов, которые находятся на сцене
 	private void Start()
@@ -14,5 +15,6 @@ public class Bootstrap : MonoBehaviour
 		_sun?.Initializing();
 		_resourceLibrary?.Initializing();
 		_playerInventory?.Initializing();
+		_playerInventorybuilder?.Initializing();
 	}
 }

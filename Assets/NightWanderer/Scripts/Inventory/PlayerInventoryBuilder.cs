@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 
 //Отвечает за инвентарь игрока, добавление и удаление из него ресурсов
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventoryBuilder : MonoBehaviour
 {
+	[SerializeField] private UIDocument UI;
+	[SerializeField] private VisualTreeAsset InventoryCell;
 	[SerializeField] private GameObject InventoryBackground;
 	[SerializeField] private GameObject Inventory;
 	[SerializeField] private GameObject CellObject;
 	[SerializeField] private int InventoryCellCount;
+	private VisualElement Cell;
+	private VisualElement Inventory2;
 	private Inventory _PlayerInventory;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
 	private List<CanvasGroup> ResourceCanvasGroups = new List<CanvasGroup>();
@@ -18,19 +23,26 @@ public class PlayerInventory : MonoBehaviour
 
 	public void Initializing()
 	{
+		Cell = UI.rootVisualElement.Q<VisualElement>("InventoryCell");
+		Inventory2 = UI.rootVisualElement.Q<VisualElement>("Inventory");
+
 		GameObject newResource;
 
 		_PlayerInventory = new Inventory(InventoryCellCount);
 
 		for (int i = 0; i < InventoryCellCount; i++)
 		{
-			newResource = Instantiate(CellObject, Inventory.transform);
-			ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());
-			newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
-			newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
-			newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
-			newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
-			_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
+			var newCell = InventoryCell.Instantiate();
+
+			Inventory2.Add(newCell);
+
+			//newResource = Instantiate(CellObject, Inventory.transform);
+			//ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());
+			//newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
+			//newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
+			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
+			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
+			//_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
 		}
 	}
 
