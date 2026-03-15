@@ -21,11 +21,13 @@ public class StateMachineMovement : StateMachineState
 	protected readonly float Speed;
 	protected readonly float UpDownSpeed;
 	protected readonly float LookSpeed;
+	protected Timer ReverseMoveTimer;
 	protected Vector3 MoveDirection;
+	protected Vector3 ReverseDirection;
 	protected Vector3 ForwardVector;
 	protected Vector3 RightVector;
 	protected Vector3 UpVector;
-	protected Vector3 HalfVectorVacuum;
+	//protected Vector3 HalfVectorVacuum;
 	protected Vector2 MouseAxis;
 	protected float SpeedX;
 	protected float SpeedY;
@@ -49,11 +51,15 @@ public class StateMachineMovement : StateMachineState
 		Speed = speed;
 		UpDownSpeed = upDownSpeed;
 		LookSpeed = lookSpeed;
+
+		ReverseMoveTimer = new Timer(0.5f);
+		ReverseMoveTimer.OnTimerEnd += ReverseMoveEnd;
+		ReverseMoveTimer.SetPause();
 	}
 
 	public override void Enter()
 	{
-		HalfVectorVacuum = new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2);
+		//HalfVectorVacuum = new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2);
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
 	}
@@ -91,6 +97,8 @@ public class StateMachineMovement : StateMachineState
 			StateManager.NextState = 20;
 			StateManager.SetState(10);
 		}
+
+		ReverseMoveTimer.Tick(Time.deltaTime);
 	}
 
 	protected virtual void Move()
@@ -98,6 +106,18 @@ public class StateMachineMovement : StateMachineState
 		ForwardVector = Ship.transform.TransformDirection(Vector3.forward);
 		RightVector = Ship.transform.TransformDirection(Vector3.right);
 		UpVector = Ship.transform.TransformDirection(Vector3.up);
+
+		if (StateManager.IsReverseMove)
+		{
+			if (MoveDirection.y != 0)
+			{
+				Ship.transform.position -= new Vector3(0, MoveDirection.y, 0) / 2;
+			}
+			else Ship.transform.position -= MoveDirection / 2;
+
+			ReverseMoveTimer.Continue();
+			return;
+		}
 
 		if (Keyboard.current.wKey.IsPressed() || Keyboard.current.sKey.IsPressed()) SpeedX = -Speed * MoveAction.ReadValue<Vector2>().y;
 		else SpeedX = 0;
@@ -118,6 +138,12 @@ public class StateMachineMovement : StateMachineState
 		MoveDirection = (ForwardVector * SpeedX) + (RightVector * SpeedZ) + (UpVector * SpeedY);
 
 		Ship.transform.position += MoveDirection;
+	}
+
+	protected virtual void ReverseMoveEnd()
+	{
+		StateManager.IsReverseMove = false;
+		ReverseMoveTimer.ResetTimer(true);
 	}
 
 	protected virtual void Look()
@@ -157,7 +183,7 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
-		if (StateManager.IsCleanerWorking) Cleaner.CleanerOn(VacuumCleanerObject.gameObject, HalfVectorVacuum);
+		if (StateManager.IsCleanerWorking) Cleaner.CleanerOn(/*VacuumCleanerObject.gameObject, HalfVectorVacuum*/);
 		else Cleaner.CleanerOff();
 
 		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;

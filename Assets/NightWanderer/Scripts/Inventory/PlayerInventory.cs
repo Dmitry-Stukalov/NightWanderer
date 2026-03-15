@@ -26,11 +26,11 @@ public class PlayerInventory : MonoBehaviour
 		{
 			newResource = Instantiate(CellObject, Inventory.transform);
 			ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());
-			newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
-			newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
-			newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
-			newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
-			_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
+			//newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
+			//newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
+			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
+			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
+			//_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
 		}
 	}
 

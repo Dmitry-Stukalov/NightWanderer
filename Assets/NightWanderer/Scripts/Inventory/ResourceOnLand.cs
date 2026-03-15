@@ -37,7 +37,8 @@ public class ResourceOnLand : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			other.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
+			//other.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
+			other.transform.GetComponent<PlayerInventoryBuilder>().AddResource(ThisResource);
 			IsCollected = false;
 			ParentResource.OnRelease(gameObject);
 		}

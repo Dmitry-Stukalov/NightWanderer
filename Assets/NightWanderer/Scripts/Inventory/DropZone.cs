@@ -9,10 +9,10 @@ public class DropZone : MonoBehaviour, IDropHandler
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		GameObject resource = Library.GetResource(eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ThisResource.ID);
-		resource.GetComponent<ResourceOnLand>().SetResourceCount(eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ThisResource.CurrentCount);
-		resource.transform.localPosition = new Vector3(Player.transform.position.x, Player.transform.position.y - 2, Player.transform.position.z);
+		//GameObject resource = Library.GetResource(eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ThisResource.ID);
+		//resource.GetComponent<ResourceOnLand>().SetResourceCount(eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ThisResource.CurrentCount);
+		//resource.transform.localPosition = new Vector3(Player.transform.position.x, Player.transform.position.y - 2, Player.transform.position.z);
 
-		eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ResetResource();
+		//eventData.pointerDrag.transform.GetComponent<ResourceCellObject>().ResetResource();
 	}
 }

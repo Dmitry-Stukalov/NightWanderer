@@ -11,7 +11,12 @@ public class ResourceBase
 	public int MaxCount { get; set; } = 0;
 	public int CurrentCount { get; set; } = 0;
 
-	public ResourceBase() { }
+	public ResourceBase() 
+	{
+		ID = -1;
+		MaxCount = 0;
+		CurrentCount = 0;
+	}
 
 	public ResourceBase(Sprite view, string name, int iD, int maxCount)
 	{

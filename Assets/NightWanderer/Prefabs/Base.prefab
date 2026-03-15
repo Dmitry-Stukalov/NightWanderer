@@ -158,10 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda95ea87a6201c43965deed26ed9b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DockingPlatform: {fileID: 2340983582531920166}
-  _Animator: {fileID: 7364330734679854025}
-  Ship: {fileID: 0}
-  PlayerUI: {fileID: 0}
+  _dockingPlatform: {fileID: 3946241453134145804}
+  _animator: {fileID: 7364330734679854025}
+  _ship: {fileID: 0}
+  _playerUI: {fileID: 0}
 --- !u!33 &3316413489680806623
 MeshFilter:
   m_ObjectHideFlags: 0

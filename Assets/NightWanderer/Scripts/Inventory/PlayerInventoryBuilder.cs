@@ -34,7 +34,11 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		{
 			var newCell = InventoryCell.Instantiate();
 
+			newCell.userData = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
+
 			Inventory2.Add(newCell);
+
+			_PlayerInventory.InitializeArray((ResourceCellObject)newCell.userData, i);
 
 			//newResource = Instantiate(CellObject, Inventory.transform);
 			//ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());

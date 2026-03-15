@@ -221,7 +221,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5861856354609511327}
-  - component: {fileID: 2992667663997124404}
   - component: {fileID: 5934480491165306859}
   - component: {fileID: 4989114727526464943}
   - component: {fileID: 6871306936398872695}
@@ -252,24 +251,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2992667663997124404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5481064480268560063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d46bcaaee49854c9e2c6f68726254f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventoryBackground: {fileID: 0}
-  ThisCellObject: {fileID: 5953752016633708500}
-  ResourceUICount: {fileID: 3943624406027498155}
-  ResourceName: {fileID: 3481324122588909861}
-  InventoryObject: {fileID: 0}
-  _PlayerInventory: {fileID: 0}
 --- !u!225 &5934480491165306859
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -380,7 +361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e3826b05b5dfb041b381ea0d35bf048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ResourceCellObject: {fileID: 2992667663997124404}
 --- !u!114 &1428557236378995423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2a03c68d09e3840816dfb7655e7599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResourceObject: {fileID: 2992667663997124404}
 --- !u!222 &807349332735243735
 CanvasRenderer:
   m_ObjectHideFlags: 0

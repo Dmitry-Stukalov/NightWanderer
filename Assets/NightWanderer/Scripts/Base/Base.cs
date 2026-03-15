@@ -25,4 +25,6 @@ public class Base : MonoBehaviour
 	}
 
 	public void OpenCloseBaseUI() => _playerUI.OnBase();
+
+	public void CloseBaseUI() => _playerUI.OutBase();
 }

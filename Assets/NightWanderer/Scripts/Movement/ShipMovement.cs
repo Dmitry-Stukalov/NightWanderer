@@ -53,7 +53,7 @@ public class ShipMovement : MonoBehaviour
 
 	public void Initializing()
 	{
-		_vacuumCleaner.Initializing(gameObject);
+		_vacuumCleaner.Initializing(gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 		_searchlight.Initializing();
 
 		_defenseSystem = new DefenseSystem(new Health(_healthConfig), new Defense(_defenseConfig), new FireDefense(_fireDefenseConfig));
@@ -99,6 +99,11 @@ public class ShipMovement : MonoBehaviour
 
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
 
+	private void HitSurface()
+	{
+		StateMachineManager.HitSurface();
+	}
+
 	//При входе в область источника ресурса передает его местоположение в машину состояний
 	private void OnTriggerEnter(Collider other)
 	{
@@ -117,6 +122,8 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 		}
+
+		if (other.CompareTag("Sand")) HitSurface();
 	}
 
 	//При выходе из области источника ресурса обнуляет его местоположение в машине состояний

@@ -8,7 +8,7 @@ public class UIBootstrap : MonoBehaviour
 	//[field: SerializeField] private UIInventory _UIInventory;
 
 	//Инициализация всех объектов, которые находятся в UI
-	private void Start()
+	public void Initializing()
 	{
 		//_WeatherScaler.Initializing();
 		_inventoryBackgroundScaler?.Initializing();

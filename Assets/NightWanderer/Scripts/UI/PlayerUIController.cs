@@ -6,8 +6,15 @@ public class PlayerUIController : MonoBehaviour
 {
 	[SerializeField] private InventoryButton Inventory;
 	[SerializeField] private BaseUI Base;
+	[SerializeField] private BaseUIManager baseUI;
 
-	public void OnBase() => Base.OpenCloseBaseUI();
+	private void Start()
+	{
+		baseUI.Initializing();
+	}
+
+	public void OnBase() => baseUI.OpenBaseUI();//Base.OpenCloseBaseUI();
+	public void OutBase() => baseUI.CloseBaseUI();
 
 	private void Update()
 	{

@@ -22,6 +22,7 @@ public class StateMachineManager
 	public float ResourceRotationX { get; private set; } = 0;
 	public int NextState { get; set; }
 	public bool IsCleanerWorking { get; set; } = false;
+	public bool IsReverseMove { get; set; } = false;
 
 
 
@@ -45,6 +46,13 @@ public class StateMachineManager
 	}
 
 	public int GetCurrentState() => CurrentState.ID;
+
+	public void HitSurface()
+	{
+		if (CurrentState.ID > 2) return;
+
+		IsReverseMove = true;
+	}
 
 	public void Update()
 	{

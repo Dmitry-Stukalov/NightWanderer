@@ -12,19 +12,23 @@ public class VacuumCleaner : MonoBehaviour
 	private Timer _cleanerOnPause;
 	private int _sandCounts = 0;
 
-	public void Initializing(GameObject ship)
+	public void Initializing(GameObject ship, GameObject cleaner, Vector3 halfVectorCleaner)
 	{
 		_ship = ship;
+
+		_cleaner = cleaner;
+
+		_halfVectorCleaner = halfVectorCleaner;
 
 		_cleanerOnPause = new Timer(0.2f);
 		_cleanerOnPause.OnTimerEnd += SandCollection;
 		_cleanerOnPause.SetPause();
 	}
 
-	public void CleanerOn(GameObject cleaner, Vector3 halfVectorCleaner)
+	public void CleanerOn(/*GameObject cleaner, Vector3 halfVectorCleaner*/)
 	{
-		_cleaner = cleaner;
-		_halfVectorCleaner = halfVectorCleaner;
+		/*_cleaner = cleaner;
+		_halfVectorCleaner = halfVectorCleaner;*/
 
 		_cleanerOnPause.Continue();
 
@@ -34,6 +38,7 @@ public class VacuumCleaner : MonoBehaviour
 	public void CleanerOff()
 	{
 		_cleanerOnPause.ResetTimer(true);
+		SandIsntCollection();
 
 		Debug.Log("ѕылесос выключен");
 	}
@@ -69,6 +74,17 @@ public class VacuumCleaner : MonoBehaviour
 		}
 
 		_cleanerOnPause.ResetTimer(false);
+	}
+
+	private void SandIsntCollection()
+	{
+		foreach (var collider in Physics.OverlapBox(_cleaner.transform.position, _halfVectorCleaner, Quaternion.identity))
+		{
+			if (collider.CompareTag("ResourceOnLand"))
+			{
+				collider.GetComponent<ResourceOnLand>().IsntCollected();
+			}
+		}
 	}
 
 	private void FixedUpdate()
