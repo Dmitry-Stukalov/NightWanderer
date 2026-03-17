@@ -1,40 +1,77 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
+using TMPro;
 
+
+//»нвентарь игрока
 public class Inventory
 {
-	private int InventoryLineCount;
-	private int InventoryColumnCount;
-	private List<GameObject> ResourceCellObjects;
-	private Cell[,] _Inventory;
+	private int InventoryCellCount;
+	private ResourceCellObject[] _Inventory;
+	private int j = -1;
 
-	public Inventory(int inventoryLineCount, int inventoryColumnCount, List<GameObject> resourceCellObjects)
+	public Inventory(int inventoryCellCount)
 	{
-		InventoryLineCount = inventoryLineCount;
-		InventoryColumnCount = inventoryColumnCount;
-		_Inventory = new Cell[InventoryLineCount, InventoryColumnCount];
-		ResourceCellObjects = new List<GameObject>(resourceCellObjects);
+		InventoryCellCount = inventoryCellCount;
+		_Inventory = new ResourceCellObject[InventoryCellCount];
+	}
 
-		for (int i = 0;  i < InventoryLineCount; i++)
-		{
-			for (int j = 0; j < InventoryColumnCount; j++)
-			{
-				_Inventory[i, j] = new Cell(ResourceCellObjects[i + j]);
-			}
-		}
+	public void InitializeArray(ResourceCellObject obj, int i)
+	{
+		_Inventory[i] = obj;
 	}
 
 	public void AddResource(ResourceBase resource)
 	{
-		for (int i = 0; i < InventoryLineCount; i++)
+		int i = -1;
+		while (++i < InventoryCellCount)
 		{
-			for (int j = 0; j < InventoryColumnCount; j++)
-			{
-				if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() != resource.ID) continue;
+			if (resource.CurrentCount == 0) return;
 
-				//if (_Inventory[i, j].GetResourceID() != -1 && _Inventory[i, j].GetResourceID() == resource.ID)
-				//Ћогика добавлени€ ресурса в инвентарь
+			//–есурс есть, но он другой
+			if (_Inventory[i].GetId() != -1 && _Inventory[i].GetId() != resource.ID) continue;
+
+			//–есурса нет (€чейка пуста€)
+			if (_Inventory[i].GetId() == -1)
+			{
+				if (j == -1) j = i;
+
+				continue;
+			}
+
+			//–есурс есть, он тот же, и места в €чейке хватает дл€ получени€ / не хватает дл€ получени€
+			if (_Inventory[i].GetId() == resource.ID && _Inventory[i].GetEmptyResourceCount() >= resource.CurrentCount)
+			{
+				_Inventory[i].AddResource(resource);
+				j = -1;
+				return;
+			}
+			else
+			{
+				if (_Inventory[i].GetEmptyResourceCount() != 0)
+				{
+					int countDifference = resource.CurrentCount - _Inventory[i].GetEmptyResourceCount();
+					_Inventory[i].AddResource(resource);
+					resource.CurrentCount = countDifference;
+					j = -1;
+					i = -1;
+					continue;
+				}
+				else continue;
 			}
 		}
+
+		_Inventory[j].AddResource(resource);
+		j = -1;
 	}
+
+	public void DeleteResource(int index, ResourceBase resource)
+	{
+		if (_Inventory[index].GetId() != resource.ID) return;
+
+		_Inventory[index].DeleteResource(resource);
+	}
+
+	public ResourceCellObject GetResourceData(int index) => _Inventory[index];
 }

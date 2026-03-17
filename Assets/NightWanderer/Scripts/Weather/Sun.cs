@@ -2,28 +2,37 @@ using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.Rendering.HighDefinition;
 
 public class Sun : MonoBehaviour, ICanTakeDamage
 {
-	[field: SerializeField] private GameObject FakeSun;
-	[field: SerializeField] private GameObject Player;
-	[field: SerializeField] public Health PlayerHealth { get; set; }
+	[SerializeField] private GameObject Moon;
+	[SerializeField] private GameObject FakeSun;
+	[SerializeField] private GameObject Player;
+	[field: NonSerialized] public DefenseSystem Health { get; set; }
 	[field: SerializeField] public float MinDamage { get; set; }
 	[field: SerializeField] public float MaxDamage { get; set; }
 	[field: NonSerialized] public float Damage { get; set; }
-	[field: SerializeField] private float TakeDamagePause;
+	[SerializeField] private float TakeDamagePause;
 	[field: SerializeField] public bool IsFireDamage { get; set; }
-	[field: SerializeField] private float AllDayLength;
-	[field: SerializeField] private float TransitionDayLength;
+	[SerializeField] private float AllDayLength;
+	[SerializeField] private float TransitionDayLength;
 	private Timer AllDayTimer;
 	private Timer TakeDamageTimer;
 	private Ray SunRay;
 	private RaycastHit[] SunRayCast;
 
+	public event Action OnDayStart;
+	public event Action OnNightStart;
+
 	public void Initializing()
 	{
+		Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
+
 		AllDayTimer = new Timer(AllDayLength);
 		AllDayTimer.OnTimerEnd += ResetDayTimer;
+		AllDayTimer.OnTimerStart += () => OnDayStart?.Invoke();
+		AllDayTimer.OnTimerHalf += () => OnNightStart?.Invoke();
 
 		TakeDamageTimer = new Timer(TakeDamagePause);
 		TakeDamageTimer.OnTimerEnd += ResetTakeDamage;
@@ -37,6 +46,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		AllDayTimer.ResetTimer(false);
 	}
 
+	public bool IsDayNow()
+	{
+		if (AllDayTimer.CurrentTime < AllDayTimer.MaxTime / 2) return true;
+		else return false;
+	}
+
 	private void ResetTakeDamage()
 	{
 		TakeDamage();
@@ -45,14 +60,17 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void TakeDamage()
 	{
-		if (IsFireDamage) PlayerHealth.GetFireDamage(Damage);
-		else PlayerHealth.GetDamage(Damage);
+		if (IsFireDamage) Health.GetFireDamage(Damage);
+		else Health.GetDamage(Damage);
 	}
 
 	private void FixedUpdate()
 	{
 		AllDayTimer.Tick(Time.deltaTime);
 		transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
+		Moon.transform.rotation = Quaternion.Euler(-360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
+
+		//if (AllDayTimer.CurrentTime >= AllDayTimer.MaxTime / 2) OnNightStart?.Invoke();
 
 		TakeDamageTimer.Tick(Time.deltaTime);
 
@@ -65,18 +83,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		{
 			SunRay = new Ray(FakeSun.transform.position, Player.transform.position - FakeSun.transform.position);
 
-			SunRayCast = Physics.RaycastAll(SunRay, 1000f);
+			SunRayCast = Physics.RaycastAll(SunRay, 10000f);
 
 			System.Array.Sort(SunRayCast, (a, b) => a.distance.CompareTo(b.distance));
 
-			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player"))
-			{
-				TakeDamageTimer.Continue();
-			}
-			else
-			{
-				TakeDamageTimer.ResetTimer(true);
-			}
+			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player")) TakeDamageTimer.Continue();
+			else TakeDamageTimer.ResetTimer(true);
 		}
 	}
 }

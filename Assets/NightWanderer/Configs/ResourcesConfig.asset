@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f027a8a46e028ec4f8800238716138b4, type: 3}
   m_Name: ResourcesConfig
   m_EditorClassIdentifier: 
-  Resources:
-  - <View>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000,
-      type: 0}
-    <Name>k__BackingField: 1
+  <Resources>k__BackingField:
+  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
+    <Name>k__BackingField: "\u0422\u0438\u0442\u0430\u043D"
     <ID>k__BackingField: 0
-    <MaxCount>k__BackingField: 200
-    <CurrentCount>k__BackingField: 20
+    <MaxCount>k__BackingField: 10
+  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
+    <Name>k__BackingField: "\u041F\u0435\u0441\u043E\u043A"
+    <ID>k__BackingField: 1
+    <MaxCount>k__BackingField: 1000
+  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
+    <Name>k__BackingField: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B"
+    <ID>k__BackingField: 2
+    <MaxCount>k__BackingField: 100

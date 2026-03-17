@@ -7,6 +7,9 @@ TagManager:
   - ResourceSource
   - Resource
   - ResourceOnLand
+  - InventoryCell
+  - Base
+  - Sand
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcess
   - 
   - 
   - 

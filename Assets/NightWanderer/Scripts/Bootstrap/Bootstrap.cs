@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-	[field: SerializeField] private Sun _Sun;
-	[field: SerializeField] private ShipMovement _ShipMovement;
-	[field: SerializeField] private ResourceLibrary _ResourceLibrary;
-	//[field: SerializeField] private ResourceSource[] _ResourceSources;
+	[SerializeField] private UIBootstrap _uiBootstrap;
+	[SerializeField] private Sun _sun;
+	[SerializeField] private ShipMovement _shipMovement;
+	[SerializeField] private ResourceLibrary _resourceLibrary;
+	//[SerializeField] private PlayerInventory _playerInventory;
+	[SerializeField] private PlayerInventoryBuilder _playerInventoryBuilder;
 
+	//Инициализация всех объектов, которые находятся на сцене
 	private void Start()
 	{
-		_Sun.Initializing();
-		_ShipMovement.Initializing();
-		_ResourceLibrary.Initializing();
-
-		//for (int i = 0;  i < _ResourceSources.Length; i++) _ResourceSources[i].Initializing();
+		_shipMovement?.Initializing();
+		_sun?.Initializing();
+		_resourceLibrary?.Initializing();
+		//_playerInventory?.Initializing();
+		_playerInventoryBuilder?.Initializing();
+		_uiBootstrap.Initializing();
 	}
 }

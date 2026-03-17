@@ -8,11 +8,13 @@ public class Timer
 	public bool TimerIsEnd { get; private set; }
 	public bool TimerIsOnStart { get; private set; }
 	public bool Pause { get; private set; }
+	private bool IsHalfTime;
 
 	public event Action OnTick;
 	public event Action OnTimerEnd;
 	public event Action OnTimerStart;
 	public event Action OnTimerReverse;
+	public event Action OnTimerHalf;
 
 	public Timer(float maxtime, float startvalue = 0, bool pause = false)
 	{
@@ -20,14 +22,19 @@ public class Timer
 		CurrentTime = startvalue;
 		Pause = pause;
 
+		IsHalfTime = false;
+
 		if (CurrentTime >= MaxTime) TimerIsEnd = true;
 	}
 
 	public void ResetTimer(bool pause)
 	{
 		TimerIsEnd = false;
+		IsHalfTime = false;
 		CurrentTime = 0;
 		Pause = pause;
+
+		OnTimerStart?.Invoke();
 	}
 
 	public void SetMaxTime(float maxtime)
@@ -40,6 +47,7 @@ public class Timer
 	public void SetMaxTimeAndReset(float maxtime)
 	{
 		TimerIsEnd = false;
+		IsHalfTime = false;
 		CurrentTime = 0;
 		MaxTime = maxtime;
 	}
@@ -75,6 +83,12 @@ public class Timer
 	{
 		CurrentTime += time;
 		CurrentTime = Mathf.Clamp(CurrentTime, 0, MaxTime);
+
+		if (CurrentTime >= MaxTime / 2 && !IsHalfTime)
+		{
+			IsHalfTime = true;
+			OnTimerHalf?.Invoke();
+		}
 
 		if (CurrentTime >= MaxTime)
 		{

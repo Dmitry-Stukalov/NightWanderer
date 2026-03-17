@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+
+//Данные одного ресурса
 [Serializable]
 public class ResourceData
 {

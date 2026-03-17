@@ -4,12 +4,20 @@ using UnityEngine.InputSystem;
 
 public class StateMachineRun : StateMachineMovement
 {
-	public StateMachineRun(int id, StateMachineManager manager, GameObject playerCameraRotationObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager, playerCameraRotationObject, ship, vacuumCleanerObject, moveAction, upDownMoveAction, lookAction, speed, upDownSpeed, lookSpeed) { }
+	public StateMachineRun(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
+		float speed, float upDownSpeed, float lookSpeed) 
+		: 
+		base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, vacuumCleaner, shipFuel, moveAction, upDownMoveAction, lookAction, speed, upDownSpeed, lookSpeed) { }
 
 	public override void Enter()
 	{
 		base.Enter();
-		Debug.Log("Run");
+
+		if (StateManager.IsCleanerWorking)
+		{
+			VacuumCleaner();
+		}
+			//Debug.Log("Run");
 	}
 
 	public override void Exit()
@@ -25,7 +33,7 @@ public class StateMachineRun : StateMachineMovement
 
 		if (Keyboard.current.shiftKey.wasPressedThisFrame) StateManager.SetState(1);
 
-		Move();
+		if (!ShipFuel.IsFuelEmpty) Move();
 		Look();
 	}
 }

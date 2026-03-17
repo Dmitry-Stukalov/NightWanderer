@@ -1,49 +1,65 @@
+using System;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
+using static UnityEngine.GraphicsBuffer;
 
 public class StateMachineMovement : StateMachineState
 {
 	protected readonly GameObject PlayerCameraRotationObject;
+	protected readonly GameObject ShipObject;
 	protected readonly Transform Ship;
 	protected readonly Transform VacuumCleanerObject;
 	protected readonly InputAction MoveAction;
 	protected readonly InputAction UpDownMoveAction;
 	protected readonly InputAction LookAction;
+	protected readonly VacuumCleaner Cleaner;
+	protected readonly Fuel ShipFuel;
 	protected readonly float Speed;
 	protected readonly float UpDownSpeed;
 	protected readonly float LookSpeed;
+	protected Timer ReverseMoveTimer;
 	protected Vector3 MoveDirection;
+	protected Vector3 ReverseDirection;
 	protected Vector3 ForwardVector;
 	protected Vector3 RightVector;
 	protected Vector3 UpVector;
-	protected Vector3 HalfVectorVacuum;
+	//protected Vector3 HalfVectorVacuum;
 	protected Vector2 MouseAxis;
 	protected float SpeedX;
 	protected float SpeedY;
 	protected float SpeedZ;
 	protected float RotationX;
 	protected float RotationY;
+	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, Transform ship, Transform vacuumCleanerObject, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
+		ShipObject = shipObject;
 		Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
+		Cleaner = vacuumCleaner;
+		ShipFuel = shipFuel;
 		MoveAction = moveAction;
 		UpDownMoveAction = upDownMoveAction;
 		LookAction = lookAction;
 		Speed = speed;
 		UpDownSpeed = upDownSpeed;
 		LookSpeed = lookSpeed;
+
+		ReverseMoveTimer = new Timer(0.5f);
+		ReverseMoveTimer.OnTimerEnd += ReverseMoveEnd;
+		ReverseMoveTimer.SetPause();
 	}
 
 	public override void Enter()
 	{
-		HalfVectorVacuum = new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2);
+		//HalfVectorVacuum = new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2);
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
 	}
@@ -56,16 +72,31 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		if (Keyboard.current.spaceKey.IsPressed()) VacuumCleaner();
+		//if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
 
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
 		{
+			if (StateManager.IsCleanerWorking) VacuumCleaner();
+
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 
 			StateManager.NextState = StateManager.CurrentResourceSource.ExtractionID;
 			StateManager.SetState(10);
 		}
+
+		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame)
+		{
+			if (StateManager.IsCleanerWorking) VacuumCleaner();
+
+			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+
+			StateManager.NextState = 20;
+			StateManager.SetState(10);
+		}
+
+		ReverseMoveTimer.Tick(Time.deltaTime);
 	}
 
 	protected virtual void Move()
@@ -74,10 +105,30 @@ public class StateMachineMovement : StateMachineState
 		RightVector = Ship.transform.TransformDirection(Vector3.right);
 		UpVector = Ship.transform.TransformDirection(Vector3.up);
 
-		if (Keyboard.current.wKey.IsPressed() || Keyboard.current.sKey.IsPressed()) SpeedX = Speed * MoveAction.ReadValue<Vector2>().y;
+		if (StateManager.IsReverseMove)
+		{
+			if (MoveDirection.y != 0)
+			{
+				Ship.transform.position -= new Vector3(0, MoveDirection.y, 0) / 2;
+			}
+			else Ship.transform.position -= MoveDirection / 2;
+
+			ReverseMoveTimer.Continue();
+			return;
+		}
+
+		if (Keyboard.current.wKey.IsPressed() || Keyboard.current.sKey.IsPressed()) SpeedX = -Speed * MoveAction.ReadValue<Vector2>().y;
 		else SpeedX = 0;
-		if (Keyboard.current.aKey.IsPressed() || Keyboard.current.dKey.IsPressed()) SpeedZ = Speed * MoveAction.ReadValue<Vector2>().x;
+		if (Keyboard.current.aKey.IsPressed() || Keyboard.current.dKey.IsPressed()) SpeedZ = -Speed * MoveAction.ReadValue<Vector2>().x;
 		else SpeedZ = 0;
+		if (StateManager._Animator != null)
+		{
+			StateManager._Animator.SetFloat("SpeedX", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedX"), MoveAction.ReadValue<Vector2>().y, 7 * Time.deltaTime));
+			StateManager._Animator.SetFloat("SpeedY", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedY"), MoveAction.ReadValue<Vector2>().x, 7 * Time.deltaTime));
+
+			if (SpeedX == 0 && SpeedZ == 0) StateManager._Animator.SetBool("IsIdle", true);
+			else StateManager._Animator.SetBool("IsIdle", false);
+		}
 
 		if (Keyboard.current.qKey.IsPressed() || Keyboard.current.eKey.IsPressed()) SpeedY = UpDownSpeed * UpDownMoveAction.ReadValue<Vector2>().y;
 		else SpeedY = 0;
@@ -87,17 +138,23 @@ public class StateMachineMovement : StateMachineState
 		Ship.transform.position += MoveDirection;
 	}
 
+	protected virtual void ReverseMoveEnd()
+	{
+		StateManager.IsReverseMove = false;
+		ReverseMoveTimer.ResetTimer(true);
+	}
+
 	protected virtual void Look()
 	{
 		MouseAxis = LookAction.ReadValue<Vector2>();
 
-		RotationX += MouseAxis.y * LookSpeed;
+		RotationX += -MouseAxis.y * LookSpeed;
 		RotationX = Mathf.Clamp(RotationX, -90, 90);
 
-		RotationY += MouseAxis.x * LookSpeed;
+		RotationY += -MouseAxis.x * LookSpeed;
 
-		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, RotationY, 0);
-		Ship.transform.rotation = Quaternion.Euler(0, RotationY, 0);
+		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, -RotationY, 0);
+		Ship.transform.rotation = Quaternion.Euler(0, -RotationY, 0);
 	}
 
 	protected int CompareDifference(float n1)
@@ -124,13 +181,9 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
-		foreach (var collider in Physics.OverlapBox(VacuumCleanerObject.position, HalfVectorVacuum, Quaternion.identity))
-		{
-			if (collider.CompareTag("ResourceOnLand"))
-			{
-				collider.GetComponent<ResourceOnLand>().ChangeTarget(Ship.position);
-				collider.GetComponent<ResourceOnLand>().Collected();
-			}
-		}
+		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn(/*VacuumCleanerObject.gameObject, HalfVectorVacuum*/);
+		else Cleaner.CleanerOff();
+
+		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;
 	}
 }
