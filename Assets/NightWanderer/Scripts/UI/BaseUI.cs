@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//UI на базе
+//UI на базе (Старый)
 public class BaseUI : MonoBehaviour
 {
 	[field: SerializeField] private List<GameObject> UIToClose;

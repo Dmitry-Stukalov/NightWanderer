@@ -5981,6 +5981,7 @@ GameObject:
   - component: {fileID: 159780324}
   - component: {fileID: 159780326}
   - component: {fileID: 159780325}
+  - component: {fileID: 159780327}
   m_Layer: 0
   m_Name: BaseUI
   m_TagString: Untagged
@@ -6016,6 +6017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseUI: {fileID: 159780326}
+  _baseInventory: {fileID: 159780327}
 --- !u!114 &159780326
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6032,10 +6034,27 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 543ef698a0eb0dd4b9de1d0a7f8b82b6,
     type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+--- !u!114 &159780327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159780323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be06b18b5f364a45b6fc90b4cdba49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseUI: {fileID: 159780326}
+  InventoryCell: {fileID: 9197481963319205126, guid: 0af340126d084514195f9c0a6c9780a6,
+    type: 3}
+  InventoryElementName: BaseInventory
+  InventoryCellCount: 35
 --- !u!1 &171741347
 GameObject:
   m_ObjectHideFlags: 0
@@ -14196,7 +14215,7 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 85d2a086b202e4e4b9a25041cee1acf1,
     type: 3}
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -14228,8 +14247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory: {fileID: 1769242322}
-  Base: {fileID: 581917606}
-  baseUI: {fileID: 159780325}
+  _baseUI: {fileID: 159780325}
 --- !u!1 &1843485003 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4ba3d04ed715b8d48b1e4716c41df13c,
@@ -14385,12 +14403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a144cfa5dfe31554bb02c049098ff5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UI: {fileID: 1769242321}
+  PlayerUI: {fileID: 1769242321}
+  BaseUI: {fileID: 159780326}
   InventoryCell: {fileID: 9197481963319205126, guid: 0af340126d084514195f9c0a6c9780a6,
     type: 3}
-  InventoryBackground: {fileID: 0}
-  Inventory: {fileID: 0}
-  CellObject: {fileID: 0}
+  InventoryElementName: Inventory
+  InventoryElementName2: PlayerInventory
   InventoryCellCount: 20
 --- !u!1 &1863278775 stripped
 GameObject:

@@ -2,9 +2,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+//UI на базе (новый)
 public class BaseUIManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument baseUI;
+	[SerializeField] private BaseInventory _baseInventory;
 
 	private VisualElement mainBackground;
 
@@ -16,8 +18,12 @@ public class BaseUIManager : MonoBehaviour
 	private Button craftButton;
 	private Button upgradesButton;
 
+	public bool OnBase { get; set; } = false;
+
 	public void Initializing()
 	{
+		_baseInventory.Initializing();
+
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
 		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
@@ -32,23 +38,33 @@ public class BaseUIManager : MonoBehaviour
 		craftButton.RegisterCallback<ClickEvent>(CraftButtonClick);
 		upgradesButton.RegisterCallback<ClickEvent>(UpgradesButtonClick);
 
+		craftBackground.style.display = DisplayStyle.None;
+		upgradesBackground.style.display = DisplayStyle.None;
 		mainBackground.style.display = DisplayStyle.None;
 	}
 
 	public void OpenBaseUI()
 	{
+		baseUI.sortingOrder = 5;
+
 		mainBackground.style.display = DisplayStyle.Flex;
 
 		UnityEngine.Cursor.visible = true;
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
+
+		OnBase = true;
 	}
 
 	public void CloseBaseUI()
 	{
+		baseUI.sortingOrder = -5;
+
 		mainBackground.style.display = DisplayStyle.None;
 
 		UnityEngine.Cursor.visible = false;
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+
+		OnBase = false;
 	}
 
 	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("storage");

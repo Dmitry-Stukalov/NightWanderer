@@ -72,12 +72,11 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
+		//if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
 
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
 		{
-			StateManager.IsCleanerWorking = false;
-			VacuumCleaner();
+			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
@@ -88,8 +87,7 @@ public class StateMachineMovement : StateMachineState
 
 		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame)
 		{
-			StateManager.IsCleanerWorking = false;
-			VacuumCleaner();
+			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
@@ -183,7 +181,7 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
-		if (StateManager.IsCleanerWorking) Cleaner.CleanerOn(/*VacuumCleanerObject.gameObject, HalfVectorVacuum*/);
+		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn(/*VacuumCleanerObject.gameObject, HalfVectorVacuum*/);
 		else Cleaner.CleanerOff();
 
 		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;

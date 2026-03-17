@@ -25,6 +25,8 @@ public class StateMachineIdle : StateMachineMovement
 	{
 		base.Update();
 
+		if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
+
 		if (MoveAction.ReadValue<Vector2>() != Vector2.zero || UpDownMoveAction.ReadValue<Vector2>() != Vector2.zero) StateManager.SetState(1);
 
 		Look();

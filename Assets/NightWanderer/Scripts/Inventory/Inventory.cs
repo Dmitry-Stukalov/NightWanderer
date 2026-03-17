@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using TMPro;
 
 
 //Инвентарь игрока
@@ -64,4 +65,13 @@ public class Inventory
 		_Inventory[j].AddResource(resource);
 		j = -1;
 	}
+
+	public void DeleteResource(int index, ResourceBase resource)
+	{
+		if (_Inventory[index].GetId() != resource.ID) return;
+
+		_Inventory[index].DeleteResource(resource);
+	}
+
+	public ResourceCellObject GetResourceData(int index) => _Inventory[index];
 }

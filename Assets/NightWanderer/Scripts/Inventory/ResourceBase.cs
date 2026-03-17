@@ -1,3 +1,4 @@
+using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,10 +6,14 @@ using UnityEngine;
 //Родительский класс всех ресурсов, который хранит их общую информацию
 public class ResourceBase
 {
+	[CreateProperty]
 	public Sprite View { get; set; }
+
+	[CreateProperty]
 	public string Name { get; set; }
 	public int ID { get; set; } = -1;
 	public int MaxCount { get; set; } = 0;
+	[CreateProperty]
 	public int CurrentCount { get; set; } = 0;
 
 	public ResourceBase() 

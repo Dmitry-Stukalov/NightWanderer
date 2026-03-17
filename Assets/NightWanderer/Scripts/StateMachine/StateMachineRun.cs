@@ -15,7 +15,6 @@ public class StateMachineRun : StateMachineMovement
 
 		if (StateManager.IsCleanerWorking)
 		{
-			StateManager.IsCleanerWorking = false;
 			VacuumCleaner();
 		}
 			//Debug.Log("Run");

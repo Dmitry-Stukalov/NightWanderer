@@ -1,52 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 
 //Отвечает за инвентарь игрока, добавление и удаление из него ресурсов
 public class PlayerInventoryBuilder : MonoBehaviour
 {
-	[SerializeField] private UIDocument UI;
+	[SerializeField] private UIDocument PlayerUI;
+	[SerializeField] private UIDocument BaseUI;
 	[SerializeField] private VisualTreeAsset InventoryCell;
-	[SerializeField] private GameObject InventoryBackground;
-	[SerializeField] private GameObject Inventory;
-	[SerializeField] private GameObject CellObject;
+	[SerializeField] private string InventoryElementName;
+	[SerializeField] private string InventoryElementName2;
 	[SerializeField] private int InventoryCellCount;
-	private VisualElement Cell;
+	private VisualElement Inventory;
 	private VisualElement Inventory2;
 	private Inventory _PlayerInventory;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
-	private List<CanvasGroup> ResourceCanvasGroups = new List<CanvasGroup>();
 	private bool IsProcessing = false;
 
 	public void Initializing()
 	{
-		Cell = UI.rootVisualElement.Q<VisualElement>("InventoryCell");
-		Inventory2 = UI.rootVisualElement.Q<VisualElement>("Inventory");
+		Inventory = PlayerUI.rootVisualElement.Q<VisualElement>(InventoryElementName);
+		Inventory2 = BaseUI.rootVisualElement.Q<VisualElement>(InventoryElementName2);
 
-		GameObject newResource;
+		_PlayerInventory = new Inventory(InventoryCellCount + 1);
 
-		_PlayerInventory = new Inventory(InventoryCellCount);
-
-		for (int i = 0; i < InventoryCellCount; i++)
+		for (int i = 0; i < InventoryCellCount + 1; i++)
 		{
 			var newCell = InventoryCell.Instantiate();
+			var newCell2 = InventoryCell.Instantiate();
 
-			newCell.userData = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
+			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
 
-			Inventory2.Add(newCell);
+			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
+			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2, true));
 
-			_PlayerInventory.InitializeArray((ResourceCellObject)newCell.userData, i);
+			Inventory.Add(newCell);
+			Inventory2.Add(newCell2);
 
-			//newResource = Instantiate(CellObject, Inventory.transform);
-			//ResourceCanvasGroups.Add(newResource.GetComponentInChildren<CanvasGroup>());
-			//newResource.GetComponentInChildren<ResourceCellObject>().Initializing();
-			//newResource.GetComponentInChildren<ResourceCellObject>()._PlayerInventory = this;
-			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryBackground = InventoryBackground;
-			//newResource.GetComponentInChildren<ResourceCellObject>().InventoryObject = Inventory;
-			//_PlayerInventory.InitializeArray(newResource.GetComponentInChildren<ResourceCellObject>(), i);
+			_PlayerInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").dataSource, i);
+
+			if (i == InventoryCellCount)
+			{
+				newCell.transform.position = new Vector2(0, 10000);
+				newCell2.transform.position = new Vector2(0, 10000);
+			}
 		}
 	}
 
@@ -70,11 +73,6 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		if (!IsProcessing) StartCoroutine(ProcessResourceQueue());
 	}
 
-	public void CanvasGroupBlock(bool flag)
-	{
-		foreach (var group in ResourceCanvasGroups) group.blocksRaycasts = flag;
-	}
-
 	private IEnumerator ProcessResourceQueue()
 	{
 		IsProcessing = true;
@@ -83,6 +81,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		{
 			_PlayerInventory.AddResource(ResourceQueue[0]);
 			ResourceQueue.RemoveAt(0);
+
 			yield return null;
 		}
 

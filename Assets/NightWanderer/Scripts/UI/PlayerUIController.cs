@@ -5,19 +5,18 @@ using UnityEngine.InputSystem;
 public class PlayerUIController : MonoBehaviour
 {
 	[SerializeField] private InventoryButton Inventory;
-	[SerializeField] private BaseUI Base;
-	[SerializeField] private BaseUIManager baseUI;
+	[SerializeField] private BaseUIManager _baseUI;
 
 	private void Start()
 	{
-		baseUI.Initializing();
+		_baseUI.Initializing();
 	}
 
-	public void OnBase() => baseUI.OpenBaseUI();//Base.OpenCloseBaseUI();
-	public void OutBase() => baseUI.CloseBaseUI();
+	public void OnBase() => _baseUI.OpenBaseUI();//Base.OpenCloseBaseUI();
+	public void OutBase() => _baseUI.CloseBaseUI();
 
 	private void Update()
 	{
-		if (Keyboard.current.tabKey.wasPressedThisFrame && !Base.IsOpen) Inventory.OpenCloseInventory();
+		if (Keyboard.current.tabKey.wasPressedThisFrame && !_baseUI.OnBase) Inventory.OpenCloseInventory();
 	}
 }

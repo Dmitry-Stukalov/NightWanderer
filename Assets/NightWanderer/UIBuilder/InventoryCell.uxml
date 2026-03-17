@@ -1,7 +1,22 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="Cell" class="Cell" style="flex-grow: 1; -unity-text-outline-color: rgb(255, 255, 255); width: 64px; height: 64px; position: relative; background-color: rgb(255, 255, 255); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; align-self: auto; top: auto; bottom: auto; left: auto; align-content: auto; align-items: auto; flex-wrap: nowrap; flex-direction: column;">
-        <ui:VisualElement name="CellResource" class="CellResource" style="flex-grow: 1; width: 70%; height: 70%; align-self: center; position: absolute; top: 15%; left: auto; right: auto; bottom: auto; background-color: rgb(255, 0, 0); flex-wrap: nowrap; flex-direction: column; align-content: auto;">
-            <ui:Label text="100&#10;" name="CellResourceCount" style="bottom: -25px; right: -40%; position: relative; width: 70%; height: 70%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; font-size: 10%; align-self: center; align-content: auto; align-items: auto; justify-content: flex-start;" />
+        <ui:VisualElement name="CellResource" data-source-type="ResourceCellData, Assembly-CSharp" usage-hints="DynamicTransform" class="CellResource" style="flex-grow: 1; width: 70%; height: 70%; align-self: center; position: absolute; top: 15%; left: auto; right: auto; bottom: auto; background-color: rgb(255, 0, 0); flex-wrap: nowrap; flex-direction: column; align-content: auto;">
+            <ui:Label text="0" name="CellResourceCount" usage-hints="DynamicTransform" style="bottom: -25px; right: -40%; position: relative; width: 70%; height: 70%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; font-size: 10%; align-self: center; align-content: auto; align-items: auto; justify-content: flex-start;">
+                <Bindings>
+                    <ui:DataBinding property="text" data-source-path="_resource.CurrentCount" data-source-type="ResourceCellObject, Assembly-CSharp" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:Label>
+            <ui:VisualElement name="CellResourceNameBackground" style="flex-grow: 0; flex-shrink: 0; width: 200%; height: 40%; align-self: center; top: -120%; background-color: rgba(57, 138, 153, 0.59); -unity-background-scale-mode: stretch-to-fill; display: none;">
+                <ui:Label text="Ресурс" name="CellResourceNameText" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 16%; -unity-text-align: middle-center; color: rgb(255, 255, 255);">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="_resource.Name" data-source-type="ResourceCellObject, Assembly-CSharp" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+            </ui:VisualElement>
+            <Bindings>
+                <ui:DataBinding property="style.backgroundImage" data-source-path="_resource.View" data-source-type="ResourceCellObject, Assembly-CSharp" binding-mode="ToTarget" />
+                <ui:DataBinding property="style.display" data-source-path="IsVisible" binding-mode="ToTarget" data-source-type="ResourceCellObject, Assembly-CSharp" />
+            </Bindings>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
