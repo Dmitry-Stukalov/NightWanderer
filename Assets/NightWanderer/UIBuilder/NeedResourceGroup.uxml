@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="NeedResource" style="flex-grow: 1; flex-direction: row;">
+        <ui:Label text="10&#10;" name="NeedResourceCount" style="color: rgb(255, 255, 255); font-size: 10%; -unity-text-align: middle-center;" />
+        <ui:VisualElement name="NeedResourceIcon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); background-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; align-self: auto; align-items: stretch; top: auto;" />
+    </ui:VisualElement>
+</ui:UXML>

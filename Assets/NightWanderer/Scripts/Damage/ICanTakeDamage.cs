@@ -4,7 +4,6 @@ using UnityEngine;
 //Реализует систему здоровья и получения урона
 public interface ICanTakeDamage
 {
-	//public Health PlayerHealth { get; set; }
 	public DefenseSystem Health { get; set; }
 	public float Damage {  get; set; }
 	public bool IsFireDamage { get; set; }

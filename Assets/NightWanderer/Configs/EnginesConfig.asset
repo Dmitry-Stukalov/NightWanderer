@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b92c7d99a8d614c96c71558e282824, type: 3}
+  m_Name: EnginesConfig
+  m_EditorClassIdentifier: 
+  <Levels>k__BackingField:
+  - <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04381"
+    <UpgradeDescription>k__BackingField: "\u0421\u043F\u0430\u0441\u0430\u0439 \u0436\u043E\u043F\u0443"
+    <Resource>k__BackingField: 00000000
+    <Count>k__BackingField: 00000000
+    <WalkSpeed>k__BackingField: 0.2
+    <RunSpeed>k__BackingField: 0.4
+    <WalkUpSpeed>k__BackingField: 0.1
+    <RunUpSpeed>k__BackingField: 0.3
+    <ConsumptionIdle>k__BackingField: 1
+    <ConsumptionWalk>k__BackingField: 2
+    <ConsumptionRun>k__BackingField: 3
+  - <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 1
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04381"
+    <UpgradeDescription>k__BackingField: "\u0421\u043F\u0430\u0441\u0430\u0439 \u0436\u043E\u043F\u0443"
+    <Resource>k__BackingField: 00000000
+    <Count>k__BackingField: 00000000
+    <WalkSpeed>k__BackingField: 1
+    <RunSpeed>k__BackingField: 2
+    <WalkUpSpeed>k__BackingField: 2
+    <RunUpSpeed>k__BackingField: 3
+    <ConsumptionIdle>k__BackingField: 0
+    <ConsumptionWalk>k__BackingField: 0
+    <ConsumptionRun>k__BackingField: 0
+  - <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04381"
+    <UpgradeDescription>k__BackingField: "\u0421\u043F\u0430\u0441\u0430\u0439 \u0436\u043E\u043F\u0443"
+    <Resource>k__BackingField: 00000000
+    <Count>k__BackingField: 00000000
+    <WalkSpeed>k__BackingField: 0
+    <RunSpeed>k__BackingField: 0
+    <WalkUpSpeed>k__BackingField: 0
+    <RunUpSpeed>k__BackingField: 0
+    <ConsumptionIdle>k__BackingField: 0
+    <ConsumptionWalk>k__BackingField: 0
+    <ConsumptionRun>k__BackingField: 0

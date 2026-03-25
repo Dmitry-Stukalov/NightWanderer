@@ -25,22 +25,13 @@ public class VacuumCleaner : MonoBehaviour
 		_cleanerOnPause.SetPause();
 	}
 
-	public void CleanerOn(/*GameObject cleaner, Vector3 halfVectorCleaner*/)
-	{
-		/*_cleaner = cleaner;
-		_halfVectorCleaner = halfVectorCleaner;*/
-
-		_cleanerOnPause.Continue();
-
-		Debug.Log("Пылесос включен");
-	}
+	public void CleanerOn() => _cleanerOnPause.Continue();
 
 	public void CleanerOff()
+
 	{
 		_cleanerOnPause.ResetTimer(true);
 		SandIsntCollection();
-
-		Debug.Log("Пылесос выключен");
 	}
 
 	private void SandCollection()
@@ -58,7 +49,7 @@ public class VacuumCleaner : MonoBehaviour
 						resource = _resourceLibrary.GetResource(1);
 						_sandCounts = 0;
 					}
-					else resource = _resourceLibrary.GetResource(2);
+					else resource = _resourceLibrary.GetResource(0);
 
 					resource.GetComponent<ResourceOnLand>().SetResourceCount(1);
 					resource.transform.position = new Vector3(Random.Range(_cleaner.transform.position.x - _halfVectorCleaner.x / 2, _cleaner.transform.position.x + _halfVectorCleaner.x / 2), _cleaner.transform.position.y - _halfVectorCleaner.y / 2, Random.Range(_cleaner.transform.position.z - _halfVectorCleaner.z / 2, _cleaner.transform.position.z + _halfVectorCleaner.z / 2));

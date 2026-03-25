@@ -414,12 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9f95bdbb051c7d499cdfe637f7140c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _crystals: []
   <ExtractionID>k__BackingField: 11
   Library: {fileID: 0}
   Resources:
   - {fileID: 1743453400618077403, guid: e98e3296e7c87224582b8038f5fc16dc, type: 3}
   SpawnResourceZone: {fileID: 1407436456887604827}
-  ResourceCount: 10
+  _resourceCount: 0
   MinResourceCapacity: 1
   MaxResourceCapacity: 5
 --- !u!65 &4745914254571330024

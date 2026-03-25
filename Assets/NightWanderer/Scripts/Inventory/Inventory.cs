@@ -73,5 +73,6 @@ public class Inventory
 		_Inventory[index].DeleteResource(resource);
 	}
 
+	public int GetCellCount() => InventoryCellCount - 1;
 	public ResourceCellObject GetResourceData(int index) => _Inventory[index];
 }

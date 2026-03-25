@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Добавить на любую базу
 public class Base : MonoBehaviour
 {
 	[SerializeField] private GameObject _dockingPlatform;
@@ -13,16 +14,9 @@ public class Base : MonoBehaviour
 		_animator.SetBool("IsDown", true);
 	}
 	
-	public void MoveUpDockingPlatform()
-	{
-		//Ship.transform.SetParent(null, true);
-		_animator.SetBool("IsDown", false);
-	}
+	public void MoveUpDockingPlatform() => _animator.SetBool("IsDown", false);
 
-	public void Undocking()
-	{
-		_ship.transform.SetParent(null, true);
-	}
+	public void Undocking() => _ship.transform.SetParent(null, true);
 
 	public void OpenCloseBaseUI() => _playerUI.OnBase();
 

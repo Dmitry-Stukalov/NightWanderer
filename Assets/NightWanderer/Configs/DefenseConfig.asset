@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: DefenseConfig
   m_EditorClassIdentifier: 
   <Levels>k__BackingField:
-  - <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u04421"
+  - <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u04421"
+    <UpgradeDescription>k__BackingField: "\u0425\u0417 \u0437\u0430\u0447\u0435\u043C"
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
     MaxHealth: 20
-  - <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u04421"
+  - <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u04421"
+    <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
     MaxHealth: 30

@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class ShipMovement : MonoBehaviour
 {
 	[SerializeField] private Searchlight _searchlight;
+	[SerializeField] private ImprovementManager _improvementManager;
+	[SerializeField] private InventoryButton _inventoryButton;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -32,12 +34,14 @@ public class ShipMovement : MonoBehaviour
 
 	[Header("Configs")]
 	[SerializeField] private ImprovementConfig _fuelConfig;
+	[SerializeField] private ImprovementConfig _enginesConfig;
 	[SerializeField] private ImprovementConfig _healthConfig;
 	[SerializeField] private ImprovementConfig _defenseConfig;
 	[SerializeField] private ImprovementConfig _fireDefenseConfig;
 
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
+	private JetEngines _engines;
 	private Timer _fuelConsumptionTimer;
 	private InputAction MoveAction;
 	private InputAction UpDownMoveAction;
@@ -56,9 +60,10 @@ public class ShipMovement : MonoBehaviour
 		_vacuumCleaner.Initializing(gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 		_searchlight.Initializing();
 
-		_defenseSystem = new DefenseSystem(new Health(_healthConfig), new Defense(_defenseConfig), new FireDefense(_fireDefenseConfig));
+		_defenseSystem = new DefenseSystem(/*new Health(_healthConfig), new Defense(_defenseConfig), new FireDefense(_fireDefenseConfig)*/new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
 		_fuel = new Fuel(_fuelConfig);
+		_engines = new JetEngines(_enginesConfig, _fuel);
 
 		_fuelConsumptionTimer = new Timer(1f);
 		_fuelConsumptionTimer.OnTimerEnd += FuelConsumption;
@@ -74,20 +79,22 @@ public class ShipMovement : MonoBehaviour
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, WalkingSpeed, UpDownSpeed, LookSpeed));
-		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, WalkingSpeed, UpDownSpeed, LookSpeed));
-		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, BoostedSpeed, UpDownBoostedSpeed, LookSpeed));
+		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction,LookSpeed));
+		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(3, new StateMachineVide(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
 		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject));
 		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager));
 
 		StateMachineManager.SetState(0);
+		StateMachineManager.Inventory = _inventoryButton;
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 	}
 
 	private void FuelConsumption()
 	{
-		_fuel.EnginesRunning(StateMachineManager.GetCurrentState());
+		_engines.EnginesRunning(StateMachineManager.GetCurrentState());
 		_fuelConsumptionTimer.ResetTimer(false);
 	}
 
@@ -98,6 +105,8 @@ public class ShipMovement : MonoBehaviour
 	}
 
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
+	public Fuel GetPlayerFuel () => _fuel;
+	public JetEngines GetPlayerEngines () => _engines;
 
 	private void HitSurface()
 	{
@@ -149,6 +158,18 @@ public class ShipMovement : MonoBehaviour
 		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlight.IsOn = !_searchlight.IsOn;
 
 		StateMachineManager.Update();
-		//_fuelConsumptionTimer.Tick(Time.fixedDeltaTime);
+
+		if (StateMachineManager.NextState != 3)
+		{
+			Ray ray = new Ray(transform.position, -transform.up);
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, 100f))
+			{
+				StateMachineManager.DistanceToGround = hit.distance;
+			}
+		}
+
+		//_fuelConsumptionTimer.Tick(Time.deltaTime);
 	}
 }

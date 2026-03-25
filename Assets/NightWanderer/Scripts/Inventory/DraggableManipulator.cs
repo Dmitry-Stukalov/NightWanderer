@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.UIElements;
 public class DraggableManipulator : PointerManipulator
 {
 	private VisualElement _startParent;
+	private VisualElement _elementUnderCursor;
+	private VisualElement _newElementUnderCursor;
+	private ResourceCellObject _cellResource;
 	private Vector3 _startPosition;
 	private bool IsEnabled;
 	private bool IsBase;
@@ -55,6 +59,28 @@ public class DraggableManipulator : PointerManipulator
 		Vector3 delta = evt.localPosition - _startPosition;
 
 		target.transform.position = new Vector3(target.transform.position.x + delta.x, target.transform.position.y + delta.y, 0);
+
+		target.pickingMode = PickingMode.Ignore;
+		_newElementUnderCursor = target.panel.Pick(evt.position);
+		target.pickingMode = PickingMode.Position;
+
+		if (_elementUnderCursor != null && _elementUnderCursor != _newElementUnderCursor)
+		{
+			_elementUnderCursor.style.borderBottomWidth = 1;
+			_elementUnderCursor.style.borderLeftWidth = 1;
+			_elementUnderCursor.style.borderRightWidth = 1;
+			_elementUnderCursor.style.borderTopWidth = 1;
+		}
+
+		if (_newElementUnderCursor != null && _newElementUnderCursor.style.borderTopWidth == 1 && (_newElementUnderCursor.ClassListContains("Cell") || _newElementUnderCursor.ClassListContains("FuelRecovery")))
+		{
+			_newElementUnderCursor.style.borderBottomWidth = 2;
+			_newElementUnderCursor.style.borderLeftWidth = 2;
+			_newElementUnderCursor.style.borderRightWidth = 2;
+			_newElementUnderCursor.style.borderTopWidth = 2;
+		}
+
+		_elementUnderCursor = _newElementUnderCursor;
 	}
 
 	private void OnPointerUp(PointerUpEvent evt)
@@ -64,15 +90,37 @@ public class DraggableManipulator : PointerManipulator
 		target.ReleasePointer(evt.pointerId);
 		IsEnabled = false;
 
+		_cellResource = (ResourceCellObject)target.dataSource;
+
 		target.pickingMode = PickingMode.Ignore;
-		VisualElement elementUnderCursor = target.panel.Pick(evt.position);
+		_elementUnderCursor = target.panel.Pick(evt.position);
 		target.pickingMode = PickingMode.Position;
 
-		if (elementUnderCursor != null && elementUnderCursor.ClassListContains("Cell") && elementUnderCursor.hierarchy.childCount != 0)
+		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0)
 		{
-			var cellResource = elementUnderCursor.hierarchy.Children().ElementAt(0);
-			var result = ((ResourceCellObject)cellResource.dataSource).AddResource(((ResourceCellObject)target.dataSource).GetResource());
-			if (result.CurrentCount == 0) ((ResourceCellObject)target.dataSource).ResetResource();
+			_elementUnderCursor.style.borderBottomWidth = 1;
+			_elementUnderCursor.style.borderLeftWidth = 1;
+			_elementUnderCursor.style.borderRightWidth = 1;
+			_elementUnderCursor.style.borderTopWidth = 1;
+
+			var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
+			var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
+			if (result.CurrentCount == 0) _cellResource.ResetResource();
+		}
+
+		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0)
+		{
+			_elementUnderCursor.style.borderBottomWidth = 1;
+			_elementUnderCursor.style.borderLeftWidth = 1;
+			_elementUnderCursor.style.borderRightWidth = 1;
+			_elementUnderCursor.style.borderTopWidth = 1;
+
+			int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
+
+			((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
+
+			if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+			else _cellResource.ResetResource();
 		}
 
 		_startParent.Add(target);

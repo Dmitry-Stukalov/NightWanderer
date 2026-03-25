@@ -7,6 +7,7 @@ public class BaseUIManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument baseUI;
 	[SerializeField] private BaseInventory _baseInventory;
+	[SerializeField] private CraftManager _craftManager;
 
 	private VisualElement mainBackground;
 
@@ -22,7 +23,7 @@ public class BaseUIManager : MonoBehaviour
 
 	public void Initializing()
 	{
-		_baseInventory.Initializing();
+		_craftManager.Initializing();
 
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
@@ -43,6 +44,7 @@ public class BaseUIManager : MonoBehaviour
 		mainBackground.style.display = DisplayStyle.None;
 	}
 
+	//Включает отображение UI на базе и выдвигает его вперед
 	public void OpenBaseUI()
 	{
 		baseUI.sortingOrder = 5;
@@ -55,6 +57,7 @@ public class BaseUIManager : MonoBehaviour
 		OnBase = true;
 	}
 
+	//Выключает отображение UI на базе и задвигает его назад
 	public void CloseBaseUI()
 	{
 		baseUI.sortingOrder = -5;
@@ -73,6 +76,7 @@ public class BaseUIManager : MonoBehaviour
 
 	private void UpgradesButtonClick(ClickEvent evt) => OpenCloseUI("upgrades");
 
+	//Переключает вкладки на базе в зависимости от нажатой кнопки
 	private void OpenCloseUI(string name)
 	{
 		switch(name)

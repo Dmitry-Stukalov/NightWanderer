@@ -18,16 +18,17 @@ public class StateMachineMovement : StateMachineState
 	protected readonly InputAction LookAction;
 	protected readonly VacuumCleaner Cleaner;
 	protected readonly Fuel ShipFuel;
-	protected readonly float Speed;
-	protected readonly float UpDownSpeed;
-	protected readonly float LookSpeed;
+	protected readonly JetEngines ShipEngines;
+	protected float Speed;
+	protected float UpDownSpeed;
+	protected float LookSpeed;
 	protected Timer ReverseMoveTimer;
+	protected Timer FuelConsumptionTimer;
 	protected Vector3 MoveDirection;
 	protected Vector3 ReverseDirection;
 	protected Vector3 ForwardVector;
 	protected Vector3 RightVector;
 	protected Vector3 UpVector;
-	//protected Vector3 HalfVectorVacuum;
 	protected Vector2 MouseAxis;
 	protected float SpeedX;
 	protected float SpeedY;
@@ -37,29 +38,36 @@ public class StateMachineMovement : StateMachineState
 	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float speed, float upDownSpeed, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		ShipObject = shipObject;
 		Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
 		Cleaner = vacuumCleaner;
+
 		ShipFuel = shipFuel;
+
+		ShipEngines = shipEngines;
+		ShipEngines.OnUpgrade += EnginesUpgrade;
+
 		MoveAction = moveAction;
 		UpDownMoveAction = upDownMoveAction;
 		LookAction = lookAction;
-		Speed = speed;
-		UpDownSpeed = upDownSpeed;
 		LookSpeed = lookSpeed;
+
+		EnginesUpgrade();
 
 		ReverseMoveTimer = new Timer(0.5f);
 		ReverseMoveTimer.OnTimerEnd += ReverseMoveEnd;
 		ReverseMoveTimer.SetPause();
+
+		FuelConsumptionTimer = new Timer(3f);
+		FuelConsumptionTimer.OnTimerEnd += FuelConsumption;
 	}
 
 	public override void Enter()
 	{
-		//HalfVectorVacuum = new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2);
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
 	}
@@ -72,8 +80,6 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		//if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
-
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
@@ -97,6 +103,10 @@ public class StateMachineMovement : StateMachineState
 		}
 
 		ReverseMoveTimer.Tick(Time.deltaTime);
+		//FuelConsumptionTimer.Tick(Time.deltaTime);
+
+		if (ID == 1 || ID == 2) Move();
+		if (!StateManager.Inventory.IsOpen) Look();
 	}
 
 	protected virtual void Move()
@@ -181,9 +191,37 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
-		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn(/*VacuumCleanerObject.gameObject, HalfVectorVacuum*/);
+		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn();
 		else Cleaner.CleanerOff();
 
 		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;
+	}
+
+	protected void EnginesUpgrade()
+	{
+
+		if (ID == 0)
+		{
+			Speed = 0;
+			UpDownSpeed = 0;
+		}
+
+		if (ID == 1)
+		{
+			Speed = ShipEngines.GetWalkSpeed();
+			UpDownSpeed = ShipEngines.GetWalkSpeedUp();
+		}
+
+		if (ID == 2)
+		{
+			Speed = ShipEngines.GetRunSpeed();
+			UpDownSpeed = ShipEngines.GetRunSpeedUp();
+		}
+	}
+
+	protected void FuelConsumption()
+	{
+		ShipEngines.EnginesRunning(ID);
+		FuelConsumptionTimer.ResetTimer(false);
 	}
 }

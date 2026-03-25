@@ -2,26 +2,34 @@ using UnityEngine;
 
 public class DefenseSystem
 {
-	private Health _health;
-	private Defense _defense;
-	private FireDefense _fireDefense;
+	//private Health _health;
+	//private Defense _defense;
+	//private FireDefense _fireDefense;
 
-	public DefenseSystem(Health health, Defense defense, FireDefense fireDefense)
+	private HealthFireDefense _health;
+	private HealthFireDefense _defense;
+	private HealthFireDefense _fireDefense;
+
+	public DefenseSystem(/*Health health, Defense defense, FireDefense fireDefense, */HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense, ImprovementManager manager)
 	{
 		_health = health;
 		_defense = defense;
 		_fireDefense = fireDefense;
+
+		manager.AddImprovement(_health, "Health");
+		manager.AddImprovement(_defense, "Defense");
+		manager.AddImprovement(_fireDefense, "FireDefense");
 	}
 
 	public void GetDamage(float damage)
 	{
-		if (_defense.GetCurrentDefense() <= damage)
+		if (/*_defense.GetCurrentDefense()*/_defense.GetCurrentHealth() <= damage)
 		{
-			if (_defense.GetCurrentDefense() > 0)
+			if (_defense./*GetCurrentDefense()*/GetCurrentHealth() > 0)
 			{
-				damage -= _defense.GetCurrentDefense();
+				damage -= _defense./*GetCurrentDefense()*/GetCurrentHealth();
 
-				_defense.GetDamage(_defense.GetCurrentDefense());
+				_defense.GetDamage(_defense./*GetCurrentDefense()*/GetCurrentHealth());
 
 				Debug.Log("Противоударная защита уничтожена");
 			}
@@ -37,13 +45,13 @@ public class DefenseSystem
 	//Вычисление получения урона с учетом термальной защиты (1 защита = -1 урон)
 	public void GetFireDamage(float fireDamage)
 	{
-		if (_fireDefense.GetCurrentFireDefense() <= fireDamage)
+		if (_fireDefense./*GetCurrentFireDefense()*/GetCurrentHealth() <= fireDamage)
 		{
-			if (_fireDefense.GetCurrentFireDefense() > 0)
+			if (_fireDefense./*GetCurrentFireDefense()*/GetCurrentHealth() > 0)
 			{
-				fireDamage -= _fireDefense.GetCurrentFireDefense();
+				fireDamage -= _fireDefense./*GetCurrentFireDefense()*/GetCurrentHealth();
 
-				_fireDefense.GetFireDamage(_fireDefense.GetCurrentFireDefense());
+				_fireDefense./*GetFireDamage*/GetDamage(_fireDefense./*GetCurrentFireDefense()*/GetCurrentHealth());
 
 				Debug.Log("Термическая защита уничтожена");
 			}
@@ -52,9 +60,16 @@ public class DefenseSystem
 		}
 		else
 		{
-			_fireDefense.GetFireDamage(fireDamage);
+			_fireDefense./*GetFireDamage*/GetDamage(fireDamage);
 		}
 
 		//Debug.Log(CurrentHealth);
 	}
+
+	public HealthFireDefense GetHealth() => _health;
+	public HealthFireDefense GetDefense() => _defense;
+	public HealthFireDefense GetFireDefense() => _fireDefense;
+	//public Health GetHealth() => _health;
+	//public Defense GetDefense() => _defense;
+	//public FireDefense GetFireDefense() => _fireDefense;
 }

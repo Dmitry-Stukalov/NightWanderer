@@ -11,20 +11,15 @@ using static UnityEngine.Rendering.DebugUI.MessageBox;
 public class InventoryButton : MonoBehaviour
 {
 	[SerializeField] private UIDocument UI;
-	[SerializeField] private List<GameObject> UIToClose;
-	[SerializeField] private List<GameObject> UIToOpen;
 	private VisualElement UIToClose2;
 	private VisualElement UIToOpen2;
-	private List<VisualElement> Cells;
 
-	private bool IsOpen = false;
+	public bool IsOpen { get; private set; } = false;
 
 	public void Initializing()
 	{
 		UIToClose2 = UI.rootVisualElement.Q<VisualElement>("WeatherPanel");
 		UIToOpen2 = UI.rootVisualElement.Q<VisualElement>("InventoryPanel");
-
-		Cells = UI.rootVisualElement.Query<VisualElement>("CellResource").ToList();
 
 		UIToOpen2.style.display = DisplayStyle.None;
 		UIToClose2.style.display = DisplayStyle.Flex;
@@ -34,16 +29,16 @@ public class InventoryButton : MonoBehaviour
 	{
 		if (!IsOpen)
 		{
-			UIToClose2.style.display = DisplayStyle.None;
-			UIToOpen2.style.display = DisplayStyle.Flex;
+			CloseWeatherPanel();
+			OpenInventoryPanel();
 
 			UnityEngine.Cursor.lockState = CursorLockMode.None;
 			UnityEngine.Cursor.visible = true;
 		}
 		else
 		{
-			UIToClose2.style.display = DisplayStyle.Flex;
-			UIToOpen2.style.display = DisplayStyle.None;
+			OpenWeatherPanel();
+			CloseInventoryPanel();
 
 			UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 			UnityEngine.Cursor.visible = false;
@@ -51,4 +46,9 @@ public class InventoryButton : MonoBehaviour
 
 		IsOpen = !IsOpen;
 	}
+
+	public void CloseWeatherPanel() => UIToClose2.style.display = DisplayStyle.None;
+	public void OpenWeatherPanel() => UIToClose2.style.display = DisplayStyle.Flex;
+	public void CloseInventoryPanel() => UIToOpen2.style.display = DisplayStyle.None;
+	public void OpenInventoryPanel() => UIToOpen2.style.display = DisplayStyle.Flex;
 }

@@ -15,7 +15,6 @@ public class BaseInventory : MonoBehaviour
 	public void Initializing()
 	{
 		Inventory = BaseUI.rootVisualElement.Q<VisualElement>(InventoryElementName);
-		//Inventory2 = BaseUI.rootVisualElement.Q<VisualElement>(InventoryElementName2);
 
 		_baseInventory = new Inventory(InventoryCellCount + 1);
 
@@ -25,15 +24,15 @@ public class BaseInventory : MonoBehaviour
 
 			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
-			newCell.RegisterCallback<PointerEnterEvent>(evt => newCell.Q<VisualElement>("CellResourceNameBackground").style.display = DisplayStyle.Flex);
-			newCell.RegisterCallback<PointerLeaveEvent>(evt => newCell.Q<VisualElement>("CellResourceNameBackground").style.display = DisplayStyle.None);
 
 			Inventory.Add(newCell);
 
-			_baseInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").userData, i);
+			_baseInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").dataSource, i);
 
 			if (i == InventoryCellCount) newCell.transform.position = new Vector2(0, 10000);
 		}
 	}
+
+	public Inventory GetBaseInventory() => _baseInventory;
 
 }

@@ -1,12 +1,4 @@
 using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEditor;
-using TMPro;
 using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.Properties;

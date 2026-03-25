@@ -1,23 +1,27 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Defense : IImprovementBase
 {
+	public string Name { get; set; }
+	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 
 	private ImprovementHealthConfig _config;
 
 	private float _minDefense;
-	private float _maxDefense;
 	private float _currentDefense;
+
+	public event Action OnDefenseChange;
 
 
 	public Defense(ImprovementConfig config)
 	{
+		Config = config;
 		_config = (ImprovementHealthConfig)config;
 		CurrentLevel = 0;
-
-		_maxDefense = _config.Levels[CurrentLevel].MaxHealth;
 
 		_currentDefense = _config.Levels[CurrentLevel].MaxHealth;
 	}
@@ -34,15 +38,15 @@ public class Defense : IImprovementBase
 	{
 		_currentDefense += restoreValue;
 
-		if (_currentDefense > _maxDefense) _currentDefense = _maxDefense;
+		if (_currentDefense > _config.Levels[CurrentLevel].MaxHealth) _currentDefense = _config.Levels[CurrentLevel].MaxHealth;
 	}
 
 	public float GetCurrentDefense() => _currentDefense;
+	public float GetMaxDefense() => _config.Levels[CurrentLevel].MaxHealth;
+	public float NeedToRecover() => _config.Levels[CurrentLevel].MaxHealth - _currentDefense;
 
-	public void Upgrade()
+	public Dictionary<int, int> GetNeedResources()
 	{
-		CurrentLevel++;
-
-		_maxDefense = _config.Levels[CurrentLevel].MaxHealth;
+		return null;
 	}
 }

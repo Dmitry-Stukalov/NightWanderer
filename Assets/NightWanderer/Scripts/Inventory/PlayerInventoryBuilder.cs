@@ -87,4 +87,6 @@ public class PlayerInventoryBuilder : MonoBehaviour
 
 		IsProcessing = false;
 	}
+
+	public Inventory GetPlayerInventory() => _PlayerInventory;
 }
