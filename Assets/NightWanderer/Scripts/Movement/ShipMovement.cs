@@ -10,6 +10,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private Searchlight _searchlight;
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private InventoryButton _inventoryButton;
+	[SerializeField] private ResourceLibrary _resourceLibrary;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -57,18 +58,13 @@ public class ShipMovement : MonoBehaviour
 
 	public void Initializing()
 	{
-		_vacuumCleaner.Initializing(gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
+		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 		_searchlight.Initializing();
 
-		_defenseSystem = new DefenseSystem(/*new Health(_healthConfig), new Defense(_defenseConfig), new FireDefense(_fireDefenseConfig)*/new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
+		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
 		_fuel = new Fuel(_fuelConfig);
 		_engines = new JetEngines(_enginesConfig, _fuel);
-
-		_fuelConsumptionTimer = new Timer(1f);
-		_fuelConsumptionTimer.OnTimerEnd += FuelConsumption;
-
-		_fuel.OnFuelEmpty += FuelEmpty;
 
 		MoveAction = InputSystem.actions.FindAction("Move");
 		UpDownMoveAction = InputSystem.actions.FindAction("UpDownMove");
@@ -92,26 +88,11 @@ public class ShipMovement : MonoBehaviour
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 	}
 
-	private void FuelConsumption()
-	{
-		_engines.EnginesRunning(StateMachineManager.GetCurrentState());
-		_fuelConsumptionTimer.ResetTimer(false);
-	}
-
-
-	private void FuelEmpty()
-	{
-		Debug.Log("“опливо закончилось");
-	}
-
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
 	public Fuel GetPlayerFuel () => _fuel;
 	public JetEngines GetPlayerEngines () => _engines;
 
-	private void HitSurface()
-	{
-		StateMachineManager.HitSurface();
-	}
+	private void HitSurface() => StateMachineManager.HitSurface();
 
 	//ѕри входе в область источника ресурса передает его местоположение в машину состо€ний
 	private void OnTriggerEnter(Collider other)
@@ -169,7 +150,5 @@ public class ShipMovement : MonoBehaviour
 				StateMachineManager.DistanceToGround = hit.distance;
 			}
 		}
-
-		//_fuelConsumptionTimer.Tick(Time.deltaTime);
 	}
 }

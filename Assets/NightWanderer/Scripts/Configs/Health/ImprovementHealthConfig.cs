@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = nameof(ImprovementHealthConfig), menuName = nameof(ImprovementHealthConfig))]
-public class ImprovementHealthConfig : ImprovementConfig
+public class ImprovementHealthConfig : ImprovementConfig, IImprovementConfig<ImprovementHealthData>
 {
-	[field: SerializeField] public List<ImprovementHealthData> Levels { get; set; }
+	[SerializeField] private List<ImprovementHealthData> levels;
+	public List<ImprovementHealthData> Levels => levels;
 }

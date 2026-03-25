@@ -50,7 +50,7 @@ public class ImprovementManager : MonoBehaviour
 				case "Fuel":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new ImprovementPanelFuel(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new /*ImprovementPanelFuel*/ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 				break;
@@ -58,7 +58,7 @@ public class ImprovementManager : MonoBehaviour
 				case "Health" or "Defense" or "FireDefense":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new ImprovementPanelHealth(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new /*ImprovementPanelHealth*/ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 				break;
@@ -66,28 +66,21 @@ public class ImprovementManager : MonoBehaviour
 				case "Engines":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new ImprovementPanelEngines(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new /*ImprovementPanelEngines*/ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 					break;
 			}
 		}
-
-		//for (int i = 0; i < 10; i++)
-		//{
-		//	var newItem = _upgradePanel.Instantiate();
-		//	newItem.dataSource = new ImprovementPanelFuel(this, newItem, _improvements["Fuel"].Config, "Fuel");
-		//	_upgradesBackground.Add(newItem);
-		//}
 	}
 
-	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;//_improvements.Add(improvement);
+	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;
 
-	public bool TryUpgrade(/*IImprovementBase improvement, */string name)
+	public bool TryUpgrade(string name)
 	{
-		if (CheckResources(/*improvement*/_improvements[name]))
+		if (CheckResources(_improvements[name]))
 		{
-			SubtractResources(/*improvement*/_improvements[name], name);
+			SubtractResources(_improvements[name], name);
 			return true;
 		}
 		else return false;
@@ -195,31 +188,5 @@ public class ImprovementManager : MonoBehaviour
 		}
 	}
 
-	public void Upgrade(string improvementName)
-	{
-		/*switch (improvementName)
-		{
-			case "Health":
-				((IImprovementBase)_improvements[improvementName]).Upgrade();
-				break;
-
-			case "Defense":
-				((IImprovementBase)_improvements[improvementName]).Upgrade();
-				break;
-
-			case "FireDefense":
-				((IImprovementBase)_improvements[improvementName]).Upgrade();
-				break;
-
-			case "Fuel":
-				((IImprovementBase)_improvements[improvementName]).Upgrade();
-				break;
-
-			case "Engines":
-				((IImprovementBase)_improvements[improvementName]).Upgrade();
-				break;
-		}*/
-
-		_improvements[improvementName].Upgrade();
-	}
+	public void Upgrade(string improvementName) => _improvements[improvementName].Upgrade();
 }

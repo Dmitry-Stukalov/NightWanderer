@@ -4,10 +4,9 @@ using UnityEngine.UIElements;
 public class StatusTextLabel
 {
 	private Label _text;
-	//private Health _health;
 	private HealthFireDefense _health;
 
-	public StatusTextLabel(Label text, /*Health health*/HealthFireDefense health)
+	public StatusTextLabel(Label text, HealthFireDefense health)
 	{
 		_text = text;
 		_health = health;

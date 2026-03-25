@@ -2,6 +2,8 @@ using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+//Устаревшее
 public class ImprovementPanelFuel : ImprovementPanelBase
 {
 	private ImprovementFuelConfig _fuelConfig;

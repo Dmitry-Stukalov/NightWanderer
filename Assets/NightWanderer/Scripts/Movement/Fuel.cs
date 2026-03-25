@@ -74,13 +74,6 @@ public class Fuel : IImprovementBase
 		return _needResources;
 	}
 
-	public void Upgrade()
-	{
-		CurrentLevel++;
-
-		Debug.Log("Топливо улучшилось");
-	}
-
 	public float GetCurrentFuel() => _currentFuel;
 	public float GetMaxFuel() => _config.Levels[CurrentLevel].MaxFuel;
 }

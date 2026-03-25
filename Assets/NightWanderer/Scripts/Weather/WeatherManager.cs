@@ -86,10 +86,9 @@ public class WeatherManager : MonoBehaviour
 		return _activeWeatherName;
 	}
 
-
 	private void Update()
 	{
-		RandomWeatherPauseTimer.Tick(Time.deltaTime);
-		if (RandomWeatherTimer != null) RandomWeatherTimer.Tick(Time.deltaTime);
+		RandomWeatherPauseTimer?.Tick(Time.deltaTime);
+		RandomWeatherTimer?.Tick(Time.deltaTime);
 	}
 }

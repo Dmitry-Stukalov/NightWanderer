@@ -26,8 +26,6 @@ public class StateMachineVide : StateMachineMovement
 
 		if (!ShipFuel.IsFuelEmpty && Keyboard.current.rKey.wasPressedThisFrame) StateManager.SetState(0);
 
-		if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();
-
-		//Look();
+		if (Keyboard.current.spaceKey.wasPressedThisFrame) VacuumCleaner();;
 	}
 }

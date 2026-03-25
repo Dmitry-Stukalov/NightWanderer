@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+//Устаревшее
 public class ImprovementPanelEngines : ImprovementPanelBase
 {
 	private ImprovementEnginesConfig _fuelConfig;

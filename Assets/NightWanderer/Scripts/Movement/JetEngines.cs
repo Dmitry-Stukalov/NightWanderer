@@ -59,7 +59,6 @@ public class JetEngines : IImprovementBase
 	{
 		CurrentLevel++;
 
-		Debug.Log("Двигатели улучшились");
 		OnUpgrade?.Invoke();
 	}
 

@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = nameof(ImprovementEnginesConfig), menuName = nameof(ImprovementEnginesConfig))]
-public class ImprovementEnginesConfig : ImprovementConfig
+public class ImprovementEnginesConfig : ImprovementConfig, IImprovementConfig<ImprovementEnginesData>
 {
-	[field: SerializeField] public List<ImprovementEnginesData> Levels { get; set; }
+	[SerializeField] private List<ImprovementEnginesData> levels;
+	public List<ImprovementEnginesData> Levels => levels;
 }

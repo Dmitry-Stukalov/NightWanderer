@@ -38,8 +38,5 @@ public class StateMachineWalk : StateMachineMovement
 
 			StateManager.SetState(10);
 		}
-
-		//Move();
-		//Look();
 	}
 }

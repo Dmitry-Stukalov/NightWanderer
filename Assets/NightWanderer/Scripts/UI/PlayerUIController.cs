@@ -9,26 +9,26 @@ public class PlayerUIController : MonoBehaviour
 	[SerializeField] private InventoryButton Inventory;
 	[SerializeField] private BaseUIManager _baseUI;
 
-	public void Initializing(Fuel fuel, /*Health health, Defense defense, FireDefense fireDefense*/HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
+	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
 		var fuelItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FuelBackground");
 		fuelItemBackground.dataSource = new FuelRecovery(fuel, PlayerUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
 
 		var healthItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("HealthBackground");
-		healthItemBackground.dataSource = new /*HealthRecovery*/HealthFireDefenseRecovery(health, PlayerUI.rootVisualElement.Q<VisualElement>("HealthForeground"));
+		healthItemBackground.dataSource = new HealthFireDefenseRecovery(health, PlayerUI.rootVisualElement.Q<VisualElement>("HealthForeground"));
 
 		var defenseItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("DefenseBackground");
-		defenseItemBackground.dataSource = new /*DefenseRecovery*/HealthFireDefenseRecovery(defense, PlayerUI.rootVisualElement.Q<VisualElement>("DefenseForeground"));
+		defenseItemBackground.dataSource = new HealthFireDefenseRecovery(defense, PlayerUI.rootVisualElement.Q<VisualElement>("DefenseForeground"));
 
 		var fireDefenseItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
-		fireDefenseItemBackground.dataSource = new /*FireDefenseRecovery*/HealthFireDefenseRecovery(fireDefense, PlayerUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
+		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, PlayerUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
 
 		_baseUI.Initializing();
 	}
 
 	public void OnBase()
 	{
-		_baseUI.OpenBaseUI();//Base.OpenCloseBaseUI();
+		_baseUI.OpenBaseUI();
 		Inventory.CloseWeatherPanel();
 		Inventory.CloseInventoryPanel();
 	}

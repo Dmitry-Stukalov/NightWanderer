@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Очень простой класс, надо доделать
 public class Searchlight : MonoBehaviour
 {
 	[SerializeField] private Sun _sun;

@@ -11,7 +11,7 @@ public class WeatherPanel : MonoBehaviour
 	private List<Label> _dayTexts = new List<Label>();
 	private List<Label> _timeTexts = new List<Label>();
 
-	public void Initializing(/*Health health*/HealthFireDefense health, WeatherManager weather, Sun sun)
+	public void Initializing(HealthFireDefense health, WeatherManager weather, Sun sun)
 	{
 		_statusTexts.Add(PlayerUI.rootVisualElement.Q<Label>("StatusText"));
 		_statusTexts.Add(BaseUI.rootVisualElement.Q<Label>("StatusText"));

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+//Устаревшее
 public class ImprovementPanelHealth : ImprovementPanelBase
 {
 	private ImprovementHealthConfig _healthConfig;

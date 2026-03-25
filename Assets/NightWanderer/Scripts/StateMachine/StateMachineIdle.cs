@@ -36,7 +36,5 @@ public class StateMachineIdle : StateMachineMovement
 
 			StateManager.SetState(10);
 		}
-
-		//Look();
 	}
 }

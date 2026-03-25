@@ -12,37 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd889ae9d0d3bc4082469ccfef1dfbc, type: 3}
   m_Name: FuelConfig
   m_EditorClassIdentifier: 
-  <Levels>k__BackingField:
-  - <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+  levels:
+  - <MinFuel>k__BackingField: 0
+    <MaxFuel>k__BackingField: 10
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
       type: 3}
     <CurrentLevel>k__BackingField: 1
-    <Name>k__BackingField: "\u0411\u0430\u043A\u04381"
-    <UpgradeDescription>k__BackingField: 10 -> 20
+    <Name>k__BackingField: "\u041A\u0430\u043A\u0430\u0448\u043A\u0438\u0438\u0438\u0438\u0438\u0438\u0438\u0438\u0438"
+    <UpgradeDescription>k__BackingField: "\u0443\u0440\u0430 \u043A\u0430\u043A\u0430\u0448\u043A\u0438"
     <Resource>k__BackingField: 00000000
-    <Count>k__BackingField: 50000000
-    <MinFuel>k__BackingField: 0
-    <MaxFuel>k__BackingField: 10
-  - <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 2
-    <Name>k__BackingField: "\u0411\u0430\u043A\u04382"
-    <UpgradeDescription>k__BackingField: 20 -> 30
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
-    <MinFuel>k__BackingField: 0
+    <Count>k__BackingField: 14000000
+  - <MinFuel>k__BackingField: 0
     <MaxFuel>k__BackingField: 20
-  - <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 3
-    <Name>k__BackingField: "\u0411\u0430\u043A\u04382"
-    <UpgradeDescription>k__BackingField: 30 -> 40
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: "\u041C\u043D\u043E\u0433\u0430 \u043A\u0430\u043A\u0430\u0448\u0438\u043A"
+    <UpgradeDescription>k__BackingField: "\u043D\u0435 \u043B\u044E\u0431\u043B\u044E
+      \u043A\u0430\u043A\u0430\u0448\u043A\u0438("
     <Resource>k__BackingField: 00000000
     <Count>k__BackingField: 00000000
-    <MinFuel>k__BackingField: 0
-    <MaxFuel>k__BackingField: 30
-  - <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 2
-    <Name>k__BackingField: "\u0411\u0430\u043A\u04382"
-    <UpgradeDescription>k__BackingField: 
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
-    <MinFuel>k__BackingField: 0
-    <MaxFuel>k__BackingField: 40

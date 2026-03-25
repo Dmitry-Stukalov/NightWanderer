@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Общий класс для здоровья, защиты и термической защиты
 public class HealthFireDefense : IImprovementBase
 {
 	public string Name { get; set; }
