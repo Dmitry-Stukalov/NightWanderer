@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
-	[SerializeField] private Searchlight _searchlight;
+	[SerializeField] private Searchlight[] _searchlights;
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
@@ -59,7 +59,8 @@ public class ShipMovement : MonoBehaviour
 	public void Initializing()
 	{
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
-		_searchlight.Initializing();
+		
+		for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].Initializing();
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
@@ -136,7 +137,8 @@ public class ShipMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlight.IsOn = !_searchlight.IsOn;
+		if (Keyboard.current.tKey.wasPressedThisFrame) 
+			for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].IsOn = !_searchlights[i].IsOn;
 
 		StateMachineManager.Update();
 

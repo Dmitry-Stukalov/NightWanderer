@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: FireDefenseConfig
   m_EditorClassIdentifier: 
   levels:
-  - MaxHealth: 0
+  - MaxHealth: 20
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - MaxHealth: 0
+  - MaxHealth: 30
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
     <Name>k__BackingField: 

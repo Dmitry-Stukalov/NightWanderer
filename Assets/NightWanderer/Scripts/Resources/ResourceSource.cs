@@ -13,7 +13,12 @@ public class ResourceSource : MonoBehaviour
 	[SerializeField] private int _resourceCount;
 	[SerializeField] private int MinResourceCapacity;
 	[SerializeField] private int MaxResourceCapacity;
+	[SerializeField] private Material _dayMaterial;
+	[SerializeField] private Material _nightMaterial;
+	[SerializeField] private bool ISRemoveFirst;
 	private List<GameObject> _crystals = new List<GameObject>();
+	private List<MeshRenderer> _oreMaterial = new List<MeshRenderer>();
+	private Sun _sun;
 	private int _currentResourceCount;
 	private float _countInCrystals;
 
@@ -21,8 +26,29 @@ public class ResourceSource : MonoBehaviour
 	{
 		foreach (Transform crystal in transform) _crystals.Add(crystal.gameObject);
 
+		_crystals.RemoveAt(_crystals.Count - 1);
+
+		if (ISRemoveFirst) _crystals.RemoveAt(0);
+
 		_currentResourceCount = _resourceCount;
 		_countInCrystals = _crystals.Count / _resourceCount;
+
+		foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>()) _oreMaterial.Add(renderer);
+
+		_oreMaterial.RemoveAt(_oreMaterial.Count - 1);
+
+		if (ISRemoveFirst) _oreMaterial.RemoveAt(0);
+
+		_sun = FindAnyObjectByType<Sun>();
+		_sun.OnDayStart += () =>
+		{
+			for (int i = 0; i < _oreMaterial.Count; i++) _oreMaterial[i].material = _dayMaterial;
+		};
+
+		_sun.OnNightStart += () =>
+		{
+			for (int i = 0; i < _oreMaterial.Count; i++) _oreMaterial[i].material = _nightMaterial;
+		};
 	}
 
 	public void ResourceExtracted()

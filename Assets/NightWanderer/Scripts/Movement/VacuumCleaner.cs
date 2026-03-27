@@ -44,11 +44,11 @@ public class VacuumCleaner : MonoBehaviour
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					if (_sandCounts % 10 == 0 && _sandCounts != 100)
+					if (_sandCounts % 10 == 0 && _sandCounts != 100 && _sandCounts != 0)
 					{
 						resource = _resourceLibrary.GetResource(1);
 					}
-					else if (_sandCounts == 10)
+					else if (_sandCounts == 100)
 					{
 						resource = _resourceLibrary.GetResource(2);
 						_sandCounts = 0;

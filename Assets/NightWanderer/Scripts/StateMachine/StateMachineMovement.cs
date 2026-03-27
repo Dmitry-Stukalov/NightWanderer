@@ -133,6 +133,18 @@ public class StateMachineMovement : StateMachineState
 		else SpeedZ = 0;
 		if (StateManager._Animator != null)
 		{
+			if (ID != 2)
+			{
+				StateManager._Animator.SetFloat("SpeedX", Mathf.Clamp(Mathf.Lerp(StateManager._Animator.GetFloat("SpeedX"), MoveAction.ReadValue<Vector2>().y, 7 * Time.deltaTime), -0.5f, 0.5f));
+				StateManager._Animator.SetFloat("SpeedY", Mathf.Clamp(Mathf.Lerp(StateManager._Animator.GetFloat("SpeedY"), MoveAction.ReadValue<Vector2>().x, 7 * Time.deltaTime), -0.5f, 0.5f));
+			}
+			else
+			{
+				StateManager._Animator.SetFloat("SpeedX", Mathf.Clamp(Mathf.Lerp(StateManager._Animator.GetFloat("SpeedX"), MoveAction.ReadValue<Vector2>().y, 7 * Time.deltaTime), -1f, 1f));
+				StateManager._Animator.SetFloat("SpeedY", Mathf.Clamp(Mathf.Lerp(StateManager._Animator.GetFloat("SpeedY"), MoveAction.ReadValue<Vector2>().x, 7 * Time.deltaTime), -1f, 1f));
+			}
+
+
 			StateManager._Animator.SetFloat("SpeedX", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedX"), MoveAction.ReadValue<Vector2>().y, 7 * Time.deltaTime));
 			StateManager._Animator.SetFloat("SpeedY", Mathf.Lerp(StateManager._Animator.GetFloat("SpeedY"), MoveAction.ReadValue<Vector2>().x, 7 * Time.deltaTime));
 
