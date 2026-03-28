@@ -15,6 +15,7 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private PlayerUIController _playerUIController;
+	[SerializeField] private SearchlightManager _searchlightManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -24,12 +25,13 @@ public class Bootstrap : MonoBehaviour
 	{
 		_shipMovement?.Initializing();
 		_playerUIController?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
-		_sun?.Initializing();
+		_searchlightManager.Initializing();
 		_resourceLibrary?.Initializing();
 		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();
 		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
 		_inventoryButton?.Initializing();
+		_sun?.Initializing();
 		_weatherManager?.Initializing();
 		_weatherPanel?.Initializing(_shipMovement.GetPlayerDefenseSystem().GetHealth(), _weatherManager, _sun);
 

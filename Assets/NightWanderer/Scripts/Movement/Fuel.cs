@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
-using UnityEngine;
-
 public class Fuel : IImprovementBase
 {
 	public string Name { get; set; }

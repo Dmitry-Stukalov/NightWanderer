@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
-using UnityEngine;
-
 public interface IImprovementBase
 {
 	public string Name { get; set; }

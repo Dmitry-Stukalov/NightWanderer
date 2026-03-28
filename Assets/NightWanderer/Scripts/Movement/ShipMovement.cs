@@ -1,5 +1,3 @@
-
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,10 +5,11 @@ using UnityEngine.InputSystem;
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
-	[SerializeField] private Searchlight[] _searchlights;
+	//[SerializeField] private Searchlight[] _searchlights;
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
+	[SerializeField] private SearchlightManager _searchlightManager;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -60,7 +59,7 @@ public class ShipMovement : MonoBehaviour
 	{
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 		
-		for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].Initializing();
+		//for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].Initializing();
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
@@ -137,10 +136,13 @@ public class ShipMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (Keyboard.current.tKey.wasPressedThisFrame) 
-			for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].IsOn = !_searchlights[i].IsOn;
+		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
+			//for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].IsOn = !_searchlights[i].IsOn;
 
 		StateMachineManager.Update();
+
+		if (StateMachineManager.GetCurrentState() == 1 || StateMachineManager.GetCurrentState() == 2) _searchlightManager.StartMove();
+		if (StateMachineManager.GetCurrentState() == 0 || StateMachineManager.GetCurrentState() == 3) _searchlightManager.StartSearch();
 
 		if (StateMachineManager.NextState != 3)
 		{
