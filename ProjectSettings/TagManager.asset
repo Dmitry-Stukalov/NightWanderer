@@ -10,6 +10,7 @@ TagManager:
   - InventoryCell
   - Base
   - Sand
+  - ResourceLibrary
   layers:
   - Default
   - TransparentFX

@@ -29,6 +29,5 @@ public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 	{
 		StateManager.CurrentResourceSource.ResourceExtracted();
 		ExtractionTimer.ResetTimer(false);
-		Debug.Log("Ресурс добыт");
 	}
 }

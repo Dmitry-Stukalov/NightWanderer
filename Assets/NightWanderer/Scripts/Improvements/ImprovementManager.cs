@@ -6,6 +6,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine.UI;
 using System.Collections;
 using NUnit.Framework.Constraints;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class ImprovementManager : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class ImprovementManager : MonoBehaviour
 	[SerializeField] private VisualTreeAsset _upgradePanel;
 	[SerializeField] private VisualTreeAsset _needResourceGroup;
 	[SerializeField] private int _upgradesCount;
-	//private List<IImprovementBase> _improvements = new List<IImprovementBase>();
 	private Dictionary<string, IImprovementBase> _improvements = new Dictionary<string, IImprovementBase>();
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
@@ -50,7 +50,7 @@ public class ImprovementManager : MonoBehaviour
 				case "Fuel":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new /*ImprovementPanelFuel*/ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 				break;
@@ -58,7 +58,7 @@ public class ImprovementManager : MonoBehaviour
 				case "Health" or "Defense" or "FireDefense":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new /*ImprovementPanelHealth*/ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 				break;
@@ -66,15 +66,46 @@ public class ImprovementManager : MonoBehaviour
 				case "Engines":
 
 					newItem = _upgradePanel.Instantiate();
-					newItem.dataSource = new /*ImprovementPanelEngines*/ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					newItem.dataSource = new ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
-					break;
+				break;
 			}
 		}
 	}
 
 	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;
+	public void UnlockImprovement(string name)
+	{
+		int i = 0;
+
+		foreach (var key in _improvements.Keys)
+		{
+			if (key == name)
+				switch (key)
+				{
+					case "Fuel":
+						((ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "Health":
+						((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "Defense":
+						((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "FireDefense":
+						((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "Engines":
+						((ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+				}
+		}
+	}
 
 	public bool TryUpgrade(string name)
 	{

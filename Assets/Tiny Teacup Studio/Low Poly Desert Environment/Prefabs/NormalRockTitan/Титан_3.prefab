@@ -407,7 +407,9 @@ MonoBehaviour:
   Library: {fileID: 0}
   Resources:
   - {fileID: 1743453400618077403, guid: e98e3296e7c87224582b8038f5fc16dc, type: 3}
-  SpawnResourceZone: {fileID: 0}
+  SpawnResourceZone: {fileID: 1857695316416111463}
+  _colliders: []
+  _meshes: []
   _resourceCount: 2
   MinResourceCapacity: 1
   MaxResourceCapacity: 5

@@ -1,9 +1,7 @@
 using DG.Tweening;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.VFX;
 
 public class WeatherManager : MonoBehaviour
@@ -14,6 +12,7 @@ public class WeatherManager : MonoBehaviour
 	[SerializeField] private float _rainSpawnRate;
 	[SerializeField] private float _sandstormSpawnRate;
 	[SerializeField] private LocalVolumetricFog Fog;
+	[SerializeField] private Material _fogMaterial;
 	private bool IsSandstormActive = false;
 	private bool IsRainActive = false;
 	private bool IsWeatherActive = false;
@@ -25,24 +24,23 @@ public class WeatherManager : MonoBehaviour
 
 	public void Initializing()
 	{
-		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(5, 10));
+		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 700));
 		RandomWeatherPauseTimer.OnTimerEnd += StartWeather;
 
 		_Sun.OnDayStart += EndWeather;
 		_Sun.OnNightStart += EndWeather;
-		_Sun.OnDayStart += FogOff;
-		_Sun.OnNightStart += FogOn;
+		_Sun.OnTransitionDayEnd += FogOff;
+		_Sun.OnTransitionNightEnd += FogOn;
 
 		Sandstorm2.Stop();
 		Rain2.Stop();
 
-		if (!_Sun.IsDayNow()) FogOn();
+		_fogMaterial.SetFloat("_FogDistance", 100);
 	}
 
 	private void StartWeather()
 	{
-		float x;
-		RandomWeatherTimer = new Timer(UnityEngine.Random.Range(15, 17));
+		RandomWeatherTimer = new Timer(UnityEngine.Random.Range(80, 120));
 		RandomWeatherTimer.OnTimerEnd += EndWeather;
 		IsWeatherActive = true;
 
@@ -52,7 +50,7 @@ public class WeatherManager : MonoBehaviour
 
 			Sandstorm2.Play();
 
-			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f);
+			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
 
 			IsSandstormActive = true;
 		}
@@ -62,7 +60,7 @@ public class WeatherManager : MonoBehaviour
 
 			Rain2.Play();
 
-			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f);
+			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
 
 			IsRainActive = true;
 		}
@@ -76,7 +74,7 @@ public class WeatherManager : MonoBehaviour
 		
 		if (IsSandstormActive)
 		{
-			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), 0, 20).OnComplete(() =>
+			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
 			{
 				Sandstorm2.Stop();
 			});
@@ -86,7 +84,7 @@ public class WeatherManager : MonoBehaviour
 
 		if (IsRainActive)
 		{
-			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), 0, 20).OnComplete(() =>
+			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
 			{
 				Rain2.Stop();
 			});

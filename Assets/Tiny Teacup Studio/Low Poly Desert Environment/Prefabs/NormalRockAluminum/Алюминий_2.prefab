@@ -170,11 +170,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ExtractionID>k__BackingField: 11
-  Library: {fileID: 0}
   Resources:
-  - {fileID: 8761220178640986812, guid: 5fdf0dd179d75034aa4e4602e6908df8, type: 3}
+  - {fileID: 6648189569633795791, guid: 8111353492a2a4d45a6d78686de5654a, type: 3}
   SpawnResourceZone: {fileID: 3463230729339996400}
-  _resourceCount: 2
+  _resourceCountMin: 10
+  _resourceCountMax: 20
   MinResourceCapacity: 1
   MaxResourceCapacity: 5
   _dayMaterial: {fileID: 2100000, guid: aad3439403c9a8d418156f86618537c1, type: 2}

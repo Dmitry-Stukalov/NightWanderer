@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2188454175891743273
 Transform:
@@ -99,6 +99,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 32f5b57eb218bac4d9b4eb204491e4f4, type: 2}
+    - target: {fileID: 117214286460000749, guid: f7c90d06787a5be4f9e0c5d88a2481c0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f7c90d06787a5be4f9e0c5d88a2481c0,
         type: 3}
       propertyPath: m_Name
@@ -108,6 +113,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: ResourceSource
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f7c90d06787a5be4f9e0c5d88a2481c0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582293574316785276, guid: f7c90d06787a5be4f9e0c5d88a2481c0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -149,13 +164,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ExtractionID>k__BackingField: 11
-  Library: {fileID: 0}
-  Resources:
-  - {fileID: 8761220178640986812, guid: 929f6e1da7cb11b4eb27ccfbd441b426, type: 3}
+  _resourceID: 4
   SpawnResourceZone: {fileID: 1966572297522870681}
-  _resourceCount: 2
+  _resourceCountMin: 5
+  _resourceCountMax: 10
   MinResourceCapacity: 1
   MaxResourceCapacity: 5
+  _sourceMaterial:
+  - {fileID: 2100000, guid: 903c1bc95750a5b47abf137679d0e301, type: 2}
+  - {fileID: 2100000, guid: b80b4be613072ca41b4b5fceb3f4391e, type: 2}
+  - {fileID: 2100000, guid: 9a34c64f5336db141b8f372e08d50c56, type: 2}
+  - {fileID: 2100000, guid: 4c6e87238af6bc242b18cbbf4d9aafd6, type: 2}
   _dayMaterial: {fileID: 2100000, guid: 32f5b57eb218bac4d9b4eb204491e4f4, type: 2}
   _nightMaterial: {fileID: 2100000, guid: f793918fed15d6d4ebd068221f6e80d1, type: 2}
   ISRemoveFirst: 1

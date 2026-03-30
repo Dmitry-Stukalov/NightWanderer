@@ -18,12 +18,15 @@ public class ImprovementPanel<TConfig, TData> : ImprovementPanelBase
 
 	protected override void Upgrade(ClickEvent evt)
 	{
-		if (_manager.TryUpgrade(_improvementName))
+		if (_manager.TryUpgrade(_improvementName) && IsUnlock)
 		{
 			_currentLevelData = _config.Levels[_currentLevelData.CurrentLevel];
 
 			UpdateData();
 		}
+
+		_improvementButton.text = "Заблокировано";
+		IsUnlock = false;
 	}
 
 	protected override void UpdateData()

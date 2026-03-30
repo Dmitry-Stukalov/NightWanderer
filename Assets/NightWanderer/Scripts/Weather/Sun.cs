@@ -19,6 +19,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	[SerializeField] private float AllDayLength;
 	[SerializeField] private float TransitionDayLength;
 	public Timer AllDayTimer { get; private set; }
+	private Timer TransitionDayTimer;
+	private Timer TransitionNightTimer;
 	private Timer TakeDamageTimer;
 	private Ray SunRay;
 	private RaycastHit[] SunRayCast;
@@ -26,17 +28,34 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public event Action OnDayStart;
 	public event Action OnNightStart;
+	public event Action OnTransitionDayEnd;
+	public event Action OnTransitionNightEnd;
 
 	public void Initializing()
 	{
 		Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
 
+		TransitionDayTimer = new Timer(TransitionDayLength);
+		TransitionDayTimer.OnTimerEnd += DayStart;
+		TransitionDayTimer.SetPause();
+
+		TransitionNightTimer = new Timer(TransitionDayLength);
+		TransitionNightTimer.OnTimerEnd += NightStart;
+		TransitionNightTimer.SetPause();
+
 		AllDayTimer = new Timer(AllDayLength);
 		AllDayTimer.OnTimerEnd += ResetDayTimer;
-		AllDayTimer.OnTimerStart += () => OnNightStart?.Invoke();
+		AllDayTimer.OnTimerStart += () =>
+		{
+			Damage = MinDamage;
+			TransitionNightTimer.Continue();
+			OnNightStart?.Invoke();
+		};
 		AllDayTimer.OnTimerHalf += () =>
 		{
+			Damage = MinDamage;
 			_day++;
+			TransitionDayTimer.Continue();
 			OnDayStart?.Invoke();
 		};
 
@@ -45,7 +64,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		TakeDamageTimer.SetPause();
 
 		Damage = MinDamage;
-		OnNightStart?.Invoke();
+
+		ResetDayTimer();
 	}
 
 	private void ResetDayTimer()
@@ -57,6 +77,24 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	{
 		if (AllDayTimer.CurrentTime < AllDayTimer.MaxTime / 2) return false;
 		else return true;
+	}
+
+	private void NightStart()
+	{
+		TransitionNightTimer.ResetTimer(true);
+
+		Damage = 0;
+
+		OnTransitionNightEnd?.Invoke();
+	}
+
+	private void DayStart()
+	{
+		TransitionDayTimer.ResetTimer(true);
+
+		Damage = MaxDamage;
+
+		OnTransitionDayEnd?.Invoke();
 	}
 
 	private void ResetTakeDamage()
@@ -76,10 +114,11 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private void FixedUpdate()
 	{
 		AllDayTimer.Tick(Time.deltaTime);
+		TransitionDayTimer.Tick(Time.deltaTime);
+		TransitionNightTimer.Tick(Time.deltaTime);
+
 		transform.rotation = Quaternion.Euler(-360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 		Moon.transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
-
-		//if (AllDayTimer.CurrentTime >= AllDayTimer.MaxTime / 2) OnNightStart?.Invoke();
 
 		TakeDamageTimer.Tick(Time.deltaTime);
 
@@ -88,8 +127,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		//else if (AllDayTimer.CurrentTime > AllDayLength / 2 && AllDayTimer.CurrentTime < AllDayLength / 2 + TransitionDayLength) Damage = MinDamage;
 		//else if (AllDayTimer.CurrentTime >= AllDayLength / 2 + TransitionDayLength) Damage = 0;
 
-		if (AllDayTimer.CurrentTime >= 0 && AllDayTimer.CurrentTime <= AllDayLength / 2) Damage = 0;
-		else  Damage = MaxDamage;
+		//if (AllDayTimer.CurrentTime >= 0 && AllDayTimer.CurrentTime <= AllDayLength / 2) Damage = 0;
+		//else  Damage = MaxDamage;
 
 		if (Damage > 0)
 		{

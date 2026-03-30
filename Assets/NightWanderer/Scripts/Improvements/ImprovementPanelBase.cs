@@ -12,6 +12,7 @@ public class ImprovementPanelBase
 	protected Label _improvementStats;
 	protected Button _improvementButton;
 	protected string _improvementName;
+	protected bool IsUnlock;
 
 	public ImprovementPanelBase(ImprovementManager manager, VisualElement panel, VisualTreeAsset needResourceGroup, ImprovementConfig config, string improvementName)
 	{
@@ -27,6 +28,14 @@ public class ImprovementPanelBase
 		_improvementName = improvementName;
 
 		_improvementButton.RegisterCallback<ClickEvent>(Upgrade);
+		_improvementButton.text = "Заблокировано";
+
+		IsUnlock = false;
+	}
+	public void Unlock()
+	{
+		IsUnlock = true;
+		_improvementButton.text = "Улучшить";
 	}
 
 	protected virtual void Upgrade(ClickEvent evt) { }

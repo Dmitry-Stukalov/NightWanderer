@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3444261317318468108
 Transform:
@@ -39,6 +39,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8882217861488562090, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb4bf24067f3cef4d91fa1a6e4791727,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -89,6 +94,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8051138763696188950, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -6644428046695432753, guid: cb4bf24067f3cef4d91fa1a6e4791727,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -99,6 +109,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 903c1bc95750a5b47abf137679d0e301, type: 2}
+    - target: {fileID: -2365642950474440402, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -289248037658307433, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 558026872045356163, guid: cb4bf24067f3cef4d91fa1a6e4791727,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -114,6 +134,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: ResourceSource
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1345733252390500478, guid: cb4bf24067f3cef4d91fa1a6e4791727,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -124,6 +149,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: aad3439403c9a8d418156f86618537c1, type: 2}
+    - target: {fileID: 6623308148668728745, guid: cb4bf24067f3cef4d91fa1a6e4791727,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -170,13 +200,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ExtractionID>k__BackingField: 11
-  Library: {fileID: 0}
-  Resources:
-  - {fileID: 8761220178640986812, guid: 5fdf0dd179d75034aa4e4602e6908df8, type: 3}
+  _resourceID: 5
   SpawnResourceZone: {fileID: 3463230729339996400}
-  _resourceCount: 2
+  _resourceCountMin: 10
+  _resourceCountMax: 20
   MinResourceCapacity: 1
   MaxResourceCapacity: 5
+  _sourceMaterial:
+  - {fileID: 2100000, guid: 903c1bc95750a5b47abf137679d0e301, type: 2}
+  - {fileID: 2100000, guid: b80b4be613072ca41b4b5fceb3f4391e, type: 2}
+  - {fileID: 2100000, guid: 9a34c64f5336db141b8f372e08d50c56, type: 2}
+  - {fileID: 2100000, guid: 4c6e87238af6bc242b18cbbf4d9aafd6, type: 2}
   _dayMaterial: {fileID: 2100000, guid: aad3439403c9a8d418156f86618537c1, type: 2}
   _nightMaterial: {fileID: 2100000, guid: 6d81f7db5147da34f952a4340cbe9be9, type: 2}
   ISRemoveFirst: 1
