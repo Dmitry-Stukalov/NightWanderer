@@ -16,6 +16,7 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private PlayerUIController _playerUIController;
 	[SerializeField] private SearchlightManager _searchlightManager;
+	[SerializeField] private MissionsManager _missionsManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -33,6 +34,7 @@ public class Bootstrap : MonoBehaviour
 		_inventoryButton?.Initializing();
 		_sun?.Initializing();
 		_weatherManager?.Initializing();
+		_missionsManager?.Initializing();
 		_weatherPanel?.Initializing(_shipMovement.GetPlayerDefenseSystem().GetHealth(), _weatherManager, _sun);
 
 		StartCoroutine(StartPause());

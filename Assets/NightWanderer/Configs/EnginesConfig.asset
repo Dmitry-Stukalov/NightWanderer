@@ -26,10 +26,10 @@ MonoBehaviour:
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - <WalkSpeed>k__BackingField: 0
-    <RunSpeed>k__BackingField: 0
-    <WalkUpSpeed>k__BackingField: 0
-    <RunUpSpeed>k__BackingField: 0
+  - <WalkSpeed>k__BackingField: 2
+    <RunSpeed>k__BackingField: 2
+    <WalkUpSpeed>k__BackingField: 2
+    <RunUpSpeed>k__BackingField: 2
     <ConsumptionIdle>k__BackingField: 0
     <ConsumptionWalk>k__BackingField: 0
     <ConsumptionRun>k__BackingField: 0

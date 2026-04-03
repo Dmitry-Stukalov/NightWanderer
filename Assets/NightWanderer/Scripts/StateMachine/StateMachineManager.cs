@@ -13,6 +13,7 @@ public class StateMachineManager
 	public Transform PlayerCameraObject { get; set; }
 	public Base CurrentBase { get; set; }
 	public ResourceSource CurrentResourceSource { get; set; }
+	public ResearchShip CurrentResearchShip { get; set; }
 	public Animator _Animator { get; set; }
 	public InventoryButton Inventory { get; set; }
 	public Vector3 TargetShipPosition { get; set; }

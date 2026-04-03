@@ -104,6 +104,7 @@ public class ImprovementManager : MonoBehaviour
 						((ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
 					break;
 				}
+			i++;
 		}
 	}
 

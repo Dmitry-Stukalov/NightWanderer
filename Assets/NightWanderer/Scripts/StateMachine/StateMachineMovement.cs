@@ -103,6 +103,17 @@ public class StateMachineMovement : StateMachineState
 			StateManager.SetState(10);
 		}
 
+		if (Ship.GetComponent<ShipMovement>().IsCanResearch && Keyboard.current.fKey.wasPressedThisFrame)
+		{
+			if (StateManager.IsCleanerWorking) VacuumCleaner();
+
+			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+
+			StateManager.NextState = 15;
+			StateManager.SetState(10);
+		}
+
 		ReverseMoveTimer.Tick(Time.deltaTime);
 		//FuelConsumptionTimer.Tick(Time.deltaTime);
 

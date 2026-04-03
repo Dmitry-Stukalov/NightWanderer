@@ -359,8 +359,8 @@ MonoBehaviour:
     volumeMask: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
-    positiveFade: {x: 0.001, y: 0.001, z: 0.001}
-    negativeFade: {x: 0.001, y: 0.001, z: 0.001}
+    positiveFade: {x: 0.3, y: 0.3, z: 0.3}
+    negativeFade: {x: 0.3, y: 0.3, z: 0.3}
     m_EditorUniformFade: 30
     m_EditorPositiveFade: {x: 0.0009999999, y: 0.0009999999, z: 0.0009999999}
     m_EditorNegativeFade: {x: 0.0009999999, y: 0.0009999999, z: 0.0009999999}
@@ -751,6 +751,7 @@ GameObject:
   - component: {fileID: 408315898490039240}
   - component: {fileID: 6280875765701779462}
   - component: {fileID: 7885958024800141703}
+  - component: {fileID: 8698071871615225559}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -793,7 +794,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -808,7 +809,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -973,6 +974,18 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!114 &8698071871615225559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695454909443540156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e66528c7ecd73c41a6d7d5d45318fd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4077228613699104271
 GameObject:
   m_ObjectHideFlags: 0
@@ -3319,6 +3332,51 @@ MonoBehaviour:
   IsDownSearchlight: 0
   _searchPath: []
   _fightPosition: {x: 0, y: 0, z: 0}
+--- !u!1 &6541679459484016296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7295697801095005815}
+  - component: {fileID: 4652930753785675612}
+  m_Layer: 0
+  m_Name: MissionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7295697801095005815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541679459484016296}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2201670983639112127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4652930753785675612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6541679459484016296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af23a2f49ed7cba4885401d5a1e1fa2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _missionsConfig: {fileID: 11400000, guid: 2f41d3e279228524ea6baaf635db3677, type: 2}
 --- !u!1 &6553738146507174389
 GameObject:
   m_ObjectHideFlags: 0
@@ -5341,6 +5399,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3623630303347078596}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97d6d41b45f890342aec25cb0ec39407,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7295697801095005815}
     - targetCorrespondingSourceObject: {fileID: -8306817474531575967, guid: 97d6d41b45f890342aec25cb0ec39407,
         type: 3}
       insertIndex: -1

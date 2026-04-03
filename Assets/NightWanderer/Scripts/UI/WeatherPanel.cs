@@ -10,6 +10,7 @@ public class WeatherPanel : MonoBehaviour
 	private List<Label> _weatherTexts = new List<Label>();
 	private List<Label> _dayTexts = new List<Label>();
 	private List<Label> _timeTexts = new List<Label>();
+	private List<Label> _currentMissionTexts = new List<Label>();
 
 	public void Initializing(HealthFireDefense health, WeatherManager weather, Sun sun)
 	{
@@ -25,9 +26,13 @@ public class WeatherPanel : MonoBehaviour
 		_timeTexts = PlayerUI.rootVisualElement.Query<Label>("TimeText").ToList();
 		_timeTexts.Add(BaseUI.rootVisualElement.Q<Label>("TimeText"));
 
+		_currentMissionTexts.Add(PlayerUI.rootVisualElement.Q<Label>("TargetText"));
+		_currentMissionTexts.Add(BaseUI.rootVisualElement.Q<Label>("TargetText"));
+
 		for (int i = 0; i < _statusTexts.Count; i++) _statusTexts[i].dataSource = new StatusTextLabel(_statusTexts[i], health);
 		for (int i = 0; i < _weatherTexts.Count; i++) _weatherTexts[i].dataSource = new WeatherTextLabel(_weatherTexts[i], weather);
 		for (int i = 0; i < _dayTexts.Count; i++) _dayTexts[i].dataSource = new DayTextLabel(_dayTexts[i], sun);
 		for (int i = 0; i < _timeTexts.Count; i++) _timeTexts[i].dataSource = new TimeTextLabel(_timeTexts[i], sun);
+		for (int i = 0; i < _currentMissionTexts.Count; i++) _currentMissionTexts[i].dataSource = new CurrentMissionText(_currentMissionTexts[i], FindFirstObjectByType<MissionsManager>());
 	}
 }

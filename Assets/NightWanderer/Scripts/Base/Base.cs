@@ -7,11 +7,18 @@ public class Base : MonoBehaviour
 	[SerializeField] private Animator _animator;
 	[SerializeField] private GameObject _ship;
 	[SerializeField] private PlayerUIController _playerUI;
+	private bool IsFirstVisit = true;
 
 	public void MoveDownDockingPlatform()
 	{
 		_ship.transform.SetParent(_dockingPlatform.transform, true);
 		_animator.SetBool("IsDown", true);
+
+		if (IsFirstVisit)
+		{
+			GameEvents.OnFirstBaseVisit?.Invoke();
+			IsFirstVisit = false;
+		}
 	}
 	
 	public void MoveUpDockingPlatform() => _animator.SetBool("IsDown", false);

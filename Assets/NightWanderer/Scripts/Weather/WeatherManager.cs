@@ -70,7 +70,7 @@ public class WeatherManager : MonoBehaviour
 
 	private void EndWeather()
 	{
-		RandomWeatherTimer.OnTimerEnd -= EndWeather;
+		if (RandomWeatherTimer != null)	RandomWeatherTimer.OnTimerEnd -= EndWeather;
 		
 		if (IsSandstormActive)
 		{
