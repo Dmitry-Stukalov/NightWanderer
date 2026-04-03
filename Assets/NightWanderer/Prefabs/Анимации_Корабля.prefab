@@ -345,7 +345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914105633967650544}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
   m_Name: 
@@ -359,17 +359,17 @@ MonoBehaviour:
     volumeMask: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
-    positiveFade: {x: 0.3, y: 0.3, z: 0.3}
-    negativeFade: {x: 0.3, y: 0.3, z: 0.3}
-    m_EditorUniformFade: 30
-    m_EditorPositiveFade: {x: 0.0009999999, y: 0.0009999999, z: 0.0009999999}
-    m_EditorNegativeFade: {x: 0.0009999999, y: 0.0009999999, z: 0.0009999999}
+    positiveFade: {x: 0.2, y: 0.2, z: 0.2}
+    negativeFade: {x: 0.2, y: 0.2, z: 0.2}
+    m_EditorUniformFade: 20
+    m_EditorPositiveFade: {x: 0, y: 0, z: 0}
+    m_EditorNegativeFade: {x: 0, y: 0, z: 0}
     m_EditorAdvancedFade: 0
     scaleMode: 0
     size: {x: 100, y: 100, z: 100}
     invertFade: 0
-    distanceFadeStart: 500
-    distanceFadeEnd: 500
+    distanceFadeStart: 0
+    distanceFadeEnd: 0
     textureOffset: {x: 0, y: 0, z: 0}
     falloffMode: 1
     maskMode: 1

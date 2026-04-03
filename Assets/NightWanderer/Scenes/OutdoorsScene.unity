@@ -7487,7 +7487,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 2528411166632415027}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
   m_Name: 
@@ -9112,32 +9112,32 @@ PrefabInstance:
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.negativeFade.x
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.negativeFade.y
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.negativeFade.z
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.positiveFade.x
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.positiveFade.y
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: parameters.positiveFade.z
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}

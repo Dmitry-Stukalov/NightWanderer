@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.VFX;
 
@@ -12,7 +14,6 @@ public class WeatherManager : MonoBehaviour
 	[SerializeField] private float _rainSpawnRate;
 	[SerializeField] private float _sandstormSpawnRate;
 	[SerializeField] private LocalVolumetricFog Fog;
-	[SerializeField] private Material _fogMaterial;
 	private bool IsSandstormActive = false;
 	private bool IsRainActive = false;
 	private bool IsWeatherActive = false;
@@ -35,7 +36,6 @@ public class WeatherManager : MonoBehaviour
 		Sandstorm2.Stop();
 		Rain2.Stop();
 
-		_fogMaterial.SetFloat("_FogDistance", 100);
 	}
 
 	private void StartWeather()
@@ -101,14 +101,14 @@ public class WeatherManager : MonoBehaviour
 
 	private void FogOn()
 	{
-		Fog.enabled = true;
+		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 100f, 60f).SetEase(Ease.Linear);
 
 		OnWeatherChange?.Invoke();
 	}
 
 	private void FogOff()
 	{
-		Fog.enabled = false;
+		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 0f, 5f).SetEase(Ease.Linear);
 
 		OnWeatherChange?.Invoke();
 	}
