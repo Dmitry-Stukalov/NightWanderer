@@ -34,11 +34,13 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			var newCell = InventoryCell.Instantiate();
 			var newCell2 = InventoryCell.Instantiate();
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
+			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
 
 			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
 			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2, true));
+			newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
 
 			Inventory.Add(newCell);
 			Inventory2.Add(newCell2);

@@ -7,7 +7,6 @@ public class BaseUIManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument baseUI;
 	[SerializeField] private BaseInventory _baseInventory;
-	[SerializeField] private CraftManager _craftManager;
 
 	private VisualElement mainBackground;
 
@@ -23,8 +22,6 @@ public class BaseUIManager : MonoBehaviour
 
 	public void Initializing()
 	{
-		_craftManager.Initializing();
-
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
 		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");

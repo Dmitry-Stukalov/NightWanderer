@@ -15,21 +15,23 @@ MonoBehaviour:
   <CraftResources>k__BackingField:
   - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
       type: 3}
-    <Name>k__BackingField: "\u0422\u0438\u0442\u0430\u043D\u043E\u0432\u044B\u0439
-      \u0441\u043F\u043B\u0430\u0432"
+    <Name>k__BackingField: "\u0421\u0442\u0435\u043A\u043B\u043E"
     <ID>k__BackingField: 10
     <MaxCount>k__BackingField: 10
     <ResourcesIDToCraft>k__BackingField: 00000000
-    <ResourcesCountToCraft>k__BackingField: 
-  - <View>k__BackingField: {fileID: 0}
-    <Name>k__BackingField: 
-    <ID>k__BackingField: 0
-    <MaxCount>k__BackingField: 0
-    <ResourcesIDToCraft>k__BackingField: 
-    <ResourcesCountToCraft>k__BackingField: 
-  - <View>k__BackingField: {fileID: 0}
-    <Name>k__BackingField: 
-    <ID>k__BackingField: 0
-    <MaxCount>k__BackingField: 0
-    <ResourcesIDToCraft>k__BackingField: 
-    <ResourcesCountToCraft>k__BackingField: 
+    <ResourcesCountToCraft>k__BackingField: 0a000000
+  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
+    <Name>k__BackingField: "\u0422\u0438\u0442\u0430\u043D\u043E\u0432\u044B\u0439
+      \u0441\u043F\u043B\u0430\u0432"
+    <ID>k__BackingField: 11
+    <MaxCount>k__BackingField: 10
+    <ResourcesIDToCraft>k__BackingField: 00000000
+    <ResourcesCountToCraft>k__BackingField: f4010000
+  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
+    <Name>k__BackingField: "\u041F\u0440\u043E\u0436\u0435\u043A\u0442\u043E\u0440"
+    <ID>k__BackingField: 12
+    <MaxCount>k__BackingField: 1
+    <ResourcesIDToCraft>k__BackingField: 01000000
+    <ResourcesCountToCraft>k__BackingField: 0a000000

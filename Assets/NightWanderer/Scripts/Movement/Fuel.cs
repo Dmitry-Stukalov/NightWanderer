@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using Unity.Properties;
+using UnityEngine.UIElements;
 public class Fuel : IImprovementBase
 {
 	public string Name { get; set; }
@@ -10,6 +14,9 @@ public class Fuel : IImprovementBase
 	private ImprovementFuelConfig _config;
 
 	private float _currentFuel;
+
+	[CreateProperty]
+	public StyleLength _currentFuelPerCent { get; private set; }
 	public bool IsFuelEmpty { get; set; } = false;
 
 	public event Action OnFuelChange;
@@ -23,6 +30,8 @@ public class Fuel : IImprovementBase
 		CurrentLevel = 0;
 
 		_currentFuel = _config.Levels[CurrentLevel].MaxFuel;
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
 	}
 
 	public void Consumption(float fuel)
@@ -37,6 +46,9 @@ public class Fuel : IImprovementBase
 
 			OnFuelEmpty?.Invoke();
 		}
+
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
 
 		OnFuelChange?.Invoke();
 	}
@@ -53,6 +65,9 @@ public class Fuel : IImprovementBase
 
 			OnFuelMax?.Invoke();
 		}
+
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
 
 		OnFuelChange?.Invoke();
 	}
@@ -73,4 +88,8 @@ public class Fuel : IImprovementBase
 
 	public float GetCurrentFuel() => _currentFuel;
 	public float GetMaxFuel() => _config.Levels[CurrentLevel].MaxFuel;
+
+
+	public event PropertyChangedEventHandler PropertyChanged;
+	protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

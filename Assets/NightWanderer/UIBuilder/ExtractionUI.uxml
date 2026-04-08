@@ -1,0 +1,26 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="ExtractionLaserBackground" style="flex-grow: 1; background-color: rgba(23, 158, 188, 0.59); position: absolute; width: 30%; height: 50%; right: 3%; bottom: 25%; flex-direction: column; border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
+        <ui:Label text="Добыча руды" name="ActivityName" style="-unity-text-align: middle-center; margin-bottom: 0%; color: rgb(255, 255, 255); margin-top: 0%; padding-top: 2%; padding-right: 0%; padding-bottom: 2%; padding-left: 0%; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 1px; border-bottom-width: 1px; font-size: 25px; margin-right: 0%; margin-left: 0%;" />
+        <ui:VisualElement name="Container" style="flex-grow: 1; flex-direction: row;">
+            <ui:VisualElement name="MinigameLaserBackground" style="flex-grow: 1; flex-shrink: 0; flex-wrap: nowrap; flex-direction: column; align-items: center; justify-content: flex-start; align-content: center; width: 60%; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgb(255, 255, 255); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); border-right-width: 1px;">
+                <ui:VisualElement name="RightPlace" style="flex-grow: 0; background-color: rgba(0, 255, 0, 0.59); width: 100%; height: 10%; flex-shrink: 0; top: 0%; position: absolute;" />
+                <ui:VisualElement name="GameSlider" style="flex-grow: 0; background-color: rgba(255, 255, 255, 0.78); width: 100%; height: 2%; flex-shrink: 0; position: absolute;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Information" style="flex-grow: 1; width: 40%; height: auto; flex-shrink: 0; flex-wrap: nowrap;">
+                <ui:Label text="Найденная руда:&#10;Медь" name="OreName" style="-unity-text-align: middle-center; margin-bottom: 0%; color: rgb(255, 255, 255); margin-top: 0%; padding-top: 25%; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-bottom-width: 1px; border-top-width: 0; padding-bottom: 25%;" />
+                <ui:VisualElement name="OreIcon" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); -unity-background-scale-mode: scale-to-fit; flex-shrink: 1; flex-wrap: nowrap; position: relative; width: 100%; height: 20%; margin-bottom: 0%;" />
+                <ui:Label text="Х50&#10;" name="OreCount" style="-unity-text-align: middle-center; font-size: 25%; color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 1px; border-bottom-width: 0; margin-top: 0%; padding-top: 25%; padding-bottom: 50px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="FuelBackground" style="flex-grow: 1; position: absolute; width: 15%; height: 50%; visibility: visible; left: 3%; bottom: 25%; background-color: rgba(23, 158, 188, 0.59); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; flex-wrap: nowrap; align-content: auto; justify-content: flex-start;">
+        <ui:Label text="Топливо&#10;" name="FuelName" style="-unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 25%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 2%; padding-right: 0; padding-bottom: 2%; padding-left: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-bottom-width: 1px;" />
+        <ui:VisualElement name="FuelCountBackground" style="flex-grow: 1; justify-content: flex-end;">
+            <ui:VisualElement name="FuelCount" style="flex-grow: 0; background-color: rgb(188, 122, 0); height: 100%; bottom: auto; flex-shrink: 0; top: auto; position: relative; width: auto; flex-wrap: nowrap;">
+                <Bindings>
+                    <ui:DataBinding property="style.height" data-source-path="_currentFuelPerCent" data-source-type="Fuel, Assembly-CSharp" binding-mode="ToTarget" />
+                </Bindings>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

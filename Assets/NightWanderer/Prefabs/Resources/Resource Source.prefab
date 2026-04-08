@@ -48,12 +48,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ExtractionID>k__BackingField: 11
-  Library: {fileID: 0}
-  Resources:
-  - {fileID: 1743453400618077403, guid: e98e3296e7c87224582b8038f5fc16dc, type: 3}
-  ResourceCount: 5
+  _resourceID: 0
+  SpawnResourceZone: {fileID: 0}
+  _resourceCountMin: 0
+  _resourceCountMax: 0
   MinResourceCapacity: 2
   MaxResourceCapacity: 7
+  _sourceMaterial: []
+  _dayMaterial: {fileID: 0}
+  _nightMaterial: {fileID: 0}
+  ISRemoveFirst: 0
 --- !u!33 &7200086485668261851
 MeshFilter:
   m_ObjectHideFlags: 0

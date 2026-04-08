@@ -75,4 +75,7 @@ public class ResourceSource : MonoBehaviour
 	{
 		for (int i = 0; i < _crystals.Count - math.round(_currentResourceCount * _countInCrystals); i++) _crystals[i].SetActive(false);
 	}
+
+	public ResourceBase GetCurrentResource() => Library.GetResourceBase(_resourceID);
+	public int GetCurrentResourceCount() => _currentResourceCount;
 }

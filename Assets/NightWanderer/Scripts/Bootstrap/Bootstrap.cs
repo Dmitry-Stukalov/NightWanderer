@@ -17,6 +17,8 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private PlayerUIController _playerUIController;
 	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private MissionsManager _missionsManager;
+	[SerializeField] private CraftManager _craftManager;
+	[SerializeField] private EffectsManager _effectsManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -24,12 +26,14 @@ public class Bootstrap : MonoBehaviour
 	//Инициализация всех объектов, которые находятся на сцене
 	private void Start()
 	{
+		_effectsManager?.Initializing();
 		_shipMovement?.Initializing();
 		_playerUIController?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_searchlightManager.Initializing();
 		_resourceLibrary?.Initializing();
 		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();
+		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
 		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
 		_inventoryButton?.Initializing();
 		_sun?.Initializing();
@@ -45,6 +49,7 @@ public class Bootstrap : MonoBehaviour
 		yield return new WaitForSeconds(1);
 
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerFuel(), "Fuel");
+		_improvementManager.AddImprovement(_shipMovement.GetPlayerMiningEquipment(), "Mining");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
 	}
 }

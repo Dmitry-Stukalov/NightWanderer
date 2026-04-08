@@ -68,6 +68,19 @@ public class ResourceLibrary : MonoBehaviour
 		return CreateObject(id);
 	}
 
+	public ResourceBase GetResourceBase(int id)
+	{
+		foreach (var obj in ResourcePool)
+		{
+			if (!obj.activeInHierarchy && obj.gameObject.GetComponent<ResourceOnLand>().GetResource().ID == id)
+			{
+				return obj.gameObject.GetComponent<ResourceOnLand>().GetResource();
+			}
+		}
+
+		return CreateObject(id).GetComponent<ResourceOnLand>().GetResource();
+	}
+
 	//Создание ресурса, если его нет в пуле
 	private GameObject CreateObject(int id)
 	{

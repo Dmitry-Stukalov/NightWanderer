@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
@@ -34,7 +35,7 @@ public class StateMachineWalk : StateMachineMovement
 		{
 			StateManager.NextState = 3;
 
-			StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 3f - StateManager.DistanceToGround , Ship.transform.position.z);
+			StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 2f - StateManager.DistanceToGround , Ship.transform.position.z);
 
 			StateManager.SetState(10);
 		}

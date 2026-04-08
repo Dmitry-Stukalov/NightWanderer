@@ -66,7 +66,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e90a9b5aaff2dc04b8db9b36265385b4,
         type: 3}
       propertyPath: m_Name
-      value: "\u041D\u0438\u043A\u0435\u043B\u044C_\u0420\u0443\u0434\u0430"
+      value: NickelResource
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e90a9b5aaff2dc04b8db9b36265385b4,
+        type: 3}
+      propertyPath: m_TagString
+      value: ResourceOnLand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

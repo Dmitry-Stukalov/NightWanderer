@@ -1,5 +1,4 @@
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,11 +6,11 @@ using UnityEngine.InputSystem;
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
-	//[SerializeField] private Searchlight[] _searchlights;
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private SearchlightManager _searchlightManager;
+	[SerializeField] private PlayerUIController _playerUIController;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -36,6 +35,7 @@ public class ShipMovement : MonoBehaviour
 
 	[Header("Configs")]
 	[SerializeField] private ImprovementConfig _fuelConfig;
+	[SerializeField] private ImprovementConfig _miningConfig;
 	[SerializeField] private ImprovementConfig _enginesConfig;
 	[SerializeField] private ImprovementConfig _healthConfig;
 	[SerializeField] private ImprovementConfig _defenseConfig;
@@ -43,6 +43,7 @@ public class ShipMovement : MonoBehaviour
 
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
+	private MiningEquipment _miningEquipment;
 	private JetEngines _engines;
 	private InputAction MoveAction;
 	private InputAction UpDownMoveAction;
@@ -59,11 +60,14 @@ public class ShipMovement : MonoBehaviour
 
 	public void Initializing()
 	{
+		StartCoroutine(StartPause());
+
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
 		_fuel = new Fuel(_fuelConfig);
+		_miningEquipment = new MiningEquipment(_miningConfig, _fuel);
 		_engines = new JetEngines(_enginesConfig, _fuel);
 
 		MoveAction = InputSystem.actions.FindAction("Move");
@@ -80,7 +84,7 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(3, new StateMachineVide(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
-		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject));
+		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
 		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager));
 		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager));
 
@@ -89,8 +93,16 @@ public class ShipMovement : MonoBehaviour
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 	}
 
+	private IEnumerator StartPause()
+	{
+		yield return new WaitForSeconds(2f);
+
+		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _miningEquipment, _fuel, _playerUIController.GetMinigameLaser()));
+	}
+
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
 	public Fuel GetPlayerFuel() => _fuel;
+	public MiningEquipment GetPlayerMiningEquipment() => _miningEquipment;
 	public JetEngines GetPlayerEngines() => _engines;
 
 	private void HitSurface()
@@ -120,6 +132,7 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 
 			GameEvents.OnBase?.Invoke();
+			GameEvents.OnCraftOpen?.Invoke("Прожектор");
 		}
 
 		if (other.CompareTag("Research"))

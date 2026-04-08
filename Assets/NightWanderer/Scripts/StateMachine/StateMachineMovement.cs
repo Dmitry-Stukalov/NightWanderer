@@ -81,7 +81,7 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
-		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame)
+		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
@@ -92,7 +92,7 @@ public class StateMachineMovement : StateMachineState
 			StateManager.SetState(10);
 		}
 
-		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame)
+		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
@@ -103,7 +103,7 @@ public class StateMachineMovement : StateMachineState
 			StateManager.SetState(10);
 		}
 
-		if (Ship.GetComponent<ShipMovement>().IsCanResearch && Keyboard.current.fKey.wasPressedThisFrame)
+		if (Ship.GetComponent<ShipMovement>().IsCanResearch && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 

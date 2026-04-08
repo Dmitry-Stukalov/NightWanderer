@@ -6,10 +6,15 @@ public class StateMachineResourceExtraction : StateMachineState
 {
 	protected Transform Ship;
 	protected GameObject PlayerCameraRotationObject;
-	public StateMachineResourceExtraction(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject) : base(id, manager)
+	protected MiningEquipment _mining;
+	protected Fuel _fuel;
+
+	public StateMachineResourceExtraction(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel) : base(id, manager)
 	{
 		Ship = ship;
 		PlayerCameraRotationObject = playerCameraRotationObject;
+		_mining = mining;
+		_fuel = fuel;
 	}
 
 	public override void Enter()
@@ -25,5 +30,7 @@ public class StateMachineResourceExtraction : StateMachineState
 	public override void Update()
 	{
 		if (Keyboard.current.fKey.wasPressedThisFrame) StateManager.SetState(1);
+
+		if (_fuel.IsFuelEmpty) StateManager.SetState(0);
 	}
 }

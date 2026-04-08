@@ -96,7 +96,7 @@ public class DraggableManipulator : PointerManipulator
 		_elementUnderCursor = target.panel.Pick(evt.position);
 		target.pickingMode = PickingMode.Position;
 
-		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0)
+		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
 		{
 			_elementUnderCursor.style.borderBottomWidth = 1;
 			_elementUnderCursor.style.borderLeftWidth = 1;
@@ -108,7 +108,7 @@ public class DraggableManipulator : PointerManipulator
 			if (result.CurrentCount == 0) _cellResource.ResetResource();
 		}
 
-		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0)
+		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
 		{
 			_elementUnderCursor.style.borderBottomWidth = 1;
 			_elementUnderCursor.style.borderLeftWidth = 1;

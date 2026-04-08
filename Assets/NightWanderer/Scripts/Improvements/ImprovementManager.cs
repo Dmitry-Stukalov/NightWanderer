@@ -34,6 +34,8 @@ public class ImprovementManager : MonoBehaviour
 
 		_upgradesBackground = _baseUI.rootVisualElement.Q<ScrollView>("UpgradesBackground");
 
+		GameEvents.OnImprovementOpen += UnlockImprovement;
+
 		StartCoroutine(StartPause());
 	}
 
@@ -53,6 +55,13 @@ public class ImprovementManager : MonoBehaviour
 					newItem.dataSource = new ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
+				break;
+
+				case "Mining":
+
+					newItem = _upgradePanel.Instantiate();
+					newItem.dataSource = new ImprovementPanel<ImprovementMiningConfig, ImprovementMiningData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					_upgradesBackground.Add(newItem);
 				break;
 
 				case "Health" or "Defense" or "FireDefense":
@@ -221,4 +230,9 @@ public class ImprovementManager : MonoBehaviour
 	}
 
 	public void Upgrade(string improvementName) => _improvements[improvementName].Upgrade();
+
+	private void OnDisable()
+	{
+		GameEvents.OnImprovementOpen -= UnlockImprovement;
+	}
 }

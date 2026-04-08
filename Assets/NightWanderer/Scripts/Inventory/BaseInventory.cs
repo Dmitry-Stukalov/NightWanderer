@@ -21,8 +21,9 @@ public class BaseInventory : MonoBehaviour
 		for (int i = 0; i < InventoryCellCount + 1; i++)
 		{
 			var newCell = InventoryCell.Instantiate();
+			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
 
 			Inventory.Add(newCell);

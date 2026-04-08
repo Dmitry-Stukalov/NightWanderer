@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class ImprovementPanelBase
 {
 	protected ImprovementManager _manager;
+	protected VisualElement _improvementPanel;
 	protected VisualTreeAsset _needResourceGroup;
 	protected VisualElement _improvementIcon;
 	protected VisualElement _needResourceGroupPlace;
@@ -19,6 +20,7 @@ public class ImprovementPanelBase
 		_manager = manager;
 
 		_needResourceGroup = needResourceGroup;
+		_improvementPanel = panel;
 		_improvementIcon = panel.Q<VisualElement>("UpgradeIcon");
 		_improvementVisualName = panel.Q<Label>("UpgradeName");
 		_improvementStats = panel.Q<Label>("StatsText");
@@ -28,14 +30,16 @@ public class ImprovementPanelBase
 		_improvementName = improvementName;
 
 		_improvementButton.RegisterCallback<ClickEvent>(Upgrade);
-		_improvementButton.text = "Заблокировано";
+		_improvementButton.text = "Улучшить";
 
 		IsUnlock = false;
+		_improvementPanel.style.display = DisplayStyle.None;
 	}
 	public void Unlock()
 	{
 		IsUnlock = true;
-		_improvementButton.text = "Улучшить";
+		_improvementPanel.style.display = DisplayStyle.Flex;
+		//_improvementButton.text = "Улучшить";
 	}
 
 	protected virtual void Upgrade(ClickEvent evt) { }

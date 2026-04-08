@@ -2,6 +2,7 @@ using System;
 using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.Properties;
+using System.Diagnostics;
 
 
 //Хранит информацию о ресурсе в ячейке + отвечает за перетаскивание этого ресурса в пределах инвентаря
@@ -13,7 +14,7 @@ public class ResourceCellObject
 	public ResourceBase _resource { get; private set; }
 
 
-	public ResourceCellObject(VisualElement resourceImage, Label resourceCount)
+	public ResourceCellObject()
 	{
 		_resource = new ResourceBase();
 

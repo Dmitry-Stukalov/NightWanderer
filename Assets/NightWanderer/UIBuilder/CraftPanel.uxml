@@ -15,12 +15,12 @@
                     <ui:VisualElement name="NeedResourceICon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); background-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: scale-to-fit; flex-shrink: 0;" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="SliderInputGroup" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; margin-bottom: 10%; flex-wrap: nowrap;">
+            <ui:VisualElement name="SliderInputGroup" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; margin-bottom: 10%; flex-wrap: nowrap; display: none;">
                 <ui:Label text="2&#10;" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 10%; margin-bottom: 0; margin-left: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255);" />
                 <ui:SliderInt value="10" high-value="100" name="SliderInput" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-items: auto; align-content: auto; width: 80%; height: 100%;" />
             </ui:VisualElement>
-            <ui:Button text="Изготовить" name="CreateButton" enable-rich-text="false" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(23, 158, 188, 0.59); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255);" />
+            <ui:Button text="Изготовить" name="CreateButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
         </ui:VisualElement>
-        <ui:VisualElement name="CreatedCell" style="flex-grow: 0; background-color: rgb(255, 255, 255); flex-shrink: 0; width: 64px; height: 64px; align-self: center; margin-right: 1%; margin-left: 1%;" />
+        <ui:VisualElement name="CreatedCell" style="flex-grow: 0; background-color: rgba(255, 255, 255, 0); flex-shrink: 0; width: 64px; height: 64px; align-self: center; margin-right: 1%; margin-left: 1%;" />
     </ui:VisualElement>
 </ui:UXML>

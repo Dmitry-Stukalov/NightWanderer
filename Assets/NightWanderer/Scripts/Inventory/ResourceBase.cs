@@ -31,6 +31,15 @@ public class ResourceBase
 		MaxCount = maxCount;
 	}
 
+	public ResourceBase(Sprite view, string name, int iD, int maxCount, int currentCount)
+	{
+		View = view;
+		Name = name;
+		ID = iD;
+		MaxCount = maxCount;
+		CurrentCount = currentCount;
+	}
+
 	public int SetCount(int count) => CurrentCount = count;
 
 	public void ResetValue()

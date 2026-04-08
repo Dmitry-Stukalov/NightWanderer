@@ -1,3 +1,4 @@
+using DG.Tweening.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,7 +26,8 @@ public class ImprovementPanel<TConfig, TData> : ImprovementPanelBase
 			UpdateData();
 		}
 
-		_improvementButton.text = "Заблокировано";
+		_improvementPanel.style.display = DisplayStyle.None; 
+		//_improvementButton.text = "Заблокировано";
 		IsUnlock = false;
 	}
 
