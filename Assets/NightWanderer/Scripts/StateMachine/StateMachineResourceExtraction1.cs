@@ -38,11 +38,10 @@ public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 
 		if (Keyboard.current.spaceKey.wasPressedThisFrame)
 		{
-			if (_minigameLaser.CheckResult())
-			{
-				EndExtraction();
-				_minigameLaser.UpdateData();
-			}
+			if (_minigameLaser.CheckResult()) EndExtraction();
+			else MissExtraction();
+
+			_minigameLaser.UpdateData();
 		}
 
 	}
@@ -50,6 +49,11 @@ public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 	private void EndExtraction()
 	{
 		StateManager.CurrentResourceSource.ResourceExtracted();
+		_mining.MiningLaser();
+	}
+
+	private void MissExtraction()
+	{
 		_mining.MiningLaser();
 	}
 

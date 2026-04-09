@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MiningConfig
   m_EditorClassIdentifier: 
   levels:
-  - <ConsumptionAtRest>k__BackingField: 1
-    <ConsumptionAtLaser>k__BackingField: 2
-    <ConsumptionAtSound>k__BackingField: 3
+  - <ConsumptionAtRest>k__BackingField: 0.1
+    <ConsumptionAtLaser>k__BackingField: 0.3
+    <ConsumptionAtSound>k__BackingField: 0.5
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
     <Name>k__BackingField: 

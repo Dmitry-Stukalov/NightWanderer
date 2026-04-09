@@ -1,2 +1,63 @@
 :root {
+    --main-background-color: rgba(0, 209, 255, 0.4);
+    --main-text-color: rgb(255, 255, 255);
+    --main-text-align: middle-center;
+}
+
+.MainBackground {
+    background-color: var(--main-background-color);
+}
+
+.StandartLabel {
+    color: var(--main-text-color);
+    -unity-text-align: var(--main-text-align);
+    font-size: 22px;
+}
+
+.SmallLable {
+    color: var(--main-text-color);
+    -unity-text-align: var(--main-text-align);
+    font-size: 14px;
+}
+
+.BorderAll {
+    border-color: rgb(255, 255, 255);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+
+.BorderTop {
+    border-color: rgb(255, 255, 255);
+    border-top-width: 1px;
+}
+
+.BorderBottom {
+    border-color: rgb(255, 255, 255);
+    border-bottom-width: 1px;
+}
+
+.MainBackground {
+    background-color: var(--main-background-color);
+}
+
+.BorderLeft {
+    border-color: rgb(255, 255, 255);
+    border-left-width: 1px;
+}
+
+.BorderRight {
+    border-color: rgb(255, 255, 255);
+    border-right-width: 1px;
+}
+
+.BorderCell {
+    border-color: rgb(0, 0, 0);
+    border-width: 1px;
+}
+
+.BorderCellWide {
+    border-color: rgb(0, 0, 0);
+    border-width: 2px;
 }

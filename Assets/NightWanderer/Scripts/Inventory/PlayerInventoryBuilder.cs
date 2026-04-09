@@ -37,10 +37,12 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
 			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
 			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2, true));
 			newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			newCell2.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 			Inventory.Add(newCell);
 			Inventory2.Add(newCell2);

@@ -66,18 +66,36 @@ public class DraggableManipulator : PointerManipulator
 
 		if (_elementUnderCursor != null && _elementUnderCursor != _newElementUnderCursor)
 		{
-			_elementUnderCursor.style.borderBottomWidth = 1;
-			_elementUnderCursor.style.borderLeftWidth = 1;
-			_elementUnderCursor.style.borderRightWidth = 1;
-			_elementUnderCursor.style.borderTopWidth = 1;
+			if (_elementUnderCursor.ClassListContains("Cell"))
+			{
+				_elementUnderCursor.style.borderBottomWidth = 1;
+				_elementUnderCursor.style.borderLeftWidth = 1;
+				_elementUnderCursor.style.borderRightWidth = 1;
+				_elementUnderCursor.style.borderTopWidth = 1;
+			}
+			else
+			{
+				_elementUnderCursor.style.borderBottomWidth = 0;
+				_elementUnderCursor.style.borderLeftWidth = 0;
+				_elementUnderCursor.style.borderRightWidth = 0;
+				_elementUnderCursor.style.borderTopWidth = 0;
+			}
 		}
 
-		if (_newElementUnderCursor != null && _newElementUnderCursor.style.borderTopWidth == 1 && (_newElementUnderCursor.ClassListContains("Cell") || _newElementUnderCursor.ClassListContains("FuelRecovery")))
+		if (_newElementUnderCursor != null && _newElementUnderCursor.style.borderTopWidth == 1 && _newElementUnderCursor.ClassListContains("Cell"))
 		{
 			_newElementUnderCursor.style.borderBottomWidth = 2;
 			_newElementUnderCursor.style.borderLeftWidth = 2;
 			_newElementUnderCursor.style.borderRightWidth = 2;
 			_newElementUnderCursor.style.borderTopWidth = 2;
+		}
+
+		if (_newElementUnderCursor != null && (_newElementUnderCursor.ClassListContains("FuelRecovery") || _newElementUnderCursor.ClassListContains("HealthRecovery") || _newElementUnderCursor.ClassListContains("DefenseRecovery") || _newElementUnderCursor.ClassListContains("FireDefenseRecovery")))
+		{
+			_newElementUnderCursor.style.borderBottomWidth = 1;
+			_newElementUnderCursor.style.borderLeftWidth = 1;
+			_newElementUnderCursor.style.borderRightWidth = 1;
+			_newElementUnderCursor.style.borderTopWidth = 1;
 		}
 
 		_elementUnderCursor = _newElementUnderCursor;
@@ -96,32 +114,121 @@ public class DraggableManipulator : PointerManipulator
 		_elementUnderCursor = target.panel.Pick(evt.position);
 		target.pickingMode = PickingMode.Position;
 
-		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
+		if (_elementUnderCursor != null)
 		{
-			_elementUnderCursor.style.borderBottomWidth = 1;
-			_elementUnderCursor.style.borderLeftWidth = 1;
-			_elementUnderCursor.style.borderRightWidth = 1;
-			_elementUnderCursor.style.borderTopWidth = 1;
+			if (_elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
+			{
+				_elementUnderCursor.style.borderBottomWidth = 1;
+				_elementUnderCursor.style.borderLeftWidth = 1;
+				_elementUnderCursor.style.borderRightWidth = 1;
+				_elementUnderCursor.style.borderTopWidth = 1;
 
-			var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
-			var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
-			if (result.CurrentCount == 0) _cellResource.ResetResource();
+				var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
+				var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
+				if (result.CurrentCount == 0) _cellResource.ResetResource();
+			}
+			else
+			{
+				switch (_cellResource.GetId())
+				{
+					case 0:
+						if (_elementUnderCursor.ClassListContains("FuelRecovery"))
+						{
+							_elementUnderCursor.style.borderBottomWidth = 0;
+							_elementUnderCursor.style.borderLeftWidth = 0;
+							_elementUnderCursor.style.borderRightWidth = 0;
+							_elementUnderCursor.style.borderTopWidth = 0;
+
+							int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
+
+							((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+					break;
+
+					case 1:
+						if (_elementUnderCursor.ClassListContains("FireDefenseRecovery"))
+						{
+							_elementUnderCursor.style.borderBottomWidth = 0;
+							_elementUnderCursor.style.borderLeftWidth = 0;
+							_elementUnderCursor.style.borderRightWidth = 0;
+							_elementUnderCursor.style.borderTopWidth = 0;
+
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
+
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.5f);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+					break;
+
+					case 3:
+						if (_elementUnderCursor.ClassListContains("HealthRecovery"))
+						{
+							_elementUnderCursor.style.borderBottomWidth = 0;
+							_elementUnderCursor.style.borderLeftWidth = 0;
+							_elementUnderCursor.style.borderRightWidth = 0;
+							_elementUnderCursor.style.borderTopWidth = 0;
+
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
+
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.5f);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+					break;
+
+					case 6:
+						if (_elementUnderCursor.ClassListContains("DefenseRecovery"))
+						{
+							_elementUnderCursor.style.borderBottomWidth = 0;
+							_elementUnderCursor.style.borderLeftWidth = 0;
+							_elementUnderCursor.style.borderRightWidth = 0;
+							_elementUnderCursor.style.borderTopWidth = 0;
+
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
+
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.5f);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+					break;
+				}
+			}
 		}
 
-		if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
-		{
-			_elementUnderCursor.style.borderBottomWidth = 1;
-			_elementUnderCursor.style.borderLeftWidth = 1;
-			_elementUnderCursor.style.borderRightWidth = 1;
-			_elementUnderCursor.style.borderTopWidth = 1;
 
-			int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
+		//if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
+		//{
+		//	_elementUnderCursor.style.borderBottomWidth = 1;
+		//	_elementUnderCursor.style.borderLeftWidth = 1;
+		//	_elementUnderCursor.style.borderRightWidth = 1;
+		//	_elementUnderCursor.style.borderTopWidth = 1;
 
-			((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
+		//	var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
+		//	var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
+		//	if (result.CurrentCount == 0) _cellResource.ResetResource();
+		//}
 
-			if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
-			else _cellResource.ResetResource();
-		}
+		//if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0)
+		//{
+		//	_elementUnderCursor.style.borderBottomWidth = 1;
+		//	_elementUnderCursor.style.borderLeftWidth = 1;
+		//	_elementUnderCursor.style.borderRightWidth = 1;
+		//	_elementUnderCursor.style.borderTopWidth = 1;
+
+		//	int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
+
+		//	((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
+
+		//	if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+		//	else _cellResource.ResetResource();
+		//}
 
 		_startParent.Add(target);
 		target.transform.position = Vector3.zero;

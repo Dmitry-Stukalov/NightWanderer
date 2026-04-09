@@ -25,6 +25,7 @@ public class BaseInventory : MonoBehaviour
 
 			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
+			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 			Inventory.Add(newCell);
 
