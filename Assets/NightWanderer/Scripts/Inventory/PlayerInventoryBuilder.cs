@@ -34,11 +34,16 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			var newCell = InventoryCell.Instantiate();
 			var newCell2 = InventoryCell.Instantiate();
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(newCell.Q<VisualElement>("CellResource"), newCell.Q<Label>("CellResourceCount"));
-			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
+			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
+
+			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
-			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2, true));
+			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
+			newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			newCell2.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 			Inventory.Add(newCell);
 			Inventory2.Add(newCell2);
@@ -87,4 +92,6 @@ public class PlayerInventoryBuilder : MonoBehaviour
 
 		IsProcessing = false;
 	}
+
+	public Inventory GetPlayerInventory() => _PlayerInventory;
 }

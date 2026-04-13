@@ -94,7 +94,7 @@ Material:
     - _FogVolumeColorBlendOp: 0
     - _FogVolumeDstAlphaBlend: 0
     - _FogVolumeDstColorBlend: 0
-    - _FogVolumeFogDistanceProperty: 7
+    - _FogVolumeFogDistanceProperty: 10
     - _FogVolumeSrcAlphaBlend: 1
     - _FogVolumeSrcColorBlend: 1
     - _Main_Noise_Tiling: 10

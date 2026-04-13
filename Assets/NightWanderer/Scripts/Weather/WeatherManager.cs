@@ -1,67 +1,137 @@
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
+using DG.Tweening;
+using System;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.VFX;
 
 public class WeatherManager : MonoBehaviour
 {
 	[SerializeField] private Sun _Sun;
-	[SerializeField] private ParticleSystem Rain;
-	[SerializeField] private ParticleSystem Sandstorm;
 	[SerializeField] private VisualEffect Rain2;
 	[SerializeField] private VisualEffect Sandstorm2;
+	[SerializeField] private float _rainSpawnRate;
+	[SerializeField] private float _sandstormSpawnRate;
 	[SerializeField] private LocalVolumetricFog Fog;
+	private bool IsSandstormActive = false;
+	private bool IsRainActive = false;
 	private bool IsWeatherActive = false;
 	private Timer RandomWeatherPauseTimer;
 	private Timer RandomWeatherTimer;
+	private string _activeWeatherName = "";
 
-	private void Start()
+	public event Action OnWeatherChange;
+
+	public void Initializing()
 	{
-		RandomWeatherPauseTimer = new Timer(Random.Range(5, 10));
+		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 700));
 		RandomWeatherPauseTimer.OnTimerEnd += StartWeather;
 
-		_Sun.OnDayStart += FogOff;
-		_Sun.OnNightStart += FogOn;
+		_Sun.OnDayStart += EndWeather;
+		_Sun.OnNightStart += EndWeather;
+		_Sun.OnTransitionDayEnd += FogOff;
+		_Sun.OnTransitionNightEnd += FogOn;
 
 		Sandstorm2.Stop();
 		Rain2.Stop();
+
 	}
 
 	private void StartWeather()
 	{
-		RandomWeatherTimer = new Timer(Random.Range(15, 17));
+		RandomWeatherTimer = new Timer(UnityEngine.Random.Range(80, 120));
 		RandomWeatherTimer.OnTimerEnd += EndWeather;
 		IsWeatherActive = true;
 
-		if (_Sun.IsDayNow()) Sandstorm2.Play();
-		else Rain2.Play();
+		if (_Sun.IsDayNow())
+		{
+			Sandstorm2.SetFloat("SpawnRate", 0);
+
+			Sandstorm2.Play();
+
+			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
+
+			IsSandstormActive = true;
+		}
+		else
+		{
+			Rain2.SetFloat("SpawnRate", 0);
+
+			Rain2.Play();
+
+			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
+
+			IsRainActive = true;
+		}
+
+		OnWeatherChange?.Invoke();
 	}
 
 	private void EndWeather()
 	{
-		RandomWeatherTimer.OnTimerEnd -= EndWeather;
+		if (RandomWeatherTimer != null)	RandomWeatherTimer.OnTimerEnd -= EndWeather;
+		
+		if (IsSandstormActive)
+		{
+			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
+			{
+				Sandstorm2.Stop();
+			});
 
-		/*if (Sandstorm.isPlaying)*/ Sandstorm2.Stop();
-		/*if (Rain.isPlaying)*/ Rain2.Stop();
+			IsSandstormActive = false;
+		}
+
+		if (IsRainActive)
+		{
+			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
+			{
+				Rain2.Stop();
+			});
+
+			IsRainActive = false;
+		}
+
 
 		IsWeatherActive = false;
 		RandomWeatherPauseTimer.ResetTimer(false);
+
+		OnWeatherChange?.Invoke();
 	}
 
 	private void FogOn()
 	{
-		Fog.enabled = true;
+		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 100f, 60f).SetEase(Ease.Linear);
+
+		OnWeatherChange?.Invoke();
 	}
 
 	private void FogOff()
 	{
-		Fog.enabled = false;
+		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 0f, 5f).SetEase(Ease.Linear);
+
+		OnWeatherChange?.Invoke();
+	}
+
+	public string GetActiveWeather()
+	{
+		if (_Sun.IsDayNow())
+		{
+			if (IsWeatherActive) _activeWeatherName = "ясно, песчана€ бур€";
+			else _activeWeatherName = "ясно";
+		}
+		else
+		{
+			if (IsWeatherActive) _activeWeatherName = "“уманно, дождь";
+			else _activeWeatherName = "“уманно";
+		}
+
+		return _activeWeatherName;
 	}
 
 	private void Update()
 	{
-		RandomWeatherPauseTimer.Tick(Time.deltaTime);
-		if (RandomWeatherTimer != null) RandomWeatherTimer.Tick(Time.deltaTime);
+		RandomWeatherPauseTimer?.Tick(Time.deltaTime);
+		RandomWeatherTimer?.Tick(Time.deltaTime);
 	}
 }

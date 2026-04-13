@@ -10,6 +10,8 @@ TagManager:
   - InventoryCell
   - Base
   - Sand
+  - ResourceLibrary
+  - Research
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Water
   - UI
   - PostProcess
-  - 
+  - Mark
   - 
   - 
   - 

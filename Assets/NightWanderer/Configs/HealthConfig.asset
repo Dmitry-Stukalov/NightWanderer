@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f2a5f7dfff10649ad2d7d1d7ed79d7, type: 3}
   m_Name: HealthConfig
   m_EditorClassIdentifier: 
-  <Levels>k__BackingField:
-  - <Name>k__BackingField: "\u0425\u041F1"
+  levels:
+  - MaxHealth: 100
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 1
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-    MaxHealth: 100
-  - <Name>k__BackingField: "\u0425\u041F2"
+  - MaxHealth: 120
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-    MaxHealth: 120

@@ -5,14 +5,18 @@ public class ResourceOnLand : MonoBehaviour
 {
 	private ResourceBase ThisResource;
 	private ResourceLibrary ParentResource;
-	private Vector3 TargetDirection;
 	private GameObject Target;
 	private bool IsCollected = false;
-	private Rigidbody _Rigidbody;
+	private Rigidbody _rigidbody;
+	private Timer _destroyTimer;
 
 	private void Start()
 	{
-		_Rigidbody = GetComponent<Rigidbody>();
+		_rigidbody = GetComponent<Rigidbody>();
+
+		_destroyTimer = new Timer(10f);
+		_destroyTimer.SetPause();
+		_destroyTimer.OnTimerEnd += () => ParentResource.OnRelease(gameObject);
 	}
 
 	public void SetResource(ResourceBase resource) => ThisResource = resource;
@@ -29,7 +33,11 @@ public class ResourceOnLand : MonoBehaviour
 	public void NullTarget() => Target = null;
 
 	public void Collected() => IsCollected = true;
-	public void IsntCollected() => IsCollected = false;
+	public void IsntCollected()
+	{
+		IsCollected = false;
+		_destroyTimer.Continue();
+	}
 
 	public int GetID() => ThisResource.ID;
 
@@ -37,20 +45,21 @@ public class ResourceOnLand : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			//other.transform.GetComponent<PlayerInventory>().AddResource(ThisResource);
 			other.transform.GetComponent<PlayerInventoryBuilder>().AddResource(ThisResource);
 			IsCollected = false;
 			ParentResource.OnRelease(gameObject);
 		}
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
 		if (IsCollected)
 		{
-			_Rigidbody.useGravity = false;
+			_rigidbody.useGravity = false;
 			transform.position = Vector3.MoveTowards(transform.position, Target.transform.position, Time.fixedDeltaTime * 15);
 		}
-		else _Rigidbody.useGravity = true;
+		else _rigidbody.useGravity = true;
+
+		_destroyTimer.Tick(Time.deltaTime);
 	}
 }

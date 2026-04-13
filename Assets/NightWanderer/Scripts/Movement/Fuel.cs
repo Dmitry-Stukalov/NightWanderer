@@ -1,69 +1,61 @@
 using System;
-using UnityEditor.VersionControl;
-using UnityEngine;
-
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using Unity.Properties;
+using UnityEngine.UIElements;
 public class Fuel : IImprovementBase
 {
+	public string Name { get; set; }
+	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 
 	private ImprovementFuelConfig _config;
 
-	private float _minFuel;
-	private float _maxFuel;
-	private float _consumptionIdle;
-	private float _consumptionWalk;
-	private float _consumptionRun;
 	private float _currentFuel;
+
+	[CreateProperty]
+	public StyleLength _currentFuelPerCent { get; private set; }
 	public bool IsFuelEmpty { get; set; } = false;
 
+	public event Action OnFuelChange;
 	public event Action OnFuelEmpty;
 	public event Action OnFuelMax;
 
 	public Fuel(ImprovementConfig config)
 	{
+		Config = config;
 		_config = (ImprovementFuelConfig)config;
 		CurrentLevel = 0;
 
-		_minFuel = _config.Levels[CurrentLevel].MinFuel;
-		_maxFuel = _config.Levels[CurrentLevel].MaxFuel;
-		_consumptionIdle = _config.Levels[CurrentLevel].ConsumptionWalk;
-		_consumptionWalk = _config.Levels[CurrentLevel].ConsumptionIdle;
-		_consumptionRun = _config.Levels[CurrentLevel].ConsumptionRun;
-
-		_currentFuel = _maxFuel;
+		_currentFuel = _config.Levels[CurrentLevel].MaxFuel;
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
 	}
 
-	public void EnginesRunning(int state)
-	{
-		switch (state)
-		{
-			case 0:
-				Consumption(_consumptionIdle);
-			break;
-
-			case 1:
-				Consumption(_consumptionWalk);
-			break;
-
-			case 2:
-				Consumption(_consumptionRun);
-			break;
-		}
-	}
-
-	private void Consumption(float fuel)
+	public void Consumption(float fuel)
 	{
 		_currentFuel -= fuel;
 
-		if (_currentFuel <= _minFuel)
+		if (_currentFuel <= _config.Levels[CurrentLevel].MinFuel)
 		{
-			_currentFuel = _minFuel;
+			_currentFuel = _config.Levels[CurrentLevel].MinFuel;
 
 			IsFuelEmpty = true;
 
+			GameEvents.OnCriticalStatusShow?.Invoke("FuelEmpty", "Закончилось топливо");
+			GameEvents.OnCriticalStatusHide?.Invoke("FuelCritical");
+
 			OnFuelEmpty?.Invoke();
 		}
+
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
+
+		if (_currentFuelPerCent.value.value <= 20 && !IsFuelEmpty) GameEvents.OnCriticalStatusShow("FuelCritical", "Мало топлива");
+
+		OnFuelChange?.Invoke();
 	}
 
 	public void Refueling(float fuel)
@@ -72,22 +64,41 @@ public class Fuel : IImprovementBase
 
 		IsFuelEmpty = false;
 
-		if (_currentFuel >= _maxFuel)
+		GameEvents.OnCriticalStatusHide?.Invoke("FuelEmpty");
+
+		if (_currentFuel >= _config.Levels[CurrentLevel].MaxFuel)
 		{
-			_currentFuel = _maxFuel;
+			_currentFuel = _config.Levels[CurrentLevel].MaxFuel;
 
 			OnFuelMax?.Invoke();
 		}
+
+		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
+		OnPropertyChanged(nameof(_currentFuelPerCent));
+
+		if (_currentFuelPerCent.value.value > 20) GameEvents.OnCriticalStatusHide("FuelCritical");
+
+		OnFuelChange?.Invoke();
 	}
 
-	public void Upgrade()
+	public float NeedToRefueling() => _config.Levels[CurrentLevel].MaxFuel - _currentFuel;
+
+	public Dictionary<int, int> GetNeedResources()
 	{
-		CurrentLevel++;
+		_needResources?.Clear();
 
-		_minFuel = _config.Levels[CurrentLevel].MinFuel;
-		_maxFuel = _config.Levels[CurrentLevel].MaxFuel;
-		_consumptionIdle = _config.Levels[CurrentLevel].ConsumptionWalk;
-		_consumptionWalk = _config.Levels[CurrentLevel].ConsumptionIdle;
-		_consumptionRun = _config.Levels[CurrentLevel].ConsumptionRun;
+		for (int i = 0; i < _config.Levels[CurrentLevel].Resource.Count; i++)
+		{
+			_needResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
+		}
+
+		return _needResources;
 	}
+
+	public float GetCurrentFuel() => _currentFuel;
+	public float GetMaxFuel() => _config.Levels[CurrentLevel].MaxFuel;
+
+
+	public event PropertyChangedEventHandler PropertyChanged;
+	protected void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

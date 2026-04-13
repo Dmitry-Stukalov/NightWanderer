@@ -1,34 +1,67 @@
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 {
-	private Timer ExtractionTimer;
-	public StateMachineResourceExtraction1(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject) : base(id, manager, ship, playerCameraRotationObject) { }
+	private MinigameLaser _minigameLaser;
+	private Timer ExtractionRestTimer;
+	public StateMachineResourceExtraction1(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel, MinigameLaser minigameLaser) : base(id, manager, ship, playerCameraRotationObject, mining, fuel) 
+	{
+		_minigameLaser = minigameLaser;
+	}
 
 	public override void Enter()
 	{
 		base.Enter();
-		ExtractionTimer = new Timer(1);
-		ExtractionTimer.OnTimerEnd += EndExtraction;
+		ExtractionRestTimer = new Timer(1);
+		ExtractionRestTimer.OnTimerEnd += RestConsumption;
+
+		_minigameLaser.UpdateData(StateManager.CurrentResourceSource, Ship.gameObject.GetComponent<ShipMovement>().GetPlayerFuel());
+		_minigameLaser.StartGame(StateManager.CurrentResourceSource.GetCurrentResourceCount());
+		GameEvents.OnLaserExtractionStart?.Invoke();
 	}
 
 	public override void Exit() 
 	{ 
 		base.Exit();
+
+		_minigameLaser.EndGame();
+		GameEvents.OnExtractionEnd?.Invoke();
 	}
 
 	public override void Update()
 	{
 		base.Update();
 
-		if (Keyboard.current.spaceKey.IsPressed()) ExtractionTimer.Tick(Time.deltaTime);
+		ExtractionRestTimer.Tick(Time.deltaTime);
+
+		if (Keyboard.current.spaceKey.wasPressedThisFrame)
+		{
+			if (_minigameLaser.CheckResult()) EndExtraction();
+			else MissExtraction();
+
+			_minigameLaser.UpdateData();
+		}
+
 	}
 
 	private void EndExtraction()
 	{
+		GameEvents.OnRightExtraction?.Invoke();
 		StateManager.CurrentResourceSource.ResourceExtracted();
-		ExtractionTimer.ResetTimer(false);
-		Debug.Log("Ресурс добыт");
+		_mining.MiningLaser();
+	}
+
+	private void MissExtraction()
+	{
+		_mining.MiningLaser();
+	}
+
+	private void RestConsumption()
+	{
+		_mining.MiningRest();
+		ExtractionRestTimer.ResetTimer(false);
 	}
 }

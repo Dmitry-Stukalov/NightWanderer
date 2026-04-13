@@ -1,18 +1,19 @@
+
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class StateMachineWalk : StateMachineMovement
 {
-	public StateMachineWalk(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
-		float speed, float upDownSpeed, float lookSpeed) 
+	public StateMachineWalk(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
+		float lookSpeed) 
 		: 
-		base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, vacuumCleaner, shipFuel, moveAction, upDownMoveAction, lookAction, speed, upDownSpeed, lookSpeed) { }
+		base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, vacuumCleaner, shipFuel, shipEngines, moveAction, upDownMoveAction, lookAction, lookSpeed) { }
 
 	public override void Enter()
 	{
 		base.Enter();
-		//Debug.Log("Walk");
 	}
 
 	public override void Exit()
@@ -30,7 +31,14 @@ public class StateMachineWalk : StateMachineMovement
 
 		if (Keyboard.current.shiftKey.wasPressedThisFrame) StateManager.SetState(2);
 
-		if (!ShipFuel.IsFuelEmpty) Move();
-		Look();
+		if (ShipFuel.IsFuelEmpty || Keyboard.current.rKey.wasPressedThisFrame)
+		{
+			StateManager.NextState = 3;
+
+			StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 2f - StateManager.DistanceToGround , Ship.transform.position.z);
+			StateManager.TargetShipRotation = Ship.transform.rotation;
+
+			StateManager.SetState(10);
+		}
 	}
 }

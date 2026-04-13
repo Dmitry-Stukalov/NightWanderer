@@ -1,15 +1,9 @@
 using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEditor;
-using TMPro;
 using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.Properties;
+using System.Diagnostics;
+using TMPro.EditorUtilities;
 
 
 //Хранит информацию о ресурсе в ячейке + отвечает за перетаскивание этого ресурса в пределах инвентаря
@@ -21,7 +15,7 @@ public class ResourceCellObject
 	public ResourceBase _resource { get; private set; }
 
 
-	public ResourceCellObject(VisualElement resourceImage, Label resourceCount)
+	public ResourceCellObject()
 	{
 		_resource = new ResourceBase();
 

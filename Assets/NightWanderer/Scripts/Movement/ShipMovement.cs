@@ -1,5 +1,4 @@
-
-using UnityEditor.VersionControl;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +6,11 @@ using UnityEngine.InputSystem;
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
-	[SerializeField] private Searchlight _searchlight;
+	[SerializeField] private ImprovementManager _improvementManager;
+	[SerializeField] private InventoryButton _inventoryButton;
+	[SerializeField] private ResourceLibrary _resourceLibrary;
+	[SerializeField] private SearchlightManager _searchlightManager;
+	[SerializeField] private PlayerUIController _playerUIController;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -32,13 +35,16 @@ public class ShipMovement : MonoBehaviour
 
 	[Header("Configs")]
 	[SerializeField] private ImprovementConfig _fuelConfig;
+	[SerializeField] private ImprovementConfig _miningConfig;
+	[SerializeField] private ImprovementConfig _enginesConfig;
 	[SerializeField] private ImprovementConfig _healthConfig;
 	[SerializeField] private ImprovementConfig _defenseConfig;
 	[SerializeField] private ImprovementConfig _fireDefenseConfig;
 
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
-	private Timer _fuelConsumptionTimer;
+	private MiningEquipment _miningEquipment;
+	private JetEngines _engines;
 	private InputAction MoveAction;
 	private InputAction UpDownMoveAction;
 	private InputAction LookAction;
@@ -48,22 +54,21 @@ public class ShipMovement : MonoBehaviour
 	public bool IsOnResource { get; set; } = false;
 	public bool IsShipReady { get; set; } = false;
 	public bool IsCanDocking { get; set; } = false;
+	public bool IsCanResearch { get; set; } = false;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
 	public void Initializing()
 	{
-		_vacuumCleaner.Initializing(gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
-		_searchlight.Initializing();
+		StartCoroutine(StartPause());
 
-		_defenseSystem = new DefenseSystem(new Health(_healthConfig), new Defense(_defenseConfig), new FireDefense(_fireDefenseConfig));
+		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
+
+		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 
 		_fuel = new Fuel(_fuelConfig);
-
-		_fuelConsumptionTimer = new Timer(1f);
-		_fuelConsumptionTimer.OnTimerEnd += FuelConsumption;
-
-		_fuel.OnFuelEmpty += FuelEmpty;
+		_miningEquipment = new MiningEquipment(_miningConfig, _fuel);
+		_engines = new JetEngines(_enginesConfig, _fuel);
 
 		MoveAction = InputSystem.actions.FindAction("Move");
 		UpDownMoveAction = InputSystem.actions.FindAction("UpDownMove");
@@ -74,34 +79,38 @@ public class ShipMovement : MonoBehaviour
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, WalkingSpeed, UpDownSpeed, LookSpeed));
-		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, WalkingSpeed, UpDownSpeed, LookSpeed));
-		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, MoveAction, UpDownMoveAction, LookAction, BoostedSpeed, UpDownBoostedSpeed, LookSpeed));
+		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(3, new StateMachineVide(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
-		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject));
+		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
+		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager));
 		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager));
 
 		StateMachineManager.SetState(0);
+		StateMachineManager.Inventory = _inventoryButton;
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 	}
 
-	private void FuelConsumption()
+	private IEnumerator StartPause()
 	{
-		_fuel.EnginesRunning(StateMachineManager.GetCurrentState());
-		_fuelConsumptionTimer.ResetTimer(false);
-	}
+		yield return new WaitForSeconds(2f);
 
-
-	private void FuelEmpty()
-	{
-		Debug.Log("Топливо закончилось");
+		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _miningEquipment, _fuel, _playerUIController.GetMinigameLaser()));
 	}
 
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
+	public Fuel GetPlayerFuel() => _fuel;
+	public MiningEquipment GetPlayerMiningEquipment() => _miningEquipment;
+	public JetEngines GetPlayerEngines() => _engines;
 
 	private void HitSurface()
 	{
 		StateMachineManager.HitSurface();
+
+		if (StateMachineManager.GetCurrentState() == 2) _defenseSystem.GetDamage(20);
+		else _defenseSystem.GetDamage(10);
 	}
 
 	//При входе в область источника ресурса передает его местоположение в машину состояний
@@ -121,6 +130,16 @@ public class ShipMovement : MonoBehaviour
 			BasePosition = other.transform.GetChild(0).position;
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
+
+			GameEvents.OnBase?.Invoke();
+			GameEvents.OnCraftOpen?.Invoke("Прожектор");
+		}
+
+		if (other.CompareTag("Research"))
+		{
+			IsCanResearch = true;
+			StateMachineManager.CurrentResearchShip = other.GetComponent<ResearchShip>();
+			StateMachineManager.TargetShipPosition = other.GetComponent<ResearchShip>().DockingPlace.transform.position;
 		}
 
 		if (other.CompareTag("Sand")) HitSurface();
@@ -142,13 +161,33 @@ public class ShipMovement : MonoBehaviour
 			BasePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
 		}
+
+		if (other.CompareTag("Research"))
+		{
+			IsCanResearch = false;
+			StateMachineManager.CurrentResearchShip = null;
+			StateMachineManager.TargetShipPosition = Vector3.zero;
+		}
 	}
 
 	private void Update()
 	{
-		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlight.IsOn = !_searchlight.IsOn;
+		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
 
 		StateMachineManager.Update();
-		//_fuelConsumptionTimer.Tick(Time.fixedDeltaTime);
+
+		if (StateMachineManager.GetCurrentState() == 1 || StateMachineManager.GetCurrentState() == 2) _searchlightManager.StartMove();
+		if (StateMachineManager.GetCurrentState() == 0 || StateMachineManager.GetCurrentState() == 3) _searchlightManager.StartSearch();
+
+		if (StateMachineManager.NextState != 3)
+		{
+			Ray ray = new Ray(transform.position, -transform.up);
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, 100f))
+			{
+				StateMachineManager.DistanceToGround = hit.distance;
+			}
+		}
 	}
 }

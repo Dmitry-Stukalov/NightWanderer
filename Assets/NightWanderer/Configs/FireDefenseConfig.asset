@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f2a5f7dfff10649ad2d7d1d7ed79d7, type: 3}
   m_Name: FireDefenseConfig
   m_EditorClassIdentifier: 
-  <Levels>k__BackingField:
-  - <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u0430\u041E\u0433\u043E\u043D\u044C1"
+  levels:
+  - MaxHealth: 20
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-    MaxHealth: 30
-  - <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u0430\u041E\u0433\u043E\u043D\u044C1"
+  - MaxHealth: 30
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-    MaxHealth: 40
