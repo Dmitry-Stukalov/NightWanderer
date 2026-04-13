@@ -14,11 +14,13 @@ public class WeatherManager : MonoBehaviour
 	[SerializeField] private float _rainSpawnRate;
 	[SerializeField] private float _sandstormSpawnRate;
 	[SerializeField] private LocalVolumetricFog Fog;
+	[SerializeField] private float _sandstormDamage;
 	private bool IsSandstormActive = false;
 	private bool IsRainActive = false;
 	private bool IsWeatherActive = false;
 	private Timer RandomWeatherPauseTimer;
 	private Timer RandomWeatherTimer;
+	private Timer PlayerGetDamageTimer;
 	private string _activeWeatherName = "";
 
 	public event Action OnWeatherChange;
@@ -27,6 +29,10 @@ public class WeatherManager : MonoBehaviour
 	{
 		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 700));
 		RandomWeatherPauseTimer.OnTimerEnd += StartWeather;
+
+		PlayerGetDamageTimer = new Timer(2f);
+		PlayerGetDamageTimer.OnTimerEnd += PlayerGetDamage;
+		PlayerGetDamageTimer.SetPause();
 
 		_Sun.OnDayStart += EndWeather;
 		_Sun.OnNightStart += EndWeather;
@@ -53,6 +59,8 @@ public class WeatherManager : MonoBehaviour
 			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
 
 			IsSandstormActive = true;
+
+			PlayerGetDamageTimer.Continue();
 		}
 		else
 		{
@@ -80,6 +88,8 @@ public class WeatherManager : MonoBehaviour
 			});
 
 			IsSandstormActive = false;
+
+			PlayerGetDamageTimer.ResetTimer(true);
 		}
 
 		if (IsRainActive)
@@ -97,6 +107,11 @@ public class WeatherManager : MonoBehaviour
 		RandomWeatherPauseTimer.ResetTimer(false);
 
 		OnWeatherChange?.Invoke();
+	}
+
+	private void PlayerGetDamage()
+	{
+		_Sun.TakeDamage(false, _sandstormDamage);
 	}
 
 	private void FogOn()
@@ -133,5 +148,6 @@ public class WeatherManager : MonoBehaviour
 	{
 		RandomWeatherPauseTimer?.Tick(Time.deltaTime);
 		RandomWeatherTimer?.Tick(Time.deltaTime);
+		PlayerGetDamageTimer?.Tick(Time.deltaTime);
 	}
 }

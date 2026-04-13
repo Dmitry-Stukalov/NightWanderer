@@ -99,14 +99,14 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	private void ResetTakeDamage()
 	{
-		TakeDamage();
+		TakeDamage(IsFireDamage, Damage);
 		TakeDamageTimer.ResetTimer(true);
 	}
 
-	public void TakeDamage()
+	public void TakeDamage(bool isFireDamage, float damage)
 	{
-		if (IsFireDamage) Health.GetFireDamage(Damage);
-		else Health.GetDamage(Damage);
+		if (isFireDamage) Health.GetFireDamage(damage);
+		else Health.GetDamage(damage);
 	}
 
 	public int GetDayCount() => _day;
