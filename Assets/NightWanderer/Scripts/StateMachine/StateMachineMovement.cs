@@ -97,7 +97,7 @@ public class StateMachineMovement : StateMachineState
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
-			StateManager.TargetCameraRotation = Quaternion.Euler(StateManager.ResourceRotationX, CompareDifference(Ship.rotation.eulerAngles.y), 0);
+			StateManager.TargetCameraRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 
 			StateManager.NextState = 20;
 			StateManager.SetState(10);

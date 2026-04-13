@@ -44,11 +44,16 @@ public class Fuel : IImprovementBase
 
 			IsFuelEmpty = true;
 
+			GameEvents.OnCriticalStatusShow?.Invoke("FuelEmpty", "Закончилось топливо");
+			GameEvents.OnCriticalStatusHide?.Invoke("FuelCritical");
+
 			OnFuelEmpty?.Invoke();
 		}
 
 		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
 		OnPropertyChanged(nameof(_currentFuelPerCent));
+
+		if (_currentFuelPerCent.value.value <= 20 && !IsFuelEmpty) GameEvents.OnCriticalStatusShow("FuelCritical", "Мало топлива");
 
 		OnFuelChange?.Invoke();
 	}
@@ -59,6 +64,8 @@ public class Fuel : IImprovementBase
 
 		IsFuelEmpty = false;
 
+		GameEvents.OnCriticalStatusHide?.Invoke("FuelEmpty");
+
 		if (_currentFuel >= _config.Levels[CurrentLevel].MaxFuel)
 		{
 			_currentFuel = _config.Levels[CurrentLevel].MaxFuel;
@@ -68,6 +75,8 @@ public class Fuel : IImprovementBase
 
 		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
 		OnPropertyChanged(nameof(_currentFuelPerCent));
+
+		if (_currentFuelPerCent.value.value > 20) GameEvents.OnCriticalStatusHide("FuelCritical");
 
 		OnFuelChange?.Invoke();
 	}

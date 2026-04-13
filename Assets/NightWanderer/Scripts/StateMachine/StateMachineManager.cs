@@ -21,7 +21,7 @@ public class StateMachineManager
 	public Quaternion TargetCameraRotation { get; set; }
 	public float RotationX { get; set; } = -15;
 	public float RotationY { get; set; } = 0;
-	public float ResourceRotationX { get; private set; } = 0;
+	public float ResourceRotationX { get; private set; } = 20;
 	public float DistanceToGround { get; set; } = 0;
 	public int NextState { get; set; }
 	public bool IsCleanerWorking { get; set; } = false;

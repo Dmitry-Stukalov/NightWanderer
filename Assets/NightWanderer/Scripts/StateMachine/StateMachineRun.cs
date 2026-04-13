@@ -17,11 +17,15 @@ public class StateMachineRun : StateMachineMovement
 		{
 			VacuumCleaner();
 		}
+
+		GameEvents.OnRunStart?.Invoke();
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+
+		GameEvents.OnRunEnd?.Invoke();
 	}
 
 	public override void Update()
@@ -37,6 +41,7 @@ public class StateMachineRun : StateMachineMovement
 			StateManager.NextState = 3;
 
 			StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 2f - StateManager.DistanceToGround, Ship.transform.position.z);
+			StateManager.TargetShipRotation = Ship.transform.rotation;
 
 			StateManager.SetState(10);
 		}

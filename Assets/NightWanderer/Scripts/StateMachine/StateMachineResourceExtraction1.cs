@@ -1,6 +1,7 @@
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 {
@@ -48,6 +49,7 @@ public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 
 	private void EndExtraction()
 	{
+		GameEvents.OnRightExtraction?.Invoke();
 		StateManager.CurrentResourceSource.ResourceExtracted();
 		_mining.MiningLaser();
 	}

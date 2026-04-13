@@ -14,7 +14,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="FuelBackground" class="MainBackground BorderAll" style="flex-grow: 1; position: absolute; width: 15%; height: 50%; visibility: visible; left: 3%; bottom: 25%; flex-wrap: nowrap; align-content: auto; justify-content: flex-start; border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;">
+    <ui:VisualElement name="FuelBackground" class="MainBackground BorderAll" style="flex-grow: 1; position: absolute; width: 15%; height: 50%; visibility: visible; left: 8%; bottom: 25%; flex-wrap: nowrap; align-content: auto; justify-content: flex-start; border-top-left-radius: 30px; border-top-right-radius: 30px; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;">
         <ui:Label text="Топливо&#10;" name="FuelName" class="StandartLabel" />
         <ui:VisualElement name="FuelCountBackground" class="BorderTop" style="flex-grow: 1; justify-content: flex-end;">
             <ui:VisualElement name="FuelCount" style="flex-grow: 0; background-color: rgb(188, 122, 0); height: 100%; bottom: auto; flex-shrink: 0; top: auto; position: relative; width: auto; flex-wrap: nowrap; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;">

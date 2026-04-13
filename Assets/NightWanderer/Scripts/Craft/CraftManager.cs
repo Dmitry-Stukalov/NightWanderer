@@ -11,6 +11,7 @@ public class CraftManager : MonoBehaviour
 	[SerializeField] private VisualTreeAsset _needResourcesGroup;
 	[SerializeField] private VisualTreeAsset _inventoryCell;
 	[SerializeField] private ResourceCraftConfig _craftConfig;
+	[SerializeField] private ResourceLibrary _library;
 	private ScrollView _craftBackground;
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
@@ -42,6 +43,8 @@ public class CraftManager : MonoBehaviour
 
 		GameEvents.OnCraftOpen += UnlockCraft;
 	}
+
+	public Sprite GetResourceSprite(int id) => _library.GetResourceBase(id).View;
 
 	public void UnlockCraft(string name)
 	{

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -8,10 +9,13 @@ public class PlayerUIController : MonoBehaviour
 {
 	[SerializeField] private UIDocument PlayerUI;
 	[SerializeField] private UIDocument ExtractionGameLaser;
+	[SerializeField] private VisualTreeAsset _statusPanel;
+	[SerializeField] private Sprite _statusIcon;
 	[SerializeField] private InventoryButton Inventory;
 	[SerializeField] private BaseUIManager _baseUI;
 	private VisualElement _mainExtractionLaserElement;
 	private VisualElement _mainExtractionFuelElement;
+	private Dictionary<string, VisualElement> _statusPanels;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
@@ -29,6 +33,11 @@ public class PlayerUIController : MonoBehaviour
 		var fireDefenseItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
 		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, PlayerUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
 
+		_statusPanels = new Dictionary<string, VisualElement>();
+
+		GameEvents.OnCriticalStatusShow += ShowStatusPanel;
+		GameEvents.OnCriticalStatusHide += HideStatusPanel;
+
 		_baseUI.Initializing();
 
 		GameEvents.OnLaserExtractionStart += OnExtractionLaserStart;
@@ -43,11 +52,32 @@ public class PlayerUIController : MonoBehaviour
 		_mainExtractionFuelElement = ExtractionGameLaser.rootVisualElement.Q<VisualElement>("FuelBackground");
 		_mainExtractionLaserElement.dataSource = new MinigameLaser(_mainExtractionLaserElement, _mainExtractionFuelElement);
 
-		//var laserBackground = ExtractionGameLaser.rootVisualElement.Q<VisualElement>("MinigameLaserBackground");
-		//laserBackground.dataSource = new MinigameLaser(laserBackground.Q<VisualElement>("ExtractionLaserBackground"));
-
 		_mainExtractionLaserElement.style.display = DisplayStyle.None;
 		_mainExtractionFuelElement.style.display = DisplayStyle.None;
+	}
+
+	public void ShowStatusPanel(string name, string panelText)
+	{
+        if (!_statusPanels.ContainsKey(name))
+        {
+			var newStatusPanel = _statusPanel.Instantiate();
+			newStatusPanel.Q<VisualElement>("StatusIcon").style.backgroundImage = new StyleBackground(_statusIcon);
+			newStatusPanel.Q<Label>("StatusText").text = panelText;
+
+			_statusPanels[name] = newStatusPanel.Q<VisualElement>("PanelBackground");
+			PlayerUI.rootVisualElement.Q<VisualElement>("CriticalPanelPlace").Add(newStatusPanel.Q<VisualElement>("PanelBackground"));
+		}
+		else
+		{
+			_statusPanels[name].style.display = DisplayStyle.Flex;
+		}
+    }
+
+	public void HideStatusPanel(string name)
+	{
+		if (!_statusPanels.ContainsKey(name)) return;
+
+		_statusPanels[name].style.display = DisplayStyle.None;
 	}
 
 	public void OnBase()
@@ -86,5 +116,7 @@ public class PlayerUIController : MonoBehaviour
 	{
 		GameEvents.OnLaserExtractionStart -= OnExtractionLaserStart;
 		GameEvents.OnExtractionEnd -= OnExtractionLaserEnd;
+		GameEvents.OnCriticalStatusShow -= ShowStatusPanel;
+		GameEvents.OnCriticalStatusHide -= HideStatusPanel;
 	}
 }

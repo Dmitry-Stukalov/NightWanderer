@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class DraggableManipulator : PointerManipulator
 {
 	private VisualElement _startParent;
+	private VisualElement _parent;
 	private VisualElement _elementUnderCursor;
 	private VisualElement _newElementUnderCursor;
 	private ResourceCellObject _cellResource;
@@ -66,37 +67,13 @@ public class DraggableManipulator : PointerManipulator
 
 		if (_elementUnderCursor != null && _elementUnderCursor != _newElementUnderCursor)
 		{
-			if (_elementUnderCursor.ClassListContains("Cell"))
-			{
-				_elementUnderCursor.style.borderBottomWidth = 1;
-				_elementUnderCursor.style.borderLeftWidth = 1;
-				_elementUnderCursor.style.borderRightWidth = 1;
-				_elementUnderCursor.style.borderTopWidth = 1;
-			}
-			else
-			{
-				_elementUnderCursor.style.borderBottomWidth = 0;
-				_elementUnderCursor.style.borderLeftWidth = 0;
-				_elementUnderCursor.style.borderRightWidth = 0;
-				_elementUnderCursor.style.borderTopWidth = 0;
-			}
+			if (_elementUnderCursor.ClassListContains("Cell")) _elementUnderCursor.RemoveFromClassList("BorderCellWide");
+			else _elementUnderCursor.RemoveFromClassList("BorderAll");
 		}
 
-		if (_newElementUnderCursor != null && _newElementUnderCursor.style.borderTopWidth == 1 && _newElementUnderCursor.ClassListContains("Cell"))
-		{
-			_newElementUnderCursor.style.borderBottomWidth = 2;
-			_newElementUnderCursor.style.borderLeftWidth = 2;
-			_newElementUnderCursor.style.borderRightWidth = 2;
-			_newElementUnderCursor.style.borderTopWidth = 2;
-		}
+		if (_newElementUnderCursor != null && _newElementUnderCursor.ClassListContains("Cell") && !((CellObject)_newElementUnderCursor.dataSource).IsCraftCell) _newElementUnderCursor.AddToClassList("BorderCellWide");
 
-		if (_newElementUnderCursor != null && (_newElementUnderCursor.ClassListContains("FuelRecovery") || _newElementUnderCursor.ClassListContains("HealthRecovery") || _newElementUnderCursor.ClassListContains("DefenseRecovery") || _newElementUnderCursor.ClassListContains("FireDefenseRecovery")))
-		{
-			_newElementUnderCursor.style.borderBottomWidth = 1;
-			_newElementUnderCursor.style.borderLeftWidth = 1;
-			_newElementUnderCursor.style.borderRightWidth = 1;
-			_newElementUnderCursor.style.borderTopWidth = 1;
-		}
+		if (_newElementUnderCursor != null && CheckMatch(_newElementUnderCursor.GetClasses().ToArray())) _newElementUnderCursor.AddToClassList("BorderAll");
 
 		_elementUnderCursor = _newElementUnderCursor;
 	}
@@ -118,10 +95,7 @@ public class DraggableManipulator : PointerManipulator
 		{
 			if (_elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
 			{
-				_elementUnderCursor.style.borderBottomWidth = 1;
-				_elementUnderCursor.style.borderLeftWidth = 1;
-				_elementUnderCursor.style.borderRightWidth = 1;
-				_elementUnderCursor.style.borderTopWidth = 1;
+				_elementUnderCursor.RemoveFromClassList("BorderCellWide");
 
 				var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
 				var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
@@ -134,10 +108,7 @@ public class DraggableManipulator : PointerManipulator
 					case 0:
 						if (_elementUnderCursor.ClassListContains("FuelRecovery"))
 						{
-							_elementUnderCursor.style.borderBottomWidth = 0;
-							_elementUnderCursor.style.borderLeftWidth = 0;
-							_elementUnderCursor.style.borderRightWidth = 0;
-							_elementUnderCursor.style.borderTopWidth = 0;
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
 							int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
 
@@ -151,10 +122,7 @@ public class DraggableManipulator : PointerManipulator
 					case 1:
 						if (_elementUnderCursor.ClassListContains("FireDefenseRecovery"))
 						{
-							_elementUnderCursor.style.borderBottomWidth = 0;
-							_elementUnderCursor.style.borderLeftWidth = 0;
-							_elementUnderCursor.style.borderRightWidth = 0;
-							_elementUnderCursor.style.borderTopWidth = 0;
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
 							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
 
@@ -168,10 +136,7 @@ public class DraggableManipulator : PointerManipulator
 					case 3:
 						if (_elementUnderCursor.ClassListContains("HealthRecovery"))
 						{
-							_elementUnderCursor.style.borderBottomWidth = 0;
-							_elementUnderCursor.style.borderLeftWidth = 0;
-							_elementUnderCursor.style.borderRightWidth = 0;
-							_elementUnderCursor.style.borderTopWidth = 0;
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
 							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
 
@@ -185,10 +150,7 @@ public class DraggableManipulator : PointerManipulator
 					case 6:
 						if (_elementUnderCursor.ClassListContains("DefenseRecovery"))
 						{
-							_elementUnderCursor.style.borderBottomWidth = 0;
-							_elementUnderCursor.style.borderLeftWidth = 0;
-							_elementUnderCursor.style.borderRightWidth = 0;
-							_elementUnderCursor.style.borderTopWidth = 0;
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
 							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
 
@@ -202,35 +164,34 @@ public class DraggableManipulator : PointerManipulator
 			}
 		}
 
-
-		//if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
-		//{
-		//	_elementUnderCursor.style.borderBottomWidth = 1;
-		//	_elementUnderCursor.style.borderLeftWidth = 1;
-		//	_elementUnderCursor.style.borderRightWidth = 1;
-		//	_elementUnderCursor.style.borderTopWidth = 1;
-
-		//	var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
-		//	var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
-		//	if (result.CurrentCount == 0) _cellResource.ResetResource();
-		//}
-
-		//if (_elementUnderCursor != null && _elementUnderCursor.ClassListContains("FuelRecovery") && _cellResource.GetResource().ID == 0)
-		//{
-		//	_elementUnderCursor.style.borderBottomWidth = 1;
-		//	_elementUnderCursor.style.borderLeftWidth = 1;
-		//	_elementUnderCursor.style.borderRightWidth = 1;
-		//	_elementUnderCursor.style.borderTopWidth = 1;
-
-		//	int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
-
-		//	((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
-
-		//	if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
-		//	else _cellResource.ResetResource();
-		//}
-
 		_startParent.Add(target);
 		target.transform.position = Vector3.zero;
+	}
+
+	private bool CheckMatch(string[] elementClass)
+	{
+		for (int i = 0; i < elementClass.Length; i++)
+		{
+			switch (elementClass[i])
+			{
+				case "FuelRecovery":
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0) return true;
+				break;
+
+				case "HealthRecovery":
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 3) return true;
+				break;
+
+				case "DefenseRecovery":
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 6) return true;
+				break;
+
+				case "FireDefenseRecovery":
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 1) return true;
+				break;
+			}
+		}
+
+		return false;
 	}
 }

@@ -18,5 +18,14 @@ public static class GameEvents
 	//Добыча ресурсов
 	public static Action OnLaserExtractionStart;
 	//public static Action OnCheckResultLaser;
+	public static Action OnRightExtraction;
 	public static Action OnExtractionEnd;
+
+	//Управление двигателями
+	public static Action OnEnginesOnOff;
+	public static Action OnRunStart;
+	public static Action OnRunEnd;
+
+	public static Action<string, string> OnCriticalStatusShow;
+	public static Action<string> OnCriticalStatusHide;
 }

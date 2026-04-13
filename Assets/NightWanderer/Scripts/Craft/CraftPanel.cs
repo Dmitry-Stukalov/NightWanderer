@@ -35,6 +35,17 @@ public class CraftPanel
 		_createdCell = craftPanel.Q<VisualElement>("CreatedCell");
 		_resourceCraftData = resourceCraftData;
 
+		for (int i = 0; i < _resourceCraftData.ResourcesIDToCraft.Count; i++)
+		{
+			var newResourceGroup = _needResourceGroup.Instantiate();
+			newResourceGroup.Q<Label>("NeedResourceCount").text = $" X{_resourceCraftData.ResourcesCountToCraft[i]}";
+			newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground(_craftManager.GetResourceSprite(_resourceCraftData.ResourcesIDToCraft[i]));
+			Debug.Log(newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage);
+			_needResourceGroupPlace.Add(newResourceGroup);
+		}
+		
+
+
 		_inventoryCell = inventoryCell;
 
 		var newCell = _inventoryCell.Instantiate();
@@ -42,7 +53,7 @@ public class CraftPanel
 
 		_cellResource = newCell.Q<VisualElement>("CellResource");
 		newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
-		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell, false));
+		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 		newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
 		_createdCell.Add(newCell);

@@ -13,6 +13,10 @@ public class DefenseSystem
 		_defense = defense;
 		_fireDefense = fireDefense;
 
+		_health.OnHealthChange += CheckHealth;
+		_defense.OnHealthChange += CheckDefense;
+		_fireDefense.OnHealthChange += CheckFireDefense;
+
 		manager.AddImprovement(_health, "Health");
 		manager.AddImprovement(_defense, "Defense");
 		manager.AddImprovement(_fireDefense, "FireDefense");
@@ -29,14 +33,19 @@ public class DefenseSystem
 
 				_defense.GetDamage(_defense.GetCurrentHealth());
 
-				Debug.Log("Противоударная защита уничтожена");
+				GameEvents.OnCriticalStatusShow?.Invoke("DefenseDestroy", "Защита уничтожена");
+				GameEvents.OnCriticalStatusHide?.Invoke("DefenseCritical");
 			}
 
 			_health.GetDamage(damage);
+
+			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
 		}
 		else
 		{
 			_defense.GetDamage(damage);
+
+			if (_defense.GetCurrentHealth() / _defense.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("DefenseCritical", "Защита повреждена");
 		}
 	}
 
@@ -51,14 +60,54 @@ public class DefenseSystem
 
 				_fireDefense.GetDamage(_fireDefense.GetCurrentHealth());
 
-				Debug.Log("Термическая защита уничтожена");
+				GameEvents.OnCriticalStatusShow?.Invoke("FireDefenseDestroy", "Терм. защита уничтожена");
+				GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseCritical");
 			}
 
 			_health.GetDamage(fireDamage);
+			
+			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
 		}
 		else
 		{
 			_fireDefense.GetDamage(fireDamage);
+
+			if (_fireDefense.GetCurrentHealth() / _fireDefense.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("FireDefenseCritical", "Терм. защита повреждена");
+		}
+	}
+
+	private void CheckHealth()
+	{
+		if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 > 20) GameEvents.OnCriticalStatusHide?.Invoke("HealthCritical");
+	}
+
+	private void CheckDefense()
+	{
+		if (_defense.GetCurrentHealth() / _defense.GetMaxHealth() * 100 <= 20)
+		{
+			GameEvents.OnCriticalStatusHide?.Invoke("DefenseDestroy");
+			GameEvents.OnCriticalStatusShow?.Invoke("DefenseCritical", "Защита повреждена");
+		}
+
+		if (_defense.GetCurrentHealth() / _defense.GetMaxHealth() * 100 > 20)
+		{
+			GameEvents.OnCriticalStatusHide?.Invoke("DefenseDestroy");
+			GameEvents.OnCriticalStatusHide?.Invoke("DefenseCritical");
+		}
+	}
+
+	private void CheckFireDefense()
+	{
+		if (_fireDefense.GetCurrentHealth() / _fireDefense.GetMaxHealth() * 100 <= 20)
+		{
+			GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseDestroy");
+			GameEvents.OnCriticalStatusShow?.Invoke("FireDefenseCritical", "Терм. защита повреждена");
+		}
+
+		if (_fireDefense.GetCurrentHealth() / _fireDefense.GetMaxHealth() * 100 > 20)
+		{
+			GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseDestroy");
+			GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseCritical");
 		}
 	}
 

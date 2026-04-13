@@ -11,13 +11,24 @@ public class StateMachineVide : StateMachineMovement
 	public override void Enter()
 	{
 		base.Enter();
+
+		RotationX = StateManager.RotationX;
+		RotationY = StateManager.RotationY;
+
 		StateManager.NextState = 0;
 		StateManager.DistanceToGround = 0;
+
+		GameEvents.OnEnginesOnOff?.Invoke();
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+
+		StateManager.RotationX = RotationX;
+		StateManager.RotationY = RotationY;
+
+		GameEvents.OnEnginesOnOff?.Invoke();
 	}
 
 	public override void Update()

@@ -6,16 +6,7 @@
             <ui:VisualElement name="CraftIcon" style="flex-grow: 0; flex-shrink: 0; height: 100%; width: 100%; -unity-background-scale-mode: scale-to-fit; background-color: rgba(255, 255, 255, 0); background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%98%D0%BD%D0%B2%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%8F%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=e271ef88ec21bc14397c0022b8d8020f&amp;type=3#ИконкаИнвентаряЗаглушка&quot;); align-self: center;" />
         </ui:VisualElement>
         <ui:VisualElement name="NeedResourcesGroup" style="flex-grow: 0; width: auto; margin-right: 1%; flex-shrink: 0; height: 80%; justify-content: center;">
-            <ui:VisualElement name="NeedResourcesIcons" style="flex-grow: 0; flex-direction: row; justify-content: center; flex-shrink: 0; margin-bottom: 10%;">
-                <ui:VisualElement name="NeedResource" style="flex-grow: 1; flex-direction: row;">
-                    <ui:Label text="10&#10;" name="NeedResourceCount" style="color: rgb(255, 255, 255); font-size: 8%;" />
-                    <ui:VisualElement name="NeedResourceICon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); background-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: scale-to-fit; flex-shrink: 0; align-self: auto; align-items: stretch; top: auto;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="NeedResource" style="flex-grow: 1; flex-direction: row;">
-                    <ui:Label text="10&#10;" name="NeedResourceCount" style="color: rgb(255, 255, 255); font-size: 8%;" />
-                    <ui:VisualElement name="NeedResourceICon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); background-color: rgba(255, 255, 255, 0); -unity-background-scale-mode: scale-to-fit; flex-shrink: 0;" />
-                </ui:VisualElement>
-            </ui:VisualElement>
+            <ui:VisualElement name="NeedResourcesIcons" style="flex-grow: 0; flex-direction: row; justify-content: space-between; flex-shrink: 0; margin-bottom: 10%;" />
             <ui:VisualElement name="SliderInputGroup" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; margin-bottom: 10%; flex-wrap: nowrap; display: none;">
                 <ui:Label text="2&#10;" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 10%; margin-bottom: 0; margin-left: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255);" />
                 <ui:SliderInt value="10" high-value="100" name="SliderInput" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-items: auto; align-content: auto; width: 80%; height: 100%;" />

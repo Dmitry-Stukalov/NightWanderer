@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.Properties;
 using System.Diagnostics;
+using TMPro.EditorUtilities;
 
 
 //Хранит информацию о ресурсе в ячейке + отвечает за перетаскивание этого ресурса в пределах инвентаря

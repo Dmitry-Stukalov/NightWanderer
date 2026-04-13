@@ -13,6 +13,7 @@ public class ImprovementManager : MonoBehaviour
 	[SerializeField] private UIDocument _baseUI;
 	[SerializeField] private VisualTreeAsset _upgradePanel;
 	[SerializeField] private VisualTreeAsset _needResourceGroup;
+	[SerializeField] private ResourceLibrary _library;
 	[SerializeField] private int _upgradesCount;
 	private Dictionary<string, IImprovementBase> _improvements = new Dictionary<string, IImprovementBase>();
 	private Inventory _playerInventory;
@@ -83,6 +84,7 @@ public class ImprovementManager : MonoBehaviour
 		}
 	}
 
+	public Sprite GetResourceSprite(int id) => _library.GetResourceBase(id).View;
 	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;
 	public void UnlockImprovement(string name)
 	{

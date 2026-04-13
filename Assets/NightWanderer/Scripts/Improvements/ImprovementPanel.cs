@@ -38,7 +38,7 @@ public class ImprovementPanel<TConfig, TData> : ImprovementPanelBase
 		for (int i = 0; i < _currentLevelData.Resource.Count; i++)
 		{
 			var newGroup = _needResourceGroup.Instantiate();
-			newGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground();
+			newGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground(_manager.GetResourceSprite(_currentLevelData.Resource[i]));
 			newGroup.Q<Label>("NeedResourceCount").text = _currentLevelData.Count[i].ToString();
 			_needResourceGroupPlace.Add(newGroup);
 		}
