@@ -1449,6 +1449,7 @@ MonoBehaviour:
   _rainSpawnRate: 20000
   _sandstormSpawnRate: 10000
   Fog: {fileID: 1863931862}
+  _sandstormDamage: 10
 --- !u!1 &279605016
 GameObject:
   m_ObjectHideFlags: 0
