@@ -650,6 +650,52 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1816021210727080394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9075076707277498731}
+  - component: {fileID: 4012189096461939772}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9075076707277498731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816021210727080394}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2201670983639112127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4012189096461939772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816021210727080394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ba07177f05c4f4db7f14bd39f35c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerUI: {fileID: 4384735025375778772}
+  _config: {fileID: 11400000, guid: 692ba2f507ecec54dbf65b80ee7fd610, type: 2}
 --- !u!1 &1914105633967650544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,13 +1226,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18fde04c53729bd498e19c33f410d442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 3529305282250114454}
+  _ship: {fileID: 0}
   _explosions:
   - {fileID: 5022045252741623160}
   - {fileID: 6478351691767033750}
   - {fileID: 8595845391640882767}
   - {fileID: 8416563832875889248}
   - {fileID: 6328688107975973883}
+  LastBase: {fileID: 0}
 --- !u!1 &3695454909443540156
 GameObject:
   m_ObjectHideFlags: 0
@@ -6711,6 +6758,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8974696359853331996}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97d6d41b45f890342aec25cb0ec39407,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9075076707277498731}
     - targetCorrespondingSourceObject: {fileID: -7379132907224104550, guid: 97d6d41b45f890342aec25cb0ec39407,
         type: 3}
       insertIndex: -1

@@ -19,6 +19,7 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private MissionsManager _missionsManager;
 	[SerializeField] private CraftManager _craftManager;
 	[SerializeField] private EffectsManager _effectsManager;
+	[SerializeField] private DialogueManager _dialogueManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -40,6 +41,7 @@ public class Bootstrap : MonoBehaviour
 		_weatherManager?.Initializing();
 		_missionsManager?.Initializing();
 		_weatherPanel?.Initializing(_shipMovement.GetPlayerDefenseSystem().GetHealth(), _weatherManager, _sun);
+		_dialogueManager?.Initializing();
 
 		StartCoroutine(StartPause());
 	}
