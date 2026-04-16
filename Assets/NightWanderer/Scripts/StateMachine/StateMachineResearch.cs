@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class StateMachineResearch : StateMachineState
 {
-	public StateMachineResearch(int id, StateMachineManager manager): base(id, manager)
+	public StateMachineResearch(int id, StateMachineManager manager, Transform ship): base(id, manager, ship)
 	{
 
 	}
@@ -21,6 +21,8 @@ public class StateMachineResearch : StateMachineState
 
 	public override void Update()
 	{
+		base.Update();
+
 		if (Keyboard.current.fKey.wasPressedThisFrame)
 		{
 			StateManager.SetState(0);

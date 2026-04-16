@@ -12,6 +12,8 @@ public class StateMachineVide : StateMachineMovement
 	{
 		base.Enter();
 
+		StateManager._Animator.SetBool("IsIdle", true);
+
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
 
@@ -27,6 +29,8 @@ public class StateMachineVide : StateMachineMovement
 
 		StateManager.RotationX = RotationX;
 		StateManager.RotationY = RotationY;
+
+		StateManager._Animator.SetBool("IsIdle", false);
 
 		GameEvents.OnEnginesOnOff?.Invoke();
 	}

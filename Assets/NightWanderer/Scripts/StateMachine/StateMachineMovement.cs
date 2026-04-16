@@ -12,7 +12,7 @@ public class StateMachineMovement : StateMachineState
 {
 	protected readonly GameObject PlayerCameraRotationObject;
 	protected readonly GameObject ShipObject;
-	protected readonly Transform Ship;
+	//protected readonly Transform Ship;
 	protected readonly Transform VacuumCleanerObject;
 	protected readonly InputAction MoveAction;
 	protected readonly InputAction UpDownMoveAction;
@@ -39,11 +39,11 @@ public class StateMachineMovement : StateMachineState
 	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager, ship) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		ShipObject = shipObject;
-		Ship = ship;
+		//Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
 		Cleaner = vacuumCleaner;
 
@@ -81,6 +81,8 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
+		base.Update();
+
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();

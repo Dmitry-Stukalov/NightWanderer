@@ -40,7 +40,6 @@ public class CraftPanel
 			var newResourceGroup = _needResourceGroup.Instantiate();
 			newResourceGroup.Q<Label>("NeedResourceCount").text = $" X{_resourceCraftData.ResourcesCountToCraft[i]}";
 			newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground(_craftManager.GetResourceSprite(_resourceCraftData.ResourcesIDToCraft[i]));
-			Debug.Log(newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage);
 			_needResourceGroupPlace.Add(newResourceGroup);
 		}
 		
@@ -64,10 +63,7 @@ public class CraftPanel
 
 	private void Create(ClickEvent evt)
 	{
-		if (_craftManager.TryCraft(_ID) && IsUnlock)
-		{
-			((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
-		}
+		if (_craftManager.TryCraft(_ID) && IsUnlock) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
 		else Debug.Log("Не хватает ресурсов");
 	}
 

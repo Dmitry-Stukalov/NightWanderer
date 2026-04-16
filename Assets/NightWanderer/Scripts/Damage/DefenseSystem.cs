@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 //Отвечает за здоровье, защиту и термальную защиту. Вычисляет получаемый урон
@@ -6,6 +7,8 @@ public class DefenseSystem
 	private HealthFireDefense _health;
 	private HealthFireDefense _defense;
 	private HealthFireDefense _fireDefense;
+
+	public event Action OnDeath;
 
 	public DefenseSystem(HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense, ImprovementManager manager)
 	{
@@ -40,6 +43,8 @@ public class DefenseSystem
 			_health.GetDamage(damage);
 
 			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
+
+			if (_health.GetCurrentHealth() == 0) Death();
 		}
 		else
 		{
@@ -67,6 +72,8 @@ public class DefenseSystem
 			_health.GetDamage(fireDamage);
 			
 			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
+
+			if (_health.GetCurrentHealth() == 0) Death();
 		}
 		else
 		{
@@ -94,6 +101,16 @@ public class DefenseSystem
 			GameEvents.OnCriticalStatusHide?.Invoke("DefenseDestroy");
 			GameEvents.OnCriticalStatusHide?.Invoke("DefenseCritical");
 		}
+	}
+
+	private void Death()
+	{
+		OnDeath?.Invoke();
+	}
+
+	public void Alive()
+	{
+		_health.Healing(_health.GetMaxHealth());
 	}
 
 	private void CheckFireDefense()

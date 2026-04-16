@@ -26,6 +26,7 @@ public class StateMachineManager
 	public int NextState { get; set; }
 	public bool IsCleanerWorking { get; set; } = false;
 	public bool IsReverseMove { get; set; } = false;
+	public bool IsDead { get; set; } = false;
 
 
 	public void AddState(int ID, StateMachineState newState)

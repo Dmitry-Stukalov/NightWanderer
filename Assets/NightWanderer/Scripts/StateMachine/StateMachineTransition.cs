@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public class StateMachineTransition : StateMachineState
 {
-	private Transform Ship;
+	//private Transform Ship;
 	private Transform PlayerCameraRotationObject;
 	private Vector3 TargetShipPosition;
 	private Quaternion TargetShipRotation;
@@ -20,14 +20,16 @@ public class StateMachineTransition : StateMachineState
 	private bool RotationCameraReached;
 	private int PositionsIndex;
 
-	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, Transform playerCameraRotationObject): base(id, manager) 
+	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, Transform playerCameraRotationObject): base(id, manager, ship) 
 	{ 
-		Ship = ship;
+		//Ship = ship;
 		PlayerCameraRotationObject = playerCameraRotationObject;
 	}
 	 
 	public override void Enter()
 	{
+		StateManager._Animator.SetBool("IsIdle", true);
+
 		PositionsIndex = 0;
 		TargetShipPosition = StateManager.TargetShipPosition;
 		TargetShipRotation = StateManager.TargetShipRotation;
@@ -42,6 +44,8 @@ public class StateMachineTransition : StateMachineState
 		//StateManager.RotationY = TargetCameraRotation.eulerAngles.y;
 		StateManager.RotationX = RotationX;
 		StateManager.RotationY = RotationY;
+
+		StateManager._Animator.SetBool("IsIdle", false);
 		//StateManager.TargetCameraRotation = TargetCameraRotation;
 	}
 
@@ -51,7 +55,7 @@ public class StateMachineTransition : StateMachineState
 		RotationReached = Quaternion.Angle(Ship.rotation /*Quaternion.Euler(StateManager.RotationX, StateManager.RotationY, Ship.rotation.z)*/, TargetShipRotation) <= RotationTolerance;
 		RotationCameraReached = Quaternion.Angle(PlayerCameraRotationObject.rotation, TargetCameraRotation) <= RotationTolerance;
 
-		if (StateManager.NextState == 3 && PositionReached)
+		if (StateManager.NextState == 3 || StateManager.NextState == 50 && PositionReached)
 		{
 			StateManager.SetState(StateManager.NextState);
 		}
@@ -61,10 +65,20 @@ public class StateMachineTransition : StateMachineState
 		}
 		else
 		{
-			Ship.position = Vector3.MoveTowards(Ship.position, TargetShipPosition, Time.deltaTime * 5);
-			Ship.rotation = Quaternion.Slerp(Ship.rotation, TargetShipRotation, Time.deltaTime * 5);
+			if (StateManager.NextState == 50)
+			{
+				Ship.position = Vector3.MoveTowards(Ship.position, TargetShipPosition, Time.deltaTime * 2);
+				Ship.rotation = Quaternion.Slerp(Ship.rotation, TargetShipRotation, Time.deltaTime * 2);
 
-			PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 5);
+				PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 2);
+			}
+			else
+			{
+				Ship.position = Vector3.MoveTowards(Ship.position, TargetShipPosition, Time.deltaTime * 5);
+				Ship.rotation = Quaternion.Slerp(Ship.rotation, TargetShipRotation, Time.deltaTime * 5);
+
+				PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 5);
+			}
 		}
 	}
 

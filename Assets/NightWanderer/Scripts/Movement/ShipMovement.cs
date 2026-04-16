@@ -11,6 +11,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private PlayerUIController _playerUIController;
+	[SerializeField] private DeathManager _deathManager;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -55,6 +56,7 @@ public class ShipMovement : MonoBehaviour
 	public bool IsShipReady { get; set; } = false;
 	public bool IsCanDocking { get; set; } = false;
 	public bool IsCanResearch { get; set; } = false;
+	private bool IsDead = false; 
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -65,6 +67,7 @@ public class ShipMovement : MonoBehaviour
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
+		_defenseSystem.OnDeath += Death;
 
 		_fuel = new Fuel(_fuelConfig);
 		_miningEquipment = new MiningEquipment(_miningConfig, _fuel);
@@ -85,12 +88,15 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(3, new StateMachineVide(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
 		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
-		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager));
-		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager));
+		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform));
+		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager, transform));
+		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform));
 
 		StateMachineManager.SetState(0);
 		StateMachineManager.Inventory = _inventoryButton;
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
+
+		_deathManager.OnAlive += Alive;
 	}
 
 	private IEnumerator StartPause()
@@ -113,9 +119,29 @@ public class ShipMovement : MonoBehaviour
 		else _defenseSystem.GetDamage(10);
 	}
 
+	private void Death()
+	{
+		if (IsDead) return;
+
+		IsDead = true;
+		StateMachineManager.IsDead = true;
+		_deathManager.StartDeath();
+	}
+
+	private void Alive()
+	{
+		if (!IsDead) return;
+
+		_defenseSystem.Alive();
+		IsDead = false;
+		StateMachineManager.IsDead = false;
+	}
+
 	//При входе в область источника ресурса передает его местоположение в машину состояний
 	private void OnTriggerEnter(Collider other)
 	{
+		if (IsDead) return;
+
 		if (other.CompareTag("ResourceSource"))
 		{
 			IsCanMiningResource = true;
@@ -148,6 +174,8 @@ public class ShipMovement : MonoBehaviour
 	//При выходе из области источника ресурса обнуляет его местоположение в машине состояний
 	private void OnTriggerExit(Collider other)
 	{
+		if (IsDead) return;
+
 		if (other.CompareTag("ResourceSource"))
 		{
 			IsCanMiningResource = false;
@@ -172,6 +200,8 @@ public class ShipMovement : MonoBehaviour
 
 	private void Update()
 	{
+		//if (IsDead) return;
+
 		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
 
 		StateMachineManager.Update();
