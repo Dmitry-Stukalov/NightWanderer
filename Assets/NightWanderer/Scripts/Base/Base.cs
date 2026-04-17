@@ -5,9 +5,19 @@ public class Base : MonoBehaviour
 {
 	[SerializeField] private GameObject _dockingPlatform;
 	[SerializeField] private Animator _animator;
-	[SerializeField] private GameObject _ship;
-	[SerializeField] private PlayerUIController _playerUI;
+	/*[SerializeField]*/ private GameObject _ship;
+	/*[SerializeField]*/ private PlayerUIController _playerUI;
 	private bool IsFirstVisit = true;
+
+	private void Start()
+	{
+		_playerUI = FindAnyObjectByType<PlayerUIController>();
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.CompareTag("Player")) _ship = other.gameObject;
+	}
 
 	public void MoveDownDockingPlatform()
 	{

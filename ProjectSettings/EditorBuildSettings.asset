@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NightWanderer/Scenes/OpenMapScene.unity
     guid: 8124e5870f4fd4c779e7a5f994e84ad1
+  - enabled: 1
+    path: Assets/NightWanderer/Scenes/IntroductionScene.unity
+    guid: 7243776f87b78b44fbfb7fb0f95d6fd0
+  - enabled: 1
+    path: Assets/NightWanderer/Scenes/BaseScene.unity
+    guid: 97e20d14a8177544c93932062dcb6d1f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2c73b79ba3b39264aa650a5b989c9565,
       type: 2}

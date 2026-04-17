@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bootstrap : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class Bootstrap : MonoBehaviour
 	//Инициализация всех объектов, которые находятся на сцене
 	private void Start()
 	{
+		SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
+
 		_effectsManager?.Initializing();
 		_shipMovement?.Initializing();
 		_playerUIController?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
@@ -53,5 +56,8 @@ public class Bootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerFuel(), "Fuel");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerMiningEquipment(), "Mining");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
+
+		yield return new WaitForSeconds(1f);
+		_dialogueManager.StartNewDialogue();
 	}
 }

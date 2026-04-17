@@ -9,6 +9,7 @@ public class Billboard : MonoBehaviour
 
 	private void Start()
 	{
+		_cameraTransform = Camera.main.transform;
 		transform.localScale = new Vector3(_startScale, _startScale, _startScale);
 	}
 

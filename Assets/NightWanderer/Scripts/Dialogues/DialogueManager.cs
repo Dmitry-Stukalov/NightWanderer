@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
 	private DialogueWriter _dialogueWriter;
 	private int _currentDialogue = 0;
 	private bool IsDialogueContinue = false;
+	private bool IsTransfer = false;
 
 	public void Initializing()
 	{
@@ -40,10 +41,10 @@ public class DialogueManager : MonoBehaviour
 			foreach (var symbol in _config.Dialogues[_currentDialogue].Phrase[i])
 			{
 				_dialogueWriter.AddChar(symbol);
-				yield return new WaitForSeconds(0.05f);
+				yield return new WaitForSeconds(0.03f);
 			}
 
-			yield return new WaitForSeconds(5f);
+			yield return new WaitForSeconds(2f);
 		}
 
 		IsDialogueContinue = false;
