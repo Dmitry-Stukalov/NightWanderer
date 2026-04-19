@@ -25,10 +25,11 @@ public class ImprovementManager : MonoBehaviour
 
 	public void Initializing(Inventory playerInventory, Inventory baseInventory)
 	{
+		_library = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
 		_playerInventory = playerInventory;
 		_baseInventory = baseInventory;
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < 13; i++)
 		{
 			_resources[i] = 0;
 		}
@@ -80,11 +81,24 @@ public class ImprovementManager : MonoBehaviour
 					_upgradesBackground.Add(newItem);
 
 				break;
+
+				case "Searchlight":
+
+					newItem = _upgradePanel.Instantiate();
+					newItem.dataSource = new ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					_upgradesBackground.Add(newItem);
+
+				break;
 			}
 		}
 	}
 
-	public Sprite GetResourceSprite(int id) => _library.GetResourceBase(id).View;
+	public Sprite GetResourceSprite(int id)
+	{
+		if (id <= 6) return _library.GetResourceBase(id).View;
+		else return _library.GetCraftResourceBase(id-10).View;
+	}
+
 	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;
 	public void UnlockImprovement(string name)
 	{
@@ -113,6 +127,10 @@ public class ImprovementManager : MonoBehaviour
 
 					case "Engines":
 						((ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "Searchlight":
+						((ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
 					break;
 				}
 			i++;

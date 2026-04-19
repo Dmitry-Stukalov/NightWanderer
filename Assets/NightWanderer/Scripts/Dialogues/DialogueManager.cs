@@ -10,6 +10,7 @@ public class DialogueManager : MonoBehaviour
 	private int _currentDialogue = 0;
 	private bool IsDialogueContinue = false;
 	private bool IsTransfer = false;
+	private bool IsNextActive = false;
 
 	public void Initializing()
 	{
@@ -17,11 +18,19 @@ public class DialogueManager : MonoBehaviour
 		_textBackground.dataSource = new DialogueWriter(_textBackground, _textBackground.Q<Label>("CharacterName"), _textBackground.Q<Label>("CharacterText"));
 
 		_dialogueWriter = (DialogueWriter)_textBackground.dataSource;
+
+		GameEvents.OnDialogueStart += StartNewDialogue;
 	}
 
 	public void StartNewDialogue()
 	{
-		if (IsDialogueContinue || _config.Dialogues.Length == _currentDialogue) return;
+		if (_config.Dialogues.Length == _currentDialogue) return;
+
+		if (IsDialogueContinue)
+		{
+			IsNextActive = true;
+			return;
+		}
 
 		ShowBackground();
 
@@ -50,9 +59,21 @@ public class DialogueManager : MonoBehaviour
 		IsDialogueContinue = false;
 		_currentDialogue++;
 		HideBackground();
+
+		if (IsNextActive)
+		{
+			yield return new WaitForSeconds(2);
+			IsNextActive = false;
+			StartNewDialogue();
+		}
 	}
 
 	private void ShowBackground() => _dialogueWriter.ShowBackground();
 
 	private void HideBackground() => _dialogueWriter.HideBackground();
+
+	private void OnDisable()
+	{
+		GameEvents.OnDialogueStart -= StartNewDialogue;
+	}
 }

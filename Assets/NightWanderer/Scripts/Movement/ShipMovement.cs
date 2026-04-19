@@ -30,6 +30,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private float _consumptionRunValue;
 
 	[Header("Looking")]
+	[SerializeField] private Searchlights _searchlights;
 	[SerializeField] private float LookSpeed;
 	[SerializeField] private int ResourceRotationX;
 	[SerializeField] private int ResourceDistanceY;
@@ -41,6 +42,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private ImprovementConfig _healthConfig;
 	[SerializeField] private ImprovementConfig _defenseConfig;
 	[SerializeField] private ImprovementConfig _fireDefenseConfig;
+	[SerializeField] private ImprovementConfig _searchlightConfig;
 
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
@@ -56,7 +58,9 @@ public class ShipMovement : MonoBehaviour
 	public bool IsShipReady { get; set; } = false;
 	public bool IsCanDocking { get; set; } = false;
 	public bool IsCanResearch { get; set; } = false;
-	private bool IsDead = false; 
+	private bool IsDead = false;
+	private bool IsGameStart = false;
+	private bool IsFirstTimeBase = false;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -64,7 +68,9 @@ public class ShipMovement : MonoBehaviour
 	{
 		StartCoroutine(StartPause());
 
-		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
+		GameEvents.OnGameStart += () => IsGameStart = true;
+
+		_searchlights.AddConfig(_searchlightConfig);
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
 		_defenseSystem.OnDeath += Death;
@@ -99,9 +105,20 @@ public class ShipMovement : MonoBehaviour
 		_deathManager.OnAlive += Alive;
 	}
 
+	public void OpenSceneInitializing()
+	{
+		_resourceLibrary = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
+
+		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
+	}
+
 	private IEnumerator StartPause()
 	{
 		yield return new WaitForSeconds(2f);
+
+		//_resourceLibrary = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
+
+		//_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 
 		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _miningEquipment, _fuel, _playerUIController.GetMinigameLaser()));
 	}
@@ -110,6 +127,7 @@ public class ShipMovement : MonoBehaviour
 	public Fuel GetPlayerFuel() => _fuel;
 	public MiningEquipment GetPlayerMiningEquipment() => _miningEquipment;
 	public JetEngines GetPlayerEngines() => _engines;
+	public Searchlights GetPlayerSearchlights() => _searchlights;
 
 	private void HitSurface()
 	{
@@ -157,7 +175,12 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 
-			GameEvents.OnBase?.Invoke();
+			if (!IsFirstTimeBase)
+			{
+				GameEvents.OnBase?.Invoke();
+				IsFirstTimeBase = true;
+			}
+
 			GameEvents.OnCraftOpen?.Invoke("Прожектор");
 		}
 
@@ -200,7 +223,7 @@ public class ShipMovement : MonoBehaviour
 
 	private void Update()
 	{
-		//if (IsDead) return;
+		if (!IsGameStart) return;
 
 		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
 
@@ -219,5 +242,10 @@ public class ShipMovement : MonoBehaviour
 				StateMachineManager.DistanceToGround = hit.distance;
 			}
 		}
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnGameStart -= () => IsGameStart = true;
 	}
 }

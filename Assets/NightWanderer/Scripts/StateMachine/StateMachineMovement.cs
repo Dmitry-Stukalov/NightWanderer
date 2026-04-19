@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Data;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -217,6 +218,8 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
+		if (!Cleaner.IsInitializing) return;
+
 		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn();
 		else Cleaner.CleanerOff();
 

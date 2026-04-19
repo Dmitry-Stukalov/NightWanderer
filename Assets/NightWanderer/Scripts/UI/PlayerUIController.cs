@@ -1,7 +1,10 @@
+using DG.Tweening;
+using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 //Отвечает за управление всем UI
@@ -15,11 +18,21 @@ public class PlayerUIController : MonoBehaviour
 	[SerializeField] private BaseUIManager _baseUI;
 	private VisualElement _mainExtractionLaserElement;
 	private VisualElement _mainExtractionFuelElement;
+	private VisualElement _blackBackground;
+	private VisualElement _tutorialPanel;
 	private Dictionary<string, VisualElement> _statusPanels;
+	private TutorialManager _tutorialManager;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
 		StartCoroutine(StartPause());
+
+		_blackBackground = PlayerUI.rootVisualElement.Q<VisualElement>("BlackBackground");
+		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
+
+		_tutorialPanel = PlayerUI.rootVisualElement.Q<VisualElement>("TutorialPanel");
+		_tutorialPanel.dataSource = new TutorialManager(_tutorialPanel);
+		_tutorialManager = (TutorialManager)_tutorialPanel.dataSource;
 
 		var fuelItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FuelBackground");
 		fuelItemBackground.dataSource = new FuelRecovery(fuel, PlayerUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
@@ -54,6 +67,34 @@ public class PlayerUIController : MonoBehaviour
 
 		_mainExtractionLaserElement.style.display = DisplayStyle.None;
 		_mainExtractionFuelElement.style.display = DisplayStyle.None;
+
+		yield return new WaitForSeconds(37f);
+		StartGame();
+	}
+
+	private IEnumerator OnBasePause()
+	{
+		//_blackBackground.style.display = DisplayStyle.Flex;
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
+
+		yield return new WaitForSeconds(4f);
+
+		GameEvents.OnDialogueStart?.Invoke();
+
+		yield return new WaitForSeconds(90);
+
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f);
+		//_blackBackground.style.display = DisplayStyle.None;
+	}
+
+	private void StartGame()
+	{
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 5f)
+		.OnComplete(() =>
+		{
+			GameEvents.OnGameStart?.Invoke();
+			OpenTutorial(new int[] {0, 1, 2, 3, 6});
+		});
 	}
 
 	public void ShowStatusPanel(string name, string panelText)
@@ -107,8 +148,29 @@ public class PlayerUIController : MonoBehaviour
 
 	public MinigameLaser GetMinigameLaser() => (MinigameLaser)_mainExtractionLaserElement.dataSource;
 
+	public void OpenTutorial(int[] id)
+	{
+		for (int i = 0; i < id.Length; i++) _tutorialManager.OpenPanel(id[i]);
+
+		StartCoroutine(TutorialPause(id));
+	}
+
+	private IEnumerator TutorialPause(int[] id)
+	{
+		yield return new WaitForSeconds(5f);
+
+		CloseTutorial(id);
+	}
+
+	public void CloseTutorial(int[] id)
+	{
+		for (int i = 0; i < id.Length; i++) _tutorialManager.ClosePanel(id[i]);
+	}
+
 	private void Update()
 	{
+		if (!SceneManager.GetSceneByName("OpenMapScene").isLoaded) return;
+
 		if (Keyboard.current.tabKey.wasPressedThisFrame && !_baseUI.OnBase) Inventory.OpenCloseInventory();
 	}
 
@@ -118,5 +180,6 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnExtractionEnd -= OnExtractionLaserEnd;
 		GameEvents.OnCriticalStatusShow -= ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide -= HideStatusPanel;
+		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
 	}
 }

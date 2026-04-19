@@ -55,7 +55,7 @@ public class StateMachineTransition : StateMachineState
 		RotationReached = Quaternion.Angle(Ship.rotation /*Quaternion.Euler(StateManager.RotationX, StateManager.RotationY, Ship.rotation.z)*/, TargetShipRotation) <= RotationTolerance;
 		RotationCameraReached = Quaternion.Angle(PlayerCameraRotationObject.rotation, TargetCameraRotation) <= RotationTolerance;
 
-		if (StateManager.NextState == 3 || StateManager.NextState == 50 && PositionReached)
+		if ((StateManager.NextState == 3 || StateManager.NextState == 50) && PositionReached)
 		{
 			StateManager.SetState(StateManager.NextState);
 		}

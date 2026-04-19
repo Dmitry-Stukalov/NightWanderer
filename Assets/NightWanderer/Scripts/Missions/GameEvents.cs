@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class GameEvents
 {
+	public static Action OnGameStart;
+
 	//Посещение базы
 	public static Action OnBase;
 	public static Action OnFirstBaseVisit;
@@ -28,4 +30,6 @@ public static class GameEvents
 
 	public static Action<string, string> OnCriticalStatusShow;
 	public static Action<string> OnCriticalStatusHide;
+
+	public static Action OnDialogueStart;
 }

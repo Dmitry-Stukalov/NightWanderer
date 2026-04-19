@@ -1,10 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/NightWanderer/UIBuilder/PlayerUI.uss?fileID=7433441132597879392&amp;guid=87acf5a7fa867dd4a95df1b855a03afb&amp;type=3#PlayerUI" />
-    <ui:VisualElement name="MainElement" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; -unity-background-image-tint-color: rgb(255, 255, 255); margin-top: 0%; background-color: rgba(0, 0, 0, 0); display: flex; visibility: visible;">
+    <ui:VisualElement name="MainElement" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; -unity-background-image-tint-color: rgb(255, 255, 255); margin-top: 0%; background-color: rgba(0, 0, 0, 0); display: flex; visibility: visible; flex-shrink: 1;">
         <ui:VisualElement name="WeatherPanel" class="BorderAll MainBackground" style="flex-grow: 1; top: 0; width: 50%; height: 7%; position: absolute; align-self: center; align-content: center; flex-direction: row; opacity: 1; visibility: visible; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px;">
             <ui:VisualElement name="WeatherIcon" style="flex-grow: 1; position: relative; left: auto; width: 50%; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%9D%D0%BE%D1%87%D0%B8%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=2657fa61cadae6346a631cf1d91495c9&amp;type=3#ИконкаНочиЗаглушка&quot;); background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: scale-to-fit; background-position-y: center 0; background-position-x: center 0; align-content: center; align-items: stretch; justify-content: flex-start; margin-top: 0%; margin-bottom: 0%; margin-left: 3%; height: auto; background-size: contain; align-self: auto; margin-right: 1%; padding-right: 0%; padding-left: 0%;" />
-            <ui:Label text="День 15" name="DayText" class="StandartLabel" style="align-self: center; align-content: center; opacity: 1; position: relative; justify-content: space-around; align-items: center; max-width: none; max-height: none; height: auto; width: 20%; flex-wrap: nowrap;" />
-            <ui:Label text="15:48" name="TimeText" class="StandartLabel" style="align-self: center; align-content: center; justify-content: flex-start; align-items: stretch; width: 20%;" />
+            <ui:Label text="День 0" name="DayText" class="StandartLabel" style="align-self: center; align-content: center; opacity: 1; position: relative; justify-content: space-around; align-items: center; max-width: none; max-height: none; height: auto; width: 20%; flex-wrap: nowrap;" />
+            <ui:Label text="00:00" name="TimeText" class="StandartLabel" style="align-self: center; align-content: center; justify-content: flex-start; align-items: stretch; width: 20%;" />
             <ui:Label text="Туманно" name="WeatherText" class="StandartLabel" style="align-self: center; align-content: center; width: 20%;" />
             <ui:VisualElement name="TabIcon" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/NightWanderer/Sprites/UI/Inventory/%D0%98%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0%D0%98%D0%BD%D0%B2%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%8F%D0%97%D0%B0%D0%B3%D0%BB%D1%83%D1%88%D0%BA%D0%B0.png?fileID=2800000&amp;guid=e271ef88ec21bc14397c0022b8d8020f&amp;type=3#ИконкаИнвентаряЗаглушка&quot;); align-self: auto; align-content: center; width: 50%; height: auto; background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: scale-to-fit; position: relative; left: auto; top: auto; right: auto; bottom: auto;" />
             <ui:Label text="Tab" name="TabText" class="StandartLabel" style="width: 15%; align-self: center;" />
@@ -61,9 +61,56 @@
                 <ui:VisualElement name="StatisticIconGroup" style="flex-grow: 1;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="CriticalPanelPlace" style="flex-grow: 1; align-self: flex-start; left: auto; position: relative; justify-content: center; align-items: center; width: 7%; align-content: auto; flex-wrap: wrap; flex-shrink: 0;" />
+        <ui:VisualElement name="CriticalPanelPlace" style="flex-grow: 1; align-self: flex-start; left: 0%; position: absolute; justify-content: center; align-items: center; width: 7%; align-content: auto; flex-wrap: wrap; flex-shrink: 0; height: 100%;" />
+        <ui:VisualElement name="TutorialPanel" style="flex-grow: 0; right: 0%; flex-shrink: 0; width: 10%; height: 100%; align-self: flex-end; align-items: center; align-content: auto; justify-content: center; position: absolute;">
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="W" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Вперед" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="A" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Влево" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="S" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Назад" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="D" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0.2; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Вправо" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="Q" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Вниз" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="E" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 30%;" />
+                <ui:Label text="Вверх" name="Description" class="SmallLable" style="flex-grow: 0; width: 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="SHIFT" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 40%;" />
+                <ui:Label text="Ускорение" name="Description" class="SmallLable" style="flex-grow: 0; width: 60%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="SPACE" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 40%;" />
+                <ui:Label text="Добыча" name="Description" class="SmallLable" style="flex-grow: 0; width: 60%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="R" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 40%;" />
+                <ui:Label text="вкл/выкл &#10;двигатели" name="Description" class="SmallLable" style="flex-grow: 0; width: 60%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="T" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 40%;" />
+                <ui:Label text="Прожектора" name="Description" class="SmallLable" style="flex-grow: 0; width: 60%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Panel" class="MainBackground BorderAll" style="flex-grow: 0; align-self: center; width: 100%; height: 5%; flex-direction: row; justify-content: space-between; margin-bottom: 5%; opacity: 0; display: none;">
+                <ui:Label text="Tab" name="Key" class="StandartLabel BorderAll MainBackground" style="flex-grow: 0; flex-shrink: 0; margin-top: 2%; margin-right: 2%; margin-bottom: 2%; margin-left: 2%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 40%;" />
+                <ui:Label text="Инвентарь" name="Description" class="SmallLable" style="flex-grow: 0; width: 60%;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="BlackBackground" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 1; display: flex;" />
     </ui:VisualElement>
-    <ui:VisualElement name="DialoguePanel" class="MainBackground BorderAll" style="flex-grow: 0; bottom: 3%; width: 35%; height: 10%; flex-shrink: 1; align-self: center; position: absolute; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; flex-direction: row; justify-content: space-evenly; opacity: 1;">
+    <ui:VisualElement name="DialoguePanel" class="MainBackground BorderAll" style="flex-grow: 0; bottom: 3%; width: 35%; height: 10%; flex-shrink: 1; align-self: center; position: absolute; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; flex-direction: row; justify-content: space-evenly; opacity: 0;">
         <ui:Label text="Лана" name="CharacterName" class="StandartLabel BorderRight" style="flex-grow: 0; width: 20%; margin-top: 1%; margin-right: 1%; margin-bottom: 1%; margin-left: 1%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%;" />
         <ui:Label text="-Вай баля, я твой мама рот&#10; туда сюда и потом обратно, ежжи" name="CharacterText" class="StandartLabel" style="flex-grow: 0; flex-wrap: nowrap; align-content: center; -unity-text-align: middle-left; margin-left: 3%; margin-bottom: 1%; margin-right: 1%; margin-top: 1%; padding-top: 1%; padding-right: 3%; padding-bottom: 1%; padding-left: 3%; white-space: pre-wrap; text-overflow: ellipsis; width: 80%;" />
     </ui:VisualElement>

@@ -9,7 +9,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 {
 	[SerializeField] private GameObject Moon;
 	[SerializeField] private GameObject FakeSun;
-	[SerializeField] private GameObject Player;
+	/*[SerializeField]*/ private GameObject Player;
 	[field: NonSerialized] public DefenseSystem Health { get; set; }
 	[field: SerializeField] public float MinDamage { get; set; }
 	[field: SerializeField] public float MaxDamage { get; set; }
@@ -33,6 +33,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void Initializing()
 	{
+		Player = GameObject.FindGameObjectWithTag("Player");
 		Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
 
 		TransitionDayTimer = new Timer(TransitionDayLength);

@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,16 +15,22 @@ public class BaseUIManager : MonoBehaviour
 	private VisualElement storageBackground;
 	private VisualElement craftBackground;
 	private VisualElement upgradesBackground;
+	private VisualElement blackBackground;
 
 	private Button storageButton;
 	private Button craftButton;
 	private Button upgradesButton;
 
 	public bool OnBase { get; set; } = false;
+	private bool IsFirstTime = true;
 
 	public void Initializing()
 	{
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
+
+		blackBackground = baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
+		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
+
 
 		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
 		craftBackground = baseUI.rootVisualElement.Q<VisualElement>("CraftBackground");
@@ -41,10 +49,24 @@ public class BaseUIManager : MonoBehaviour
 		mainBackground.style.display = DisplayStyle.None;
 	}
 
+	private IEnumerator OnBasePause()
+	{
+		baseUI.sortingOrder = -5;
+		//blackBackground.style.display = DisplayStyle.Flex;
+		//DOTween.To(() => blackBackground.resolvedStyle.opacity, x => blackBackground.style.opacity = x, 1, 2f);
+
+		yield return new WaitForSeconds(94);
+
+		//DOTween.To(() => blackBackground.resolvedStyle.opacity, x => blackBackground.style.opacity = x, 0, 2f);
+		//blackBackground.style.display = DisplayStyle.None;
+		baseUI.sortingOrder = 5;
+	}
+
 	//¬ключает отображение UI на базе и выдвигает его вперед
 	public void OpenBaseUI()
 	{
-		baseUI.sortingOrder = 5;
+		if (IsFirstTime) IsFirstTime = false;
+		else baseUI.sortingOrder = 5;
 
 		mainBackground.style.display = DisplayStyle.Flex;
 
@@ -96,5 +118,10 @@ public class BaseUIManager : MonoBehaviour
 				upgradesBackground.style.display = DisplayStyle.Flex;
 			break;
 		}
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
 	}
 }

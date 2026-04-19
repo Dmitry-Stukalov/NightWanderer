@@ -6,6 +6,7 @@ using UnityEngine;
 public class ResourceLibrary : MonoBehaviour
 {
 	[field: SerializeField] ResourceConfig config;
+	[field: SerializeField] ResourceCraftConfig craftConfig;
 	[field: SerializeField] private GameObject[] Resources;
 	private List<GameObject> ResourcePool = new List<GameObject>();
 
@@ -79,6 +80,11 @@ public class ResourceLibrary : MonoBehaviour
 		}
 
 		return CreateObject(id).GetComponent<ResourceOnLand>().GetResource();
+	}
+
+	public ResourceBase GetCraftResourceBase(int id)
+	{
+		return new ResourceBase(craftConfig.CraftResources[id].View, craftConfig.CraftResources[id].Name, craftConfig.CraftResources[id].ID, craftConfig.CraftResources[id].MaxCount);
 	}
 
 	//Создание ресурса, если его нет в пуле

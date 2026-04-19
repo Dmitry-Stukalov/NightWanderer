@@ -18,8 +18,9 @@ public class CraftManager : MonoBehaviour
 	private Dictionary<int, int> _resources = new Dictionary<int, int>();
 	private Dictionary<string, VisualElement> _panels = new Dictionary<string, VisualElement>();
 
-	public void Initializing(Inventory playerInventory, Inventory baseInventory)
+	public void Initializing(Inventory playerInventory, Inventory baseInventory, ResourceLibrary library)
 	{
+		_library = library;
 		_playerInventory = playerInventory;
 		_baseInventory = baseInventory;
 
@@ -42,6 +43,7 @@ public class CraftManager : MonoBehaviour
 		}
 
 		GameEvents.OnCraftOpen += UnlockCraft;
+		UnlockCraft("Прожектор");
 	}
 
 	public Sprite GetResourceSprite(int id) => _library.GetResourceBase(id).View;

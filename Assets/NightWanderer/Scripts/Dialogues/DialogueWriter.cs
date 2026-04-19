@@ -24,7 +24,7 @@ public class DialogueWriter
 
 	public void AddChar(char text) => _text.text += text;
 
-	public void ShowBackground() => DOTween.To(() => _background.style.opacity.value, x => _background.style.opacity = x, 1, 2f);
+	public void ShowBackground() => DOTween.To(() => _background.resolvedStyle.opacity, x => _background.style.opacity = x, 1, 2f);
 
-	public void HideBackground() => DOTween.To(() => _background.style.opacity.value, x => _background.style.opacity = x, 0, 2f);
+	public void HideBackground() => DOTween.To(() => _background.resolvedStyle.opacity, x => _background.style.opacity = x, 0, 2f);
 }

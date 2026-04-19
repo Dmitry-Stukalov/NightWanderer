@@ -27,6 +27,8 @@ public class WeatherManager : MonoBehaviour
 
 	public void Initializing()
 	{
+		Fog = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<LocalVolumetricFog>();
+
 		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 700));
 		RandomWeatherPauseTimer.OnTimerEnd += StartWeather;
 

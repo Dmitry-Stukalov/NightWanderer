@@ -9,6 +9,7 @@ public class VacuumCleaner : MonoBehaviour
 	private GameObject _ship;
 	private Timer _cleanerOnPause;
 	private int _sandCounts = 0;
+	public bool IsInitializing = false;
 
 	public void Initializing(ResourceLibrary resourceLibrary, GameObject ship, GameObject cleaner, Vector3 halfVectorCleaner)
 	{
@@ -23,6 +24,8 @@ public class VacuumCleaner : MonoBehaviour
 		_cleanerOnPause = new Timer(0.2f);
 		_cleanerOnPause.OnTimerEnd += SandCollection;
 		_cleanerOnPause.SetPause();
+
+		IsInitializing = true;
 	}
 
 	public void CleanerOn() => _cleanerOnPause.Continue();

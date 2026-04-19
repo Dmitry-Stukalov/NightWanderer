@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - <WalkSpeed>k__BackingField: 0.2
-    <RunSpeed>k__BackingField: 0.4
+    <RunSpeed>k__BackingField: 1
     <WalkUpSpeed>k__BackingField: 0.1
     <RunUpSpeed>k__BackingField: 0.3
     <ConsumptionIdle>k__BackingField: 0
