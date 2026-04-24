@@ -166,10 +166,10 @@ MonoBehaviour:
   <ExtractionID>k__BackingField: 11
   _resourceID: 4
   SpawnResourceZone: {fileID: 1966572297522870681}
-  _resourceCountMin: 5
-  _resourceCountMax: 10
-  MinResourceCapacity: 1
-  MaxResourceCapacity: 5
+  _resourceCountMin: 3
+  _resourceCountMax: 6
+  MinResourceCapacity: 5
+  MaxResourceCapacity: 10
   _sourceMaterial:
   - {fileID: 2100000, guid: 903c1bc95750a5b47abf137679d0e301, type: 2}
   - {fileID: 2100000, guid: b80b4be613072ca41b4b5fceb3f4391e, type: 2}

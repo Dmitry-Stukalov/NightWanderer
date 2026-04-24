@@ -13,28 +13,67 @@ MonoBehaviour:
   m_Name: EnginesConfig
   m_EditorClassIdentifier: 
   levels:
-  - <WalkSpeed>k__BackingField: 0.2
+  - <WalkSpeed>k__BackingField: 0.1
     <RunSpeed>k__BackingField: 1
+    <WalkUpSpeed>k__BackingField: 0.05
+    <RunUpSpeed>k__BackingField: 0.1
+    <ConsumptionIdle>k__BackingField: 1.5
+    <ConsumptionWalk>k__BackingField: 3
+    <ConsumptionRun>k__BackingField: 4
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 0
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - <WalkSpeed>k__BackingField: 0.2
+    <RunSpeed>k__BackingField: 0.4
     <WalkUpSpeed>k__BackingField: 0.1
-    <RunUpSpeed>k__BackingField: 0.3
-    <ConsumptionIdle>k__BackingField: 0
-    <ConsumptionWalk>k__BackingField: 0
-    <ConsumptionRun>k__BackingField: 0
+    <RunUpSpeed>k__BackingField: 0.2
+    <ConsumptionIdle>k__BackingField: 1.25
+    <ConsumptionWalk>k__BackingField: 2.5
+    <ConsumptionRun>k__BackingField: 3.5
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 1
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - <WalkSpeed>k__BackingField: 2
-    <RunSpeed>k__BackingField: 2
-    <WalkUpSpeed>k__BackingField: 2
-    <RunUpSpeed>k__BackingField: 2
-    <ConsumptionIdle>k__BackingField: 0
-    <ConsumptionWalk>k__BackingField: 0
-    <ConsumptionRun>k__BackingField: 0
+  - <WalkSpeed>k__BackingField: 0.3
+    <RunSpeed>k__BackingField: 0.6
+    <WalkUpSpeed>k__BackingField: 0.15
+    <RunUpSpeed>k__BackingField: 0.3
+    <ConsumptionIdle>k__BackingField: 1
+    <ConsumptionWalk>k__BackingField: 2
+    <ConsumptionRun>k__BackingField: 3
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 0
+    <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - <WalkSpeed>k__BackingField: 0.4
+    <RunSpeed>k__BackingField: 0.8
+    <WalkUpSpeed>k__BackingField: 0.2
+    <RunUpSpeed>k__BackingField: 0.4
+    <ConsumptionIdle>k__BackingField: 0.75
+    <ConsumptionWalk>k__BackingField: 1.5
+    <ConsumptionRun>k__BackingField: 2.5
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 3
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - <WalkSpeed>k__BackingField: 0.5
+    <RunSpeed>k__BackingField: 1
+    <WalkUpSpeed>k__BackingField: 0.25
+    <RunUpSpeed>k__BackingField: 0.5
+    <ConsumptionIdle>k__BackingField: 0.5
+    <ConsumptionWalk>k__BackingField: 1
+    <ConsumptionRun>k__BackingField: 2
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 

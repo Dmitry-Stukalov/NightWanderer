@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MiningConfig
   m_EditorClassIdentifier: 
   levels:
-  - <ConsumptionAtRest>k__BackingField: 0.1
-    <ConsumptionAtLaser>k__BackingField: 0.3
+  - <ConsumptionAtRest>k__BackingField: 0.5
+    <ConsumptionAtLaser>k__BackingField: 1.5
     <ConsumptionAtSound>k__BackingField: 0.5
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
@@ -22,8 +22,8 @@ MonoBehaviour:
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 00000000
     <Count>k__BackingField: 02000000
-  - <ConsumptionAtRest>k__BackingField: 0
-    <ConsumptionAtLaser>k__BackingField: 0
+  - <ConsumptionAtRest>k__BackingField: 0.4
+    <ConsumptionAtLaser>k__BackingField: 1.25
     <ConsumptionAtSound>k__BackingField: 0
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 1
@@ -31,11 +31,29 @@ MonoBehaviour:
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - <ConsumptionAtRest>k__BackingField: 0
-    <ConsumptionAtLaser>k__BackingField: 0
+  - <ConsumptionAtRest>k__BackingField: 0.3
+    <ConsumptionAtLaser>k__BackingField: 1
     <ConsumptionAtSound>k__BackingField: 0
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - <ConsumptionAtRest>k__BackingField: 0.2
+    <ConsumptionAtLaser>k__BackingField: 0.75
+    <ConsumptionAtSound>k__BackingField: 0
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 3
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - <ConsumptionAtRest>k__BackingField: 0.1
+    <ConsumptionAtLaser>k__BackingField: 0.5
+    <ConsumptionAtSound>k__BackingField: 0
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 

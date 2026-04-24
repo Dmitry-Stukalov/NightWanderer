@@ -12,6 +12,7 @@ public class PlayerUIController : MonoBehaviour
 {
 	[SerializeField] private UIDocument PlayerUI;
 	[SerializeField] private UIDocument ExtractionGameLaser;
+	[SerializeField] private UIDocument ResearchUI;
 	[SerializeField] private VisualTreeAsset _statusPanel;
 	[SerializeField] private Sprite _statusIcon;
 	[SerializeField] private InventoryButton Inventory;
@@ -20,6 +21,9 @@ public class PlayerUIController : MonoBehaviour
 	private VisualElement _mainExtractionFuelElement;
 	private VisualElement _blackBackground;
 	private VisualElement _tutorialPanel;
+	private VisualElement _hintPanel;
+	private VisualElement _researchHintPanel;
+	private VisualElement _researchOpenPanel;
 	private Dictionary<string, VisualElement> _statusPanels;
 	private TutorialManager _tutorialManager;
 
@@ -33,6 +37,11 @@ public class PlayerUIController : MonoBehaviour
 		_tutorialPanel = PlayerUI.rootVisualElement.Q<VisualElement>("TutorialPanel");
 		_tutorialPanel.dataSource = new TutorialManager(_tutorialPanel);
 		_tutorialManager = (TutorialManager)_tutorialPanel.dataSource;
+
+		_hintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("HintPanel");
+		_hintPanel.style.opacity = 0;
+
+		_researchHintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
 
 		var fuelItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FuelBackground");
 		fuelItemBackground.dataSource = new FuelRecovery(fuel, PlayerUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
@@ -51,10 +60,13 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnCriticalStatusShow += ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide += HideStatusPanel;
 
-		_baseUI.Initializing();
+		_baseUI.Initializing((FuelRecovery)fuelItemBackground.dataSource, (HealthFireDefenseRecovery)healthItemBackground.dataSource, (HealthFireDefenseRecovery)defenseItemBackground.dataSource, (HealthFireDefenseRecovery)fireDefenseItemBackground.dataSource);
 
 		GameEvents.OnLaserExtractionStart += OnExtractionLaserStart;
 		GameEvents.OnExtractionEnd += OnExtractionLaserEnd;
+		
+		GameEvents.OnResearchStart += OnResearchStart;
+		GameEvents.OnResearchEnd += OnResearchEnd;
 	}
 
 	private IEnumerator StartPause()
@@ -68,23 +80,26 @@ public class PlayerUIController : MonoBehaviour
 		_mainExtractionLaserElement.style.display = DisplayStyle.None;
 		_mainExtractionFuelElement.style.display = DisplayStyle.None;
 
+		_researchHintPanel = ResearchUI.rootVisualElement.Q<VisualElement>("MainElement");
+		_researchHintPanel.style.display = DisplayStyle.None;
+
 		yield return new WaitForSeconds(37f);
 		StartGame();
 	}
 
 	private IEnumerator OnBasePause()
 	{
-		//_blackBackground.style.display = DisplayStyle.Flex;
+		_blackBackground.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
 
 		yield return new WaitForSeconds(4f);
 
 		GameEvents.OnDialogueStart?.Invoke();
 
-		yield return new WaitForSeconds(90);
+		yield return new WaitForSeconds(75);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f);
-		//_blackBackground.style.display = DisplayStyle.None;
+		_blackBackground.style.display = DisplayStyle.None;
 	}
 
 	private void StartGame()
@@ -114,6 +129,25 @@ public class PlayerUIController : MonoBehaviour
 		}
     }
 
+	private IEnumerator ShowResearchOpenPanel()
+	{
+		DOTween.To(() => _researchHintPanel.style.opacity.value, x => _researchHintPanel.style.opacity = x, 1, 1.5f);
+
+		yield return new WaitForSeconds(3f);
+
+		DOTween.To(() => _researchHintPanel.style.opacity.value, x => _researchHintPanel.style.opacity = x, 0, 1.5f);
+	}
+
+	public void ShowHint()
+	{
+		DOTween.To(() => _hintPanel.resolvedStyle.opacity, x => _hintPanel.style.opacity = x, 1, 2f);
+	}
+
+	public void HideHint()
+	{
+		DOTween.To(() => _hintPanel.resolvedStyle.opacity, x => _hintPanel.style.opacity = x, 0, 2f);
+	}
+
 	public void HideStatusPanel(string name)
 	{
 		if (!_statusPanels.ContainsKey(name)) return;
@@ -126,12 +160,16 @@ public class PlayerUIController : MonoBehaviour
 		_baseUI.OpenBaseUI();
 		Inventory.CloseWeatherPanel();
 		Inventory.CloseInventoryPanel();
+
+		HideHint();
 	}
 
 	public void OutBase()
 	{
 		_baseUI.CloseBaseUI();
 		Inventory.OpenWeatherPanel();
+
+		ShowHint();
 	}
 
 	private void OnExtractionLaserStart()
@@ -144,6 +182,18 @@ public class PlayerUIController : MonoBehaviour
 	{
 		_mainExtractionLaserElement.style.display = DisplayStyle.None;
 		_mainExtractionFuelElement.style.display = DisplayStyle.None;
+	}
+
+	private void OnResearchStart()
+	{
+		_researchHintPanel.style.display = DisplayStyle.Flex;
+	}
+
+	private void OnResearchEnd()
+	{
+		StartCoroutine(ShowResearchOpenPanel());
+
+		_researchHintPanel.style.display = DisplayStyle.None;
 	}
 
 	public MinigameLaser GetMinigameLaser() => (MinigameLaser)_mainExtractionLaserElement.dataSource;
@@ -169,7 +219,7 @@ public class PlayerUIController : MonoBehaviour
 
 	private void Update()
 	{
-		if (!SceneManager.GetSceneByName("OpenMapScene").isLoaded) return;
+		//if (!SceneManager.GetSceneByName("OpenMapScene").isLoaded) return;
 
 		if (Keyboard.current.tabKey.wasPressedThisFrame && !_baseUI.OnBase) Inventory.OpenCloseInventory();
 	}
@@ -181,5 +231,7 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnCriticalStatusShow -= ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide -= HideStatusPanel;
 		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
+		GameEvents.OnResearchStart -= OnResearchStart;
+		GameEvents.OnResearchEnd -= OnResearchEnd;
 	}
 }

@@ -118,7 +118,7 @@ public class WeatherManager : MonoBehaviour
 
 	private void FogOn()
 	{
-		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 100f, 60f).SetEase(Ease.Linear);
+		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 100f, 30f).SetEase(Ease.Linear);
 
 		OnWeatherChange?.Invoke();
 	}

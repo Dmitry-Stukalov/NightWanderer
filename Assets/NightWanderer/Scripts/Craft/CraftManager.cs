@@ -135,7 +135,8 @@ public class CraftManager : MonoBehaviour
 					else
 					{
 						newDictionary[key] -= _playerInventory.GetResourceData(i).GetResourceCount();
-						_playerInventory.GetResourceData(i).SetResourceCount(0);
+						_playerInventory.GetResourceData(i).DeleteResource(_playerInventory.GetResourceData(i).GetResource());
+						//_playerInventory.GetResourceData(i).SetResourceCount(0);
 					}
 				}
 			}
@@ -162,7 +163,8 @@ public class CraftManager : MonoBehaviour
 						else
 						{
 							newDictionary[key] -= _baseInventory.GetResourceData(i).GetResourceCount();
-							_baseInventory.GetResourceData(i).SetResourceCount(0);
+							_baseInventory.GetResourceData(i).DeleteResource(_baseInventory.GetResourceData(i).GetResource());
+							//_baseInventory.GetResourceData(i).SetResourceCount(0);
 						}
 					}
 				}

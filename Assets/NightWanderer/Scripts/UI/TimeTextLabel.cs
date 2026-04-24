@@ -23,11 +23,23 @@ public class TimeTextLabel
 	{
 		float newTime = Mathf.Round(time);
 
-		if (isMinutes) newTime %= 60;
-		else newTime /= 60;
+		if (isMinutes)
+		{
+			newTime %= 60;
+			newTime = Convert.ToInt32(newTime);
 
-		if (newTime == 0) return "00";
-		else if (newTime > 0 && time < 10) return $"0{Convert.ToInt32(newTime)}";
-		else return Convert.ToInt32(newTime).ToString();
+			if (newTime > 0 && newTime < 10) return $"0{newTime}";
+			else return newTime.ToString();
+		}
+		else
+		{
+			newTime /= 60;
+			newTime = Mathf.FloorToInt(newTime);
+			return $"0{newTime}";
+		}
+
+		//if (newTime == 0) return "00";
+		//else if (newTime > 0 && time < 10) return $"0{newTime}";
+		//else return newTime.ToString();
 	}
 }

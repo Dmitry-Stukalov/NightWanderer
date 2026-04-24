@@ -19,6 +19,7 @@ public class MainBootstrap : MonoBehaviour
 	[SerializeField] private CraftManager _craftManager;
 	[SerializeField] private EffectsManager _effectsManager;
 	[SerializeField] private DialogueManager _dialogueManager;
+	[SerializeField] private StatisticsManager _statisticsManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -39,6 +40,7 @@ public class MainBootstrap : MonoBehaviour
 		_inventoryButton?.Initializing();
 		_missionsManager?.Initializing();
 		_dialogueManager?.Initializing();
+		_statisticsManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense(), _shipMovement.GetPlayerEngines(), _playerInventoryBuilder.GetPlayerInventory(), _shipMovement.GetPlayerSearchlights());
 
 		//StartCoroutine(StartPause());
 	}

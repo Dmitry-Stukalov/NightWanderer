@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Searchlights : MonoBehaviour, IImprovementBase
 {
@@ -8,6 +10,8 @@ public class Searchlights : MonoBehaviour, IImprovementBase
 	public Dictionary<int, int> _needResources { get; set; }
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
+	public event Action OnUpgrade;
+
 	private ImprovementSearchlightConfig _config;
 
 	private void Start()
@@ -36,10 +40,24 @@ public class Searchlights : MonoBehaviour, IImprovementBase
 		return _needResources;
 	}
 
+	public int GetActiveSearchlights()
+	{
+		int t = 1;
+
+		for (int i = 0; i < _searchlights.Length; i++)
+			if (_searchlights[i].activeSelf) t++;
+
+		return t;
+	}
+
 	public void Upgrade()
 	{
 		_searchlights[CurrentLevel].SetActive(true);
 
+		if (CurrentLevel == 0) GameEvents.OnMissionComplete?.Invoke();
+
 		CurrentLevel++;
+
+		OnUpgrade?.Invoke();
 	}
 }

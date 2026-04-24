@@ -6,6 +6,7 @@ public interface IImprovementBase
 	public Dictionary<int, int> _needResources { get; set; }
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
+	public event Action OnUpgrade;
 
 	public Dictionary<int, int> GetNeedResources();
 	public void Upgrade() 

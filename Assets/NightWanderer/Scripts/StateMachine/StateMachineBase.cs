@@ -32,5 +32,8 @@ public class StateMachineBase : StateMachineState
 			StateManager.NextState = 1;
 			StateManager.SetState(10);
 		}
+
+		if (Keyboard.current.rKey.wasPressedThisFrame) GameEvents.OnSkipTimeStart?.Invoke();
+		if (Keyboard.current.rKey.wasReleasedThisFrame) GameEvents.OnSkipTimeEnd?.Invoke();
 	}
 }

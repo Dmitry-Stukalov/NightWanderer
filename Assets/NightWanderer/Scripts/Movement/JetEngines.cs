@@ -9,11 +9,11 @@ public class JetEngines : IImprovementBase
 	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
+	public event Action OnUpgrade;
 
 	private ImprovementEnginesConfig _config;
 
 	private Fuel _fuel;
-	public event Action OnUpgrade;
 
 	public JetEngines(ImprovementConfig config, Fuel fuel)
 	{

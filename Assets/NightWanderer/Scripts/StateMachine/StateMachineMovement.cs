@@ -1,13 +1,6 @@
 using DG.Tweening;
-using System;
-using System.Data;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.VFX;
-using static UnityEngine.GraphicsBuffer;
 
 public class StateMachineMovement : StateMachineState
 {
@@ -191,7 +184,7 @@ public class StateMachineMovement : StateMachineState
 		RotationY += -MouseAxis.x * LookSpeed;
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, -RotationY, 0);
-		if (!Mouse.current.rightButton.isPressed) Ship.transform.DORotate(new Vector3(0, -RotationY, 0), 1f).SetEase(Ease.Linear); //Ship.transform.rotation = Quaternion.Euler(0, -RotationY, 0);
+		if (!Mouse.current.rightButton.isPressed) Ship.transform.DORotateQuaternion(Quaternion.Euler(0, -RotationY, 0), 1f).SetEase(Ease.Linear); //Ship.transform.rotation = Quaternion.Euler(0, -RotationY, 0);
 	}
 
 	protected int CompareDifference(float n1)

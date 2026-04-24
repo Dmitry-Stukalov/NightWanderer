@@ -24,11 +24,13 @@ public class ImprovementPanel<TConfig, TData> : ImprovementPanelBase
 			_currentLevelData = _config.Levels[_currentLevelData.CurrentLevel];
 
 			UpdateData();
-		}
 
-		_improvementPanel.style.display = DisplayStyle.None; 
-		//_improvementButton.text = "Заблокировано";
-		IsUnlock = false;
+			if (_improvementName != "Searchlight")
+			{
+				_improvementPanel.style.display = DisplayStyle.None;
+				IsUnlock = false;
+			}
+		}
 	}
 
 	protected override void UpdateData()

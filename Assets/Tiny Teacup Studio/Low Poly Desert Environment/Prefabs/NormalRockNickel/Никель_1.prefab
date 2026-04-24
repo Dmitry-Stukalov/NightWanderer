@@ -506,17 +506,17 @@ MonoBehaviour:
   <ExtractionID>k__BackingField: 11
   _resourceID: 6
   SpawnResourceZone: {fileID: 3955578677133003299}
-  _resourceCountMin: 5
+  _resourceCountMin: 8
   _resourceCountMax: 10
-  MinResourceCapacity: 1
-  MaxResourceCapacity: 5
+  MinResourceCapacity: 8
+  MaxResourceCapacity: 12
   _sourceMaterial:
   - {fileID: 2100000, guid: 903c1bc95750a5b47abf137679d0e301, type: 2}
   - {fileID: 2100000, guid: b80b4be613072ca41b4b5fceb3f4391e, type: 2}
   - {fileID: 2100000, guid: 9a34c64f5336db141b8f372e08d50c56, type: 2}
   - {fileID: 2100000, guid: 4c6e87238af6bc242b18cbbf4d9aafd6, type: 2}
   _dayMaterial: {fileID: 2100000, guid: 5eba0e7225561c54e9887ea95d901de4, type: 2}
-  _nightMaterial: {fileID: 2100000, guid: 5eba0e7225561c54e9887ea95d901de4, type: 2}
+  _nightMaterial: {fileID: 2100000, guid: 7160c7aa1e9daf04983190cbe60406c0, type: 2}
   ISRemoveFirst: 1
 --- !u!65 &1560460389646172975
 BoxCollider:

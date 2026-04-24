@@ -13,16 +13,37 @@ MonoBehaviour:
   m_Name: FireDefenseConfig
   m_EditorClassIdentifier: 
   levels:
-  - MaxHealth: 20
+  - MaxHealth: 0
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - MaxHealth: 30
+  - MaxHealth: 20
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 0
+    <CurrentLevel>k__BackingField: 1
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 40
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 60
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 3
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 80
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 

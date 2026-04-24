@@ -1,6 +1,4 @@
 using System;
-using UnityEditor.PackageManager;
-using UnityEngine;
 
 public static class GameEvents
 {
@@ -23,6 +21,9 @@ public static class GameEvents
 	public static Action OnRightExtraction;
 	public static Action OnExtractionEnd;
 
+	public static Action OnResearchStart;
+	public static Action OnResearchEnd;
+
 	//Управление двигателями
 	public static Action OnEnginesOnOff;
 	public static Action OnRunStart;
@@ -32,4 +33,10 @@ public static class GameEvents
 	public static Action<string> OnCriticalStatusHide;
 
 	public static Action OnDialogueStart;
+
+	public static Action OnMissionComplete;
+	public static Action<int> OnDoMission;
+
+	public static Action OnSkipTimeStart;
+	public static Action OnSkipTimeEnd;
 }

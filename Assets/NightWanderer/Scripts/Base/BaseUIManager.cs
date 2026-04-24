@@ -24,13 +24,24 @@ public class BaseUIManager : MonoBehaviour
 	public bool OnBase { get; set; } = false;
 	private bool IsFirstTime = true;
 
-	public void Initializing()
+	public void Initializing(FuelRecovery fuelRecovery, HealthFireDefenseRecovery healthRecovery, HealthFireDefenseRecovery defenseRecovery, HealthFireDefenseRecovery fireDefenseRecovery)
 	{
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
 		blackBackground = baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
 		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
 
+		var fuelItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FuelBackground");
+		fuelItemBackground.dataSource = fuelRecovery;
+
+		var healthItemBackground = baseUI.rootVisualElement.Q<VisualElement>("HealthBackground");
+		healthItemBackground.dataSource = healthRecovery;
+
+		var defenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("DefenseBackground");
+		defenseItemBackground.dataSource = defenseRecovery;
+
+		var fireDefenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
+		fireDefenseItemBackground.dataSource = fireDefenseRecovery;
 
 		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
 		craftBackground = baseUI.rootVisualElement.Q<VisualElement>("CraftBackground");
@@ -52,13 +63,9 @@ public class BaseUIManager : MonoBehaviour
 	private IEnumerator OnBasePause()
 	{
 		baseUI.sortingOrder = -5;
-		//blackBackground.style.display = DisplayStyle.Flex;
-		//DOTween.To(() => blackBackground.resolvedStyle.opacity, x => blackBackground.style.opacity = x, 1, 2f);
 
-		yield return new WaitForSeconds(94);
+		yield return new WaitForSeconds(81);
 
-		//DOTween.To(() => blackBackground.resolvedStyle.opacity, x => blackBackground.style.opacity = x, 0, 2f);
-		//blackBackground.style.display = DisplayStyle.None;
 		baseUI.sortingOrder = 5;
 	}
 

@@ -60,7 +60,7 @@ public class ShipMovement : MonoBehaviour
 	public bool IsCanResearch { get; set; } = false;
 	private bool IsDead = false;
 	private bool IsGameStart = false;
-	private bool IsFirstTimeBase = false;
+	private bool IsFirstTimeBase = true;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -133,8 +133,8 @@ public class ShipMovement : MonoBehaviour
 	{
 		StateMachineManager.HitSurface();
 
-		if (StateMachineManager.GetCurrentState() == 2) _defenseSystem.GetDamage(20);
-		else _defenseSystem.GetDamage(10);
+		if (StateMachineManager.GetCurrentState() == 2) _defenseSystem.GetDamage(5);
+		else _defenseSystem.GetDamage(2);
 	}
 
 	private void Death()
@@ -166,6 +166,8 @@ public class ShipMovement : MonoBehaviour
 			ResourceSourcePosition = other.transform.position;
 			StateMachineManager.TargetShipPosition = ResourceSourcePosition + new Vector3(0, ResourceDistanceY, 0);
 			StateMachineManager.CurrentResourceSource = other.GetComponent<ResourceSource>();
+
+			_playerUIController.ShowHint();
 		}
 
 		if (other.CompareTag("Base"))
@@ -175,13 +177,14 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 
-			if (!IsFirstTimeBase)
+			if (IsFirstTimeBase)
 			{
 				GameEvents.OnBase?.Invoke();
-				IsFirstTimeBase = true;
+				//GameEvents.OnDialogueStart?.Invoke();
+				GameEvents.OnCraftOpen?.Invoke("Прожектор");
 			}
 
-			GameEvents.OnCraftOpen?.Invoke("Прожектор");
+			_playerUIController.ShowHint();
 		}
 
 		if (other.CompareTag("Research"))
@@ -189,6 +192,8 @@ public class ShipMovement : MonoBehaviour
 			IsCanResearch = true;
 			StateMachineManager.CurrentResearchShip = other.GetComponent<ResearchShip>();
 			StateMachineManager.TargetShipPosition = other.GetComponent<ResearchShip>().DockingPlace.transform.position;
+
+			_playerUIController.ShowHint();
 		}
 
 		if (other.CompareTag("Sand")) HitSurface();
@@ -204,6 +209,8 @@ public class ShipMovement : MonoBehaviour
 			IsCanMiningResource = false;
 			ResourceSourcePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
+
+			_playerUIController.HideHint();
 		}
 
 		if (other.CompareTag("Base"))
@@ -211,6 +218,14 @@ public class ShipMovement : MonoBehaviour
 			IsCanDocking = false;
 			BasePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
+
+			if (IsFirstTimeBase)
+			{
+				GameEvents.OnMissionComplete?.Invoke();
+				IsFirstTimeBase = false;
+			}
+
+			_playerUIController.HideHint();
 		}
 
 		if (other.CompareTag("Research"))
@@ -218,6 +233,8 @@ public class ShipMovement : MonoBehaviour
 			IsCanResearch = false;
 			StateMachineManager.CurrentResearchShip = null;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
+
+			_playerUIController.HideHint();
 		}
 	}
 

@@ -1,12 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEngine.UI;
 using System.Collections;
-using NUnit.Framework.Constraints;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 public class ImprovementManager : MonoBehaviour
 {
@@ -211,7 +206,8 @@ public class ImprovementManager : MonoBehaviour
 						else
 						{
 							newDictionary[key] -= _playerInventory.GetResourceData(i).GetResourceCount();
-							_playerInventory.GetResourceData(i).SetResourceCount(0);
+							_playerInventory.GetResourceData(i).DeleteResource(_playerInventory.GetResourceData(i).GetResource());
+							//_playerInventory.GetResourceData(i).SetResourceCount(0);
 						}
 					}
 				}
@@ -238,7 +234,8 @@ public class ImprovementManager : MonoBehaviour
 							else
 							{
 								newDictionary[key] -= _baseInventory.GetResourceData(i).GetResourceCount();
-								_baseInventory.GetResourceData(i).SetResourceCount(0);
+								_baseInventory.GetResourceData(i).DeleteResource(_baseInventory.GetResourceData(i).GetResource());
+								//_baseInventory.GetResourceData(i).SetResourceCount(0);
 							}
 						}
 					}

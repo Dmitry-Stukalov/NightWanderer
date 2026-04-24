@@ -16,6 +16,7 @@ public class HealthFireDefense : IImprovementBase
 	private float _currentHealth;
 
 	public event Action OnHealthChange;
+	public event Action OnUpgrade;
 
 	public HealthFireDefense(ImprovementConfig config)
 	{
@@ -58,5 +59,12 @@ public class HealthFireDefense : IImprovementBase
 		}
 
 		return _needResources;
+	}
+
+	public void Upgrade()
+	{
+		CurrentLevel++;
+
+		OnUpgrade?.Invoke();
 	}
 }

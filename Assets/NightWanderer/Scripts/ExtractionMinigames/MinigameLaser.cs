@@ -109,7 +109,7 @@ public class MinigameLaser
 		}
 		else
 		{
-			NewPlace();
+			//NewPlace();
 			return false;
 		}
 

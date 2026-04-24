@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class MiningEquipment : IImprovementBase
 {
@@ -8,6 +7,7 @@ public class MiningEquipment : IImprovementBase
 	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
+	public event Action OnUpgrade;
 
 	private ImprovementMiningConfig _config;
 

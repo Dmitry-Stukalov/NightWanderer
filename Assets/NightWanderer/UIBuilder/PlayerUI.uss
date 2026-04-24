@@ -15,13 +15,17 @@
 }
 
 .SmallLable {
-     color: var(--main-text-color);
+    color: var(--main-text-color);
     -unity-text-align: var(--main-text-align);
     font-size: 14px;
 }
 
+.MainFont {
+    -unity-font-definition: initial;
+}
+
 .BorderAll {
-    border-color: rgba(255, 255, 255, 1);
+    border-color: rgb(255, 255, 255);
     border-top-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
@@ -29,31 +33,31 @@
 }
 
 .BorderTop {
-     border-color: rgba(255, 255, 255, 1);
+    border-color: rgb(255, 255, 255);
     border-top-width: 1px;
 }
 
 .BorderBottom {
-     border-color: rgba(255, 255, 255, 1);
+    border-color: rgb(255, 255, 255);
     border-bottom-width: 1px;
 }
 
 .BorderLeft {
-     border-color: rgba(255, 255, 255, 1);
+    border-color: rgb(255, 255, 255);
     border-left-width: 1px;
 }
 
 .BorderRight {
-     border-color: rgba(255, 255, 255, 1);
-     border-right-width: 1px;
+    border-color: rgb(255, 255, 255);
+    border-right-width: 1px;
 }
 
 .BorderCell {
-    border-color: rgba(0, 0, 0, 1);
+    border-color: rgb(0, 0, 0);
     border-width: 1px;
 }
 
 .BorderCellWide {
-    border-color: rgba(0, 0, 0, 1);
+    border-color: rgb(0, 0, 0);
     border-width: 2px;
 }

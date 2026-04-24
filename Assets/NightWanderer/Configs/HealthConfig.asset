@@ -13,16 +13,37 @@ MonoBehaviour:
   m_Name: HealthConfig
   m_EditorClassIdentifier: 
   levels:
-  - MaxHealth: 100
+  - MaxHealth: 10
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 0
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
-  - MaxHealth: 120
+  - MaxHealth: 15
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 1
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 20
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 2
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 25
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 3
+    <Name>k__BackingField: 
+    <UpgradeDescription>k__BackingField: 
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 
+  - MaxHealth: 30
+    <Icon>k__BackingField: {fileID: 0}
+    <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: 
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 

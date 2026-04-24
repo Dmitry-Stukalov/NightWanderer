@@ -12,6 +12,8 @@ public class StateMachineResearch : StateMachineState
 	public override void Enter()
 	{
 		base.Enter();
+
+		GameEvents.OnResearchStart?.Invoke();
 	}
 
 	public override void Exit()
@@ -28,6 +30,10 @@ public class StateMachineResearch : StateMachineState
 			StateManager.SetState(0);
 		}
 
-		if (Keyboard.current.spaceKey.wasPressedThisFrame) StateManager.CurrentResearchShip.Search();
+		if (Keyboard.current.spaceKey.wasPressedThisFrame)
+		{
+			StateManager.CurrentResearchShip.Search();
+			GameEvents.OnResearchEnd?.Invoke();
+		}
 	}
 }

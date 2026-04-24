@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &446950429758647767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6517913511628056522}
+  - component: {fileID: 4124392644473895666}
+  m_Layer: 0
+  m_Name: StatisticManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6517913511628056522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446950429758647767}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2201670983639112127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4124392644473895666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446950429758647767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79dbccebabc9aea4d847fde277708ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerUI: {fileID: 4384735025375778772}
+  _baseUI: {fileID: 4912858456345129344}
 --- !u!1 &689764090145404646
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +409,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -753,9 +799,9 @@ MonoBehaviour:
     volumeMask: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
     textureTiling: {x: 1, y: 1, z: 1}
-    positiveFade: {x: 0.0375, y: 0.05, z: 0.0375}
-    negativeFade: {x: 0.0375, y: 0.05, z: 0.0375}
-    m_EditorUniformFade: 3
+    positiveFade: {x: 0.125, y: 0.16666667, z: 0.125}
+    negativeFade: {x: 0.125, y: 0.16666667, z: 0.125}
+    m_EditorUniformFade: 10
     m_EditorPositiveFade: {x: 0, y: 0, z: 0}
     m_EditorNegativeFade: {x: 0, y: 0, z: 0}
     m_EditorAdvancedFade: 0
@@ -763,7 +809,7 @@ MonoBehaviour:
     size: {x: 80, y: 60, z: 80}
     invertFade: 0
     distanceFadeStart: 50
-    distanceFadeEnd: 100
+    distanceFadeEnd: 50
     textureOffset: {x: 0, y: 0, z: 0}
     falloffMode: 1
     maskMode: 1
@@ -967,7 +1013,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -1274,6 +1320,7 @@ Transform:
   - {fileID: 6852942835839245158}
   - {fileID: 9050060760853748099}
   - {fileID: 8258802086484007376}
+  - {fileID: 1792710196075990778}
   m_Father: {fileID: 6351537948990529355}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!20 &408315898490039240
@@ -1684,7 +1731,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -1880,9 +1927,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerUI: {fileID: 4384735025375778772}
   ExtractionGameLaser: {fileID: 3859694567574293626}
+  ResearchUI: {fileID: 8918072278270838794}
   _statusPanel: {fileID: 9197481963319205126, guid: ca7b58e5b93bf804db4f3a75e2fdb6fa,
     type: 3}
-  _statusIcon: {fileID: 21300000, guid: e271ef88ec21bc14397c0022b8d8020f, type: 3}
+  _statusIcon: {fileID: 21300000, guid: f709b482b17c9ae47a995abe6935bbe4, type: 3}
   Inventory: {fileID: 4147099259103858269}
   _baseUI: {fileID: 1833514700831445252}
 --- !u!114 &4384735025375778772
@@ -2244,7 +2292,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -2532,7 +2580,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -2642,7 +2690,7 @@ MonoBehaviour:
   _innerSpotAngle: 0
   _outerSpotAngle: 90
   _intensity: 5000
-  _range: 10
+  _range: 30
   _sun: {fileID: 417425235370280033}
   _searchlights:
   - {fileID: 8327449343661506891}
@@ -2887,7 +2935,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -3147,7 +3195,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -3458,7 +3506,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -3718,7 +3766,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -4138,7 +4186,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -4513,7 +4561,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -4773,7 +4821,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -5287,6 +5335,58 @@ MonoBehaviour:
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
+--- !u!1 &8074077260418599960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792710196075990778}
+  - component: {fileID: 8918072278270838794}
+  m_Layer: 0
+  m_Name: ResearchUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1792710196075990778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074077260418599960}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6457992995885252118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8918072278270838794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8074077260418599960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 88e62fe87a9d1b144a58229d31bdbb30, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 5f04e1fbc87341e49b7cf66ab95b9dc7,
+    type: 3}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &8124348199677335471
 GameObject:
   m_ObjectHideFlags: 0
@@ -5599,7 +5699,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -5967,7 +6067,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -6342,7 +6442,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 1
+  m_VolumetricShadowDimmer: 0.1
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 1
@@ -6842,6 +6942,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9075076707277498731}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97d6d41b45f890342aec25cb0ec39407,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6517913511628056522}
     - targetCorrespondingSourceObject: {fileID: -7379132907224104550, guid: 97d6d41b45f890342aec25cb0ec39407,
         type: 3}
       insertIndex: -1
@@ -7514,6 +7618,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8709537008571521920}
     m_Modifications:
+    - target: {fileID: 3432963901046030992, guid: 67011d4c53aa0c34cb907e678b8e44b5,
+        type: 3}
+      propertyPath: m_VolumetricShadowDimmer
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5261076248374200268, guid: 67011d4c53aa0c34cb907e678b8e44b5,
         type: 3}
       propertyPath: _fightPosition.z

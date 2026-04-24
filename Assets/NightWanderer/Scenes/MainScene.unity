@@ -174,6 +174,7 @@ MonoBehaviour:
   _craftManager: {fileID: 737148684}
   _effectsManager: {fileID: 1761764659}
   _dialogueManager: {fileID: 1922147000}
+  _statisticsManager: {fileID: 1885972745}
   _baseInventory: {fileID: 1479734559}
 --- !u!1 &28553470 stripped
 GameObject:
@@ -435,21 +436,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
-        type: 3}
-      propertyPath: parameters.textureOffset.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
-        type: 3}
-      propertyPath: parameters.textureOffset.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7030170150438311157, guid: f662a68aa77402e4fb7d7055739c2197,
-        type: 3}
-      propertyPath: parameters.textureOffset.z
-      value: -0
-      objectReference: {fileID: 0}
     - target: {fileID: 7542373821768325338, guid: f662a68aa77402e4fb7d7055739c2197,
         type: 3}
       propertyPath: m_IsActive
@@ -460,6 +446,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f662a68aa77402e4fb7d7055739c2197, type: 3}
+--- !u!114 &1885972745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4124392644473895666, guid: f662a68aa77402e4fb7d7055739c2197,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885972744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79dbccebabc9aea4d847fde277708ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1898821381 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6627865947692251608, guid: f662a68aa77402e4fb7d7055739c2197,

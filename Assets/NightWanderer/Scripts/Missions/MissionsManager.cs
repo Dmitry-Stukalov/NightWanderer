@@ -26,6 +26,8 @@ public class MissionsManager : MonoBehaviour
 		_taskPanelBackground = _playerUI.rootVisualElement.Q<VisualElement>("UpdateTaskPanel");
 
 		GameEvents.OnBase += CheckMission;
+		GameEvents.OnMissionComplete += CheckMission;
+		GameEvents.OnDoMission += CheckMission;
 	}
 
 	private IEnumerator ShowTaskPanel()
@@ -64,5 +66,7 @@ public class MissionsManager : MonoBehaviour
 	private void OnDisable()
 	{
 		GameEvents.OnBase -= CheckMission;
+		GameEvents.OnMissionComplete -= CheckMission;
+		GameEvents.OnDoMission -= CheckMission;
 	}
 }

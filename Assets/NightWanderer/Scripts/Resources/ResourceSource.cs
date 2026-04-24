@@ -54,6 +54,8 @@ public class ResourceSource : MonoBehaviour
 		{
 			for (int i = 0; i < _oreMaterial.Count; i++) _oreMaterial[i].material = _nightMaterial;
 		};
+
+		for (int i = 0; i < _oreMaterial.Count; i++) _oreMaterial[i].material = _nightMaterial;
 	}
 
 	public void ResourceExtracted()

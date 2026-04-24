@@ -10,6 +10,7 @@ public class Fuel : IImprovementBase
 	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
+	public event Action OnUpgrade;
 
 	private ImprovementFuelConfig _config;
 
@@ -93,6 +94,13 @@ public class Fuel : IImprovementBase
 		}
 
 		return _needResources;
+	}
+
+	public void Upgrade()
+	{
+		CurrentLevel++;
+
+		OnUpgrade?.Invoke();
 	}
 
 	public float GetCurrentFuel() => _currentFuel;
