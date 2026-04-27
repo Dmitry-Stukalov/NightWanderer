@@ -54,7 +54,7 @@ public class Searchlights : MonoBehaviour, IImprovementBase
 	{
 		_searchlights[CurrentLevel].SetActive(true);
 
-		if (CurrentLevel == 0) GameEvents.OnMissionComplete?.Invoke();
+		if (CurrentLevel == 0) GameEvents.OnMissionComplete?.Invoke(1);
 
 		CurrentLevel++;
 

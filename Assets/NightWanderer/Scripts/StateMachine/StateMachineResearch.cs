@@ -14,18 +14,20 @@ public class StateMachineResearch : StateMachineState
 		base.Enter();
 
 		GameEvents.OnResearchStart?.Invoke();
+		GameEvents.OnResearchQuit += () => StateManager.SetState(0);
 	}
 
 	public override void Exit()
 	{
 		base.Exit();
+		GameEvents.OnResearchQuit -= () => StateManager.SetState(0);
 	}
 
 	public override void Update()
 	{
 		base.Update();
 
-		if (Keyboard.current.fKey.wasPressedThisFrame)
+		/*if (Keyboard.current.fKey.wasPressedThisFrame)
 		{
 			StateManager.SetState(0);
 		}
@@ -34,6 +36,6 @@ public class StateMachineResearch : StateMachineState
 		{
 			StateManager.CurrentResearchShip.Search();
 			GameEvents.OnResearchEnd?.Invoke();
-		}
+		}*/
 	}
 }

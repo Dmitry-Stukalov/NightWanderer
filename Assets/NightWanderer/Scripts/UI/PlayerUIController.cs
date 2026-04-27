@@ -19,6 +19,7 @@ public class PlayerUIController : MonoBehaviour
 	[SerializeField] private BaseUIManager _baseUI;
 	private VisualElement _mainExtractionLaserElement;
 	private VisualElement _mainExtractionFuelElement;
+	private VisualElement _mainResearchElement;
 	private VisualElement _blackBackground;
 	private VisualElement _tutorialPanel;
 	private VisualElement _hintPanel;
@@ -41,7 +42,7 @@ public class PlayerUIController : MonoBehaviour
 		_hintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("HintPanel");
 		_hintPanel.style.opacity = 0;
 
-		_researchHintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
+		//_researchHintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
 
 		var fuelItemBackground = PlayerUI.rootVisualElement.Q<VisualElement>("FuelBackground");
 		fuelItemBackground.dataSource = new FuelRecovery(fuel, PlayerUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
@@ -67,6 +68,7 @@ public class PlayerUIController : MonoBehaviour
 		
 		GameEvents.OnResearchStart += OnResearchStart;
 		GameEvents.OnResearchEnd += OnResearchEnd;
+		GameEvents.OnResearchQuit += OnResearchQuit;
 	}
 
 	private IEnumerator StartPause()
@@ -80,8 +82,11 @@ public class PlayerUIController : MonoBehaviour
 		_mainExtractionLaserElement.style.display = DisplayStyle.None;
 		_mainExtractionFuelElement.style.display = DisplayStyle.None;
 
-		_researchHintPanel = ResearchUI.rootVisualElement.Q<VisualElement>("MainElement");
-		_researchHintPanel.style.display = DisplayStyle.None;
+		_mainResearchElement = ResearchUI.rootVisualElement.Q<VisualElement>("MainElement");
+
+		_researchHintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
+		//_researchHintPanel.style.display = DisplayStyle.None;
+		_mainResearchElement.style.display = DisplayStyle.None;
 
 		yield return new WaitForSeconds(37f);
 		StartGame();
@@ -186,14 +191,25 @@ public class PlayerUIController : MonoBehaviour
 
 	private void OnResearchStart()
 	{
-		_researchHintPanel.style.display = DisplayStyle.Flex;
+		ResearchUI.sortingOrder = 10;
+		_mainResearchElement.style.display = DisplayStyle.Flex;
+		UnityEngine.Cursor.lockState = CursorLockMode.None;
+		UnityEngine.Cursor.visible = true;
+		//_researchHintPanel.style.display = DisplayStyle.Flex;
 	}
 
 	private void OnResearchEnd()
 	{
 		StartCoroutine(ShowResearchOpenPanel());
+	}
 
-		_researchHintPanel.style.display = DisplayStyle.None;
+	private void OnResearchQuit()
+	{
+		ResearchUI.sortingOrder = 0;
+		_mainResearchElement.style.display = DisplayStyle.None;
+		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+		UnityEngine.Cursor.visible = false;
+		//_researchHintPanel.style.display = DisplayStyle.None;
 	}
 
 	public MinigameLaser GetMinigameLaser() => (MinigameLaser)_mainExtractionLaserElement.dataSource;
@@ -233,5 +249,6 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
 		GameEvents.OnResearchStart -= OnResearchStart;
 		GameEvents.OnResearchEnd -= OnResearchEnd;
+		GameEvents.OnResearchQuit -= OnResearchQuit;
 	}
 }

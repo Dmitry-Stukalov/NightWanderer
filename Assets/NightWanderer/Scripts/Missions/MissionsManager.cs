@@ -25,7 +25,7 @@ public class MissionsManager : MonoBehaviour
 
 		_taskPanelBackground = _playerUI.rootVisualElement.Q<VisualElement>("UpdateTaskPanel");
 
-		GameEvents.OnBase += CheckMission;
+		//GameEvents.OnBase += CheckMission;
 		GameEvents.OnMissionComplete += CheckMission;
 		GameEvents.OnDoMission += CheckMission;
 	}
@@ -39,33 +39,52 @@ public class MissionsManager : MonoBehaviour
 		DOTween.To(() => _taskPanelBackground.style.opacity.value, x => _taskPanelBackground.style.opacity = x, 0, 1.5f);
 	}
 	
-	private void CheckMission()
+	private void CheckMission(int id)
 	{
-		if (_missions[_currentMission].UpdateMission(0))
+		if (id == _currentMission && _missions[_currentMission].UpdateMission(0))
+		{
+			_missions[_currentMission].CompleteMission();
+			_currentMission++;
+
 			CompleteMission();
+		}
 	}
 
-	private void CheckMission(int value)
+	private void CheckMission(int id, int value)
 	{
-		if (_missions[_currentMission].UpdateMission(value))
+		if (id == _currentMission && _missions[_currentMission].UpdateMission(value))
+		{
+			_missions[_currentMission].CompleteMission();
+			_currentMission++;
+
 			CompleteMission();
+		}
 	}
+
+	/*private void CheckComplete()
+	{
+		if (_missions[_currentMission].IsMissionComplete()) CheckMission(_currentMission);
+	}*/
 
 	public void CompleteMission()
 	{
-		_missions[_currentMission].CompleteMission();
-		_currentMission++;
+		//_missions[_currentMission].CompleteMission();
+
+		//_currentMission++;
 
 		StartCoroutine(ShowTaskPanel());
 
 		OnMissionComplete?.Invoke();
+
+		//CheckComplete();
 	}
 
 	public string GetCurrentMissionText() => _missions[_currentMission].GetMissionText();
+	public bool GetMissionStatus(int id) => _missions[id].IsMissionComplete();
 
 	private void OnDisable()
 	{
-		GameEvents.OnBase -= CheckMission;
+		//GameEvents.OnBase -= CheckMission;
 		GameEvents.OnMissionComplete -= CheckMission;
 		GameEvents.OnDoMission -= CheckMission;
 	}

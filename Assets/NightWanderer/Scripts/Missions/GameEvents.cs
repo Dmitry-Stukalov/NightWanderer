@@ -14,6 +14,7 @@ public static class GameEvents
 	//Исследование кораблей
 	public static Action<string> OnImprovementOpen;
 	public static Action<string> OnCraftOpen;
+	public static Action<string> OnStoryOpen;
 
 	//Добыча ресурсов
 	public static Action OnLaserExtractionStart;
@@ -21,8 +22,10 @@ public static class GameEvents
 	public static Action OnRightExtraction;
 	public static Action OnExtractionEnd;
 
+	public static Action<ResearchShip> OnResearchNearBy;
 	public static Action OnResearchStart;
 	public static Action OnResearchEnd;
+	public static Action OnResearchQuit;
 
 	//Управление двигателями
 	public static Action OnEnginesOnOff;
@@ -34,8 +37,8 @@ public static class GameEvents
 
 	public static Action OnDialogueStart;
 
-	public static Action OnMissionComplete;
-	public static Action<int> OnDoMission;
+	public static Action<int> OnMissionComplete;
+	public static Action<int, int> OnDoMission;
 
 	public static Action OnSkipTimeStart;
 	public static Action OnSkipTimeEnd;

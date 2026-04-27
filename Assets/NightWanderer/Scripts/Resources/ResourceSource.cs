@@ -40,7 +40,7 @@ public class ResourceSource : MonoBehaviour
 
 		foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>()) _oreMaterial.Add(renderer);
 
-		_oreMaterial.RemoveAt(_oreMaterial.Count - 1);
+		//_oreMaterial.RemoveAt(_oreMaterial.Count - 1);
 
 		if (ISRemoveFirst) _oreMaterial.RemoveAt(0);
 

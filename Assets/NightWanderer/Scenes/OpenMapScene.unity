@@ -3524,6 +3524,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Fuel
       objectReference: {fileID: 0}

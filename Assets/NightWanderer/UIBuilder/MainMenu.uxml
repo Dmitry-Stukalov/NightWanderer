@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/NightWanderer/UIBuilder/PlayerUI.uss?fileID=7433441132597879392&amp;guid=87acf5a7fa867dd4a95df1b855a03afb&amp;type=3#PlayerUI" />
+    <ui:VisualElement name="MainElement" style="flex-grow: 1;">
+        <ui:VisualElement name="MenuBackground" class="MainBackground BorderAll" style="flex-grow: 0; width: 60%; align-self: center; height: 80%; position: absolute; bottom: 0%; border-top-left-radius: 50px; border-top-right-radius: 50px; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; justify-content: center;">
+            <ui:VisualElement name="ContentBackground" style="flex-grow: 0; width: 50%; height: 50%; align-self: center; align-content: auto; justify-content: space-around;">
+                <ui:Button text="Продолжить" name="ContinueButton" picking-mode="Ignore" class="MainBackground BorderAll StandartLabel" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+                <ui:Button text="Новая игра" name="NewGameButton" class="MainBackground BorderAll StandartLabel" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+                <ui:Button text="Настройки" name="SettingsButton" class="MainBackground BorderAll StandartLabel" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+                <ui:Button text="Выйти" name="ExitButton" class="MainBackground BorderAll StandartLabel" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

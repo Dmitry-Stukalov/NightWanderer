@@ -180,8 +180,10 @@ public class ShipMovement : MonoBehaviour
 			if (IsFirstTimeBase)
 			{
 				GameEvents.OnBase?.Invoke();
+				GameEvents.OnMissionComplete?.Invoke(0);
 				//GameEvents.OnDialogueStart?.Invoke();
 				GameEvents.OnCraftOpen?.Invoke("Прожектор");
+				IsFirstTimeBase = false;
 			}
 
 			_playerUIController.ShowHint();
@@ -189,11 +191,15 @@ public class ShipMovement : MonoBehaviour
 
 		if (other.CompareTag("Research"))
 		{
+			if (other.GetComponent<ResearchShip>().IsDataUpload()) return;
+
 			IsCanResearch = true;
 			StateMachineManager.CurrentResearchShip = other.GetComponent<ResearchShip>();
 			StateMachineManager.TargetShipPosition = other.GetComponent<ResearchShip>().DockingPlace.transform.position;
 
 			_playerUIController.ShowHint();
+
+			GameEvents.OnResearchNearBy?.Invoke(other.GetComponent<ResearchShip>());
 		}
 
 		if (other.CompareTag("Sand")) HitSurface();
@@ -219,11 +225,11 @@ public class ShipMovement : MonoBehaviour
 			BasePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
 
-			if (IsFirstTimeBase)
-			{
-				GameEvents.OnMissionComplete?.Invoke();
-				IsFirstTimeBase = false;
-			}
+			//if (IsFirstTimeBase)
+			//{
+			GameEvents.OnMissionComplete?.Invoke(2);
+			//	IsFirstTimeBase = false;
+			//}
 
 			_playerUIController.HideHint();
 		}
