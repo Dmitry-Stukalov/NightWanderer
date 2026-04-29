@@ -246,7 +246,7 @@ public class ShipMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (!IsGameStart) return;
+		if (!IsGameStart || Time.timeScale == 0) return;
 
 		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
 

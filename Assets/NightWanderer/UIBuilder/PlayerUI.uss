@@ -1,11 +1,50 @@
 :root {
     --main-background-color: rgba(0, 209, 255, 0.4);
+    --unactive-background-color: rgba(100, 100, 100, 0.4);
+    --hover-background-color: rgba(0, 130, 255, 0.4);
     --main-text-color: rgb(255, 255, 255);
+    --unactive-text-color: rgb(200, 200, 200);
     --main-text-align: middle-center;
+}
+
+.Button {
+    background-color: var(--main-background-color);
+    border-color: rgb(255, 255, 255);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    transition-duration: 0.15s;
+}
+
+.Button:hover {
+    background-color: var(--hover-background-color);
+    border-color: rgb(255, 255, 255);
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    scale: 1.07;
+    transition-duration: 0.15s;
+}
+
+.Button:active {
+    background-color: var(--hover-background-color);
+    border-color: rgb(255, 255, 255);
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    scale: 0.9;
+    transition-duration: 0.1s;
 }
 
 .MainBackground {
     background-color: var(--main-background-color);
+}
+
+.UnactiveBackground {
+    background-color: var(--unactive-background-color);
 }
 
 .StandartLabel {
@@ -14,7 +53,19 @@
     font-size: 22px;
 }
 
-.SmallLable {
+.StandartUnactiveLabel {
+    color: var(--unactive-text-color);
+    -unity-text-align: var(--main-text-align);
+    font-size: 22px;
+}
+
+.SmallUnactiveLabel {
+    color: var(--unactive-text-color);
+    -unity-text-align: var(--main-text-align);
+    font-size: 14px;
+}
+
+.SmallLabel {
     color: var(--main-text-color);
     -unity-text-align: var(--main-text-align);
     font-size: 14px;
@@ -60,4 +111,7 @@
 .BorderCellWide {
     border-color: rgb(0, 0, 0);
     border-width: 2px;
+}
+
+.SmallLable {
 }

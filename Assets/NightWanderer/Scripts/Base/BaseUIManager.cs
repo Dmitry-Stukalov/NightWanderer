@@ -66,14 +66,14 @@ public class BaseUIManager : MonoBehaviour
 
 		yield return new WaitForSeconds(81);
 
-		baseUI.sortingOrder = 5;
+		baseUI.sortingOrder = 10;
 	}
 
 	//¬ключает отображение UI на базе и выдвигает его вперед
 	public void OpenBaseUI()
 	{
 		if (IsFirstTime) IsFirstTime = false;
-		else baseUI.sortingOrder = 5;
+		else baseUI.sortingOrder = 10;
 
 		mainBackground.style.display = DisplayStyle.Flex;
 

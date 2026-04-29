@@ -700,6 +700,51 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1740794089928084561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5278825613322026075}
+  - component: {fileID: 1103783559816164516}
+  m_Layer: 0
+  m_Name: SettingsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5278825613322026075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740794089928084561}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2201670983639112127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1103783559816164516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740794089928084561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e260d34cbc95c734da694e3d8e72465b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settingsUI: {fileID: 7438835626865396078}
 --- !u!1 &1816021210727080394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,6 +1411,7 @@ Transform:
   - {fileID: 9050060760853748099}
   - {fileID: 8258802086484007376}
   - {fileID: 1792710196075990778}
+  - {fileID: 1108915608688342470}
   m_Father: {fileID: 6351537948990529355}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!20 &408315898490039240
@@ -1978,6 +2024,7 @@ MonoBehaviour:
   _statusIcon: {fileID: 21300000, guid: f709b482b17c9ae47a995abe6935bbe4, type: 3}
   Inventory: {fileID: 4147099259103858269}
   _baseUI: {fileID: 1833514700831445252}
+  _settingsManager: {fileID: 1103783559816164516}
 --- !u!114 &4384735025375778772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4408,6 +4455,58 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &6907365619764626459
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108915608688342470}
+  - component: {fileID: 7438835626865396078}
+  m_Layer: 0
+  m_Name: SettingsUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1108915608688342470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6907365619764626459}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6457992995885252118}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7438835626865396078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6907365619764626459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 88e62fe87a9d1b144a58229d31bdbb30, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: b224903b16bae994c9be7b966620cae4,
+    type: 3}
+  m_SortingOrder: -5
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &7219075690192405190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6995,6 +7094,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 933899309983067584}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97d6d41b45f890342aec25cb0ec39407,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5278825613322026075}
     - targetCorrespondingSourceObject: {fileID: -7379132907224104550, guid: 97d6d41b45f890342aec25cb0ec39407,
         type: 3}
       insertIndex: -1

@@ -176,6 +176,7 @@ MonoBehaviour:
   _dialogueManager: {fileID: 1922147000}
   _statisticsManager: {fileID: 1885972745}
   _researchManager: {fileID: 1885972746}
+  _settingsManager: {fileID: 1885972747}
   _baseInventory: {fileID: 1479734559}
 --- !u!1 &28553470 stripped
 GameObject:
@@ -469,6 +470,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7aaeee4e816ecab428c3152b95570e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1885972747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1103783559816164516, guid: f662a68aa77402e4fb7d7055739c2197,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885972744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e260d34cbc95c734da694e3d8e72465b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1898821381 stripped

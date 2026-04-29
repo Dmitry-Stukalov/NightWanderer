@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/NightWanderer/Scenes/MainMenu.unity
+    guid: 611e35e5ba9206e4dafd878e5375bbc9
+  - enabled: 1
     path: Assets/NightWanderer/Scenes/MainScene.unity
     guid: e372d0eee566f2f459808607c4e809f7
   - enabled: 1
