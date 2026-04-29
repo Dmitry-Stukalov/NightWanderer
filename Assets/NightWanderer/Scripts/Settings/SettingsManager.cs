@@ -9,6 +9,7 @@ public class SettingsManager : MonoBehaviour
 	private Button _continueButton;
 	private Button _settingsButton;
 	private Button _exitButton;
+	private bool _hideCursor = true;
 
 	public void Initializing()
 	{
@@ -37,6 +38,8 @@ public class SettingsManager : MonoBehaviour
 		Time.timeScale = 0;
 		_mainElement.style.display = DisplayStyle.Flex;
 
+		if (UnityEngine.Cursor.visible) _hideCursor = false;
+
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 		UnityEngine.Cursor.visible = true;
 	}
@@ -48,8 +51,12 @@ public class SettingsManager : MonoBehaviour
 		Time.timeScale = 1;
 		_mainElement.style.display = DisplayStyle.None;
 
-		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-		UnityEngine.Cursor.visible = false;
+		if (_hideCursor)
+		{
+			UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+			UnityEngine.Cursor.visible = false;
+		}
+		else _hideCursor = true;
 	}
 
 	private void CloseSettings(ClickEvent evt)

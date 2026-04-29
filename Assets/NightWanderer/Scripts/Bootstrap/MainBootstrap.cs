@@ -35,7 +35,7 @@ public class MainBootstrap : MonoBehaviour
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
 
 		_effectsManager?.Initializing();
-		_shipMovement?.Initializing();
+		_shipMovement?.Initializing(_playerUIController.GetVisualElement("DamageEffect"));
 		_playerUIController?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_searchlightManager.Initializing();
 		_playerInventoryBuilder?.Initializing();

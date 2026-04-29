@@ -334,6 +334,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Searchlight
       objectReference: {fileID: 0}
@@ -674,6 +680,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Fuel
       objectReference: {fileID: 0}
@@ -757,6 +769,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -1278,6 +1296,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -3770,7 +3794,7 @@ MonoBehaviour:
   m_InnerSpotPercent: 0
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
-  m_VolumetricDimmer: 1
+  m_VolumetricDimmer: 0.2
   m_FadeDistance: 10000
   m_VolumetricFadeDistance: 10000
   m_AffectDiffuse: 1
@@ -3847,7 +3871,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 0.5
+  m_VolumetricShadowDimmer: 0
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 0
@@ -4957,6 +4981,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Health
       objectReference: {fileID: 0}
@@ -5264,6 +5294,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Searchlight
       objectReference: {fileID: 0}
@@ -5347,6 +5383,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -6494,6 +6536,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Defense
       objectReference: {fileID: 0}
@@ -6939,6 +6987,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Engines
       objectReference: {fileID: 0}
@@ -7138,6 +7192,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: FireDefense
       objectReference: {fileID: 0}
@@ -7295,6 +7355,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -3.8529968
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -7965,6 +8031,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 099022ce07b4b444797ba757487b7b93,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: FireDefense
       objectReference: {fileID: 0}
@@ -8198,6 +8270,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Defense
       objectReference: {fileID: 0}
@@ -8283,6 +8361,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Defense
       objectReference: {fileID: 0}
@@ -8366,6 +8450,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -139.799
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -8574,6 +8664,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -8956,7 +9052,7 @@ MonoBehaviour:
   m_InnerSpotPercent: 0
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
-  m_VolumetricDimmer: 1
+  m_VolumetricDimmer: 0.1
   m_FadeDistance: 10000
   m_VolumetricFadeDistance: 10000
   m_AffectDiffuse: 1
@@ -9033,7 +9129,7 @@ MonoBehaviour:
     m_UseOverride: 1
     m_Level: 0
   m_ShadowDimmer: 1
-  m_VolumetricShadowDimmer: 0.5
+  m_VolumetricShadowDimmer: 0.3
   m_ShadowFadeDistance: 10000
   m_UseContactShadow:
     m_Override: 0
@@ -9240,6 +9336,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -9500,6 +9602,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Engines
       objectReference: {fileID: 0}
@@ -9583,6 +9691,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -7.77
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -9742,6 +9856,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -10232,6 +10352,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
       propertyPath: _improvementName
       value: Defense
       objectReference: {fileID: 0}
@@ -10389,6 +10515,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -11321,6 +11453,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -128.044
       objectReference: {fileID: 0}
+    - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
+        type: 3}
+      propertyPath: config
+      value: 
+      objectReference: {fileID: 11400000, guid: 496c796443bd5814ebabbbf39b71eb79,
+        type: 2}
     - target: {fileID: 8006027458922538059, guid: 635c7becb8169174293b4d3a392a3ea5,
         type: 3}
       propertyPath: _improvementName
@@ -12837,7 +12975,7 @@ Transform:
   m_GameObject: {fileID: 2145615133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1127.3042, y: 325, z: 940.1073}
+  m_LocalPosition: {x: 1070, y: 325, z: 940.1073}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

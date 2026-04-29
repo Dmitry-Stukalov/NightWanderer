@@ -1,5 +1,8 @@
+using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 //Отвечает за здоровье, защиту и термальную защиту. Вычисляет получаемый урон
 public class DefenseSystem
@@ -7,10 +10,13 @@ public class DefenseSystem
 	private HealthFireDefense _health;
 	private HealthFireDefense _defense;
 	private HealthFireDefense _fireDefense;
+	private VisualElement _damageEffect;
+	private Sprite _defenseSprite;
+	private Sprite _damageSprite;
 
 	public event Action OnDeath;
 
-	public DefenseSystem(HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense, ImprovementManager manager)
+	public DefenseSystem(HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense, ImprovementManager manager, VisualElement damageEffect, Sprite defenseSprite, Sprite damageSprite)
 	{
 		_health = health;
 		_defense = defense;
@@ -23,6 +29,10 @@ public class DefenseSystem
 		manager.AddImprovement(_health, "Health");
 		manager.AddImprovement(_defense, "Defense");
 		manager.AddImprovement(_fireDefense, "FireDefense");
+
+		_damageEffect = damageEffect;
+		_defenseSprite = defenseSprite;
+		_damageSprite = damageSprite;
 	}
 
 	//Вычисление получаемого урона с учетом защиты (1 защита = 1 урон)
@@ -45,12 +55,16 @@ public class DefenseSystem
 			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
 
 			if (_health.GetCurrentHealth() == 0) Death();
+
+			GetDamageEffect(false);
 		}
 		else
 		{
 			_defense.GetDamage(damage);
 
 			if (_defense.GetCurrentHealth() / _defense.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("DefenseCritical", "Защита повреждена");
+
+			GetDamageEffect(true);
 		}
 	}
 
@@ -74,12 +88,16 @@ public class DefenseSystem
 			if (_health.GetCurrentHealth() / _health.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("HealthCritical", "Корпус поврежден");
 
 			if (_health.GetCurrentHealth() == 0) Death();
+
+			GetDamageEffect(false);
 		}
 		else
 		{
 			_fireDefense.GetDamage(fireDamage);
 
 			if (_fireDefense.GetCurrentHealth() / _fireDefense.GetMaxHealth() * 100 <= 20) GameEvents.OnCriticalStatusShow?.Invoke("FireDefenseCritical", "Терм. защита повреждена");
+
+			GetDamageEffect(true);
 		}
 	}
 
@@ -126,6 +144,18 @@ public class DefenseSystem
 			GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseDestroy");
 			GameEvents.OnCriticalStatusHide?.Invoke("FireDefenseCritical");
 		}
+	}
+
+	private void GetDamageEffect(bool IsDefense)
+	{
+		if (IsDefense) _damageEffect.style.backgroundImage = new StyleBackground(_defenseSprite);
+		else _damageEffect.style.backgroundImage = new StyleBackground(_damageSprite);
+
+		DOTween.To(() => _damageEffect.resolvedStyle.opacity, x => _damageEffect.style.opacity = x, 1, 0.2f)
+			.OnComplete(() =>
+			{
+				DOTween.To(() => _damageEffect.resolvedStyle.opacity, x => _damageEffect.style.opacity = x, 0, 1f).SetDelay(1f);
+			});
 	}
 
 	public HealthFireDefense GetHealth() => _health;

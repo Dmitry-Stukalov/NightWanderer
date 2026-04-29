@@ -89,7 +89,7 @@ public class PlayerUIController : MonoBehaviour
 		//_researchHintPanel.style.display = DisplayStyle.None;
 		_mainResearchElement.style.display = DisplayStyle.None;
 
-		yield return new WaitForSeconds(45f);
+		yield return new WaitForSeconds(55f);
 		StartGame();
 	}
 
@@ -102,7 +102,7 @@ public class PlayerUIController : MonoBehaviour
 
 		GameEvents.OnDialogueStart?.Invoke();
 
-		yield return new WaitForSeconds(80);
+		yield return new WaitForSeconds(70);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f);
 		_blackBackground.style.display = DisplayStyle.None;
@@ -242,6 +242,8 @@ public class PlayerUIController : MonoBehaviour
 
 		if (Keyboard.current.escapeKey.wasPressedThisFrame) _settingsManager.OpenSettings();
 	}
+
+	public VisualElement GetVisualElement(string name) => PlayerUI.rootVisualElement.Q<VisualElement>(name);
 
 	private void OnDisable()
 	{

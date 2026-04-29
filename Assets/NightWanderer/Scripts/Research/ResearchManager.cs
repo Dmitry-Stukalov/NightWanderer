@@ -67,6 +67,7 @@ public class ResearchManager : MonoBehaviour
 
 	public void ShipQuit()
 	{
+		DoAction(0);
 		GameEvents.OnResearchQuit?.Invoke();
 	}
 

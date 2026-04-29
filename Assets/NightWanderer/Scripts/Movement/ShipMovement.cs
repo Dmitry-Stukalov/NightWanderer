@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
@@ -12,6 +13,8 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private PlayerUIController _playerUIController;
 	[SerializeField] private DeathManager _deathManager;
+	[SerializeField] private Sprite _defenseSprite;
+	[SerializeField] private Sprite _damageSprite;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -64,7 +67,7 @@ public class ShipMovement : MonoBehaviour
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
-	public void Initializing()
+	public void Initializing(VisualElement damageEffect)
 	{
 		StartCoroutine(StartPause());
 
@@ -72,7 +75,7 @@ public class ShipMovement : MonoBehaviour
 
 		_searchlights.AddConfig(_searchlightConfig);
 
-		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager);
+		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager, damageEffect, _defenseSprite, _damageSprite);
 		_defenseSystem.OnDeath += Death;
 
 		_fuel = new Fuel(_fuelConfig);
@@ -83,8 +86,8 @@ public class ShipMovement : MonoBehaviour
 		UpDownMoveAction = InputSystem.actions.FindAction("UpDownMove");
 		LookAction = InputSystem.actions.FindAction("Look");
 
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+		UnityEngine.Cursor.visible = false;
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
@@ -179,7 +182,7 @@ public class ShipMovement : MonoBehaviour
 
 			if (IsFirstTimeBase)
 			{
-				GameEvents.OnBase?.Invoke();
+				GameEvents.OnBase?.Invoke(other.GetComponent<Base>());
 				GameEvents.OnMissionComplete?.Invoke(0);
 				//GameEvents.OnDialogueStart?.Invoke();
 				GameEvents.OnCraftOpen?.Invoke("Прожектор");

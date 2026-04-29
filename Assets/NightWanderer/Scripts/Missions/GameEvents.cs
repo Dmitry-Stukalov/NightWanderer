@@ -5,7 +5,7 @@ public static class GameEvents
 	public static Action OnGameStart;
 
 	//Посещение базы
-	public static Action OnBase;
+	public static Action<Base> OnBase;
 	public static Action OnFirstBaseVisit;
 
 	//Подбор ресурса

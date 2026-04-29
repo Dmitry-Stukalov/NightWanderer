@@ -4,4 +4,7 @@ using UnityEngine;
 public class ResearchConfig : ScriptableObject
 {
 	[SerializeField] public ResearchData[] Choices;
+	[SerializeField] public string[] ImprovementName;
+	[SerializeField] public string[] CraftName;
+	[SerializeField] public string[] StoryName;
 }

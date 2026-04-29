@@ -17,6 +17,8 @@ public class DeathManager : MonoBehaviour
 		_startPosition = _ship.transform.position;
 
 		for (int i = 0; i < _explosions.Length; i++) _explosions[i].Stop();
+
+		GameEvents.OnBase += ChangeBase;
 	}
 
 	public void StartDeath()
@@ -50,5 +52,12 @@ public class DeathManager : MonoBehaviour
 		}
 
 		OnAlive?.Invoke();
+	}
+
+	private void ChangeBase(Base newBase) => LastBase = newBase;
+
+	private void OnDisable()
+	{
+		GameEvents.OnBase -= ChangeBase;
 	}
 }
