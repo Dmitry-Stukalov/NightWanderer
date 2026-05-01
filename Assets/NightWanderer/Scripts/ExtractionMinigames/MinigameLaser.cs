@@ -47,12 +47,12 @@ public class MinigameLaser
 
 	private void NewPlace()
 	{
-		_rightPlace.transform.position = new Vector2(_rightPlace.transform.position.x, Random.Range(0 + _rightPlace.layout.height / 2, _parentRect.height - _rightPlace.layout.height / 2));
+		_rightPlace.transform.position = new Vector2(_rightPlace.transform.position.x, Random.Range(0 + _rightPlace.layout.height / 2, _parentRect.height - _rightPlace.layout.height));
 	}
 
 	private void ChangeSliderPosition()
 	{
-		_animation = DOTween.To(() => _gameSlider.style.top.value.value, x => _gameSlider.style.top = new StyleLength(x), _parentRect.height - _gameSlider.layout.height / 2, 3f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+		_animation = DOTween.To(() => _gameSlider.style.top.value.value, x => _gameSlider.style.top = new StyleLength(x), _parentRect.height - _gameSlider.layout.height, 3f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 	}
 
 	private void StopSliderPosition()

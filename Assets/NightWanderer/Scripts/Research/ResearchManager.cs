@@ -103,7 +103,8 @@ public class ResearchManager : MonoBehaviour
 
 			case "FireDefense":
 				text = "Открыто улучшение термальной защиты";
-			break;
+				GameEvents.OnMissionComplete?.Invoke(5);
+				break;
 
 			case "Engines":
 				text = "Открыто улучшение двигателей";
@@ -115,7 +116,7 @@ public class ResearchManager : MonoBehaviour
 
 			case "BaseKey":
 				text = "Найден ключ доступа северной базы";
-				GameEvents.OnMissionComplete?.Invoke(3);
+				GameEvents.OnMissionComplete?.Invoke(6);
 			break;
 		}
 

@@ -63,8 +63,14 @@ public class DialogueManager : MonoBehaviour
 			yield return new WaitForSeconds(2f);
 		}
 
-		IsDialogueContinue = false;
 		_currentDialogue++;
+
+		if (_currentDialogue == 5) StartNewDialogue();
+
+		if (_currentDialogue == 5) GameEvents.OnMissionComplete?.Invoke(3);
+
+		IsDialogueContinue = false;
+
 		HideBackground();
 
 		if (IsNextActive)

@@ -51,7 +51,7 @@
 }
 
 .Button-base:hover {
-     background-color: var(--hover-background-color);
+    background-color: var(--hover-background-color);
     border-color: rgb(255, 255, 255);
     transition-duration: 0.15s;
 }
@@ -108,8 +108,16 @@
     -unity-font-definition: initial;
 }
 
+.RoundingBorderBig {
+    border-radius: 30px;
+}
+
 .RoundingBorder {
     border-radius: 20px;
+}
+
+.RoundingBorderSmall {
+    border-radius: 10px;
 }
 
 .BorderAll {
@@ -141,12 +149,12 @@
 }
 
 .BorderCell {
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(255, 255, 255);
     border-width: 1px;
 }
 
 .BorderCellWide {
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(255, 255, 255);
     border-width: 2px;
 }
 

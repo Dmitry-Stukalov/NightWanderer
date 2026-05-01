@@ -104,7 +104,7 @@ public class PlayerUIController : MonoBehaviour
 
 		GameEvents.OnDialogueStart?.Invoke();
 
-		yield return new WaitForSeconds(70);
+		//yield return new WaitForSeconds(70);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 	}

@@ -50,6 +50,7 @@ public class VacuumCleaner : MonoBehaviour
 					if (_sandCounts % 50 == 0 && _sandCounts != 1000 && _sandCounts != 0)
 					{
 						resource = _resourceLibrary.GetResource(1);
+						GameEvents.OnDoMission?.Invoke(4, 1);
 					}
 					else if (_sandCounts == 1000)
 					{

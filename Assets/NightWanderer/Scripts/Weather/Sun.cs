@@ -57,8 +57,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			Damage = MinDamage;
 			TransitionNightTimer.Continue();
 
-			_sunLight.enabled = false;
-			_moonLight.enabled = true;
+			//_sunLight.enabled = false;
+			//_moonLight.enabled = true;
 
 			OnNightStart?.Invoke();
 		};
@@ -68,8 +68,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			_day++;
 			TransitionDayTimer.Continue();
 
-			_sunLight.enabled = true;
-			_moonLight.enabled = false;
+			//_sunLight.enabled = true;
+			//_moonLight.enabled = false;
 
 			OnDayStart?.Invoke();
 		};
@@ -133,9 +133,9 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	{
 		if (IsTimeSkip)
 		{
-			AllDayTimer.Tick(Time.deltaTime * 10);
-			TransitionDayTimer.Tick(Time.deltaTime * 10);
-			TransitionNightTimer.Tick(Time.deltaTime * 10);
+			AllDayTimer.Tick(Time.deltaTime * 15);
+			TransitionDayTimer.Tick(Time.deltaTime * 15);
+			TransitionNightTimer.Tick(Time.deltaTime * 15);
 		}
         else
         {

@@ -12,6 +12,7 @@ public class HealthFireDefenseRecovery
 		_health.OnHealthChange += UpdateData;
 
 		_healthForeground = healthForeground;
+		UpdateData();
 	}
 
 	public void RecoverHealth(float value)
@@ -25,8 +26,17 @@ public class HealthFireDefenseRecovery
 
 	private void UpdateData()
 	{
-		var fuelPercent = _health.GetCurrentHealth() / _health.GetMaxHealth() * 100;
+		float healthPercent;
 
-		_healthForeground.style.width = new Length(Mathf.Clamp(fuelPercent, 0, 100), LengthUnit.Percent);
+		if (_health.GetMaxHealth() != 0)
+		{
+			healthPercent = _health.GetCurrentHealth() / _health.GetMaxHealth() * 100;
+			_healthForeground.style.width = new Length(Mathf.Clamp(healthPercent, 0, 100), LengthUnit.Percent);
+		}
+		else
+		{
+			healthPercent = 0;
+			_healthForeground.style.width = new Length(0, LengthUnit.Percent);
+		}
 	}
 }

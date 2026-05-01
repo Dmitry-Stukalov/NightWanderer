@@ -74,6 +74,16 @@ public class MissionsManager : MonoBehaviour
 
 		StartCoroutine(ShowTaskPanel());
 
+		if (_currentMission == 3) GameEvents.OnDialogueStart();
+
+		if (_currentMission == 5)
+		{
+			GameEvents.OnDialogueStart?.Invoke();
+			GameEvents.OnMarkShow?.Invoke(0);
+		}
+
+		if (_currentMission == 6) GameEvents.OnMarkHide?.Invoke(0);
+
 		OnMissionComplete?.Invoke();
 
 		//CheckComplete();

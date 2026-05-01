@@ -45,4 +45,7 @@ public static class GameEvents
 	public static Action OnSkipTimeEnd;
 
 	public static Action OnDeath;
+
+	public static Action<int> OnMarkShow;
+	public static Action<int> OnMarkHide;
 }

@@ -94,10 +94,10 @@ public class DraggableManipulator : PointerManipulator
 
 		if (_elementUnderCursor != null)
 		{
+			if (_elementUnderCursor.ClassListContains("Cell")) _elementUnderCursor.RemoveFromClassList("BorderCellWide");
+
 			if (_elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)
 			{
-				_elementUnderCursor.RemoveFromClassList("BorderCellWide");
-
 				var cellResource = _elementUnderCursor.hierarchy.Children().ElementAt(0);
 				var result = ((ResourceCellObject)cellResource.dataSource).AddResource(_cellResource.GetResource());
 				if (result.CurrentCount == 0) _cellResource.ResetResource();
