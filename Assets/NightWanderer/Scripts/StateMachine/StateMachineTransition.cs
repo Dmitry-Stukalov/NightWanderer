@@ -30,8 +30,12 @@ public class StateMachineTransition : StateMachineState
 	{
 		StateManager._Animator.SetBool("IsIdle", true);
 
+
 		PositionsIndex = 0;
-		TargetShipPosition = StateManager.TargetShipPosition;
+
+		if (StateManager.NextState == 20) TargetShipPosition = StateManager.CurrentBase.transform.GetChild(0).position;
+		else TargetShipPosition = StateManager.TargetShipPosition;
+
 		TargetShipRotation = StateManager.TargetShipRotation;
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;

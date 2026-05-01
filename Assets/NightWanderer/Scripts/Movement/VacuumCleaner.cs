@@ -45,7 +45,7 @@ public class VacuumCleaner : MonoBehaviour
 		{
 			if (collider.CompareTag("Sand"))
 			{
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					if (_sandCounts % 50 == 0 && _sandCounts != 1000 && _sandCounts != 0)
 					{
@@ -58,7 +58,12 @@ public class VacuumCleaner : MonoBehaviour
 					}
 					else resource = _resourceLibrary.GetResource(0);
 
-					resource.GetComponent<ResourceOnLand>().SetResourceCount(1);
+					if (_sandCounts % 2 == 0)
+					{
+						resource.GetComponent<ResourceOnLand>().SetResourceCount(1);
+					}
+					else resource.GetComponent<ResourceOnLand>().SetResourceCount(0);
+
 					resource.transform.position = new Vector3(Random.Range(_cleaner.transform.position.x - _halfVectorCleaner.x / 2, _cleaner.transform.position.x + _halfVectorCleaner.x / 2), _cleaner.transform.position.y - _halfVectorCleaner.y / 2, Random.Range(_cleaner.transform.position.z - _halfVectorCleaner.z / 2, _cleaner.transform.position.z + _halfVectorCleaner.z / 2));
 					_sandCounts++;
 				}

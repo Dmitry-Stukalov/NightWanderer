@@ -26,16 +26,5 @@ public class StateMachineResearch : StateMachineState
 	public override void Update()
 	{
 		base.Update();
-
-		/*if (Keyboard.current.fKey.wasPressedThisFrame)
-		{
-			StateManager.SetState(0);
-		}
-
-		if (Keyboard.current.spaceKey.wasPressedThisFrame)
-		{
-			StateManager.CurrentResearchShip.Search();
-			GameEvents.OnResearchEnd?.Invoke();
-		}*/
 	}
 }

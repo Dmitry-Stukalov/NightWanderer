@@ -24,7 +24,7 @@ public static class GameEvents
 
 	public static Action<ResearchShip> OnResearchNearBy;
 	public static Action OnResearchStart;
-	public static Action OnResearchEnd;
+	public static Action<string> OnResearchEnd;
 	public static Action OnResearchQuit;
 
 	//Управление двигателями

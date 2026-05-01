@@ -16,20 +16,13 @@ public class ResearchShip : MonoBehaviour
 	{
 		if (IsEmpty) return;
 
-		//_improvementManager.UnlockImprovement(_searchName);
+		for (int i = 0; i < config.ImprovementName.Length; i++) GameEvents.OnImprovementOpen?.Invoke(config.ImprovementName[i]);
 
-		if (IsImprovementOpen) GameEvents.OnImprovementOpen?.Invoke(_improvementName);
+		for (int i = 0; i < config.CraftName.Length; i++) GameEvents.OnCraftOpen?.Invoke(config.CraftName[i]);
 
-		if (IsCraftOpen) GameEvents.OnCraftOpen?.Invoke(_craftName);
-
-		if (IsStoryOpen)
-		{
-			if (_storyName == "BaseKey") GameEvents.OnMissionComplete?.Invoke(3);
-			//GameEvents.OnStoryOpen?.Invoke(_storyName);
-		}
+		for (int i = 0; i < config.StoryName.Length; i++) GameEvents.OnStoryOpen?.Invoke(config.StoryName[i]);
 
 		IsEmpty = true;
-		Debug.Log("Улучшение открыто");
 	}
 
 	public ResearchConfig GetResearchConfig() => config;

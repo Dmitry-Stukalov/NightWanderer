@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1985d890f80239d4fa56a75acd1f4ba2, type: 3}
-  m_Name: ResearchConfig2
+  m_Name: ResearchConfig13
   m_EditorClassIdentifier: 
   Choices:
   - <ResearchText>k__BackingField: "\u0421\u0442\u044B\u043A\u043E\u0432\u043A\u0430
@@ -121,6 +121,6 @@ MonoBehaviour:
       \u0447\u0430\u0441\u0442\u044C"
     <ActionsWay>k__BackingField: 02000000
   ImprovementName:
-  - Fuel
+  - FireDefense
   CraftName: []
   StoryName: []

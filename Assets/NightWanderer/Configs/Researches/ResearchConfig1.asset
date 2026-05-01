@@ -54,6 +54,7 @@ MonoBehaviour:
     <ActionsText>k__BackingField:
     - "\u041F\u043E\u043A\u0438\u043D\u0443\u0442\u044C \u043C\u043E\u0441\u0442\u0438\u043A"
     <ActionsWay>k__BackingField: 01000000
-  ImprovementName: []
+  ImprovementName:
+  - Health
   CraftName: []
   StoryName: []

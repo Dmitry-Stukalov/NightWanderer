@@ -148,8 +148,10 @@ public class PlayerUIController : MonoBehaviour
 		}
     }
 
-	private IEnumerator ShowResearchOpenPanel()
+	private IEnumerator ShowResearchOpenPanel(string newText)
 	{
+		_researchHintPanel.Q<Label>("ResearchOpenText").text = newText;
+
 		DOTween.To(() => _researchHintPanel.style.opacity.value, x => _researchHintPanel.style.opacity = x, 1, 1.5f);
 
 		yield return new WaitForSeconds(3f);
@@ -212,9 +214,9 @@ public class PlayerUIController : MonoBehaviour
 		//_researchHintPanel.style.display = DisplayStyle.Flex;
 	}
 
-	private void OnResearchEnd()
+	private void OnResearchEnd(string newText)
 	{
-		StartCoroutine(ShowResearchOpenPanel());
+		StartCoroutine(ShowResearchOpenPanel(newText));
 	}
 
 	private void OnResearchQuit()
