@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - <WalkSpeed>k__BackingField: 0.1
-    <RunSpeed>k__BackingField: 1
+    <RunSpeed>k__BackingField: 0.2
     <WalkUpSpeed>k__BackingField: 0.05
     <RunUpSpeed>k__BackingField: 0.1
     <ConsumptionIdle>k__BackingField: 1.5
     <ConsumptionWalk>k__BackingField: 3
     <ConsumptionRun>k__BackingField: 4
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 0
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04381"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
@@ -33,9 +34,10 @@ MonoBehaviour:
     <ConsumptionIdle>k__BackingField: 1.25
     <ConsumptionWalk>k__BackingField: 2.5
     <ConsumptionRun>k__BackingField: 3.5
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 1
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04382"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
@@ -46,9 +48,10 @@ MonoBehaviour:
     <ConsumptionIdle>k__BackingField: 1
     <ConsumptionWalk>k__BackingField: 2
     <ConsumptionRun>k__BackingField: 3
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 2
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04383"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
@@ -59,9 +62,10 @@ MonoBehaviour:
     <ConsumptionIdle>k__BackingField: 0.75
     <ConsumptionWalk>k__BackingField: 1.5
     <ConsumptionRun>k__BackingField: 2.5
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 3
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04384"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 
@@ -72,9 +76,10 @@ MonoBehaviour:
     <ConsumptionIdle>k__BackingField: 0.5
     <ConsumptionWalk>k__BackingField: 1
     <ConsumptionRun>k__BackingField: 2
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 4
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0414\u0432\u0438\u0433\u0430\u0442\u0435\u043B\u04385"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 

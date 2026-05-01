@@ -36,10 +36,13 @@ public static class GameEvents
 	public static Action<string> OnCriticalStatusHide;
 
 	public static Action OnDialogueStart;
+	public static Action<int> OnDialogueWarningStart;
 
 	public static Action<int> OnMissionComplete;
 	public static Action<int, int> OnDoMission;
 
 	public static Action OnSkipTimeStart;
 	public static Action OnSkipTimeEnd;
+
+	public static Action OnDeath;
 }

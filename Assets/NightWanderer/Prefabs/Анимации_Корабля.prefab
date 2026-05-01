@@ -791,6 +791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerUI: {fileID: 4384735025375778772}
   _config: {fileID: 11400000, guid: 692ba2f507ecec54dbf65b80ee7fd610, type: 2}
+  _configWarning: {fileID: 11400000, guid: ef09d095231292549b9b7452eb55dc0e, type: 2}
 --- !u!1 &1914105633967650544
 GameObject:
   m_ObjectHideFlags: 0

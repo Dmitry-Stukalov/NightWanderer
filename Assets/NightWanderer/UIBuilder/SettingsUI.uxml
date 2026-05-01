@@ -4,7 +4,120 @@
         <ui:VisualElement name="ContentBackground" style="flex-grow: 0; width: 50%; height: 50%; align-self: center; align-content: auto; justify-content: space-around; bottom: auto; top: 25%;">
             <ui:Button text="Продолжить" name="ContinueButton" class="Button StandartLabel" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
             <ui:Button text="Настройки" name="SettingsButton" class="StandartLabel Button" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
-            <ui:Button text="Выйти в меню" name="ExitButton" class="StandartLabel Button" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+            <ui:Button text="Управление" name="ControlsButton" class="StandartLabel Button" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+            <ui:Button text="Выйти в меню" name="ExitMenuButton" class="StandartLabel Button" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+            <ui:Button text="Выйти из игры" name="ExitButton" class="StandartLabel Button" style="width: 50%; height: 10%; align-self: center; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ControlsBackground" class="MainBackground" style="flex-grow: 0; width: 100%; align-self: center; height: 100%; position: absolute; bottom: 0%; border-top-left-radius: 50px; border-top-right-radius: 50px; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; justify-content: center; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;); display: none; opacity: 1; background-color: rgb(0, 209, 255);">
+            <ui:Label text="Управление" name="ControlsTitle" picking-mode="Ignore" class="SmallLabel BorderBottom" style="align-self: center; width: 100%; -unity-text-align: middle-center; height: 10%; font-size: 28%; justify-content: center;">
+                <ui:Button text="Назад" name="BackButton" enable-rich-text="true" class="Button RoundingBorder SmallLabel" style="width: 10%; height: 50%; align-self: auto; left: 5%;" />
+            </ui:Label>
+            <ui:ScrollView name="ControlsContentBackground" style="height: 90%; justify-content: space-around;">
+                <ui:Label text="Клавиатура" name="KeyboardTitle" class="StandartLabel BorderTop BorderBottom" style="-unity-text-align: middle-center; margin-bottom: 2%; margin-top: 2%;" />
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вперед" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="W" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Влево" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="A" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Назад" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="S" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вправо" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="D" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вниз" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Q" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вверх" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="E" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Ускорение" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="SHIFT" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 15%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вкл/Выкл двигатели" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="R" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Вкл/Выкл прожектора" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="T" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Стыкова/Отстыковка" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="F" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 10%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Пылесос/Добыча руды" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="SPACE" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 15%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="KeyboardPanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Остановить поворот корабля" name="KeyAction" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="KeyBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="ПКМ" name="Key" enable-rich-text="false" class="StandartLabel BorderAll" style="width: 15%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label text="Прочее" name="GameTitle" class="StandartLabel BorderTop BorderBottom" style="-unity-text-align: middle-center; margin-bottom: 2%; margin-top: 2%;" />
+                <ui:VisualElement name="ResourcePanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Песок" name="ResourceTitle" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="ResourceEffectBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Восстановление всего" name="ResourceEffect" enable-rich-text="false" class="StandartLabel" style="width: 100%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ResourcePanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Титан" name="ResourceTitle" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="ResourceEffectBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Восстановление здоровья и защиты" name="ResourceEffect" enable-rich-text="false" class="StandartLabel" style="width: 100%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ResourcePanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Кварц" name="ResourceTitle" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="ResourceEffectBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Восстановление термической защиты" name="ResourceEffect" enable-rich-text="false" class="StandartLabel" style="width: 100%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ResourcePanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Никель" name="ResourceTitle" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="ResourceEffectBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Восстановление защиты и термической защиты" name="ResourceEffect" enable-rich-text="false" class="StandartLabel" style="width: 100%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ResourcePanel" style="flex-grow: 0; height: auto; width: 100%; flex-shrink: 0; align-self: center; flex-direction: row; justify-content: space-between; margin-bottom: 2%;">
+                    <ui:Label text="Кристалл" name="ResourceTitle" class="StandartLabel" style="width: 50%;" />
+                    <ui:VisualElement name="ResourceEffectBackground" style="flex-grow: 0; width: 50%;">
+                        <ui:Label text="Восстановление всего" name="ResourceEffect" enable-rich-text="false" class="StandartLabel" style="width: 100%; align-self: center;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

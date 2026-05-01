@@ -47,6 +47,16 @@
     background-color: var(--unactive-background-color);
 }
 
+.Button {
+    background-color: var(--main-background-color);
+    border-color: rgb(255, 255, 255);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    transition-duration: 0.15s;
+}
+
 .StandartLabel {
     color: var(--main-text-color);
     -unity-text-align: var(--main-text-align);
@@ -73,6 +83,10 @@
 
 .MainFont {
     -unity-font-definition: initial;
+}
+
+.RoundingBorder {
+    border-radius: 20px;
 }
 
 .BorderAll {

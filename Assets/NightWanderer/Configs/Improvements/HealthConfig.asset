@@ -14,37 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - MaxHealth: 10
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 0
-    <Name>k__BackingField: 
-    <UpgradeDescription>k__BackingField: 
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
+    <Name>k__BackingField: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 1"
+    <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
+      \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 10 -> 15"
+    <Resource>k__BackingField: 03000000
+    <Count>k__BackingField: 64000000
   - MaxHealth: 15
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 1
-    <Name>k__BackingField: 
-    <UpgradeDescription>k__BackingField: 
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
+    <Name>k__BackingField: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 2"
+    <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
+      \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 15 -> 20"
+    <Resource>k__BackingField: 0300000004000000
+    <Count>k__BackingField: 9600000032000000
   - MaxHealth: 20
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 2
-    <Name>k__BackingField: 
-    <UpgradeDescription>k__BackingField: 
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
+    <Name>k__BackingField: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 3"
+    <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
+      \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 20 -> 25"
+    <Resource>k__BackingField: 030000000400000005000000
+    <Count>k__BackingField: 960000003200000032000000
   - MaxHealth: 25
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+      type: 3}
     <CurrentLevel>k__BackingField: 3
-    <Name>k__BackingField: 
-    <UpgradeDescription>k__BackingField: 
-    <Resource>k__BackingField: 
-    <Count>k__BackingField: 
+    <Name>k__BackingField: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 4"
+    <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
+      \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 25 -> 30"
+    <Resource>k__BackingField: 030000000600000004000000
+    <Count>k__BackingField: c80000006400000032000000
   - MaxHealth: 30
     <Icon>k__BackingField: {fileID: 0}
     <CurrentLevel>k__BackingField: 4
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 5"
     <UpgradeDescription>k__BackingField: 
     <Resource>k__BackingField: 
     <Count>k__BackingField: 

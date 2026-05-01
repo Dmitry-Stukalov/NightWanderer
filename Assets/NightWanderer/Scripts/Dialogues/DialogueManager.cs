@@ -6,11 +6,13 @@ public class DialogueManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument _playerUI;
 	[SerializeField] private DialogueConfig _config;
+	[SerializeField] private DialogueConfig _configWarning;
 	private DialogueWriter _dialogueWriter;
 	private int _currentDialogue = 0;
 	private bool IsDialogueContinue = false;
 	private bool IsTransfer = false;
 	private bool IsNextActive = false;
+	private bool IsDialogueStop = false;
 
 	public void Initializing()
 	{
@@ -20,6 +22,7 @@ public class DialogueManager : MonoBehaviour
 		_dialogueWriter = (DialogueWriter)_textBackground.dataSource;
 
 		GameEvents.OnDialogueStart += StartNewDialogue;
+		GameEvents.OnDialogueWarningStart += StartNewDialogue;
 	}
 
 	public void StartNewDialogue()
@@ -43,12 +46,16 @@ public class DialogueManager : MonoBehaviour
 	{
 		for (int i = 0; i < _config.Dialogues[_currentDialogue].Name.Length; i++)
 		{
+			//if (IsDialogueStop) yield break;
+
 			_dialogueWriter.ClearCharacter();
 			_dialogueWriter.SetCharacter(_config.Dialogues[_currentDialogue].Name[i]);
 			_dialogueWriter.ClearText();
 
 			foreach (var symbol in _config.Dialogues[_currentDialogue].Phrase[i])
 			{
+				//if (IsDialogueStop) yield break;
+
 				_dialogueWriter.AddChar(symbol);
 				yield return new WaitForSeconds(0.03f);
 			}
@@ -64,6 +71,48 @@ public class DialogueManager : MonoBehaviour
 		{
 			yield return new WaitForSeconds(2);
 			IsNextActive = false;
+			StartNewDialogue();
+		}
+	}
+
+	public void StartNewDialogue(int id)
+	{
+		if (IsDialogueContinue)
+		{
+			IsDialogueStop = true;
+			StopCoroutine(TextWriter());
+		}
+
+		ShowBackground();
+
+		IsDialogueContinue = true;
+
+		StartCoroutine(TextWarningWriter(id));
+	}
+
+	private IEnumerator TextWarningWriter(int id)
+	{
+		for (int i = 0; i < _config.Dialogues[id].Name.Length; i++)
+		{
+			_dialogueWriter.ClearCharacter();
+			_dialogueWriter.SetCharacter(_config.Dialogues[_currentDialogue].Name[i]);
+			_dialogueWriter.ClearText();
+
+			foreach (var symbol in _config.Dialogues[_currentDialogue].Phrase[i])
+			{
+				_dialogueWriter.AddChar(symbol);
+				yield return new WaitForSeconds(0.03f);
+			}
+
+			yield return new WaitForSeconds(2f);
+		}
+
+		HideBackground();
+
+		if (IsDialogueStop)
+		{
+			yield return new WaitForSeconds(2);
+			IsDialogueStop = false;
 			StartNewDialogue();
 		}
 	}

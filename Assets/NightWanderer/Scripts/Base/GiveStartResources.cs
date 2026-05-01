@@ -10,7 +10,15 @@ public class GiveStartResources : MonoBehaviour
 	{
 		_inventory = FindAnyObjectByType<BaseInventory>();
 
-		var newResource = _resourceLibrary.GetResourceBase(0);
+		var newResource = _resourceLibrary.GetResourceBase(3);
+		newResource.SetCount(20);
+		_inventory.AddResource(newResource);
+
+		newResource = _resourceLibrary.GetResourceBase(4);
+		newResource.SetCount(10);
+		_inventory.AddResource(newResource);
+
+		newResource = _resourceLibrary.GetResourceBase(1);
 		newResource.SetCount(10);
 		_inventory.AddResource(newResource);
 

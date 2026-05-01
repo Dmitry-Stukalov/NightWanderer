@@ -70,6 +70,8 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnResearchStart += OnResearchStart;
 		GameEvents.OnResearchEnd += OnResearchEnd;
 		GameEvents.OnResearchQuit += OnResearchQuit;
+
+		GameEvents.OnDeath += () => StartCoroutine(DeathPause());
 	}
 
 	private IEnumerator StartPause()
@@ -89,7 +91,7 @@ public class PlayerUIController : MonoBehaviour
 		//_researchHintPanel.style.display = DisplayStyle.None;
 		_mainResearchElement.style.display = DisplayStyle.None;
 
-		yield return new WaitForSeconds(55f);
+		//yield return new WaitForSeconds(60f);
 		StartGame();
 	}
 
@@ -104,8 +106,19 @@ public class PlayerUIController : MonoBehaviour
 
 		yield return new WaitForSeconds(70);
 
-		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f);
-		_blackBackground.style.display = DisplayStyle.None;
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
+	}
+
+	private IEnumerator DeathPause()
+	{
+		yield return new WaitForSeconds(2f);
+
+		_blackBackground.style.display = DisplayStyle.Flex;
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
+
+		yield return new WaitForSeconds(7f);
+
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 	}
 
 	private void StartGame()
@@ -255,5 +268,7 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnResearchStart -= OnResearchStart;
 		GameEvents.OnResearchEnd -= OnResearchEnd;
 		GameEvents.OnResearchQuit -= OnResearchQuit;
+
+		GameEvents.OnDeath -= () => StartCoroutine(DeathPause());
 	}
 }
