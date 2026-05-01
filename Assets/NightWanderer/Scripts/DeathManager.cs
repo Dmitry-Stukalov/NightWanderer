@@ -24,6 +24,8 @@ public class DeathManager : MonoBehaviour
 	public void StartDeath()
 	{
 		StartCoroutine(Death());
+
+		GameEvents.OnDeath?.Invoke();
 	}
 
 	private IEnumerator Death()
