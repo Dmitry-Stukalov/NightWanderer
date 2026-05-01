@@ -5,47 +5,72 @@ public class StatisticsManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument _playerUI;
 	[SerializeField] private UIDocument _baseUI;
-	private Label _healthStatistic;
-	private Label _fuelStatistic;
-	private Label _defenseStatistic;
-	private Label _fireDefenseStatistic;
-	private Label _horizontalSpeedStatistic;
-	private Label _verticalSpeedStatistic;
-	private Label _inventoryStatistic;
-	private Label _searchlightsStatistic;
+	private Label _healthStatisticPlayer;
+	private Label _fuelStatisticPlayer;
+	private Label _defenseStatisticPlayer;
+	private Label _fireDefenseStatisticPlayer;
+	private Label _horizontalSpeedStatisticPlayer;
+	private Label _verticalSpeedStatisticPlayer;
+	private Label _inventoryStatisticPlayer;
+	private Label _searchlightsStatisticPlayer;
+
+	private Label _healthStatisticBase;
+	private Label _fuelStatisticBase;
+	private Label _defenseStatisticBase;
+	private Label _fireDefenseStatisticBase;
+	private Label _horizontalSpeedStatisticBase;
+	private Label _verticalSpeedStatisticBase;
+	private Label _inventoryStatisticBase;
+	private Label _searchlightsStatisticBase;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense, JetEngines engines, Inventory inventory, Searchlights searchlights)
 	{
-		_healthStatistic = _playerUI.rootVisualElement.Q<Label>("HealthStatistic");
-		_healthStatistic.dataSource = new HealthStatistic(_healthStatistic, health);
-		_baseUI.rootVisualElement.Q<Label>("HealthStatistic").dataSource = _healthStatistic.dataSource;
+		_healthStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("HealthStatistic");
+		_healthStatisticPlayer.dataSource = new HealthStatistic(_healthStatisticPlayer, health);
 
-		_fuelStatistic = _playerUI.rootVisualElement.Q<Label>("FuelStatistic");
-		_fuelStatistic.dataSource = new FuelStatistic(_fuelStatistic, fuel);
-		_baseUI.rootVisualElement.Q<Label>("FuelStatistic").dataSource = _healthStatistic.dataSource;
+		_healthStatisticBase = _baseUI.rootVisualElement.Q<Label>("HealthStatistic");
+		_healthStatisticBase.dataSource = new HealthStatistic(_healthStatisticBase, health);
 
-		_defenseStatistic = _playerUI.rootVisualElement.Q<Label>("DefenseStatistic");
-		_defenseStatistic.dataSource = new DefenseStatistic(_defenseStatistic, defense);
-		_baseUI.rootVisualElement.Q<Label>("DefenseStatistic").dataSource = _healthStatistic.dataSource;
+		_fuelStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("FuelStatistic");
+		_fuelStatisticPlayer.dataSource = new FuelStatistic(_fuelStatisticPlayer, fuel);
 
-		_fireDefenseStatistic = _playerUI.rootVisualElement.Q<Label>("FireDefenseStatistic");
-		_fireDefenseStatistic.dataSource = new FireDefenseStatistic(_fireDefenseStatistic, fireDefense);
-		_baseUI.rootVisualElement.Q<Label>("FireDefenseStatistic").dataSource = _healthStatistic.dataSource;
+		_fuelStatisticBase = _baseUI.rootVisualElement.Q<Label>("FuelStatistic");
+		_fuelStatisticBase.dataSource = new FuelStatistic(_fuelStatisticBase, fuel);
 
-		_horizontalSpeedStatistic = _playerUI.rootVisualElement.Q<Label>("HorizontalSpeedStatistic");
-		_horizontalSpeedStatistic.dataSource = new EnginesHorizontalStatistic(_horizontalSpeedStatistic, engines);
-		_baseUI.rootVisualElement.Q<Label>("HorizontalSpeedStatistic").dataSource = _healthStatistic.dataSource;
+		_defenseStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("DefenseStatistic");
+		_defenseStatisticPlayer.dataSource = new DefenseStatistic(_defenseStatisticPlayer, defense);
 
-		_verticalSpeedStatistic = _playerUI.rootVisualElement.Q<Label>("VerticalSpeedStatistic");
-		_verticalSpeedStatistic.dataSource = new EnginesVerticalStatistic(_verticalSpeedStatistic, engines);
-		_baseUI.rootVisualElement.Q<Label>("VerticalSpeedStatistic").dataSource = _healthStatistic.dataSource;
+		_defenseStatisticBase = _baseUI.rootVisualElement.Q<Label>("DefenseStatistic");
+		_defenseStatisticBase.dataSource = new DefenseStatistic(_defenseStatisticBase, defense);
 
-		_inventoryStatistic = _playerUI.rootVisualElement.Q<Label>("InventoryStatistic");
-		_inventoryStatistic.dataSource = new InventoryStatistic(_inventoryStatistic, inventory);
-		_baseUI.rootVisualElement.Q<Label>("InventoryStatistic").dataSource = _healthStatistic.dataSource;
+		_fireDefenseStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("FireDefenseStatistic");
+		_fireDefenseStatisticPlayer.dataSource = new FireDefenseStatistic(_fireDefenseStatisticPlayer, fireDefense);
 
-		_searchlightsStatistic = _playerUI.rootVisualElement.Q<Label>("SearchlightStatistic");
-		_searchlightsStatistic.dataSource = new SearchlightStatistic(_searchlightsStatistic, searchlights);
-		_baseUI.rootVisualElement.Q<Label>("SearchlightStatistic").dataSource = _healthStatistic.dataSource;
+		_fireDefenseStatisticBase = _baseUI.rootVisualElement.Q<Label>("FireDefenseStatistic");
+		_fireDefenseStatisticBase.dataSource = new FireDefenseStatistic(_fireDefenseStatisticBase, fireDefense);
+
+		_horizontalSpeedStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("HorizontalSpeedStatistic");
+		_horizontalSpeedStatisticPlayer.dataSource = new EnginesHorizontalStatistic(_horizontalSpeedStatisticPlayer, engines);
+
+		_horizontalSpeedStatisticBase = _baseUI.rootVisualElement.Q<Label>("HorizontalSpeedStatistic");
+		_horizontalSpeedStatisticBase.dataSource = new EnginesHorizontalStatistic(_horizontalSpeedStatisticBase, engines);
+
+		_verticalSpeedStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("VerticalSpeedStatistic");
+		_verticalSpeedStatisticPlayer.dataSource = new EnginesVerticalStatistic(_verticalSpeedStatisticPlayer, engines);
+
+		_verticalSpeedStatisticBase = _baseUI.rootVisualElement.Q<Label>("VerticalSpeedStatistic");
+		_verticalSpeedStatisticBase.dataSource = new EnginesVerticalStatistic(_verticalSpeedStatisticBase, engines);
+
+		_inventoryStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("InventoryStatistic");
+		_inventoryStatisticPlayer.dataSource = new InventoryStatistic(_inventoryStatisticPlayer, inventory);
+
+		_inventoryStatisticBase = _baseUI.rootVisualElement.Q<Label>("InventoryStatistic");
+		_inventoryStatisticBase.dataSource = new InventoryStatistic(_inventoryStatisticBase, inventory);
+
+		_searchlightsStatisticPlayer = _playerUI.rootVisualElement.Q<Label>("SearchlightStatistic");
+		_searchlightsStatisticPlayer.dataSource = new SearchlightStatistic(_searchlightsStatisticPlayer, searchlights);
+
+		_searchlightsStatisticBase = _baseUI.rootVisualElement.Q<Label>("SearchlightStatistic");
+		_searchlightsStatisticBase.dataSource = new SearchlightStatistic(_searchlightsStatisticBase, searchlights);
 	}
 }

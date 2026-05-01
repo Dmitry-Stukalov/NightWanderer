@@ -16,6 +16,6 @@ public class EnginesHorizontalStatistic
 
 	private void UpdateData()
 	{
-		_text.text = $"Горизонт. скорость: {_engines.GetWalkSpeed()} км/ч";
+		_text.text = $"Горизонт. скорость: {_engines.GetWalkSpeed() * 100} км/ч";
 	}
 }

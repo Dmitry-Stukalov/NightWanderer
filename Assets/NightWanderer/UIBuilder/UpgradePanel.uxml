@@ -14,7 +14,7 @@
                     </Bindings>
                 </ui:Label>
             </ui:VisualElement>
-            <ui:Button text="Улучшить" name="UpgradeButton" class="MainBackground SmallLable BorderAll" style="display: flex; visibility: visible; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
+            <ui:Button text="Улучшить" name="UpgradeButton" class="SmallLable Button-base" style="display: flex; visibility: visible; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

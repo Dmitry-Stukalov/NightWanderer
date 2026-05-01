@@ -16,6 +16,6 @@ public class EnginesVerticalStatistic
 
 	private void UpdateData()
 	{
-		_text.text = $"Вертикал. скорость: {_engines.GetWalkSpeedUp()} км/ч";
+		_text.text = $"Вертикал. скорость: {_engines.GetWalkSpeedUp() * 100} км/ч";
 	}
 }

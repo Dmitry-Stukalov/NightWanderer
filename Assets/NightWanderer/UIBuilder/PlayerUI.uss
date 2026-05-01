@@ -2,6 +2,7 @@
     --main-background-color: rgba(0, 209, 255, 0.4);
     --unactive-background-color: rgba(100, 100, 100, 0.4);
     --hover-background-color: rgba(0, 130, 255, 0.4);
+    --active-background-color: rgba(255, 255, 255, 0.4);
     --main-text-color: rgb(255, 255, 255);
     --unactive-text-color: rgb(200, 200, 200);
     --main-text-align: middle-center;
@@ -36,6 +37,28 @@
     border-left-width: 3px;
     border-right-width: 3px;
     scale: 0.9;
+    transition-duration: 0.1s;
+}
+
+.Button-base {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgb(255, 255, 255);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    transition-duration: 0.15s;
+}
+
+.Button-base:hover {
+     background-color: var(--hover-background-color);
+    border-color: rgb(255, 255, 255);
+    transition-duration: 0.15s;
+}
+
+.Button-base:active {
+    background-color: var(--active-background-color);
+    border-color: rgb(255, 255, 255);
     transition-duration: 0.1s;
 }
 

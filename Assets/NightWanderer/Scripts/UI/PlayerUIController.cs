@@ -62,7 +62,7 @@ public class PlayerUIController : MonoBehaviour
 		GameEvents.OnCriticalStatusShow += ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide += HideStatusPanel;
 
-		_baseUI.Initializing((FuelRecovery)fuelItemBackground.dataSource, (HealthFireDefenseRecovery)healthItemBackground.dataSource, (HealthFireDefenseRecovery)defenseItemBackground.dataSource, (HealthFireDefenseRecovery)fireDefenseItemBackground.dataSource);
+		_baseUI.Initializing(fuel, health, defense, fireDefense);
 
 		GameEvents.OnLaserExtractionStart += OnExtractionLaserStart;
 		GameEvents.OnExtractionEnd += OnExtractionLaserEnd;

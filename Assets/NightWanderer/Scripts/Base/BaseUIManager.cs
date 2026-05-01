@@ -24,7 +24,7 @@ public class BaseUIManager : MonoBehaviour
 	public bool OnBase { get; set; } = false;
 	private bool IsFirstTime = true;
 
-	public void Initializing(FuelRecovery fuelRecovery, HealthFireDefenseRecovery healthRecovery, HealthFireDefenseRecovery defenseRecovery, HealthFireDefenseRecovery fireDefenseRecovery)
+	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
 		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
@@ -32,16 +32,16 @@ public class BaseUIManager : MonoBehaviour
 		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
 
 		var fuelItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FuelBackground");
-		fuelItemBackground.dataSource = fuelRecovery;
+		fuelItemBackground.dataSource = new FuelRecovery(fuel, baseUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
 
 		var healthItemBackground = baseUI.rootVisualElement.Q<VisualElement>("HealthBackground");
-		healthItemBackground.dataSource = healthRecovery;
+		healthItemBackground.dataSource = new HealthFireDefenseRecovery(health, baseUI.rootVisualElement.Q<VisualElement>("HealthForeground"));
 
 		var defenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("DefenseBackground");
-		defenseItemBackground.dataSource = defenseRecovery;
+		defenseItemBackground.dataSource = new HealthFireDefenseRecovery(defense, baseUI.rootVisualElement.Q<VisualElement>("DefenseForeground"));
 
 		var fireDefenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
-		fireDefenseItemBackground.dataSource = fireDefenseRecovery;
+		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, baseUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
 
 		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
 		craftBackground = baseUI.rootVisualElement.Q<VisualElement>("CraftBackground");

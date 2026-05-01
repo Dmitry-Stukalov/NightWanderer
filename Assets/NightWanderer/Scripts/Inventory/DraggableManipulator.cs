@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -105,36 +106,51 @@ public class DraggableManipulator : PointerManipulator
 			{
 				switch (_cellResource.GetId())
 				{
+					//Если это песок, то можно восстановить топливо в соотношении 1/5, либо один из показателей здоровья в соотношении 1/50
 					case 0:
 						if (_elementUnderCursor.ClassListContains("FuelRecovery"))
 						{
 							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
-							int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 2));
+							int needResource = Convert.ToInt32(Mathf.Round(((FuelRecovery)_elementUnderCursor.dataSource).NeedToRefueling() * 5));
 
-							((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.5f);
+							((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(_cellResource.GetResourceCount() * 0.2f);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+
+						if (_elementUnderCursor.ClassListContains("HealthRecovery") || _elementUnderCursor.ClassListContains("DefenseRecovery") || _elementUnderCursor.ClassListContains("FireDefenseRecovery"))
+						{
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
+
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 50));
+							
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.02f);
 
 							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
 							else _cellResource.ResetResource();
 						}
 					break;
 
+					//Если это кварц, то можно восстановить термическую защиту в соотношении 1/1
 					case 1:
 						if (_elementUnderCursor.ClassListContains("FireDefenseRecovery"))
 						{
 							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
-							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing()));
 
-							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.5f);
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 1f);
 
 							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
 							else _cellResource.ResetResource();
 						}
 					break;
 
+					//Если это титан, то можно восстановить Здоровье или защиту в соотношении 1/2
 					case 3:
-						if (_elementUnderCursor.ClassListContains("HealthRecovery"))
+						if (_elementUnderCursor.ClassListContains("HealthRecovery") || _elementUnderCursor.ClassListContains("DefenseRecovery"))
 						{
 							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
@@ -147,19 +163,47 @@ public class DraggableManipulator : PointerManipulator
 						}
 					break;
 
+					//Если это никель, то можно восстановить защиту или термическую защиту в соотношении 2/1
 					case 6:
-						if (_elementUnderCursor.ClassListContains("DefenseRecovery"))
+						if (_elementUnderCursor.ClassListContains("DefenseRecovery") || _elementUnderCursor.ClassListContains("FireDefenseRecovery"))
 						{
 							_elementUnderCursor.RemoveFromClassList("BorderAll");
 
-							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() * 2));
+							int needResource = Convert.ToInt32(Mathf.Round(((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).NeedToHealing() / 2));
 
-							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 0.5f);
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(_cellResource.GetResourceCount() * 2f);
 
 							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
 							else _cellResource.ResetResource();
 						}
 					break;
+
+					//Если это кристалл, то можно восстановить что угодно на 100%
+					case 7:
+						if (_elementUnderCursor.ClassListContains("FuelRecovery"))
+						{
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
+
+							int needResource = 1;
+
+							((FuelRecovery)_elementUnderCursor.dataSource).RecoverFuel(500);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+
+						if (_elementUnderCursor.ClassListContains("HealthRecovery") || _elementUnderCursor.ClassListContains("DefenseRecovery") || _elementUnderCursor.ClassListContains("FireDefenseRecovery"))
+						{
+							_elementUnderCursor.RemoveFromClassList("BorderAll");
+
+							int needResource = 1;
+
+							((HealthFireDefenseRecovery)_elementUnderCursor.dataSource).RecoverHealth(500);
+
+							if (_cellResource.GetResourceCount() > needResource) _cellResource.SetResourceCount(_cellResource.GetResourceCount() - needResource);
+							else _cellResource.ResetResource();
+						}
+						break;
 				}
 			}
 		}
@@ -175,19 +219,19 @@ public class DraggableManipulator : PointerManipulator
 			switch (elementClass[i])
 			{
 				case "FuelRecovery":
-					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0) return true;
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0 || ((ResourceCellObject)target.dataSource).GetResource().ID == 7) return true;
 				break;
 
 				case "HealthRecovery":
-					if (((ResourceCellObject)target.dataSource).GetResource().ID == 3) return true;
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0 || ((ResourceCellObject)target.dataSource).GetResource().ID == 3 || ((ResourceCellObject)target.dataSource).GetResource().ID == 7) return true;
 				break;
 
 				case "DefenseRecovery":
-					if (((ResourceCellObject)target.dataSource).GetResource().ID == 6) return true;
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0 || ((ResourceCellObject)target.dataSource).GetResource().ID == 3 || ((ResourceCellObject)target.dataSource).GetResource().ID == 6 || ((ResourceCellObject)target.dataSource).GetResource().ID == 7) return true;
 				break;
 
 				case "FireDefenseRecovery":
-					if (((ResourceCellObject)target.dataSource).GetResource().ID == 1) return true;
+					if (((ResourceCellObject)target.dataSource).GetResource().ID == 0 || ((ResourceCellObject)target.dataSource).GetResource().ID == 1 || ((ResourceCellObject)target.dataSource).GetResource().ID == 6 || ((ResourceCellObject)target.dataSource).GetResource().ID == 7) return true;
 				break;
 			}
 		}
