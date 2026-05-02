@@ -15,7 +15,7 @@ public class ShowMark : MonoBehaviour
 
 	private void OpenMark(int id)
 	{
-		if (id  == _markID) _canvasObject.SetActive(true);
+		if (id == _markID) _canvasObject.SetActive(true);
 	}
 
 	private void CloseMark(int id)

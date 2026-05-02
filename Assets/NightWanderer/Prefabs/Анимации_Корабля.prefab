@@ -2073,6 +2073,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerUI: {fileID: 4384735025375778772}
   BaseUI: {fileID: 4912858456345129344}
+  WeatherSprites:
+  - {fileID: 21300000, guid: e759f15c383a2c8408b8dbaead54b263, type: 3}
+  - {fileID: 21300000, guid: a11b851e9daaea544a7f0789499b8d90, type: 3}
+  - {fileID: 21300000, guid: 366eaceb540f80c47a9ff393b0f5599e, type: 3}
+  - {fileID: 21300000, guid: 66d4c80aa7e5ac641a1859615f355845, type: 3}
 --- !u!1 &4864128338104361113
 GameObject:
   m_ObjectHideFlags: 0

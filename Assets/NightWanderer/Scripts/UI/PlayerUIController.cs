@@ -25,6 +25,7 @@ public class PlayerUIController : MonoBehaviour
 	private VisualElement _tutorialPanel;
 	private VisualElement _hintPanel;
 	private VisualElement _researchHintPanel;
+	private VisualElement _criticalPanel;
 	private VisualElement _researchOpenPanel;
 	private Dictionary<string, VisualElement> _statusPanels;
 	private TutorialManager _tutorialManager;
@@ -42,6 +43,8 @@ public class PlayerUIController : MonoBehaviour
 
 		_hintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("HintPanel");
 		_hintPanel.style.opacity = 0;
+
+		_criticalPanel = PlayerUI.rootVisualElement.Q<VisualElement>("CriticalPanelPlace");
 
 		//_researchHintPanel = PlayerUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
 
@@ -91,7 +94,7 @@ public class PlayerUIController : MonoBehaviour
 		//_researchHintPanel.style.display = DisplayStyle.None;
 		_mainResearchElement.style.display = DisplayStyle.None;
 
-		//yield return new WaitForSeconds(60f);
+		yield return new WaitForSeconds(60f);
 		StartGame();
 	}
 
@@ -104,7 +107,7 @@ public class PlayerUIController : MonoBehaviour
 
 		GameEvents.OnDialogueStart?.Invoke();
 
-		//yield return new WaitForSeconds(70);
+		yield return new WaitForSeconds(70);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 	}
@@ -169,6 +172,16 @@ public class PlayerUIController : MonoBehaviour
 		DOTween.To(() => _hintPanel.resolvedStyle.opacity, x => _hintPanel.style.opacity = x, 0, 2f);
 	}
 
+	public void ShowCriticalPanel()
+	{
+		DOTween.To(() => _criticalPanel.resolvedStyle.opacity, x => _criticalPanel.style.opacity = x, 1, 2f);
+	}
+
+	public void HideCriticalPanel()
+	{
+		DOTween.To(() => _criticalPanel.resolvedStyle.opacity, x => _criticalPanel.style.opacity = x, 0, 2f);
+	}
+
 	public void HideStatusPanel(string name)
 	{
 		if (!_statusPanels.ContainsKey(name)) return;
@@ -183,6 +196,7 @@ public class PlayerUIController : MonoBehaviour
 		Inventory.CloseInventoryPanel();
 
 		HideHint();
+		HideCriticalPanel();
 	}
 
 	public void OutBase()
@@ -191,6 +205,7 @@ public class PlayerUIController : MonoBehaviour
 		Inventory.OpenWeatherPanel();
 
 		ShowHint();
+		ShowCriticalPanel();
 	}
 
 	private void OnExtractionLaserStart()

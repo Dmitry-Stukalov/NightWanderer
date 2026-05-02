@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ResourcesConfig
   m_EditorClassIdentifier: 
   <Resources>k__BackingField:
-  - <View>k__BackingField: {fileID: 21300000, guid: 1c58773bb093d8e4cb645bdf345398b1,
+  - <View>k__BackingField: {fileID: 21300000, guid: 4287fc7512b4967468f5bb82f0695548,
       type: 3}
     <Name>k__BackingField: "\u041F\u0435\u0441\u043E\u043A"
     <ID>k__BackingField: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
     <Name>k__BackingField: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B"
     <ID>k__BackingField: 2
     <MaxCount>k__BackingField: 100
-  - <View>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+  - <View>k__BackingField: {fileID: 21300000, guid: 292adacc9fb63ea47bd10c6b5a0338ce,
       type: 3}
     <Name>k__BackingField: "\u0422\u0438\u0442\u0430\u043D"
     <ID>k__BackingField: 3
@@ -38,7 +38,7 @@ MonoBehaviour:
     <Name>k__BackingField: "\u041C\u0435\u0434\u044C"
     <ID>k__BackingField: 4
     <MaxCount>k__BackingField: 100
-  - <View>k__BackingField: {fileID: 21300000, guid: b5a4a8c169179fb408f5f0f5a7d1738c,
+  - <View>k__BackingField: {fileID: 21300000, guid: 666aef9075692db40bbc038704672ad6,
       type: 3}
     <Name>k__BackingField: "\u0410\u043B\u044E\u043C\u0438\u043D\u0438\u0439"
     <ID>k__BackingField: 5

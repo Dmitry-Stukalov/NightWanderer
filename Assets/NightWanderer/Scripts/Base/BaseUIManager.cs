@@ -64,8 +64,8 @@ public class BaseUIManager : MonoBehaviour
 	{
 		baseUI.sortingOrder = -5;
 
-		//yield return new WaitForSeconds(74);
-		yield return new WaitForSeconds(4);
+		yield return new WaitForSeconds(74);
+		//yield return new WaitForSeconds(4);
 
 		baseUI.sortingOrder = 10;
 	}

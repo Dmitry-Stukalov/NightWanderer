@@ -67,7 +67,7 @@ public class DialogueManager : MonoBehaviour
 
 		if (_currentDialogue == 5) StartNewDialogue();
 
-		if (_currentDialogue == 5) GameEvents.OnMissionComplete?.Invoke(3);
+		if (_currentDialogue == 6) GameEvents.OnMissionComplete?.Invoke(3);
 
 		IsDialogueContinue = false;
 

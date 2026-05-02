@@ -6,13 +6,15 @@ public class WeatherPanel : MonoBehaviour
 {
 	[SerializeField] private UIDocument PlayerUI;
 	[SerializeField] private UIDocument BaseUI;
+	[SerializeField] private Sprite[] WeatherSprites;
+	private List<VisualElement> _weatherIcons = new List<VisualElement>();
 	private List<Label> _statusTexts = new List<Label>();
 	private List<Label> _weatherTexts = new List<Label>();
 	private List<Label> _dayTexts = new List<Label>();
 	private List<Label> _timeTexts = new List<Label>();
 	private List<Label> _currentMissionTexts = new List<Label>();
 
-	public void Initializing(/*HealthFireDefense health, WeatherManager weather, Sun sun*/)
+	public void Initializing()
 	{
 		GameObject ship = GameObject.FindGameObjectWithTag("Player");
 
@@ -32,10 +34,14 @@ public class WeatherPanel : MonoBehaviour
 		_currentMissionTexts.Add(PlayerUI.rootVisualElement.Q<Label>("TargetText"));
 		_currentMissionTexts.Add(BaseUI.rootVisualElement.Q<Label>("TargetText"));
 
+		_weatherIcons = PlayerUI.rootVisualElement.Query<VisualElement>("WeatherIcon").ToList();
+		_weatherIcons.Add(BaseUI.rootVisualElement.Q<VisualElement>("WeatherIcon"));
+
 		for (int i = 0; i < _statusTexts.Count; i++) _statusTexts[i].dataSource = new StatusTextLabel(_statusTexts[i], ship.GetComponent<ShipMovement>().GetPlayerDefenseSystem().GetHealth());
 		for (int i = 0; i < _weatherTexts.Count; i++) _weatherTexts[i].dataSource = new WeatherTextLabel(_weatherTexts[i], FindAnyObjectByType<WeatherManager>());
 		for (int i = 0; i < _dayTexts.Count; i++) _dayTexts[i].dataSource = new DayTextLabel(_dayTexts[i], FindAnyObjectByType<Sun>());
 		for (int i = 0; i < _timeTexts.Count; i++) _timeTexts[i].dataSource = new TimeTextLabel(_timeTexts[i], FindAnyObjectByType<Sun>());
 		for (int i = 0; i < _currentMissionTexts.Count; i++) _currentMissionTexts[i].dataSource = new CurrentMissionText(_currentMissionTexts[i], FindFirstObjectByType<MissionsManager>());
+		for (int i = 0; i < _weatherIcons.Count; i++) _weatherIcons[i].dataSource = new WeatherIconElement(_weatherIcons[i], FindAnyObjectByType<WeatherManager>(), WeatherSprites);
 	}
 }
