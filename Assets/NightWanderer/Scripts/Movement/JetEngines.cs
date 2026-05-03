@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JetEngines : IImprovementBase
 {
@@ -39,6 +40,8 @@ public class JetEngines : IImprovementBase
 
 	public void EnginesRunning(int state)
 	{
+		if (SceneManager.GetSceneByName("IntroductionScene").isLoaded) return;
+
 		switch (state)
 		{
 			case 0:

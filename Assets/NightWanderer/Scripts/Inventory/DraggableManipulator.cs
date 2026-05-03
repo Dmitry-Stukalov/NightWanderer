@@ -94,6 +94,12 @@ public class DraggableManipulator : PointerManipulator
 
 		if (_elementUnderCursor != null)
 		{
+			if (_elementUnderCursor.ClassListContains("MainElement"))
+			{
+				GameEvents.OnResourceDrop?.Invoke(_cellResource.GetId(), _cellResource.GetResourceCount());
+				_cellResource.ResetResource();
+			}
+
 			if (_elementUnderCursor.ClassListContains("Cell")) _elementUnderCursor.RemoveFromClassList("BorderCellWide");
 
 			if (_elementUnderCursor.ClassListContains("Cell") && _elementUnderCursor.hierarchy.childCount != 0 && !((CellObject)_elementUnderCursor.dataSource).IsCraftCell)

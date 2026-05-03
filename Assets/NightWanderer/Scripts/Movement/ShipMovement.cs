@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -106,6 +107,8 @@ public class ShipMovement : MonoBehaviour
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 
 		_deathManager.OnAlive += Alive;
+
+		GameEvents.OnResourceDrop += DropResource;
 	}
 
 	public void OpenSceneInitializing()
@@ -156,6 +159,13 @@ public class ShipMovement : MonoBehaviour
 		_defenseSystem.Alive();
 		IsDead = false;
 		StateMachineManager.IsDead = false;
+	}
+
+	private void DropResource(int id, int count)
+	{
+		GameObject resource = _resourceLibrary.GetResource(id);
+		resource.GetComponent<ResourceOnLand>().SetResourceCount(count);
+		resource.transform.position = new Vector3(transform.position.x, transform.position.y - 6, transform.position.z);
 	}
 
 	//ѕри входе в область источника ресурса передает его местоположение в машину состо€ний
@@ -273,5 +283,6 @@ public class ShipMovement : MonoBehaviour
 	private void OnDisable()
 	{
 		GameEvents.OnGameStart -= () => IsGameStart = true;
+		GameEvents.OnResourceDrop -= DropResource;
 	}
 }

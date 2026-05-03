@@ -111,7 +111,7 @@ public class StateMachineMovement : StateMachineState
 		}
 
 		ReverseMoveTimer.Tick(Time.deltaTime);
-		//FuelConsumptionTimer.Tick(Time.deltaTime);
+		FuelConsumptionTimer.Tick(Time.deltaTime);
 
 		if (ID == 1 || ID == 2) Move();
 		if (!StateManager.Inventory.IsOpen) Look();

@@ -1,11 +1,117 @@
 :root {
-    --main-background-color: rgba(70, 180, 210, 0.4); /*(0, 209, 255, 0.4);*/
+    --main-background-color: rgba(70, 180, 210, 0.4);
     --unactive-background-color: rgba(100, 100, 100, 0.4);
     --hover-background-color: rgba(0, 130, 255, 0.4);
     --active-background-color: rgba(255, 255, 255, 0.4);
     --main-text-color: rgb(255, 255, 255);
     --unactive-text-color: rgb(200, 200, 200);
     --main-text-align: middle-center;
+}
+
+.GlowMainMenuBackground {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    flex-grow: 0;
+    width: 60%;
+    align-self: center;
+    height: 80%;
+    position: absolute;
+    bottom: 0%;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    justify-content: center;
+    -unity-font-definition: url("project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&guid=784d4999e8270b44bb87566d98892275&type=2#SSFBreakthrough-Bold SDF");
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/MainMenuPanelGlow.png?fileID=21300000&guid=034e5467323edad47994a8fae40f5512&type=3#MainMenuPanelGlow");
+    display: flex;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.49);
+}
+
+.GlowWeather {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/WeatherGlow.png?fileID=21300000&guid=4685b83323d6a6b4ca5a813bd21c64f8&type=3#WeatherGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowInventory {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/InventoryGlow.png?fileID=21300000&guid=cba32ce305aa9b24ea5144e4e6976d30&type=3#InventoryGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowTaskPanel {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/TaskGlow.png?fileID=21300000&guid=0c2fc1006210ed54ba783caa235aa3c7&type=3#TaskGlow");
+    -unity-background-image-tint-color: rgb(70, 180, 210);
+}
+
+.GlowTutorialPanel {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/TutorialGlow.png?fileID=21300000&guid=6e309e4b5355e1b40af2888c1f75f302&type=3#TutorialGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowHintPanel {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/HintGlow.png?fileID=21300000&guid=c08eddeaf8f591c4ba9cc7b1a260fd33&type=3#HintGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowDialoguePanel {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/DialogueGlow.png?fileID=21300000&guid=69ca36bb90756ee4290a0ac6e77ff0a4&type=3#DialogueGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowCriticalStatus {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/CriticalStatusGlow.png?fileID=21300000&guid=225f805f08799b44fa585929de8964f2&type=3#CriticalStatusGlow");
+}
+
+.GlowSettings {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/SettingsGlow.png?fileID=21300000&guid=b061f03a8e48ac54eaf39d675306f944&type=3#SettingsGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowBaseWeather {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/BaseWeatherGlow.png?fileID=21300000&guid=a09dc34f27520f04ea62343a180f877e&type=3#BaseWeatherGlow");
+}
+
+.GlowBaseInventory {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/BaseInventoryGlow.png?fileID=21300000&guid=646f800a3480c1e4e9ab7a8d42164b8e&type=3#BaseInventoryGlow");
+}
+
+.GlowButton {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ButtonGlow.png?fileID=21300000&guid=ca4cbd24cefadc249929c6a99bd992bc&type=3#ButtonGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+}
+
+.GlowButton:hover {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ButtonGlow.png?fileID=21300000&guid=ca4cbd24cefadc249929c6a99bd992bc&type=3#ButtonGlow");
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
 }
 
 .Button {

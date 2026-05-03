@@ -21,7 +21,7 @@ MonoBehaviour:
       \u0437\u0430\u0449\u0438\u0442\u0430 1"
     <UpgradeDescription>k__BackingField: "\u041C\u043D\u0435 \u043B\u0435\u043D\u044C
       \u043F\u0438\u0441\u0430\u0442\u044C"
-    <Resource>k__BackingField: 0600000002000000
+    <Resource>k__BackingField: 0600000001000000
     <Count>k__BackingField: 320000000a000000
   - MaxHealth: 20
     <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
@@ -31,7 +31,7 @@ MonoBehaviour:
       \u0437\u0430\u0449\u0438\u0442\u0430 2"
     <UpgradeDescription>k__BackingField: "\u041C\u043D\u0435 \u043B\u0435\u043D\u044C
       \u043F\u0438\u0441\u0430\u0442\u044C"
-    <Resource>k__BackingField: 060000000200000003000000
+    <Resource>k__BackingField: 060000000100000003000000
     <Count>k__BackingField: 4b0000001400000019000000
   - MaxHealth: 40
     <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,

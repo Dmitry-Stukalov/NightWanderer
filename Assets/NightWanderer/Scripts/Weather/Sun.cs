@@ -27,7 +27,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private Light _sunLight;
 	private Light _moonLight;
 	private int _day = 1;
-	private bool IsTimeSkip = false;
+	public bool IsTimeSkip { get; set; } = false;
 
 	public event Action OnDayStart;
 	public event Action OnNightStart;

@@ -75,6 +75,8 @@ public class WeatherManager : MonoBehaviour
 			IsRainActive = true;
 		}
 
+		RandomWeatherPauseTimer.ResetTimer(false);
+
 		OnWeatherChange?.Invoke();
 	}
 
@@ -106,7 +108,7 @@ public class WeatherManager : MonoBehaviour
 
 
 		IsWeatherActive = false;
-		RandomWeatherPauseTimer.ResetTimer(false);
+		//RandomWeatherPauseTimer.ResetTimer(false);
 
 		OnWeatherChange?.Invoke();
 	}
@@ -148,8 +150,17 @@ public class WeatherManager : MonoBehaviour
 
 	private void Update()
 	{
-		RandomWeatherPauseTimer?.Tick(Time.deltaTime);
-		RandomWeatherTimer?.Tick(Time.deltaTime);
-		PlayerGetDamageTimer?.Tick(Time.deltaTime);
+		if (_Sun != null && _Sun.IsTimeSkip)
+		{
+			if (!IsWeatherActive) RandomWeatherPauseTimer?.Tick(Time.deltaTime * 15);
+			RandomWeatherTimer?.Tick(Time.deltaTime * 15);
+			PlayerGetDamageTimer?.Tick(Time.deltaTime * 15);
+		}
+		else
+		{
+			if (!IsWeatherActive) RandomWeatherPauseTimer?.Tick(Time.deltaTime);
+			RandomWeatherTimer?.Tick(Time.deltaTime);
+			PlayerGetDamageTimer?.Tick(Time.deltaTime);
+		}
 	}
 }
