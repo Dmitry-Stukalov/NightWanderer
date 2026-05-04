@@ -50,4 +50,8 @@ public static class GameEvents
 	public static Action<int> OnMarkHide;
 
 	public static Action<int, int> OnResourceDrop;
+
+	//Sounds
+	public static Action OnMainMenuOut;
+	public static Action OnMainMenuIn;
 }

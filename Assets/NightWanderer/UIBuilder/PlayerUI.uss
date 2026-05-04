@@ -3,6 +3,7 @@
     --unactive-background-color: rgba(100, 100, 100, 0.4);
     --hover-background-color: rgba(0, 130, 255, 0.4);
     --active-background-color: rgba(255, 255, 255, 0.4);
+    --error-background-color: rgba(255, 0, 0, 0.4);
     --main-text-color: rgb(255, 255, 255);
     --unactive-text-color: rgb(200, 200, 200);
     --main-text-align: middle-center;
@@ -100,6 +101,34 @@
     background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/BaseInventoryGlow.png?fileID=21300000&guid=646f800a3480c1e4e9ab7a8d42164b8e&type=3#BaseInventoryGlow");
 }
 
+.GlowFuelExtracion {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ExtractionFuelGlow.png?fileID=21300000&guid=ca57c2f835f22ff4d99eab765b5e9854&type=3#ExtractionFuelGlow");
+}
+
+.GlowResourceExtracion {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ExtractionResourceGlow.png?fileID=21300000&guid=01bb81464cbbbcd4b92258a523665a25&type=3#ExtractionResourceGlow");
+}
+
+.GlowResearchText {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ResearchTextGlow.png?fileID=21300000&guid=d8e86642695afbf4689ac2e03a799900&type=3#ResearchTextGlow");
+}
+
+.GlowReseacrhActions {
+    -unity-background-scale-mode: stretch-to-fill;
+    overflow: hidden;
+    -unity-background-image-tint-color: rgba(70, 180, 210, 0.59);
+    background-image: url("project://database/Assets/NightWanderer/Sprites/UI/Glow/ResearchTextGlow.png?fileID=21300000&guid=d8e86642695afbf4689ac2e03a799900&type=3#ResearchTextGlow");
+}
+
 .GlowButton {
     -unity-background-scale-mode: stretch-to-fill;
     overflow: hidden;
@@ -172,6 +201,10 @@
     background-color: var(--main-background-color);
 }
 
+.ErrorBackground {
+    background-color: var(--error-background-color);
+}
+
 .UnactiveBackground {
     background-color: var(--unactive-background-color);
 }
@@ -224,8 +257,6 @@
 
 .RoundingBorderSmall {
     border-radius: 10px;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
 }
 
 .BorderAll {
@@ -244,6 +275,10 @@
 .BorderBottom {
     border-color: rgb(255, 255, 255);
     border-bottom-width: 1px;
+}
+
+.RoundingBorder {
+    border-radius: 20px;
 }
 
 .BorderLeft {

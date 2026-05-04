@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Collections;
+using TMPro.EditorUtilities;
+using DG.Tweening;
 
 public class ImprovementManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class ImprovementManager : MonoBehaviour
 	[SerializeField] private VisualTreeAsset _needResourceGroup;
 	[SerializeField] private ResourceLibrary _library;
 	[SerializeField] private int _upgradesCount;
+	private VisualElement _improvementMessageBackground;
+	private Label _improvementMessageText;
 	private Dictionary<string, IImprovementBase> _improvements = new Dictionary<string, IImprovementBase>();
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
@@ -24,6 +28,9 @@ public class ImprovementManager : MonoBehaviour
 		_playerInventory = playerInventory;
 		_baseInventory = baseInventory;
 
+		_improvementMessageBackground = _baseUI.rootVisualElement.Q<VisualElement>("ImprovementMessagePanel");
+		_improvementMessageText = _baseUI.rootVisualElement.Q<Label>("ImprovementMessageText");
+
 		for (int i = 0; i < 13; i++)
 		{
 			_resources[i] = 0;
@@ -34,6 +41,70 @@ public class ImprovementManager : MonoBehaviour
 		GameEvents.OnImprovementOpen += UnlockImprovement;
 
 		StartCoroutine(StartPause());
+	}
+
+	private void ShowMessagePanel(string newText)
+	{
+		_improvementMessageText.text = newText;
+
+		if (newText == "Недостаточно ресурсов")
+		{
+			_improvementMessageBackground.RemoveFromClassList("MainBackground");
+			_improvementMessageBackground.AddToClassList("ErrorBackground");
+		}
+		else if (_improvementMessageBackground.ClassListContains("ErrorBackground"))
+		{
+			_improvementMessageBackground.RemoveFromClassList("ErrorBackground");
+			_improvementMessageBackground.AddToClassList("MainBackground");
+		}
+
+		DOTween.Kill(_improvementMessageBackground);
+
+		DOTween.To(() => _improvementMessageBackground.style.opacity.value, x => _improvementMessageBackground.style.opacity = x, 1, 1.5f);
+
+		DOTween.To(() => _improvementMessageBackground.style.opacity.value, x => _improvementMessageBackground.style.opacity = x, 0, 1.5f).SetDelay(3f);
+	}
+
+	private string MatchName(string improvementName)
+	{
+		string newText = "";
+
+		switch (improvementName)
+		{
+			case "Fuel":
+				newText = "Топливные баки улучшены";
+			break;
+
+			case "Mining":
+				newText = "Добывающее оборудование улучшено";
+			break;
+
+			case "Health":
+				newText = "Здоровье улучшено";
+			break;
+
+			case "Defense":
+				newText = "Защита улучшена";
+			break;
+
+			case "FireDefense":
+				newText = "Термическая защита улучшена";
+			break;
+
+			case "Engines":
+				newText = "Двигатели улучшены";
+			break;
+
+			case "Searchlight":
+				newText = "Прожектора улучшены";
+			break;
+
+			case "Resource":
+				newText = "Недостаточно ресурсов";
+			break;
+		}
+
+		return newText;
 	}
 
 	private IEnumerator StartPause()
@@ -137,9 +208,14 @@ public class ImprovementManager : MonoBehaviour
 		if (CheckResources(_improvements[name]))
 		{
 			SubtractResources(_improvements[name], name);
+			ShowMessagePanel(MatchName(name));
 			return true;
 		}
-		else return false;
+		else
+		{
+			ShowMessagePanel(MatchName("Resource"));
+			return false;
+		}
 	}
 
 	private bool CheckResources(IImprovementBase improvement)

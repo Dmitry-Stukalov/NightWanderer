@@ -1,19 +1,19 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/NightWanderer/UIBuilder/PlayerUI.uss?fileID=7433441132597879392&amp;guid=87acf5a7fa867dd4a95df1b855a03afb&amp;type=3#PlayerUI" />
     <ui:VisualElement name="MainElement" style="flex-grow: 1;">
-        <ui:VisualElement name="ResearchShipBackground" class="MainBackground BorderAll RoundingBorderBig" style="flex-grow: 1; position: absolute; width: 20%; height: 35%; visibility: visible; left: 8%; bottom: 30%; flex-wrap: nowrap; align-content: auto; justify-content: flex-start;">
+        <ui:VisualElement name="ResearchShipBackground" class="MainBackground BorderAll RoundingBorderBig GlowResearchText" style="flex-grow: 1; position: absolute; width: 20%; height: 35%; visibility: visible; left: 8%; bottom: 30%; flex-wrap: nowrap; align-content: auto; justify-content: flex-start;">
             <ui:Label text="Корабль" name="ResearchShipName" class="StandartLabel" style="-unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
             <ui:VisualElement name="ResearchShipTextBackground" class="BorderTop" style="flex-grow: 1; justify-content: flex-end;">
                 <ui:Label text="Я вижу темные коридоры корабля. Все отсеки заблокированы. Стоит попробовать открыть дверь на мостик." name="ResearchShipText" class="StandartLabel" style="width: 100%; height: 100%; flex-wrap: nowrap; white-space: normal;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="ActionsBackground" class="MainBackground BorderAll RoundingBorderBig" style="flex-grow: 1; position: absolute; width: 30%; height: 35%; right: 3%; bottom: 30%; flex-direction: column;">
+        <ui:VisualElement name="ActionsBackground" class="MainBackground BorderAll RoundingBorderBig GlowReseacrhActions" style="flex-grow: 1; position: absolute; width: 30%; height: 35%; right: 3%; bottom: 30%; flex-direction: column;">
             <ui:Label text="Действия" name="ActionsName" style="-unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 25px; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
             <ui:VisualElement name="ActionsBackground" class="BorderTop" style="flex-grow: 1; flex-direction: column; justify-content: center;">
-                <ui:Button text="Повернуть налево" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder" style="margin-bottom: 3%; width: 70%; align-self: center;" />
-                <ui:Button text="Повернуть направо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder" style="margin-bottom: 3%; width: 70%; align-self: center;" />
-                <ui:Button text="Пойти прямо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder" style="width: 70%; align-self: center; margin-bottom: 3%;" />
-                <ui:Button text="Уйти" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder" style="width: 70%; align-self: center; margin-bottom: 3%;" />
+                <ui:Button text="Повернуть налево" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="margin-bottom: 3%; width: 70%; align-self: center;" />
+                <ui:Button text="Повернуть направо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="margin-bottom: 3%; width: 70%; align-self: center;" />
+                <ui:Button text="Пойти прямо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="width: 70%; align-self: center; margin-bottom: 3%;" />
+                <ui:Button text="Уйти" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="width: 70%; align-self: center; margin-bottom: 3%;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

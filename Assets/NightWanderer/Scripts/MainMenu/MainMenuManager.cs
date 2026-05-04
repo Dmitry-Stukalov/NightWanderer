@@ -23,7 +23,7 @@ public class MainMenuManager : MonoBehaviour
 	private Button _cancelNewGameButton;
 	private Button _cancelExitBackgroundButton;
 
-	private void Start()
+	public void Initializing()
 	{
 		_menuUI = GetComponent<UIDocument>();
 
@@ -56,6 +56,8 @@ public class MainMenuManager : MonoBehaviour
 
 		_controlsButton.RegisterCallback<ClickEvent>(OpenControlsPanel);
 		_backButton.RegisterCallback<ClickEvent>(CloseControlsPanel);
+
+		GameEvents.OnMainMenuIn?.Invoke();
 	}
 
 
@@ -99,7 +101,6 @@ public class MainMenuManager : MonoBehaviour
 		//DOTween.To(() => -100, x => _cancelExitBackgroundButton.style.bottom = Length.Percent(x), 0, 1f);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 1, 1f);
-		Debug.Log(_cancelExitBackgroundButton);
 	}
 
 	private void CloseConfirmationExit(ClickEvent evt)
@@ -118,6 +119,7 @@ public class MainMenuManager : MonoBehaviour
 
 	private void StartGame(ClickEvent evt)
 	{
+		GameEvents.OnMainMenuOut?.Invoke();
 		SceneManager.LoadScene("MainScene");
 	}
 
