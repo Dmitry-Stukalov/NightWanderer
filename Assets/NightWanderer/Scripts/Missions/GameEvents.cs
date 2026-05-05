@@ -6,6 +6,8 @@ public static class GameEvents
 
 	//Посещение базы
 	public static Action<Base> OnBase;
+	public static Action OnInBase;
+	public static Action OnOutBase;
 	public static Action OnFirstBaseVisit;
 
 	//Подбор ресурса
@@ -51,7 +53,17 @@ public static class GameEvents
 
 	public static Action<int, int> OnResourceDrop;
 
+	public static Action OnDayStart;
+	public static Action OnNightStart;
+
 	//Sounds
 	public static Action OnMainMenuOut;
 	public static Action OnMainMenuIn;
+	public static Action OnSettingsOpen;
+	public static Action OnSettingsClose;
+	public static Action OnSandstormStart;
+	public static Action OnSandstormEnd;
+	public static Action OnRainStart;
+	public static Action OnRainEnd;
+	public static Action<int> OnMovementChange;
 }

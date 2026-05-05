@@ -177,6 +177,7 @@ MonoBehaviour:
   _statisticsManager: {fileID: 1885972745}
   _researchManager: {fileID: 1885972746}
   _settingsManager: {fileID: 1885972747}
+  _shipSoundsManager: {fileID: 1885972748}
   _baseInventory: {fileID: 1479734559}
 --- !u!1 &28553470 stripped
 GameObject:
@@ -482,6 +483,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e260d34cbc95c734da694e3d8e72465b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1885972748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7281701156668235493, guid: f662a68aa77402e4fb7d7055739c2197,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885972744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfafe2c963366ba4fa049d9419865ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1898821381 stripped

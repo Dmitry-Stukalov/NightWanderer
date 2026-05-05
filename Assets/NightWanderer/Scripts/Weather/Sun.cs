@@ -61,6 +61,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			//_moonLight.enabled = true;
 
 			OnNightStart?.Invoke();
+			GameEvents.OnNightStart?.Invoke();
 		};
 		AllDayTimer.OnTimerHalf += () =>
 		{
@@ -72,6 +73,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			//_moonLight.enabled = false;
 
 			OnDayStart?.Invoke();
+			GameEvents.OnDayStart?.Invoke();
 		};
 
 		TakeDamageTimer = new Timer(TakeDamagePause);

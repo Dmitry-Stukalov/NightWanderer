@@ -57,6 +57,8 @@ public class SettingsManager : MonoBehaviour
 
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 		UnityEngine.Cursor.visible = true;
+
+		GameEvents.OnSettingsOpen?.Invoke();
 	}
 
 	private void CloseSettings()
@@ -72,6 +74,8 @@ public class SettingsManager : MonoBehaviour
 			UnityEngine.Cursor.visible = false;
 		}
 		else _hideCursor = true;
+
+		GameEvents.OnSettingsClose?.Invoke();
 	}
 
 	private void CloseSettings(ClickEvent evt)
@@ -81,6 +85,8 @@ public class SettingsManager : MonoBehaviour
 
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 		UnityEngine.Cursor.visible = false;
+
+		GameEvents.OnSettingsClose?.Invoke();
 	}
 
 	private void OpenControlsPanel(ClickEvent evt)

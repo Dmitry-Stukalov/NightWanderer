@@ -65,6 +65,8 @@ public class StateMachineMovement : StateMachineState
 	{
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
+
+		GameEvents.OnMovementChange?.Invoke(ID);
 	}
 
 	public override void Exit()

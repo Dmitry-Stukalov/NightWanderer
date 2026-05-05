@@ -23,6 +23,7 @@ public class MainBootstrap : MonoBehaviour
 	[SerializeField] private StatisticsManager _statisticsManager;
 	[SerializeField] private ResearchManager _researchManager;
 	[SerializeField] private SettingsManager _settingsManager;
+	[SerializeField] private ShipSoundsManager _shipSoundsManager;
 
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
@@ -65,6 +66,7 @@ public class MainBootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlights(), "Searchlight");
 		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
+		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
 	}
 
 	private void CheckLoadScene(Scene scene, LoadSceneMode mode)

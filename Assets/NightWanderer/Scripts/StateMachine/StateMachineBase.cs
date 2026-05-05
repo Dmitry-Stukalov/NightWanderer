@@ -13,6 +13,8 @@ public class StateMachineBase : StateMachineState
 		StateManager.CurrentBase.MoveDownDockingPlatform();
 
 		StateManager._Animator.SetBool("IsIdle", true);
+
+		GameEvents.OnInBase?.Invoke();
 	}
 
 	public override void Exit() 
@@ -20,6 +22,8 @@ public class StateMachineBase : StateMachineState
 		StateManager.CurrentBase.MoveUpDockingPlatform();
 
 		StateManager._Animator.SetBool("IsIdle", false);
+
+		GameEvents.OnOutBase?.Invoke();
 	}
 
 	public override void Update()
