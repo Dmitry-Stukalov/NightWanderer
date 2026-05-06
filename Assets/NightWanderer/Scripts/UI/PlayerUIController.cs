@@ -29,6 +29,7 @@ public class PlayerUIController : MonoBehaviour
 	private VisualElement _researchOpenPanel;
 	private Dictionary<string, VisualElement> _statusPanels;
 	private TutorialManager _tutorialManager;
+	private bool IsResearch = false;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
@@ -226,6 +227,8 @@ public class PlayerUIController : MonoBehaviour
 		_mainResearchElement.style.display = DisplayStyle.Flex;
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 		UnityEngine.Cursor.visible = true;
+
+		IsResearch = true;
 		//_researchHintPanel.style.display = DisplayStyle.Flex;
 	}
 
@@ -240,6 +243,8 @@ public class PlayerUIController : MonoBehaviour
 		_mainResearchElement.style.display = DisplayStyle.None;
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 		UnityEngine.Cursor.visible = false;
+
+		IsResearch = false;
 		//_researchHintPanel.style.display = DisplayStyle.None;
 	}
 
@@ -268,7 +273,7 @@ public class PlayerUIController : MonoBehaviour
 	{
 		//if (!SceneManager.GetSceneByName("OpenMapScene").isLoaded) return;
 
-		if (Keyboard.current.tabKey.wasPressedThisFrame && !_baseUI.OnBase) Inventory.OpenCloseInventory();
+		if (Keyboard.current.tabKey.wasPressedThisFrame && !_baseUI.OnBase && !IsResearch) Inventory.OpenCloseInventory();
 
 		if (Keyboard.current.escapeKey.wasPressedThisFrame) _settingsManager.OpenSettings();
 	}

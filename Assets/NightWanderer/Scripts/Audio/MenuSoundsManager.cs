@@ -8,6 +8,7 @@ public class MenuSoundsManager : MonoBehaviour
 	[SerializeField] private AudioMixer _audioMixer;
 	[SerializeField] private AudioSource _backgroundMusic;
 	[SerializeField] private AudioSource _buttonClickSound;
+	[SerializeField] private AudioSource _buttonHoverSound;
 	[SerializeField] private AudioMixerSnapshot _menuMusic;
 	[SerializeField] private AudioMixerSnapshot _menuMute;
 	[SerializeField] private float _transitDuration;
@@ -20,9 +21,13 @@ public class MenuSoundsManager : MonoBehaviour
 
 		_buttons = _menuUI.rootVisualElement.Query<Button>().ToList().ToArray();
 
-		for (int i = 0; i < _buttons.Length; i++) _buttons[i].RegisterCallback<ClickEvent>(PlayClickSound);
+		for (int i = 0; i < _buttons.Length; i++)
+		{
+			_buttons[i].RegisterCallback<ClickEvent>(PlayClickSound);
+			_buttons[i].RegisterCallback<PointerEnterEvent>(PlayHoverSound);
+		}
 
-		//_backgroundMusic?.Play();
+			//_backgroundMusic?.Play();
 	}
 
 	private void FadeIn()
@@ -38,6 +43,11 @@ public class MenuSoundsManager : MonoBehaviour
 	private void PlayClickSound(ClickEvent evt)
 	{
 		_buttonClickSound.Play();
+	}
+
+	private void PlayHoverSound(PointerEnterEvent evt)
+	{
+		//_buttonHoverSound.Play();
 	}
 
 	public void OnOffMusic()
@@ -56,7 +66,11 @@ public class MenuSoundsManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		for (int i = 0; i < _buttons.Length; i++) _buttons[i].UnregisterCallback<ClickEvent>(PlayClickSound);
+		for (int i = 0; i < _buttons.Length; i++)
+		{
+			_buttons[i].UnregisterCallback<ClickEvent>(PlayClickSound);
+			_buttons[i].UnregisterCallback<PointerEnterEvent>(PlayHoverSound);
+		}
 
 		GameEvents.OnMainMenuIn -= FadeIn;
 		GameEvents.OnMainMenuOut -= FadeOut;

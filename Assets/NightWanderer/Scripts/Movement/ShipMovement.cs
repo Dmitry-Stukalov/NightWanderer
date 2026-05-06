@@ -284,5 +284,7 @@ public class ShipMovement : MonoBehaviour
 	{
 		GameEvents.OnGameStart -= () => IsGameStart = true;
 		GameEvents.OnResourceDrop -= DropResource;
+
+		_defenseSystem.OnDisable();
 	}
 }

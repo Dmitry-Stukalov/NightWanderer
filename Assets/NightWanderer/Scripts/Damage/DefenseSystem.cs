@@ -13,6 +13,7 @@ public class DefenseSystem
 	private VisualElement _damageEffect;
 	private Sprite _defenseSprite;
 	private Sprite _damageSprite;
+	private bool IsOnBase = false;
 
 	public event Action OnDeath;
 
@@ -33,11 +34,16 @@ public class DefenseSystem
 		_damageEffect = damageEffect;
 		_defenseSprite = defenseSprite;
 		_damageSprite = damageSprite;
+
+		GameEvents.OnInBase += () => IsOnBase = true;
+		GameEvents.OnOutBase += () => IsOnBase = false;
 	}
 
 	//Вычисление получаемого урона с учетом защиты (1 защита = 1 урон)
 	public void GetDamage(float damage)
 	{
+		if (IsOnBase) return;
+
 		if (_defense.GetCurrentHealth() <= damage)
 		{
 			if (_defense.GetCurrentHealth() > 0)
@@ -71,6 +77,8 @@ public class DefenseSystem
 	//Вычисление получения урона с учетом термальной защиты (1 защита = 1 урон)
 	public void GetFireDamage(float fireDamage)
 	{
+		if (IsOnBase) return;
+
 		if (_fireDefense.GetCurrentHealth() <= fireDamage)
 		{
 			if (_fireDefense.GetCurrentHealth() > 0)
@@ -161,4 +169,10 @@ public class DefenseSystem
 	public HealthFireDefense GetHealth() => _health;
 	public HealthFireDefense GetDefense() => _defense;
 	public HealthFireDefense GetFireDefense() => _fireDefense;
+
+	public void OnDisable()
+	{
+		GameEvents.OnInBase -= () => IsOnBase = true;
+		GameEvents.OnOutBase -= () => IsOnBase = false;
+	}
 }
