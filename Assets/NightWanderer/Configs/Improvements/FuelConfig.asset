@@ -17,7 +17,7 @@ MonoBehaviour:
     <MaxFuel>k__BackingField: 20
     <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
       type: 3}
-    <CurrentLevel>k__BackingField: 0
+    <CurrentLevel>k__BackingField: 1
     <Name>k__BackingField: "\u0422\u043E\u043F\u043B\u0438\u0432\u043D\u044B\u0435
       \u0431\u0430\u043A\u0438 1"
     <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
@@ -27,7 +27,7 @@ MonoBehaviour:
   - <MinFuel>k__BackingField: 0
     <MaxFuel>k__BackingField: 40
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 1
+    <CurrentLevel>k__BackingField: 2
     <Name>k__BackingField: "\u0422\u043E\u043F\u043B\u0438\u0432\u043D\u044B\u0435
       \u0431\u0430\u043A\u0438 2"
     <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
@@ -37,7 +37,7 @@ MonoBehaviour:
   - <MinFuel>k__BackingField: 0
     <MaxFuel>k__BackingField: 60
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 2
+    <CurrentLevel>k__BackingField: 3
     <Name>k__BackingField: "\u0422\u043E\u043F\u043B\u0438\u0432\u043D\u044B\u0435
       \u0431\u0430\u043A\u0438 3"
     <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
@@ -47,7 +47,7 @@ MonoBehaviour:
   - <MinFuel>k__BackingField: 0
     <MaxFuel>k__BackingField: 40
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 1
+    <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: "\u0422\u043E\u043F\u043B\u0438\u0432\u043D\u044B\u0435
       \u0431\u0430\u043A\u0438 4"
     <UpgradeDescription>k__BackingField: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435
@@ -57,10 +57,10 @@ MonoBehaviour:
   - <MinFuel>k__BackingField: 0
     <MaxFuel>k__BackingField: 100
     <Icon>k__BackingField: {fileID: 0}
-    <CurrentLevel>k__BackingField: 4
-    <Name>k__BackingField: "\u0422\u043E\u043F\u043B\u0438\u0432\u043D\u044B\u0435
-      \u0431\u0430\u043A\u0438 5"
-    <UpgradeDescription>k__BackingField: "\u043D\u0435 \u043B\u044E\u0431\u043B\u044E
-      \u043A\u0430\u043A\u0430\u0448\u043A\u0438("
-    <Resource>k__BackingField: 0500000003000000
-    <Count>k__BackingField: 9600000096000000
+    <CurrentLevel>k__BackingField: 5
+    <Name>k__BackingField: "\u042D\u0442\u043E\u0433\u043E \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F
+      \u043D\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442"
+    <UpgradeDescription>k__BackingField: "\u042D\u0442\u043E\u0433\u043E \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044F
+      \u043D\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442"
+    <Resource>k__BackingField: 
+    <Count>k__BackingField: 

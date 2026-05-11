@@ -3,6 +3,8 @@ using Unity.Hierarchy;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class StateMachineTransition : StateMachineState
 {
@@ -57,7 +59,7 @@ public class StateMachineTransition : StateMachineState
 	{
 		PositionReached = Vector3.Distance(Ship.position, TargetShipPosition) <= PositionTolerance;
 		RotationReached = Quaternion.Angle(Ship.rotation /*Quaternion.Euler(StateManager.RotationX, StateManager.RotationY, Ship.rotation.z)*/, TargetShipRotation) <= RotationTolerance;
-		RotationCameraReached = Quaternion.Angle(PlayerCameraRotationObject.rotation, TargetCameraRotation) <= RotationTolerance;
+		if (StateManager.NextState != 3) RotationCameraReached = Quaternion.Angle(PlayerCameraRotationObject.rotation, TargetCameraRotation) <= RotationTolerance;
 
 		if ((StateManager.NextState == 3 || StateManager.NextState == 50) && PositionReached)
 		{

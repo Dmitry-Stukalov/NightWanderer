@@ -1,29 +1,24 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Searchlights : MonoBehaviour, IImprovementBase
+public class SearchlightsPower : MonoBehaviour, IImprovementBase
 {
-	[SerializeField] private GameObject[] _searchlights;
+	[SerializeField] private Light[] _searchlights;
 	public string Name { get; set; }
 	public Dictionary<int, int> _needResources { get; set; }
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 	public event Action OnUpgrade;
 
-	private ImprovementSearchlightConfig _config;
-
-	private void Start()
-	{
-		for (int i = 0;  i < _searchlights.Length; i++) _searchlights[i].SetActive(false);
-	}
+	private ImprovementSearchlightPowerConfig _config;
 
 	public void AddConfig(ImprovementConfig config)
 	{
 		Config = config;
-		_config = (ImprovementSearchlightConfig)config;
+		_config = (ImprovementSearchlightPowerConfig)config;
 		CurrentLevel = 0;
+
 		_needResources = new Dictionary<int, int>();
 	}
 
@@ -39,21 +34,14 @@ public class Searchlights : MonoBehaviour, IImprovementBase
 		return _needResources;
 	}
 
-	public int GetActiveSearchlights()
-	{
-		int t = 1;
-
-		for (int i = 0; i < _searchlights.Length; i++)
-			if (_searchlights[i].activeSelf) t++;
-
-		return t;
-	}
-
 	public void Upgrade()
 	{
-		_searchlights[CurrentLevel].SetActive(true);
-
-		if (CurrentLevel == 0) GameEvents.OnMissionComplete?.Invoke(1);
+		for (int i = 0; i < _searchlights.Length; i++)
+		{
+			_searchlights[i].spotAngle = _config.Levels[CurrentLevel].SearchlightSpotAngle;
+			_searchlights[i].range = _config.Levels[CurrentLevel].SearchlightRange;
+			_searchlights[i].intensity = _config.Levels[CurrentLevel].SearchlightPower;
+		}
 
 		CurrentLevel++;
 

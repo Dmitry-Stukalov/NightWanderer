@@ -65,6 +65,7 @@ public class MainBootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerMiningEquipment(), "Mining");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlights(), "Searchlight");
+		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlightsPower(), "SearchlightPower");
 		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
 	}

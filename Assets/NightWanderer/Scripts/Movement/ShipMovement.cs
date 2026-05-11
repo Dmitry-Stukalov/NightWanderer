@@ -35,6 +35,7 @@ public class ShipMovement : MonoBehaviour
 
 	[Header("Looking")]
 	[SerializeField] private Searchlights _searchlights;
+	[SerializeField] private SearchlightsPower _searchlightsPower;
 	[SerializeField] private float LookSpeed;
 	[SerializeField] private int ResourceRotationX;
 	[SerializeField] private int ResourceDistanceY;
@@ -47,6 +48,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private ImprovementConfig _defenseConfig;
 	[SerializeField] private ImprovementConfig _fireDefenseConfig;
 	[SerializeField] private ImprovementConfig _searchlightConfig;
+	[SerializeField] private ImprovementConfig _searchlightPowerConfig;
 
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
@@ -75,6 +77,7 @@ public class ShipMovement : MonoBehaviour
 		GameEvents.OnGameStart += () => IsGameStart = true;
 
 		_searchlights.AddConfig(_searchlightConfig);
+		_searchlightsPower.AddConfig(_searchlightPowerConfig);
 
 		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager, damageEffect, _defenseSprite, _damageSprite);
 		_defenseSystem.OnDeath += Death;
@@ -134,6 +137,7 @@ public class ShipMovement : MonoBehaviour
 	public MiningEquipment GetPlayerMiningEquipment() => _miningEquipment;
 	public JetEngines GetPlayerEngines() => _engines;
 	public Searchlights GetPlayerSearchlights() => _searchlights;
+	public SearchlightsPower GetPlayerSearchlightsPower() => _searchlightsPower;
 
 	private void HitSurface()
 	{
@@ -157,6 +161,7 @@ public class ShipMovement : MonoBehaviour
 		if (!IsDead) return;
 
 		_defenseSystem.Alive();
+		_fuel.Refueling(_fuel.GetMaxFuel());
 		IsDead = false;
 		StateMachineManager.IsDead = false;
 	}

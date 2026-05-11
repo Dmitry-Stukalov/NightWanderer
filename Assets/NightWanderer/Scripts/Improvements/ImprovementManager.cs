@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Collections;
-using TMPro.EditorUtilities;
 using DG.Tweening;
 
 public class ImprovementManager : MonoBehaviour
@@ -96,6 +95,10 @@ public class ImprovementManager : MonoBehaviour
 			break;
 
 			case "Searchlight":
+				newText = "Прожектор добавлен";
+			break;
+
+			case "SearchlightPower":
 				newText = "Прожектора улучшены";
 			break;
 
@@ -155,6 +158,12 @@ public class ImprovementManager : MonoBehaviour
 					_upgradesBackground.Add(newItem);
 
 				break;
+
+				case "SearchlightPower":
+					newItem = _upgradePanel.Instantiate();
+					newItem.dataSource = new ImprovementPanel<ImprovementSearchlightPowerConfig, ImprovementSearchlightPowerData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
+					_upgradesBackground.Add(newItem);
+					break;
 			}
 		}
 	}
@@ -166,6 +175,7 @@ public class ImprovementManager : MonoBehaviour
 	}
 
 	public void AddImprovement(IImprovementBase improvement, string name) => _improvements[name] = improvement;
+
 	public void UnlockImprovement(string name)
 	{
 		int i = 0;
@@ -197,6 +207,10 @@ public class ImprovementManager : MonoBehaviour
 
 					case "Searchlight":
 						((ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
+					break;
+
+					case "SearchlightPower":
+						((ImprovementPanel<ImprovementSearchlightPowerConfig, ImprovementSearchlightPowerData>)_upgradesBackground.contentContainer[i].dataSource).Unlock();
 					break;
 				}
 			i++;

@@ -73,6 +73,8 @@ public class StateMachineMovement : StateMachineState
 	{
 		StateManager.RotationX = RotationX;
 		StateManager.RotationY = RotationY;
+
+		if (StateManager.NextState == 50 && StateManager.IsCleanerWorking) VacuumCleaner();
 	}
 
 	public override void Update()
