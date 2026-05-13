@@ -581,6 +581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dockingPlatform: {fileID: 3946241453134145804}
   _animator: {fileID: 7364330734679854025}
+  _entryAnimator: {fileID: 0}
 --- !u!33 &3316413489680806623
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class StateMachineBase : StateMachineState
 		StateManager._Animator.SetBool("IsIdle", true);
 
 		GameEvents.OnInBase?.Invoke();
+
+		GameEvents.OnEnginesOnOff?.Invoke();
 	}
 
 	public override void Exit() 
@@ -24,6 +26,7 @@ public class StateMachineBase : StateMachineState
 		StateManager._Animator.SetBool("IsIdle", false);
 
 		GameEvents.OnOutBase?.Invoke();
+		GameEvents.OnEnginesOnOff?.Invoke();
 	}
 
 	public override void Update()
@@ -32,9 +35,10 @@ public class StateMachineBase : StateMachineState
 
 		if (Keyboard.current.fKey.wasPressedThisFrame)
 		{
-			StateManager.TargetShipPosition = StateManager.CurrentBase.transform.GetChild(0).position;
-			StateManager.NextState = 1;
-			StateManager.SetState(10);
+			StateManager.TargetShipPosition = StateManager.CurrentBase.GetPlatformPosition();
+			//StateManager.NextState = 1;
+			//StateManager.SetState(10);
+			StateManager.SetState(1);
 		}
 
 		if (Keyboard.current.rKey.wasPressedThisFrame) GameEvents.OnSkipTimeStart?.Invoke();

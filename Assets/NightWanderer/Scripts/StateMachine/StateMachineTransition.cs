@@ -35,7 +35,7 @@ public class StateMachineTransition : StateMachineState
 
 		PositionsIndex = 0;
 
-		if (StateManager.NextState == 20) TargetShipPosition = StateManager.CurrentBase.transform.GetChild(0).position;
+		if (StateManager.NextState == 20) TargetShipPosition = StateManager.CurrentBase.GetPlatformPosition();
 		else TargetShipPosition = StateManager.TargetShipPosition;
 
 		TargetShipRotation = StateManager.TargetShipRotation;

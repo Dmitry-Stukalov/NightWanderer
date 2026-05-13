@@ -191,7 +191,7 @@ public class ShipMovement : MonoBehaviour
 		if (other.CompareTag("Base"))
 		{
 			IsCanDocking = true;
-			BasePosition = other.transform.GetChild(0).position;
+			BasePosition = other.GetComponent<Base>().GetPlatformPosition();
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 
@@ -220,7 +220,7 @@ public class ShipMovement : MonoBehaviour
 			GameEvents.OnResearchNearBy?.Invoke(other.GetComponent<ResearchShip>());
 		}
 
-		if (other.CompareTag("Sand")) HitSurface();
+		if (other.CompareTag("Sand") || other.CompareTag("Base")) HitSurface();
 	}
 
 	//При выходе из области источника ресурса обнуляет его местоположение в машине состояний

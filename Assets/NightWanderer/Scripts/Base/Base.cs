@@ -7,6 +7,7 @@ public class Base : MonoBehaviour
 {
 	[SerializeField] private GameObject _dockingPlatform;
 	[SerializeField] private Animator _animator;
+	[SerializeField] private Animator _entryAnimator;
 	/*[SerializeField]*/ private GameObject _ship;
 	/*[SerializeField]*/ private PlayerUIController _playerUI;
 	private bool IsFirstVisit = true;
@@ -18,7 +19,20 @@ public class Base : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Player")) _ship = other.gameObject;
+		if (other.CompareTag("Player"))
+		{
+			_ship = other.gameObject;
+
+			_entryAnimator.SetBool("IsOpen", true);
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.CompareTag("Player"))
+		{
+			_entryAnimator.SetBool("IsOpen", false);
+		}
 	}
 
 	public void MoveDownDockingPlatform()
@@ -54,4 +68,6 @@ public class Base : MonoBehaviour
 	public void OpenCloseBaseUI() => _playerUI.OnBase();
 
 	public void CloseBaseUI() => _playerUI.OutBase();
+
+	public Vector3 GetPlatformPosition() => new Vector3(_dockingPlatform.transform.position.x, _dockingPlatform.transform.position.y + 0.7f, _dockingPlatform.transform.position.z);
 }
