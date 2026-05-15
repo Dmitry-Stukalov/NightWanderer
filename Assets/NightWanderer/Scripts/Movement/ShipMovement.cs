@@ -24,15 +24,6 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private GameObject VacuumCleanerObject;
 	[SerializeField] private VacuumCleaner _vacuumCleaner;
 
-	[Header("Movement")]
-	[SerializeField] private float WalkingSpeed;
-	[SerializeField] private float BoostedSpeed;
-	[SerializeField] private float UpDownSpeed;
-	[SerializeField] private float UpDownBoostedSpeed;
-	[SerializeField] private float _consumptionIdleValue;
-	[SerializeField] private float _consumptionWalkValue;
-	[SerializeField] private float _consumptionRunValue;
-
 	[Header("Looking")]
 	[SerializeField] private Searchlights _searchlights;
 	[SerializeField] private SearchlightsPower _searchlightsPower;
@@ -262,11 +253,13 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
+	public void OnOffSearchLights() => _searchlightManager.SearchlightOnOff();
+
 	private void Update()
 	{
 		if (!IsGameStart || Time.timeScale == 0) return;
 
-		if (Keyboard.current.tKey.wasPressedThisFrame) _searchlightManager.SearchlightOnOff();
+		if (Keyboard.current.tKey.wasPressedThisFrame) OnOffSearchLights();
 
 		StateMachineManager.Update();
 
@@ -291,5 +284,6 @@ public class ShipMovement : MonoBehaviour
 		GameEvents.OnResourceDrop -= DropResource;
 
 		_defenseSystem.OnDisable();
+		_fuel.OnDisable();
 	}
 }

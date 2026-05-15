@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class StateMachineManager
 {
-	private Dictionary<int, StateMachineState> States = new Dictionary<int, StateMachineState>();
-	private StateMachineState CurrentState;
+	private Dictionary<int, StateMachineState> _states = new Dictionary<int, StateMachineState>();
+	private StateMachineState _currentState;
 	public Transform Ship { get; set; }
 	public Transform PlayerCameraObject { get; set; }
 	public Base CurrentBase { get; set; }
@@ -31,34 +31,34 @@ public class StateMachineManager
 
 	public void AddState(int ID, StateMachineState newState)
 	{
-		States.Add(ID, newState);
+		_states.Add(ID, newState);
 	}
 
 	public void SetState(int ID)
 	{
-		if (CurrentState != null && CurrentState.ID == ID) return;
+		if (_currentState != null && _currentState.ID == ID) return;
 
-		if (States.TryGetValue(ID, out var newState))
+		if (_states.TryGetValue(ID, out var newState))
 		{
-			CurrentState?.Exit();
+			_currentState?.Exit();
 
-			CurrentState = newState;
+			_currentState = newState;
 
-			CurrentState.Enter();
+			_currentState.Enter();
 		}
 	}
 
-	public int GetCurrentState() => CurrentState.ID;
+	public int GetCurrentState() => _currentState.ID;
 
 	public void HitSurface()
 	{
-		if (CurrentState.ID > 2) return;
+		if (_currentState.ID > 2) return;
 
 		IsReverseMove = true;
 	}
 
 	public void Update()
 	{
-		CurrentState?.Update();
+		_currentState?.Update();
 	}
 }

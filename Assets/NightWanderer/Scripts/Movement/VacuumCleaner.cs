@@ -31,7 +31,6 @@ public class VacuumCleaner : MonoBehaviour
 	public void CleanerOn() => _cleanerOnPause.Continue();
 
 	public void CleanerOff()
-
 	{
 		_cleanerOnPause.ResetTimer(true);
 		SandIsntCollection();
@@ -91,7 +90,7 @@ public class VacuumCleaner : MonoBehaviour
 		}
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
 		_cleanerOnPause?.Tick(Time.fixedDeltaTime);
 	}

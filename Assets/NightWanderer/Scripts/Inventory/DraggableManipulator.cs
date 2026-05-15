@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class DraggableManipulator : PointerManipulator
 {
 	private VisualElement _startParent;
-	private VisualElement _parent;
 	private VisualElement _elementUnderCursor;
 	private VisualElement _newElementUnderCursor;
 	private ResourceCellObject _cellResource;

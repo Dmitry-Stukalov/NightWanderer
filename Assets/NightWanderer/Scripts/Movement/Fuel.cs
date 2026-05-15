@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Fuel : IImprovementBase
 {
 	public string Name { get; set; }
-	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
+	public Dictionary<int, int> NeedResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 	public event Action OnUpgrade;
@@ -29,6 +29,8 @@ public class Fuel : IImprovementBase
 		Config = config;
 		_config = (ImprovementFuelConfig)config;
 		CurrentLevel = 0;
+
+		GameEvents.OnInBase += RefuelingBase;
 
 		_currentFuel = _config.Levels[CurrentLevel].MaxFuel;
 		_currentFuelPerCent = Length.Percent(_currentFuel / _config.Levels[CurrentLevel].MaxFuel * 100);
@@ -82,18 +84,20 @@ public class Fuel : IImprovementBase
 		OnFuelChange?.Invoke();
 	}
 
+	private void RefuelingBase() => _currentFuel = _config.Levels[CurrentLevel].MaxFuel;
+
 	public float NeedToRefueling() => _config.Levels[CurrentLevel].MaxFuel - _currentFuel;
 
 	public Dictionary<int, int> GetNeedResources()
 	{
-		_needResources?.Clear();
+		NeedResources?.Clear();
 
 		for (int i = 0; i < _config.Levels[CurrentLevel].Resource.Count; i++)
 		{
-			_needResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
+			NeedResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
 		}
 
-		return _needResources;
+		return NeedResources;
 	}
 
 	public void Upgrade()
@@ -101,6 +105,11 @@ public class Fuel : IImprovementBase
 		CurrentLevel++;
 
 		OnUpgrade?.Invoke();
+	}
+
+	public void OnDisable()
+	{
+		GameEvents.OnInBase -= RefuelingBase;
 	}
 
 	public float GetCurrentFuel() => _currentFuel;

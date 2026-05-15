@@ -57,9 +57,6 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			Damage = MinDamage;
 			TransitionNightTimer.Continue();
 
-			//_sunLight.enabled = false;
-			//_moonLight.enabled = true;
-
 			OnNightStart?.Invoke();
 			GameEvents.OnNightStart?.Invoke();
 		};
@@ -68,9 +65,6 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			Damage = MinDamage;
 			_day++;
 			TransitionDayTimer.Continue();
-
-			//_sunLight.enabled = true;
-			//_moonLight.enabled = false;
 
 			OnDayStart?.Invoke();
 			GameEvents.OnDayStart?.Invoke();
@@ -150,14 +144,6 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		Moon.transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 
 		TakeDamageTimer.Tick(Time.deltaTime);
-
-		//if (AllDayTimer.CurrentTime < TransitionDayLength) Damage = MinDamage;
-		//else if (AllDayTimer.CurrentTime >= TransitionDayLength && AllDayTimer.CurrentTime <= AllDayLength / 2) Damage = MaxDamage;
-		//else if (AllDayTimer.CurrentTime > AllDayLength / 2 && AllDayTimer.CurrentTime < AllDayLength / 2 + TransitionDayLength) Damage = MinDamage;
-		//else if (AllDayTimer.CurrentTime >= AllDayLength / 2 + TransitionDayLength) Damage = 0;
-
-		//if (AllDayTimer.CurrentTime >= 0 && AllDayTimer.CurrentTime <= AllDayLength / 2) Damage = 0;
-		//else  Damage = MaxDamage;
 
 		if (Damage > 0)
 		{

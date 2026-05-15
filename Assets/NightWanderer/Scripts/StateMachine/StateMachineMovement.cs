@@ -6,7 +6,6 @@ public class StateMachineMovement : StateMachineState
 {
 	protected readonly GameObject PlayerCameraRotationObject;
 	protected readonly GameObject ShipObject;
-	//protected readonly Transform Ship;
 	protected readonly Transform VacuumCleanerObject;
 	protected readonly InputAction MoveAction;
 	protected readonly InputAction UpDownMoveAction;
@@ -14,9 +13,6 @@ public class StateMachineMovement : StateMachineState
 	protected readonly VacuumCleaner Cleaner;
 	protected readonly Fuel ShipFuel;
 	protected readonly JetEngines ShipEngines;
-	protected float Speed;
-	protected float UpDownSpeed;
-	protected float LookSpeed;
 	protected Timer ReverseMoveTimer;
 	protected Timer FuelConsumptionTimer;
 	protected Vector3 MoveDirection;
@@ -25,6 +21,9 @@ public class StateMachineMovement : StateMachineState
 	protected Vector3 RightVector;
 	protected Vector3 UpVector;
 	protected Vector2 MouseAxis;
+	protected float Speed;
+	protected float UpDownSpeed;
+	protected float LookSpeed;
 	protected float SpeedX;
 	protected float SpeedY;
 	protected float SpeedZ;
@@ -37,7 +36,6 @@ public class StateMachineMovement : StateMachineState
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		ShipObject = shipObject;
-		//Ship = ship;
 		VacuumCleanerObject = vacuumCleanerObject;
 		Cleaner = vacuumCleaner;
 
@@ -92,7 +90,7 @@ public class StateMachineMovement : StateMachineState
 			StateManager.SetState(10);
 		}
 
-		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
+		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame /*&& ID != 3*/)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 

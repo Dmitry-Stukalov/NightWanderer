@@ -6,13 +6,13 @@ using UnityEngine;
 public class HealthFireDefense : IImprovementBase
 {
 	public string Name { get; set; }
-	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
+	public Dictionary<int, int> NeedResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 
 	private ImprovementHealthConfig _config;
 
-	private float _minHealth;
+	private float _minHealth = 0;
 	private float _currentHealth;
 
 	public event Action OnHealthChange;
@@ -51,14 +51,14 @@ public class HealthFireDefense : IImprovementBase
 
 	public Dictionary<int, int> GetNeedResources()
 	{
-		_needResources?.Clear();
+		NeedResources?.Clear();
 
 		for (int i = 0; i < _config.Levels[CurrentLevel].Resource.Count; i++)
 		{
-			_needResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
+			 NeedResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
 		}
 
-		return _needResources;
+		return NeedResources;
 	}
 
 	public void Upgrade()

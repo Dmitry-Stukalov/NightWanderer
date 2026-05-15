@@ -60,14 +60,12 @@ public class MainMenuManager : MonoBehaviour
 		GameEvents.OnMainMenuIn?.Invoke();
 	}
 
-
 	private void OpenConfirmationNewGame(ClickEvent evt)
 	{
 		_confirmExitBackground.style.display = DisplayStyle.None;
 		_confirmNewGameBackground.style.display = DisplayStyle.Flex;
 
 		DOTween.Kill(_cancelExitBackgroundButton);
-		//DOTween.To(() => -100, x => _cancelExitBackgroundButton.style.bottom = Length.Percent(x), 0, 1f);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 1, 1f);
 	}
@@ -75,7 +73,6 @@ public class MainMenuManager : MonoBehaviour
 	private void CloseConfirmationNewGame(ClickEvent evt)
 	{
 		DOTween.Kill(_cancelExitBackgroundButton);
-		//DOTween.To(() => 0, x => _cancelExitBackgroundButton.style.bottom = Length.Percent(x), -100, 1f);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
 	}
@@ -98,7 +95,6 @@ public class MainMenuManager : MonoBehaviour
 		_confirmExitBackground.style.display = DisplayStyle.Flex;
 
 		DOTween.Kill(_cancelExitBackgroundButton);
-		//DOTween.To(() => -100, x => _cancelExitBackgroundButton.style.bottom = Length.Percent(x), 0, 1f);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 1, 1f);
 	}
@@ -106,7 +102,6 @@ public class MainMenuManager : MonoBehaviour
 	private void CloseConfirmationExit(ClickEvent evt)
 	{
 		DOTween.Kill(_cancelExitBackgroundButton);
-		//DOTween.To(() => 0, x => _cancelExitBackgroundButton.style.bottom = Length.Percent(x), -100, 1f);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
 	}

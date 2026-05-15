@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class MiningEquipment : IImprovementBase
 {
 	public string Name { get; set; }
-	public Dictionary<int, int> _needResources { get; set; } = new Dictionary<int, int>();
+	public Dictionary<int, int> NeedResources { get; set; } = new Dictionary<int, int>();
 	public ImprovementConfig Config { get; set; }
 	public int CurrentLevel { get; set; }
 	public event Action OnUpgrade;
@@ -29,13 +29,13 @@ public class MiningEquipment : IImprovementBase
 
 	public Dictionary<int, int> GetNeedResources()
 	{
-		_needResources?.Clear();
+		NeedResources?.Clear();
 
 		for (int i = 0; i < _config.Levels[CurrentLevel].Resource.Count; i++)
 		{
-			_needResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
+			NeedResources[_config.Levels[CurrentLevel].Resource[i]] = _config.Levels[CurrentLevel].Count[i];
 		}
 
-		return _needResources;
+		return NeedResources;
 	}
 }
