@@ -153,8 +153,13 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 			System.Array.Sort(SunRayCast, (a, b) => a.distance.CompareTo(b.distance));
 
-			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player")) TakeDamageTimer.Continue();
+			if (SunRayCast.Length > 0 && (SunRayCast[0].transform.CompareTag("Player") || SunRayCast[1].transform.CompareTag("Player"))) TakeDamageTimer.Continue();
 			else TakeDamageTimer.ResetTimer(true);
+
+			for (int i = 0; i < SunRayCast.Length; i++)
+			{
+				Debug.Log($"{i} {SunRayCast[i].transform.gameObject}");
+			}
 		}
 	}
 

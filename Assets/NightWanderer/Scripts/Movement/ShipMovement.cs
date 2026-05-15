@@ -211,7 +211,7 @@ public class ShipMovement : MonoBehaviour
 			GameEvents.OnResearchNearBy?.Invoke(other.GetComponent<ResearchShip>());
 		}
 
-		if (other.CompareTag("Sand") || other.CompareTag("Base")) HitSurface();
+		if (other.CompareTag("Sand")/* || other.CompareTag("Base")*/) HitSurface();
 	}
 
 	//При выходе из области источника ресурса обнуляет его местоположение в машине состояний
