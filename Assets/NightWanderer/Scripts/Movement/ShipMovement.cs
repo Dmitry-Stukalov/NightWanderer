@@ -12,7 +12,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private SearchlightManager _searchlightManager;
-	[SerializeField] private PlayerUIController _playerUIController;
+	[SerializeField] private PlayerUIManager _playerUIController;
 	[SerializeField] private DeathManager _deathManager;
 	[SerializeField] private Sprite _defenseSprite;
 	[SerializeField] private Sprite _damageSprite;
@@ -89,7 +89,7 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(3, new StateMachineVide(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(3, new StateMachineVoid(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
 		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
 		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform));

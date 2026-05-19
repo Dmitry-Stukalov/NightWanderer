@@ -9,12 +9,12 @@ public class Base : MonoBehaviour
 	[SerializeField] private Animator _animator;
 	[SerializeField] private Animator _entryAnimator;
 	/*[SerializeField]*/ private GameObject _ship;
-	/*[SerializeField]*/ private PlayerUIController _playerUI;
+	/*[SerializeField]*/ private PlayerUIManager _playerUI;
 	private bool IsFirstVisit = true;
 
 	private void Start()
 	{
-		_playerUI = FindAnyObjectByType<PlayerUIController>();
+		_playerUI = FindAnyObjectByType<PlayerUIManager>();
 	}
 
 	private void OnTriggerEnter(Collider other)

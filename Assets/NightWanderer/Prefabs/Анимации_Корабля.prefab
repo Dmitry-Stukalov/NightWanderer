@@ -8530,13 +8530,6 @@ MonoBehaviour:
   PlayerCameraRotationObject: {fileID: 5054709227239046674}
   VacuumCleanerObject: {fileID: 2828789795947815599}
   _vacuumCleaner: {fileID: 1108298333170111055}
-  WalkingSpeed: 0.2
-  BoostedSpeed: 0.4
-  UpDownSpeed: 0.1
-  UpDownBoostedSpeed: 0.3
-  _consumptionIdleValue: 0
-  _consumptionWalkValue: 0
-  _consumptionRunValue: 0
   _searchlights: {fileID: 6627953272805836166}
   _searchlightsPower: {fileID: 4370344846654122830}
   LookSpeed: 0.2

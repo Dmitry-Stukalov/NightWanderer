@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 public class ImprovementPanelBase
 {
 	protected ImprovementManager _manager;
-	protected VisualElement _improvementPanel;
 	protected VisualTreeAsset _needResourceGroup;
+	protected VisualElement _improvementPanel;
 	protected VisualElement _improvementIcon;
 	protected VisualElement _needResourceGroupPlace;
 	protected Label _improvementVisualName;
@@ -39,7 +39,6 @@ public class ImprovementPanelBase
 	{
 		IsUnlock = true;
 		_improvementPanel.style.display = DisplayStyle.Flex;
-		//_improvementButton.text = "Улучшить";
 	}
 
 	protected virtual void Upgrade(ClickEvent evt) { }

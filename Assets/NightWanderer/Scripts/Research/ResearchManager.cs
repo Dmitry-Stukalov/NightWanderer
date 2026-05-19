@@ -102,7 +102,7 @@ public class ResearchManager : MonoBehaviour
 			break;
 
 			case "FireDefense":
-				text = "Открыто улучшение термальной защиты";
+				text = "Открыто улучшение термической защиты";
 				GameEvents.OnMissionComplete?.Invoke(5);
 				break;
 
@@ -110,7 +110,7 @@ public class ResearchManager : MonoBehaviour
 				text = "Открыто улучшение двигателей";
 			break;
 
-			case "Searchlight":
+			case "SearchlightPower":
 				text = "Открыто улучшение прожекторов";
 			break;
 

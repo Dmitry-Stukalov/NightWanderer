@@ -20,7 +20,6 @@ public class StateMachineTransition : StateMachineState
 	private bool PositionReached;
 	private bool RotationReached;
 	private bool RotationCameraReached;
-	private int PositionsIndex;
 
 	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, Transform playerCameraRotationObject): base(id, manager, ship) 
 	{ 
@@ -31,9 +30,6 @@ public class StateMachineTransition : StateMachineState
 	public override void Enter()
 	{
 		StateManager._Animator.SetBool("IsIdle", true);
-
-
-		PositionsIndex = 0;
 
 		if (StateManager.NextState == 20) TargetShipPosition = StateManager.CurrentBase.GetPlatformPosition();
 		else TargetShipPosition = StateManager.TargetShipPosition;
@@ -83,7 +79,7 @@ public class StateMachineTransition : StateMachineState
 				Ship.position = Vector3.MoveTowards(Ship.position, TargetShipPosition, Time.deltaTime * 5);
 				Ship.rotation = Quaternion.Slerp(Ship.rotation, TargetShipRotation, Time.deltaTime * 5);
 
-				PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 5);
+				if (StateManager.NextState != 3) PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 5);
 			}
 		}
 	}

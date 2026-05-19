@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 //Отвечает за управление всем UI
-public class PlayerUIController : MonoBehaviour
+public class PlayerUIManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument PlayerUI;
 	[SerializeField] private UIDocument ExtractionGameLaser;
@@ -95,7 +95,7 @@ public class PlayerUIController : MonoBehaviour
 		//_researchHintPanel.style.display = DisplayStyle.None;
 		_mainResearchElement.style.display = DisplayStyle.None;
 
-		yield return new WaitForSeconds(60f);
+		//yield return new WaitForSeconds(60f);
 		StartGame();
 	}
 
@@ -108,7 +108,7 @@ public class PlayerUIController : MonoBehaviour
 
 		GameEvents.OnDialogueStart?.Invoke();
 
-		yield return new WaitForSeconds(70);
+		//yield return new WaitForSeconds(70);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 	}
@@ -120,7 +120,7 @@ public class PlayerUIController : MonoBehaviour
 		_blackBackground.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
 
-		yield return new WaitForSeconds(7f);
+		yield return new WaitForSeconds(8f);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 2f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 	}

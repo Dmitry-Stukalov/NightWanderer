@@ -27,6 +27,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private Light _sunLight;
 	private Light _moonLight;
 	private int _day = 1;
+	private int _layerMask;
 	public bool IsTimeSkip { get; set; } = false;
 
 	public event Action OnDayStart;
@@ -41,6 +42,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 		_sunLight = GetComponent<Light>();
 		_moonLight = Moon.GetComponent<Light>();
+
+		_layerMask = ~LayerMask.GetMask("DeadZoneAndTutorial");
 
 		TransitionDayTimer = new Timer(TransitionDayLength);
 		TransitionDayTimer.OnTimerEnd += DayStart;
@@ -149,17 +152,12 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		{
 			SunRay = new Ray(FakeSun.transform.position, Player.transform.position - FakeSun.transform.position);
 
-			SunRayCast = Physics.RaycastAll(SunRay, 10000f);
+			SunRayCast = Physics.RaycastAll(SunRay, 10000f, _layerMask, QueryTriggerInteraction.Collide);
 
 			System.Array.Sort(SunRayCast, (a, b) => a.distance.CompareTo(b.distance));
 
-			if (SunRayCast.Length > 0 && (SunRayCast[0].transform.CompareTag("Player") || SunRayCast[1].transform.CompareTag("Player"))) TakeDamageTimer.Continue();
+			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player")) TakeDamageTimer.Continue();
 			else TakeDamageTimer.ResetTimer(true);
-
-			for (int i = 0; i < SunRayCast.Length; i++)
-			{
-				Debug.Log($"{i} {SunRayCast[i].transform.gameObject}");
-			}
 		}
 	}
 

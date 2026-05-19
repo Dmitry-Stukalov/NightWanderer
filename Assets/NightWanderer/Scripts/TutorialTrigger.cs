@@ -4,12 +4,12 @@ public class TutorialTrigger : MonoBehaviour
 {
 	[SerializeField] private int[] id;
 	[SerializeField] private bool IsOneTime;
-	private PlayerUIController _manager;
+	private PlayerUIManager _manager;
 	private bool IsActivated = false;
 
 	private void Start()
 	{
-		_manager = FindAnyObjectByType<PlayerUIController>();
+		_manager = FindAnyObjectByType<PlayerUIManager>();
 	}
 
 	private void OnTriggerEnter(Collider other)

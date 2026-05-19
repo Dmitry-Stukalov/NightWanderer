@@ -14,7 +14,7 @@ public class MainBootstrap : MonoBehaviour
 	[SerializeField] private PlayerInventoryBuilder _playerInventoryBuilder;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ImprovementManager _improvementManager;
-	[SerializeField] private PlayerUIController _playerUIController;
+	[SerializeField] private PlayerUIManager _playerUIManager;
 	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private MissionsManager _missionsManager;
 	[SerializeField] private CraftManager _craftManager;
@@ -36,8 +36,8 @@ public class MainBootstrap : MonoBehaviour
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
 
 		_effectsManager?.Initializing();
-		_shipMovement?.Initializing(_playerUIController.GetVisualElement("DamageEffect"));
-		_playerUIController?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
+		_shipMovement?.Initializing(_playerUIManager.GetVisualElement("DamageEffect"));
+		_playerUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_searchlightManager.Initializing();
 		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();

@@ -10,10 +10,10 @@
         <ui:VisualElement name="ActionsBackground" class="MainBackground BorderAll RoundingBorderBig GlowReseacrhActions" style="flex-grow: 1; position: absolute; width: 30%; height: 35%; right: 3%; bottom: 30%; flex-direction: column;">
             <ui:Label text="Действия" name="ActionsName" style="-unity-text-align: middle-center; color: rgb(255, 255, 255); font-size: 25px; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
             <ui:VisualElement name="ActionsBackground" class="BorderTop" style="flex-grow: 1; flex-direction: column; justify-content: center;">
-                <ui:Button text="Повернуть налево" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="margin-bottom: 3%; width: 70%; align-self: center;" />
-                <ui:Button text="Повернуть направо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="margin-bottom: 3%; width: 70%; align-self: center;" />
-                <ui:Button text="Пойти прямо" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="width: 70%; align-self: center; margin-bottom: 3%;" />
-                <ui:Button text="Уйти" name="Action" class="MainBackground BorderAll StandartLabel RoundingBorder GlowButton" style="width: 70%; align-self: center; margin-bottom: 3%;" />
+                <ui:Button text="Повернуть налево" name="Action" class="RoundingBorder GlowButton Button StandartLabel" style="margin-bottom: 3%; width: 70%; align-self: center;" />
+                <ui:Button text="Повернуть направо" name="Action" class="StandartLabel RoundingBorder GlowButton Button" style="margin-bottom: 3%; width: 70%; align-self: center;" />
+                <ui:Button text="Пойти прямо" name="Action" class="StandartLabel RoundingBorder GlowButton Button" style="width: 70%; align-self: center; margin-bottom: 3%;" />
+                <ui:Button text="Уйти" name="Action" class="StandartLabel RoundingBorder GlowButton Button" style="width: 70%; align-self: center; margin-bottom: 3%;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

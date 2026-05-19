@@ -9,106 +9,114 @@ using UnityEngine.VFX;
 public class WeatherManager : MonoBehaviour
 {
 	[SerializeField] private Sun _Sun;
-	[SerializeField] private VisualEffect Rain2;
-	[SerializeField] private VisualEffect Sandstorm2;
+	[SerializeField] private VisualEffect _rain;
+	[SerializeField] private VisualEffect _sandstorm;
 	[SerializeField] private float _rainSpawnRate;
 	[SerializeField] private float _sandstormSpawnRate;
-	[SerializeField] private LocalVolumetricFog Fog;
+	[SerializeField] private LocalVolumetricFog _fog;
 	[SerializeField] private float _sandstormDamage;
+	private Timer _randomWeatherPauseTimer;
+	private Timer _randomWeatherTimer;
+	private Timer _playerGetDamageTimer;
+	private string _activeWeatherName = "";
+	private float _rainCurrentSpawnRate;
+	private float _sandstormCurrentSpawnRate;
 	private bool IsSandstormActive = false;
 	private bool IsRainActive = false;
 	private bool IsWeatherActive = false;
-	private Timer RandomWeatherPauseTimer;
-	private Timer RandomWeatherTimer;
-	private Timer PlayerGetDamageTimer;
-	private string _activeWeatherName = "";
 
 	public event Action OnWeatherChange;
 
 	public void Initializing()
 	{
-		Fog = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<LocalVolumetricFog>();
+		_fog = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<LocalVolumetricFog>();
 
-		RandomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 700));
-		RandomWeatherPauseTimer.OnTimerEnd += StartWeather;
+		_randomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 800));
+		_randomWeatherPauseTimer.OnTimerEnd += StartWeather;
 
-		PlayerGetDamageTimer = new Timer(2f);
-		PlayerGetDamageTimer.OnTimerEnd += PlayerGetDamage;
-		PlayerGetDamageTimer.SetPause();
+		_playerGetDamageTimer = new Timer(2f);
+		_playerGetDamageTimer.OnTimerEnd += PlayerGetDamage;
+		_playerGetDamageTimer.SetPause();
 
 		_Sun.OnDayStart += EndWeather;
 		_Sun.OnNightStart += EndWeather;
 		_Sun.OnTransitionDayEnd += FogOff;
 		_Sun.OnTransitionNightEnd += FogOn;
 
-		Sandstorm2.Stop();
-		Rain2.Stop();
+		_sandstorm.Stop();
+		_rain.Stop();
 
+		_rainCurrentSpawnRate = 0;
+		_sandstormCurrentSpawnRate = 0;
+
+		GameEvents.OnInBase += HideParticles;
+		GameEvents.OnOutBase += ShowParticles;
 	}
 
 	private void StartWeather()
 	{
-		RandomWeatherTimer = new Timer(UnityEngine.Random.Range(80, 120));
-		RandomWeatherTimer.OnTimerEnd += EndWeather;
+		_randomWeatherTimer = new Timer(UnityEngine.Random.Range(60, 91));
+		_randomWeatherTimer.OnTimerEnd += EndWeather;
 		IsWeatherActive = true;
+
+		DOTween.Kill(_sandstorm);
+		DOTween.Kill(_rain);
 
 		if (_Sun.IsDayNow())
 		{
-			Sandstorm2.SetFloat("SpawnRate", 0);
+			_sandstorm.SetFloat("SpawnRate", 0);
 
-			Sandstorm2.Play();
+			_sandstorm.Play();
 
-			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
+			DOTween.To(() => _sandstorm.GetFloat("SpawnRate"), x => _sandstorm.SetFloat("SpawnRate", x), _sandstormCurrentSpawnRate, 10f).SetEase(Ease.Linear);
 
 			IsSandstormActive = true;
 
-			PlayerGetDamageTimer.Continue();
+			_playerGetDamageTimer.Continue();
 		}
 		else
 		{
-			Rain2.SetFloat("SpawnRate", 0);
+			_rain.SetFloat("SpawnRate", 0);
 
-			Rain2.Play();
+			_rain.Play();
 
-			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), _rainSpawnRate, 20f).SetEase(Ease.Linear);
+			DOTween.To(() => _rain.GetFloat("SpawnRate"), x => _rain.SetFloat("SpawnRate", x), _rainCurrentSpawnRate, 10f).SetEase(Ease.Linear);
 
 			IsRainActive = true;
 		}
 
-		RandomWeatherPauseTimer.ResetTimer(false);
+		_randomWeatherPauseTimer.ResetTimer(false);
 
 		OnWeatherChange?.Invoke();
 	}
 
 	private void EndWeather()
 	{
-		if (RandomWeatherTimer != null)	RandomWeatherTimer.OnTimerEnd -= EndWeather;
+		if (_randomWeatherTimer != null) _randomWeatherTimer.OnTimerEnd -= EndWeather;
 		
 		if (IsSandstormActive)
 		{
-			DOTween.To(() => Sandstorm2.GetFloat("SpawnRate"), x => Sandstorm2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
+			DOTween.To(() => _sandstorm.GetFloat("SpawnRate"), x => _sandstorm.SetFloat("SpawnRate", x), 0, 3).SetEase(Ease.Linear).OnComplete(() =>
 			{
-				Sandstorm2.Stop();
+				_sandstorm.Stop();
 			});
 
 			IsSandstormActive = false;
 
-			PlayerGetDamageTimer.ResetTimer(true);
+			_playerGetDamageTimer.ResetTimer(true);
 		}
 
 		if (IsRainActive)
 		{
-			DOTween.To(() => Rain2.GetFloat("SpawnRate"), x => Rain2.SetFloat("SpawnRate", x), 0, 20).SetEase(Ease.Linear).OnComplete(() =>
+			DOTween.To(() => _rain.GetFloat("SpawnRate"), x => _rain.SetFloat("SpawnRate", x), 0, 3).SetEase(Ease.Linear).OnComplete(() =>
 			{
-				Rain2.Stop();
+				_rain.Stop();
 			});
 
 			IsRainActive = false;
 		}
 
-
 		IsWeatherActive = false;
-		//RandomWeatherPauseTimer.ResetTimer(false);
 
 		OnWeatherChange?.Invoke();
 	}
@@ -120,14 +128,18 @@ public class WeatherManager : MonoBehaviour
 
 	private void FogOn()
 	{
-		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 100f, 30f).SetEase(Ease.Linear);
+		DOTween.Kill(_fog);
+
+		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 100f, 20f).SetEase(Ease.Linear);
 
 		OnWeatherChange?.Invoke();
 	}
 
 	private void FogOff()
 	{
-		DOTween.To(() => Fog.parameters.distanceFadeEnd, x => Fog.parameters.distanceFadeEnd = x, 0f, 5f).SetEase(Ease.Linear);
+		DOTween.Kill(_fog);
+
+		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 0f, 3f).SetEase(Ease.Linear);
 
 		OnWeatherChange?.Invoke();
 	}
@@ -148,19 +160,49 @@ public class WeatherManager : MonoBehaviour
 		return _activeWeatherName;
 	}
 
+	private void HideParticles()
+	{
+		DOTween.Kill(_rain);
+		DOTween.Kill(_sandstorm);
+
+		_rainCurrentSpawnRate = 0;
+		_sandstormCurrentSpawnRate = 0;
+
+		DOTween.To(() => _sandstorm.GetFloat("SpawnRate"), x => _sandstorm.SetFloat("SpawnRate", x), _sandstormCurrentSpawnRate, 1f).SetEase(Ease.Linear);
+		DOTween.To(() => _rain.GetFloat("SpawnRate"), x => _rain.SetFloat("SpawnRate", x), _rainCurrentSpawnRate, 1f).SetEase(Ease.Linear);
+	}	
+
+	private void ShowParticles()
+	{
+		DOTween.Kill(_rain);
+		DOTween.Kill(_sandstorm);
+
+		_rainCurrentSpawnRate = _rainSpawnRate;
+		_sandstormCurrentSpawnRate = _sandstormSpawnRate;
+
+		DOTween.To(() => _sandstorm.GetFloat("SpawnRate"), x => _sandstorm.SetFloat("SpawnRate", x), _sandstormCurrentSpawnRate, 1f).SetEase(Ease.Linear);
+		DOTween.To(() => _rain.GetFloat("SpawnRate"), x => _rain.SetFloat("SpawnRate", x), _rainCurrentSpawnRate, 1f).SetEase(Ease.Linear);
+	}
+
 	private void Update()
 	{
 		if (_Sun != null && _Sun.IsTimeSkip)
 		{
-			if (!IsWeatherActive) RandomWeatherPauseTimer?.Tick(Time.deltaTime * 15);
-			RandomWeatherTimer?.Tick(Time.deltaTime * 15);
-			PlayerGetDamageTimer?.Tick(Time.deltaTime * 15);
+			if (!IsWeatherActive) _randomWeatherPauseTimer?.Tick(Time.deltaTime * 15);
+			_randomWeatherTimer?.Tick(Time.deltaTime * 15);
+			_playerGetDamageTimer?.Tick(Time.deltaTime * 15);
 		}
 		else
 		{
-			if (!IsWeatherActive) RandomWeatherPauseTimer?.Tick(Time.deltaTime);
-			RandomWeatherTimer?.Tick(Time.deltaTime);
-			PlayerGetDamageTimer?.Tick(Time.deltaTime);
+			if (!IsWeatherActive) _randomWeatherPauseTimer?.Tick(Time.deltaTime);
+			_randomWeatherTimer?.Tick(Time.deltaTime);
+			_playerGetDamageTimer?.Tick(Time.deltaTime);
 		}
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnInBase -= HideParticles;
+		GameEvents.OnOutBase -= ShowParticles;
 	}
 }

@@ -20,10 +20,15 @@ public class CraftPanel
 
 	public CraftPanel(CraftManager craftManager, VisualElement craftPanel, VisualTreeAsset needResourceGroup, VisualTreeAsset inventoryCell, ResourceCraftData resourceCraftData, int id)
 	{
+		_resourceCraftData = resourceCraftData;
+
 		_craftManager = craftManager;
 		_craftPanel = craftPanel;
 		_needResourceGroup = needResourceGroup;
+
 		_craftIcon = craftPanel.Q<VisualElement>("CraftIcon");
+		_craftIcon.style.backgroundImage = new StyleBackground(_resourceCraftData.View);
+
 		_needResourceGroupPlace = craftPanel.Q<VisualElement>("NeedResourcesIcons");
 
 		_craftVisualName = craftPanel.Q<Label>("CraftName");
@@ -33,7 +38,6 @@ public class CraftPanel
 		_craftButton.RegisterCallback<ClickEvent>(Create);
 
 		_createdCell = craftPanel.Q<VisualElement>("CreatedCell");
-		_resourceCraftData = resourceCraftData;
 
 		for (int i = 0; i < _resourceCraftData.ResourcesIDToCraft.Count; i++)
 		{
