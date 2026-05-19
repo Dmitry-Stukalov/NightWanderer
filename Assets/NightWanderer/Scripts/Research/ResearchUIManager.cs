@@ -3,10 +3,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using static UnityEngine.Rendering.STP;
+using DG.Tweening;
+using System.Collections;
 
-public class ResearchManager : MonoBehaviour
+public class ResearchUIManager : UIManager
 {
 	[SerializeField] private UIDocument _researchUI;
+	private VisualElement _mainElement;
+	private VisualElement _researchHintPanel;
 	private Label _researchShipText;
 	private List<Button> _actionButtons = new List<Button>();
 	private ResearchShip _currentResearchShip;
@@ -15,6 +19,9 @@ public class ResearchManager : MonoBehaviour
 
 	public void Initializing()
 	{
+		_mainElement = _researchUI.rootVisualElement.Q<VisualElement>("MainElement");
+		_researchHintPanel = _researchUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
+
 		_researchShipText = _researchUI.rootVisualElement.Q<Label>("ResearchShipText");
 
 		foreach (var button in _researchUI.rootVisualElement.Q<VisualElement>("ActionsBackground").Query<Button>("Action").ToList())
@@ -24,8 +31,14 @@ public class ResearchManager : MonoBehaviour
 		}
 
 		GameEvents.OnResearchNearBy += UpdateData;
+		GameEvents.OnResearchStart += OnResearchStart;
+		GameEvents.OnResearchEnd += OnResearchEnd;
+		GameEvents.OnResearchQuit += OnResearchQuit;
+
+		_mainElement.style.display = DisplayStyle.None;
 	}
 	
+
 	public void UpdateData(ResearchShip ship)
 	{
 		_currentResearchShip = ship.gameObject.GetComponent<ResearchShip>();
@@ -35,14 +48,38 @@ public class ResearchManager : MonoBehaviour
 		DoAction(0);
 	}
 
+	private void OnResearchStart()
+	{
+		//_mainElement.style.display = DisplayStyle.Flex;
+		UnityEngine.Cursor.lockState = CursorLockMode.None;
+		UnityEngine.Cursor.visible = true;
+	}
+
+	private void OnResearchEnd(string newText)
+	{
+		StartCoroutine(ShowResearchOpenPanel(newText));
+	}
+
+	private void OnResearchQuit()
+	{
+		//_mainElement.style.display = DisplayStyle.None;
+		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+		UnityEngine.Cursor.visible = false;
+	}
+
+	private IEnumerator ShowResearchOpenPanel(string newText)
+	{
+		_researchHintPanel.Q<Label>("ResearchOpenText").text = newText;
+
+		DOTween.To(() => _researchHintPanel.style.opacity.value, x => _researchHintPanel.style.opacity = x, 1, 1.5f);
+
+		yield return new WaitForSeconds(3f);
+
+		DOTween.To(() => _researchHintPanel.style.opacity.value, x => _researchHintPanel.style.opacity = x, 0, 1.5f);
+	}
+
 	public void DoAction(int id)
 	{
-		/*if (_currentConfig.Choices[id].ResearchText == "Данные получены")
-		{
-			_currentResearchShip.Search();
-			GameEvents.OnResearchEnd?.Invoke();
-		}*/
-
 		for (int i = 0; i < _actionButtons.Count; i++) _actionButtons[i].style.display = DisplayStyle.None;
 
 		_researchShipText.text = _currentConfig.Choices[id].ResearchText;
@@ -70,17 +107,18 @@ public class ResearchManager : MonoBehaviour
 		if (_currentConfig.StoryName.Length != 0) GameEvents.OnResearchEnd?.Invoke(MatchResearch(_currentConfig.StoryName[0]));
 	}
 
-	public void ShipQuit()
+	public override void OpenUI()
 	{
-		DoAction(0);
-		GameEvents.OnResearchQuit?.Invoke();
+		_mainElement.style.display = DisplayStyle.Flex;
 	}
 
-	private void OnDisable()
+	public override void CloseUI()
 	{
-		GameEvents.OnResearchNearBy -= UpdateData;
+		//DoAction(0);
 
-		for (int i = 0; i < _actionButtons.Count; i++) ((ActionButton)_actionButtons[i].dataSource).OnDisable();
+		_mainElement.style.display = DisplayStyle.None;
+
+		GameEvents.OnResearchQuit?.Invoke();
 	}
 
 	private string MatchResearch(string research)
@@ -121,5 +159,15 @@ public class ResearchManager : MonoBehaviour
 		}
 
 		return text;
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnResearchNearBy -= UpdateData;
+		GameEvents.OnResearchStart -= OnResearchStart;
+		GameEvents.OnResearchEnd -= OnResearchEnd;
+		GameEvents.OnResearchQuit -= OnResearchQuit;
+
+		for (int i = 0; i < _actionButtons.Count; i++) ((ActionButton)_actionButtons[i].dataSource).OnDisable();
 	}
 }

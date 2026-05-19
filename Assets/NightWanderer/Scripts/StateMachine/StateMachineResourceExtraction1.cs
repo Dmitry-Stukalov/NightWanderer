@@ -5,7 +5,7 @@ public class StateMachineResourceExtraction1 : StateMachineResourceExtraction
 {
 	private MinigameLaser _minigameLaser;
 	private Timer ExtractionRestTimer;
-	public StateMachineResourceExtraction1(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel, MinigameLaser minigameLaser) : base(id, manager, ship, playerCameraRotationObject, mining, fuel) 
+	public StateMachineResourceExtraction1(int id, StateMachineManager manager, Transform ship, UIManager uiManager, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel, MinigameLaser minigameLaser) : base(id, manager, ship, uiManager, playerCameraRotationObject, mining, fuel) 
 	{
 		_minigameLaser = minigameLaser;
 	}

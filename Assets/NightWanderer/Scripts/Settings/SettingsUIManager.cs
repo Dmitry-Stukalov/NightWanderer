@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class SettingsManager : MonoBehaviour
+public class SettingsUIManager : UIManager
 {
 	[SerializeField] private UIDocument _settingsUI;
 	private VisualElement _mainElement;
@@ -40,11 +40,11 @@ public class SettingsManager : MonoBehaviour
 		_mainElement.style.display = DisplayStyle.None;
 	}
 
-	public void OpenSettings()
+	public override void OpenUI()
 	{
 		if (Time.timeScale == 0)
 		{
-			CloseSettings();
+			CloseUI();
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class SettingsManager : MonoBehaviour
 		GameEvents.OnSettingsOpen?.Invoke();
 	}
 
-	private void CloseSettings()
+	public override void CloseUI()
 	{
 		_settingsUI.sortingOrder = -5;
 
@@ -110,7 +110,6 @@ public class SettingsManager : MonoBehaviour
 	{
 		Application.Quit();
 	}
-
 
 	private void OnDisable()
 	{

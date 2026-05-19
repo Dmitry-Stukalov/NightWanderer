@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 
 public class StateMachineWalk : StateMachineMovement
 {
-	public StateMachineWalk(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
+	public StateMachineWalk(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, UIManager uiManager, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, 
 		float lookSpeed) 
 		: 
-		base(id, manager, playerCameraRotationObject, shipObject, ship, vacuumCleanerObject, vacuumCleaner, shipFuel, shipEngines, moveAction, upDownMoveAction, lookAction, lookSpeed) { }
+		base(id, manager, playerCameraRotationObject, shipObject, ship, uiManager, vacuumCleanerObject, vacuumCleaner, shipFuel, shipEngines, moveAction, upDownMoveAction, lookAction, lookSpeed) { }
 
 	public override void Enter()
 	{

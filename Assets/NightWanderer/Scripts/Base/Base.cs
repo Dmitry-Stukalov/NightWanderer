@@ -8,14 +8,14 @@ public class Base : MonoBehaviour
 	[SerializeField] private GameObject _dockingPlatform;
 	[SerializeField] private Animator _animator;
 	[SerializeField] private Animator _entryAnimator;
-	/*[SerializeField]*/ private GameObject _ship;
-	/*[SerializeField]*/ private PlayerUIManager _playerUI;
+	private GameObject _ship;
+	//[SerializeField] private PlayerUIManager _playerUI;
 	private bool IsFirstVisit = true;
 
-	private void Start()
-	{
-		_playerUI = FindAnyObjectByType<PlayerUIManager>();
-	}
+	//private void Start()
+	//{
+	//	_playerUI = FindAnyObjectByType<PlayerUIManager>();
+	//}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -65,9 +65,9 @@ public class Base : MonoBehaviour
 
 	public void Undocking() => _ship.transform.SetParent(null, true);
 
-	public void OpenCloseBaseUI() => _playerUI.OnBase();
+	//public void OpenCloseBaseUI() => _playerUI.OnBase();
 
-	public void CloseBaseUI() => _playerUI.OutBase();
+	//public void CloseBaseUI() => _playerUI.OutBase();
 
 	public Vector3 GetPlatformPosition() => new Vector3(_dockingPlatform.transform.position.x, _dockingPlatform.transform.position.y + 0.7f, _dockingPlatform.transform.position.z);
 }

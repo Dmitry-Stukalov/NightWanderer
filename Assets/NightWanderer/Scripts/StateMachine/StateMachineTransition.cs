@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 
 public class StateMachineTransition : StateMachineState
 {
-	//private Transform Ship;
 	private Transform PlayerCameraRotationObject;
 	private Vector3 TargetShipPosition;
 	private Quaternion TargetShipRotation;
@@ -21,9 +20,8 @@ public class StateMachineTransition : StateMachineState
 	private bool RotationReached;
 	private bool RotationCameraReached;
 
-	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, Transform playerCameraRotationObject): base(id, manager, ship) 
+	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, UIManager uiManager, Transform playerCameraRotationObject): base(id, manager, ship, uiManager) 
 	{ 
-		//Ship = ship;
 		PlayerCameraRotationObject = playerCameraRotationObject;
 	}
 	 
@@ -42,13 +40,12 @@ public class StateMachineTransition : StateMachineState
 
 	public override void Exit()
 	{
-		//StateManager.RotationX = -TargetCameraRotation.eulerAngles.x;
-		//StateManager.RotationY = TargetCameraRotation.eulerAngles.y;
 		StateManager.RotationX = RotationX;
 		StateManager.RotationY = RotationY;
 
+		//if (StateManager.NextState == 20) _UIManager.CloseUI();
+
 		StateManager._Animator.SetBool("IsIdle", false);
-		//StateManager.TargetCameraRotation = TargetCameraRotation;
 	}
 
 	public override void Update()

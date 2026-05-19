@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class StateMachineBase : StateMachineState
 {
-	public StateMachineBase(int id, StateMachineManager manager, Transform ship): base(id, manager, ship)
+	public StateMachineBase(int id, StateMachineManager manager, Transform ship, UIManager uiManager) : base(id, manager, ship, uiManager)
 	{
 
 	}
@@ -11,19 +11,20 @@ public class StateMachineBase : StateMachineState
 	public override void Enter()
 	{
 		StateManager.CurrentBase.MoveDownDockingPlatform();
-
 		StateManager._Animator.SetBool("IsIdle", true);
 
-		GameEvents.OnInBase?.Invoke();
+		_UIManager.OpenUI();
 
+		GameEvents.OnInBase?.Invoke();
 		GameEvents.OnEnginesOnOff?.Invoke();
 	}
 
 	public override void Exit() 
 	{
 		StateManager.CurrentBase.MoveUpDockingPlatform();
-
 		StateManager._Animator.SetBool("IsIdle", false);
+
+		_UIManager.CloseUI();
 
 		GameEvents.OnOutBase?.Invoke();
 		GameEvents.OnEnginesOnOff?.Invoke();

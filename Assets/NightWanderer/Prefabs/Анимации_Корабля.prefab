@@ -2081,7 +2081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d47d9d7f8a9ce14999f8f627766b858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseUI: {fileID: 4912858456345129344}
+  _baseUI: {fileID: 4912858456345129344}
   _baseInventory: {fileID: 6543780363745501945}
 --- !u!114 &6543780363745501945
 MonoBehaviour:
@@ -2147,15 +2147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9300a405deb88f34e983c908581c5799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerUI: {fileID: 4384735025375778772}
-  ExtractionGameLaser: {fileID: 3859694567574293626}
-  ResearchUI: {fileID: 8918072278270838794}
+  _playerUI: {fileID: 4384735025375778772}
+  _baseUI: {fileID: 4912858456345129344}
   _statusPanel: {fileID: 9197481963319205126, guid: ca7b58e5b93bf804db4f3a75e2fdb6fa,
     type: 3}
   _statusIcon: {fileID: 21300000, guid: f709b482b17c9ae47a995abe6935bbe4, type: 3}
   Inventory: {fileID: 4147099259103858269}
-  _baseUI: {fileID: 1833514700831445252}
-  _settingsManager: {fileID: 1103783559816164516}
 --- !u!114 &4384735025375778772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2169,7 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 85d2a086b202e4e4b9a25041cee1acf1,
     type: 3}
-  m_SortingOrder: 5
+  m_SortingOrder: 10
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -3521,6 +3518,51 @@ MonoBehaviour:
   - {fileID: 5239029323427727088}
   - {fileID: 8440660046555777062}
   - {fileID: 971123840561501194}
+--- !u!1 &5440653730468879925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5329179188353976108}
+  - component: {fileID: 6738281922160528643}
+  m_Layer: 0
+  m_Name: ExtractionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5329179188353976108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440653730468879925}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2201670983639112127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6738281922160528643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440653730468879925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6781654bf4cc1c43a2583058f9d1ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _extractionGameLaserUI: {fileID: 3859694567574293626}
 --- !u!1 &6004820490429428785
 GameObject:
   m_ObjectHideFlags: 0
@@ -6167,7 +6209,7 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 5d524df30622f934f8f1e97b9d4c9c25,
     type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -6219,7 +6261,7 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 5f04e1fbc87341e49b7cf66ab95b9dc7,
     type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -8284,6 +8326,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3228615307695750578}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 97d6d41b45f890342aec25cb0ec39407,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5329179188353976108}
     - targetCorrespondingSourceObject: {fileID: -7379132907224104550, guid: 97d6d41b45f890342aec25cb0ec39407,
         type: 3}
       insertIndex: -1
@@ -8523,10 +8569,14 @@ MonoBehaviour:
   _inventoryButton: {fileID: 4147099259103858269}
   _resourceLibrary: {fileID: 0}
   _searchlightManager: {fileID: 3540159435050909924}
-  _playerUIController: {fileID: 6627865947692251608}
   _deathManager: {fileID: 840460790003754741}
   _defenseSprite: {fileID: 21300000, guid: cff7cbb2722e76f4791a9cfa6d7e65a5, type: 3}
   _damageSprite: {fileID: 21300000, guid: 6ab7e92af300a65458f29d24b7ee06df, type: 3}
+  _playerUIManager: {fileID: 6627865947692251608}
+  _baseUIManager: {fileID: 1833514700831445252}
+  _researchUIManager: {fileID: 4781007962631526995}
+  _extractionUIManager: {fileID: 6738281922160528643}
+  _settingsUIManager: {fileID: 1103783559816164516}
   PlayerCameraRotationObject: {fileID: 5054709227239046674}
   VacuumCleanerObject: {fileID: 2828789795947815599}
   _vacuumCleaner: {fileID: 1108298333170111055}

@@ -12,10 +12,16 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private SearchlightManager _searchlightManager;
-	[SerializeField] private PlayerUIManager _playerUIController;
 	[SerializeField] private DeathManager _deathManager;
 	[SerializeField] private Sprite _defenseSprite;
 	[SerializeField] private Sprite _damageSprite;
+
+	[Header("UI")]
+	[SerializeField] private PlayerUIManager _playerUIManager;
+	[SerializeField] private BaseUIManager _baseUIManager;
+	[SerializeField] private ResearchUIManager _researchUIManager;
+	[SerializeField] private ExtractionUIManager _extractionUIManager;
+	[SerializeField] private SettingsUIManager _settingsUIManager;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -61,7 +67,7 @@ public class ShipMovement : MonoBehaviour
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
-	public void Initializing(VisualElement damageEffect)
+	public void Initializing()
 	{
 		StartCoroutine(StartPause());
 
@@ -70,7 +76,7 @@ public class ShipMovement : MonoBehaviour
 		_searchlights.AddConfig(_searchlightConfig);
 		_searchlightsPower.AddConfig(_searchlightPowerConfig);
 
-		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager, damageEffect, _defenseSprite, _damageSprite);
+		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager, _playerUIManager.GetVisualElement("DamageEffect"), _defenseSprite, _damageSprite);
 		_defenseSystem.OnDeath += Death;
 
 		_fuel = new Fuel(_fuelConfig);
@@ -86,15 +92,15 @@ public class ShipMovement : MonoBehaviour
 
 		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(3, new StateMachineVoid(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, PlayerCameraRotationObject.transform));
+		StateMachineManager.AddState(0, new StateMachineIdle(0, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(3, new StateMachineVoid(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
+		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, _playerUIManager, PlayerCameraRotationObject.transform));
 		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
-		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform));
-		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager, transform));
-		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform));
+		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform, _researchUIManager));
+		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager, transform, _baseUIManager));
+		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform, _playerUIManager));
 
 		StateMachineManager.SetState(0);
 		StateMachineManager.Inventory = _inventoryButton;
@@ -120,7 +126,7 @@ public class ShipMovement : MonoBehaviour
 
 		//_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 
-		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _miningEquipment, _fuel, _playerUIController.GetMinigameLaser()));
+		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, _extractionUIManager, PlayerCameraRotationObject, _miningEquipment, _fuel, _extractionUIManager.GetMinigameLaser()));
 	}
 
 	public DefenseSystem GetPlayerDefenseSystem() => _defenseSystem;
@@ -176,7 +182,7 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.TargetShipPosition = ResourceSourcePosition + new Vector3(0, ResourceDistanceY, 0);
 			StateMachineManager.CurrentResourceSource = other.GetComponent<ResourceSource>();
 
-			_playerUIController.ShowHint();
+			_playerUIManager.ShowHint();
 		}
 
 		if (other.CompareTag("Base"))
@@ -195,7 +201,7 @@ public class ShipMovement : MonoBehaviour
 				IsFirstTimeBase = false;
 			}
 
-			_playerUIController.ShowHint();
+			_playerUIManager.ShowHint();
 		}
 
 		if (other.CompareTag("Research"))
@@ -206,7 +212,7 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.CurrentResearchShip = other.GetComponent<ResearchShip>();
 			StateMachineManager.TargetShipPosition = other.GetComponent<ResearchShip>().DockingPlace.transform.position;
 
-			_playerUIController.ShowHint();
+			_playerUIManager.ShowHint();
 
 			GameEvents.OnResearchNearBy?.Invoke(other.GetComponent<ResearchShip>());
 		}
@@ -225,7 +231,7 @@ public class ShipMovement : MonoBehaviour
 			ResourceSourcePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
 
-			_playerUIController.HideHint();
+			_playerUIManager.HideHint();
 		}
 
 		if (other.CompareTag("Base"))
@@ -240,7 +246,7 @@ public class ShipMovement : MonoBehaviour
 			//	IsFirstTimeBase = false;
 			//}
 
-			_playerUIController.HideHint();
+			_playerUIManager.HideHint();
 		}
 
 		if (other.CompareTag("Research"))
@@ -249,7 +255,7 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.CurrentResearchShip = null;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
 
-			_playerUIController.HideHint();
+			_playerUIManager.HideHint();
 		}
 	}
 
@@ -260,6 +266,8 @@ public class ShipMovement : MonoBehaviour
 		if (!IsGameStart || Time.timeScale == 0) return;
 
 		if (Keyboard.current.tKey.wasPressedThisFrame) OnOffSearchLights();
+
+		if (Keyboard.current.escapeKey.wasPressedThisFrame) _settingsUIManager.OpenUI();
 
 		StateMachineManager.Update();
 

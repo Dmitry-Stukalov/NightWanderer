@@ -5,23 +5,25 @@ public abstract class StateMachineState
 {
 	protected readonly StateMachineManager StateManager;
 	protected readonly Transform Ship;
+	protected UIManager _UIManager;
 	public readonly int ID;
 
-	public StateMachineState(int id, StateMachineManager stateManager, Transform ship)
+	public StateMachineState(int id, StateMachineManager stateManager, Transform ship, UIManager uiManager)
 	{
 		ID = id;
 		StateManager = stateManager;
 		Ship = ship;
+		_UIManager = uiManager;
 	}
 
 	public virtual void Enter()
 	{
-
+		
 	}
 
 	public virtual void Exit()
 	{
-
+		
 	}
 
 	public virtual void Update()

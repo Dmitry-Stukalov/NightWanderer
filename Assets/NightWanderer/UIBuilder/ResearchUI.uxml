@@ -1,6 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/NightWanderer/UIBuilder/PlayerUI.uss?fileID=7433441132597879392&amp;guid=87acf5a7fa867dd4a95df1b855a03afb&amp;type=3#PlayerUI" />
     <ui:VisualElement name="MainElement" style="flex-grow: 1;">
+        <ui:VisualElement name="ResearchOpenPanel" class="MainBackground BorderAll RoundingBorder GlowTaskPanel" style="flex-grow: 1; position: absolute; top: 12%; width: 25%; height: 3%; align-self: center; opacity: 0;">
+            <ui:Label text="Открыто улучшение ..." name="ResearchOpenText" class="StandartLabel" style="-unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
+        </ui:VisualElement>
         <ui:VisualElement name="ResearchShipBackground" class="MainBackground BorderAll RoundingBorderBig GlowResearchText" style="flex-grow: 1; position: absolute; width: 20%; height: 35%; visibility: visible; left: 8%; bottom: 30%; flex-wrap: nowrap; align-content: auto; justify-content: flex-start;">
             <ui:Label text="Корабль" name="ResearchShipName" class="StandartLabel" style="-unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
             <ui:VisualElement name="ResearchShipTextBackground" class="BorderTop" style="flex-grow: 1; justify-content: flex-end;">

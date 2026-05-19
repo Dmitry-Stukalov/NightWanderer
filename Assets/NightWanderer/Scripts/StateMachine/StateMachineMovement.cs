@@ -32,7 +32,7 @@ public class StateMachineMovement : StateMachineState
 	protected bool IsCleanerWorking;
 
 
-	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager, ship) 
+	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, UIManager uiManager, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager, ship, uiManager) 
 	{
 		PlayerCameraRotationObject = playerCameraRotationObject;
 
@@ -62,6 +62,8 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Enter()
 	{
+		_UIManager?.OpenUI();
+
 		RotationX = StateManager.RotationX;
 		RotationY = StateManager.RotationY;
 
@@ -79,6 +81,8 @@ public class StateMachineMovement : StateMachineState
 	public override void Update()
 	{
 		base.Update();
+
+		if (Keyboard.current.tabKey.wasPressedThisFrame) ((PlayerUIManager)_UIManager).OpenCloseInventory();
 
 		if (Ship.GetComponent<ShipMovement>().IsCanMiningResource && Keyboard.current.fKey.wasPressedThisFrame && ID != 3)
 		{

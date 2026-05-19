@@ -14,15 +14,17 @@ public class MainBootstrap : MonoBehaviour
 	[SerializeField] private PlayerInventoryBuilder _playerInventoryBuilder;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ImprovementManager _improvementManager;
-	[SerializeField] private PlayerUIManager _playerUIManager;
 	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private MissionsManager _missionsManager;
 	[SerializeField] private CraftManager _craftManager;
 	[SerializeField] private EffectsManager _effectsManager;
 	[SerializeField] private DialogueManager _dialogueManager;
 	[SerializeField] private StatisticsManager _statisticsManager;
-	[SerializeField] private ResearchManager _researchManager;
-	[SerializeField] private SettingsManager _settingsManager;
+	[SerializeField] private PlayerUIManager _playerUIManager;
+	[SerializeField] private BaseUIManager _baseUIManager;
+	[SerializeField] private ResearchUIManager _researchUIManager;
+	[SerializeField] private ExtractionUIManager _extractionUIManager;
+	[SerializeField] private SettingsUIManager _settingsUIManager;
 	[SerializeField] private ShipSoundsManager _shipSoundsManager;
 
 	[Header("Base")]
@@ -36,19 +38,29 @@ public class MainBootstrap : MonoBehaviour
 		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
 
 		_effectsManager?.Initializing();
-		_shipMovement?.Initializing(_playerUIManager.GetVisualElement("DamageEffect"));
-		_playerUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
+
 		_searchlightManager.Initializing();
 		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();
 		_inventoryButton?.Initializing();
 		_missionsManager?.Initializing();
 		_dialogueManager?.Initializing();
-		_statisticsManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense(), _shipMovement.GetPlayerEngines(), _playerInventoryBuilder.GetPlayerInventory(), _shipMovement.GetPlayerSearchlights());
-		_researchManager?.Initializing();
-		_settingsManager?.Initializing();
+		_settingsUIManager?.Initializing();
 
-		//StartCoroutine(StartPause());
+		StartCoroutine(StartPause());
+	}
+
+	private IEnumerator StartPause()
+	{
+		yield return new WaitForSeconds(1);
+
+		_shipMovement?.Initializing();
+		_playerUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
+		_baseUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
+		_statisticsManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense(), _shipMovement.GetPlayerEngines(), _playerInventoryBuilder.GetPlayerInventory(), _shipMovement.GetPlayerSearchlights());
+		_researchUIManager?.Initializing();
+		_extractionUIManager?.Initializing();
+		_settingsUIManager?.Initializing();
 	}
 
 	public void IntroductionSceneInitializing()
@@ -76,18 +88,4 @@ public class MainBootstrap : MonoBehaviour
 
 		if (scene.name == "OpenMapScene") OpenSceneInitializing();
 	}
-
-	/*private IEnumerator StartPause()
-	{
-		yield return new WaitForSeconds(1);
-
-		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
-		_improvementManager.AddImprovement(_shipMovement.GetPlayerFuel(), "Fuel");
-		_improvementManager.AddImprovement(_shipMovement.GetPlayerMiningEquipment(), "Mining");
-		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
-		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
-		_weatherPanel?.Initializing();
-
-		_dialogueManager.StartNewDialogue();
-	}*/
 }

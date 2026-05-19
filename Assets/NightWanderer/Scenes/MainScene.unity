@@ -168,15 +168,17 @@ MonoBehaviour:
   _playerInventoryBuilder: {fileID: 28553472}
   _inventoryButton: {fileID: 1898821382}
   _improvementManager: {fileID: 1364540229}
-  _playerUIController: {fileID: 1898821381}
   _searchlightManager: {fileID: 972801097}
   _missionsManager: {fileID: 516625982}
   _craftManager: {fileID: 737148684}
   _effectsManager: {fileID: 1761764659}
   _dialogueManager: {fileID: 1922147000}
   _statisticsManager: {fileID: 1885972745}
-  _researchManager: {fileID: 1885972746}
-  _settingsManager: {fileID: 1885972747}
+  _playerUIManager: {fileID: 1898821381}
+  _baseUIManager: {fileID: 1885972749}
+  _researchUIManager: {fileID: 1885972746}
+  _extractionUIManager: {fileID: 665310635}
+  _settingsUIManager: {fileID: 1885972747}
   _shipSoundsManager: {fileID: 1885972748}
   _baseInventory: {fileID: 1479734559}
 --- !u!1 &28553470 stripped
@@ -219,6 +221,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af23a2f49ed7cba4885401d5a1e1fa2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &665310635 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6738281922160528643, guid: f662a68aa77402e4fb7d7055739c2197,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885972744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6781654bf4cc1c43a2583058f9d1ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &737148684 stripped
@@ -495,6 +509,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfafe2c963366ba4fa049d9419865ba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1885972749 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1833514700831445252, guid: f662a68aa77402e4fb7d7055739c2197,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885972744}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d47d9d7f8a9ce14999f8f627766b858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1898821381 stripped

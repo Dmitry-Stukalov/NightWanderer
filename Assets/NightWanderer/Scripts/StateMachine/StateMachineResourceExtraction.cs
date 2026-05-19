@@ -4,14 +4,12 @@ using UnityEngine.InputSystem;
 
 public class StateMachineResourceExtraction : StateMachineState
 {
-	//protected Transform Ship;
 	protected GameObject PlayerCameraRotationObject;
 	protected MiningEquipment _mining;
 	protected Fuel _fuel;
 
-	public StateMachineResourceExtraction(int id, StateMachineManager manager, Transform ship, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel) : base(id, manager, ship)
+	public StateMachineResourceExtraction(int id, StateMachineManager manager, Transform ship, UIManager uiManager, GameObject playerCameraRotationObject, MiningEquipment mining, Fuel fuel) : base(id, manager, ship, uiManager)
 	{
-		//Ship = ship;
 		PlayerCameraRotationObject = playerCameraRotationObject;
 		_mining = mining;
 		_fuel = fuel;
@@ -19,13 +17,13 @@ public class StateMachineResourceExtraction : StateMachineState
 
 	public override void Enter()
 	{
-		Debug.Log("ResourceExtraction");
-
+		_UIManager.OpenUI();
 		StateManager._Animator.SetBool("IsIdle", true);
 	}
 
 	public override void Exit()
 	{
+		_UIManager.CloseUI();
 		StateManager._Animator.SetBool("IsIdle", false);
 	}
 

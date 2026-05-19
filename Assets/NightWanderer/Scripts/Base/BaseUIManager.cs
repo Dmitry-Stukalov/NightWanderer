@@ -5,96 +5,103 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 //UI на базе (новый)
-public class BaseUIManager : MonoBehaviour
+public class BaseUIManager : UIManager
 {
-	[SerializeField] private UIDocument baseUI;
+	[SerializeField] private UIDocument _baseUI;
 	[SerializeField] private BaseInventory _baseInventory;
 
-	private VisualElement mainBackground;
+	private VisualElement _mainElement;
+	private VisualElement _mainBackground;
+	private VisualElement _storageBackground;
+	private VisualElement _craftBackground;
+	private VisualElement _upgradesBackground;
+	private VisualElement _blackBackground;
 
-	private VisualElement storageBackground;
-	private VisualElement craftBackground;
-	private VisualElement upgradesBackground;
-	private VisualElement blackBackground;
-
-	private Button storageButton;
-	private Button craftButton;
-	private Button upgradesButton;
+	private Button _storageButton;
+	private Button _craftButton;
+	private Button _upgradesButton;
 
 	public bool OnBase { get; set; } = false;
 	private bool IsFirstTime = true;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
-		mainBackground = baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
+		_mainElement = _baseUI.rootVisualElement.Q<VisualElement>("MainElement");
+		_mainBackground = _baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
-		blackBackground = baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
+		_blackBackground = _baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
 		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
 
-		var fuelItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FuelBackground");
-		fuelItemBackground.dataSource = new FuelRecovery(fuel, baseUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
+		var fuelItemBackground = _baseUI.rootVisualElement.Q<VisualElement>("FuelBackground");
+		fuelItemBackground.dataSource = new FuelRecovery(fuel, _baseUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
 
-		var healthItemBackground = baseUI.rootVisualElement.Q<VisualElement>("HealthBackground");
-		healthItemBackground.dataSource = new HealthFireDefenseRecovery(health, baseUI.rootVisualElement.Q<VisualElement>("HealthForeground"));
+		var healthItemBackground = _baseUI.rootVisualElement.Q<VisualElement>("HealthBackground");
+		healthItemBackground.dataSource = new HealthFireDefenseRecovery(health, _baseUI.rootVisualElement.Q<VisualElement>("HealthForeground"));
 
-		var defenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("DefenseBackground");
-		defenseItemBackground.dataSource = new HealthFireDefenseRecovery(defense, baseUI.rootVisualElement.Q<VisualElement>("DefenseForeground"));
+		var defenseItemBackground = _baseUI.rootVisualElement.Q<VisualElement>("DefenseBackground");
+		defenseItemBackground.dataSource = new HealthFireDefenseRecovery(defense, _baseUI.rootVisualElement.Q<VisualElement>("DefenseForeground"));
 
-		var fireDefenseItemBackground = baseUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
-		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, baseUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
+		var fireDefenseItemBackground = _baseUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
+		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, _baseUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
 
-		storageBackground = baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
-		craftBackground = baseUI.rootVisualElement.Q<VisualElement>("CraftBackground");
-		upgradesBackground = baseUI.rootVisualElement.Q<VisualElement>("UpgradesBackground");
+		_storageBackground = _baseUI.rootVisualElement.Q<VisualElement>("StorageBackground");
+		_craftBackground = _baseUI.rootVisualElement.Q<VisualElement>("CraftBackground");
+		_upgradesBackground = _baseUI.rootVisualElement.Q<VisualElement>("UpgradesBackground");
 
-		storageButton = baseUI.rootVisualElement.Q<Button>("StorageButton");
-		craftButton = baseUI.rootVisualElement.Q<Button>("CraftButton");
-		upgradesButton = baseUI.rootVisualElement.Q<Button>("UpgradesButton");
+		_storageButton = _baseUI.rootVisualElement.Q<Button>("StorageButton");
+		_craftButton = _baseUI.rootVisualElement.Q<Button>("CraftButton");
+		_upgradesButton = _baseUI.rootVisualElement.Q<Button>("UpgradesButton");
 
-		storageButton.RegisterCallback<ClickEvent>(StorageButtonClick);
-		craftButton.RegisterCallback<ClickEvent>(CraftButtonClick);
-		upgradesButton.RegisterCallback<ClickEvent>(UpgradesButtonClick);
+		_storageButton.RegisterCallback<ClickEvent>(StorageButtonClick);
+		_craftButton.RegisterCallback<ClickEvent>(CraftButtonClick);
+		_upgradesButton.RegisterCallback<ClickEvent>(UpgradesButtonClick);
 
-		craftBackground.style.display = DisplayStyle.None;
-		upgradesBackground.style.display = DisplayStyle.None;
-		mainBackground.style.display = DisplayStyle.None;
+		_craftBackground.style.display = DisplayStyle.None;
+		_upgradesBackground.style.display = DisplayStyle.None;
+		_storageBackground.style.display = DisplayStyle.None;
+
+		_mainElement.style.display = DisplayStyle.None;
 	}
 
 	private IEnumerator OnBasePause()
 	{
-		baseUI.sortingOrder = -5;
+		//_baseUI.sortingOrder = -5;
 
 		//yield return new WaitForSeconds(74);
 		yield return new WaitForSeconds(4);
 
-		baseUI.sortingOrder = 10;
+		//_baseUI.sortingOrder = 10;
 	}
 
 	//Включает отображение UI на базе и выдвигает его вперед
-	public void OpenBaseUI()
+	public override void OpenUI()
 	{
-		if (IsFirstTime) IsFirstTime = false;
-		else baseUI.sortingOrder = 10;
+		_mainElement.style.display = DisplayStyle.Flex;
 
-		mainBackground.style.display = DisplayStyle.Flex;
+		if (IsFirstTime) IsFirstTime = false;
+		//else baseUI.sortingOrder = 10;
+
+		//_mainBackground.style.display = DisplayStyle.Flex;
 
 		UnityEngine.Cursor.visible = true;
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 
-		OnBase = true;
+		//OnBase = true;
 	}
 
 	//Выключает отображение UI на базе и задвигает его назад
-	public void CloseBaseUI()
+	public override void CloseUI()
 	{
-		baseUI.sortingOrder = -5;
+		_mainElement.style.display = DisplayStyle.None;
 
-		mainBackground.style.display = DisplayStyle.None;
+		//_baseUI.sortingOrder = -5;
+
+		//_mainBackground.style.display = DisplayStyle.None;
 
 		UnityEngine.Cursor.visible = false;
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
-		OnBase = false;
+		//OnBase = false;
 	}
 
 	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("storage");
@@ -109,21 +116,21 @@ public class BaseUIManager : MonoBehaviour
 		switch(name)
 		{
 			case "storage":
-				storageBackground.style.display = DisplayStyle.Flex;
-				craftBackground.style.display = DisplayStyle.None;
-				upgradesBackground.style.display = DisplayStyle.None;
+				_storageBackground.style.display = DisplayStyle.Flex;
+				_craftBackground.style.display = DisplayStyle.None;
+				_upgradesBackground.style.display = DisplayStyle.None;
 			break;
 
 			case "craft":
-				storageBackground.style.display = DisplayStyle.None;
-				craftBackground.style.display = DisplayStyle.Flex;
-				upgradesBackground.style.display = DisplayStyle.None;
+				_storageBackground.style.display = DisplayStyle.None;
+				_craftBackground.style.display = DisplayStyle.Flex;
+				_upgradesBackground.style.display = DisplayStyle.None;
 			break;
 
 			case "upgrades":
-				storageBackground.style.display = DisplayStyle.None;
-				craftBackground.style.display = DisplayStyle.None;
-				upgradesBackground.style.display = DisplayStyle.Flex;
+				_storageBackground.style.display = DisplayStyle.None;
+				_craftBackground.style.display = DisplayStyle.None;
+				_upgradesBackground.style.display = DisplayStyle.Flex;
 			break;
 		}
 	}

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StateMachineDeath : StateMachineState
 {
-	public StateMachineDeath(int id, StateMachineManager manager, Transform ship): base(id, manager, ship)
+	public StateMachineDeath(int id, StateMachineManager manager, Transform ship, UIManager uiManager) : base(id, manager, ship, uiManager)
 	{
 
 	}
