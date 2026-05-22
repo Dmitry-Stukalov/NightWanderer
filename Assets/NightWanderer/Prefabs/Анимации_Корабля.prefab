@@ -8625,7 +8625,7 @@ MonoBehaviour:
     type: 3}
   InventoryElementName: Inventory
   InventoryElementName2: PlayerInventory
-  InventoryCellCount: 20
+  InventoryCellCount: 32
 --- !u!54 &7092620422862224346
 Rigidbody:
   m_ObjectHideFlags: 0

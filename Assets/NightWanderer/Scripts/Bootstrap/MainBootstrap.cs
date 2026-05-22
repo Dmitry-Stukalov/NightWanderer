@@ -40,9 +40,7 @@ public class MainBootstrap : MonoBehaviour
 		_effectsManager?.Initializing();
 
 		_searchlightManager.Initializing();
-		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();
-		_inventoryButton?.Initializing();
 		_missionsManager?.Initializing();
 		_dialogueManager?.Initializing();
 		_settingsUIManager?.Initializing();
@@ -52,8 +50,10 @@ public class MainBootstrap : MonoBehaviour
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(3);
 
+		_playerInventoryBuilder?.Initializing();
+		_inventoryButton?.Initializing();
 		_shipMovement?.Initializing();
 		_playerUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_baseUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());

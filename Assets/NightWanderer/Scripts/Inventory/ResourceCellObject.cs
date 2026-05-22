@@ -2,21 +2,36 @@ using System;
 using UnityEngine.UIElements;
 using System.ComponentModel;
 using Unity.Properties;
+using UnityEngine;
 
 //Хранит информацию о ресурсе в ячейке + отвечает за перетаскивание этого ресурса в пределах инвентаря
 public class ResourceCellObject
 {
-	public event Action OnUpdate;
-
 	[CreateProperty]
 	public ResourceBase _resource { get; private set; }
+	private ResourceGiver _resourceGiver;
+	//private PlayerInventoryBuilder _inventoryBuilder;
+	//private Timer _eaterPauseTimer;
+	//private int _index;
+	//private int _currentXPosition;
+	//private int _currentYPosition;
 
 
-	public ResourceCellObject()
+	public event Action OnUpdate;
+
+	public ResourceCellObject(/*PlayerInventoryBuilder inventoryBuilder, int index*/)
 	{
 		_resource = new ResourceBase();
 
 		_resource.CurrentCount = 0;
+
+		//_eaterPauseTimer = new Timer(3);
+		//_eaterPauseTimer.OnTimerEnd += EatResource;
+		//_eaterPauseTimer.SetPause();
+
+		//_inventoryBuilder = inventoryBuilder;
+		//_index = index;
+
 		OnPropertyChanged(nameof(Resource.CurrentCount));
 		OnPropertyChanged(nameof(Resource.View));
 		OnPropertyChanged(nameof(IsVisible));
@@ -36,6 +51,7 @@ public class ResourceCellObject
 			_resource.CurrentCount = resource.CurrentCount;
 			_resource.MaxCount = resource.MaxCount;
 			resource.CurrentCount = 0;
+
 		}
 		else
 		{
@@ -88,6 +104,22 @@ public class ResourceCellObject
 		}
 	}
 
+	//private void EatResource()
+	//{
+	//	int resourceIndex = _inventoryBuilder.GetResourceNearbyIndex(_index);
+
+	//	if (resourceIndex == _index - 1 || resourceIndex == _index + 1 || resourceIndex == _index - 8 || resourceIndex == _index + 8)
+	//	{
+	//		_inventoryBuilder.EatResource(resourceIndex);
+	//	}
+	//	else
+	//	{
+	//		switch (resourceIndex)
+	//		{
+	//			case resourceIndex - index
+	//		}
+	//	}
+	//}
 
 	public void ResetResource() => _resource.ResetValue();
 

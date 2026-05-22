@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -20,6 +21,9 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	private VisualElement Inventory2;
 	private Inventory _PlayerInventory;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
+	private ResourceCellObject[] _inventoryCellsResources;
+	private CellObject[] _inventoryCells;
+	private int _inventoryCellSize;
 	private bool IsProcessing = false;
 
 	public void Initializing()
@@ -29,21 +33,50 @@ public class PlayerInventoryBuilder : MonoBehaviour
 
 		_PlayerInventory = new Inventory(InventoryCellCount + 1);
 
+		_inventoryCellsResources = new ResourceCellObject[InventoryCellCount];
+		_inventoryCells = new CellObject[InventoryCellCount];
+
+		_inventoryCellSize = (int)(Inventory.layout.width / 8);
+
 		for (int i = 0; i < InventoryCellCount + 1; i++)
 		{
-			var newCell = InventoryCell.Instantiate();
-			var newCell2 = InventoryCell.Instantiate();
+			//var newCell = InventoryCell.Instantiate();
+			//var newCell2 = InventoryCell.Instantiate();
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
+			//newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
+			//newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
+
+			//newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			//newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
+
+			//newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
+			//newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
+			//newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			//newCell2.hierarchy.ElementAt(0).AddToClassList("BorderCell");
+
+			var newCell = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+			var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+			newCell.style.width = _inventoryCellSize;
+			newCell.style.flexBasis = _inventoryCellSize;
+			newCell.style.height = _inventoryCellSize;
+
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(/*this, i*/);
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 
-			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
-			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
+			newCell.dataSource = new CellObject(false);
+			newCell.AddToClassList("BorderCell");
+
+			if (i < InventoryCellCount)
+			{
+				_inventoryCellsResources[i] = (ResourceCellObject)(newCell.Q<VisualElement>("CellResource").dataSource);
+				_inventoryCells[i] = (CellObject)newCell.dataSource;
+			}
 
 			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
 			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
-			newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
-			newCell2.hierarchy.ElementAt(0).AddToClassList("BorderCell");
+			newCell2.dataSource = new CellObject(false);
+			newCell2.AddToClassList("BorderCell");
 
 			Inventory.Add(newCell);
 			Inventory2.Add(newCell2);
@@ -92,6 +125,35 @@ public class PlayerInventoryBuilder : MonoBehaviour
 
 		IsProcessing = false;
 	}
+
+	public int GetResourceNearbyIndex(int index)
+	{
+		int minDistance = 100;
+		int lastIndex = 100;
+
+		for (int i = 0; i < InventoryCellCount; i++)
+		{
+			if (_PlayerInventory.GetResourceData(i).GetId() != -1 && _PlayerInventory.GetResourceData(i).GetId() != _PlayerInventory.GetResourceData(index).GetId() && !_inventoryCells[i].IsProtectedCell)
+			{
+				if (minDistance > Mathf.Abs(i - index))
+				{
+					minDistance = Mathf.Abs(i - index);
+					lastIndex = i;
+				}
+			}
+		}
+
+		return lastIndex;
+	}
+
+	public void EatResource(int index)
+	{
+		ResourceBase resource = new ResourceBase(_PlayerInventory.GetResourceData(index).GetResource().View, _PlayerInventory.GetResourceData(index).GetResource().Name, _PlayerInventory.GetResourceData(index).GetResource().ID, _PlayerInventory.GetResourceData(index).GetResource().MaxCount, 5);
+
+		_PlayerInventory.GetResourceData(index).DeleteResource(resource);
+	}
+
+	public ResourceBase GetResourceBase(int index) => _inventoryCellsResources[index].GetResource();
 
 	public Inventory GetPlayerInventory() => _PlayerInventory;
 }

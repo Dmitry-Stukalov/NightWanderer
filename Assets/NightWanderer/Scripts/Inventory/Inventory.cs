@@ -66,6 +66,14 @@ public class Inventory
 		j = -1;
 	}
 
+	public void AddResource(ResourceBase resource, int index)
+	{
+        if (_Inventory[index].GetId() == -1 || _Inventory[index].GetId() == resource.ID)
+        {
+			_Inventory[index].AddResource(resource);
+        }
+    }
+
 	public void DeleteResource(int index, ResourceBase resource)
 	{
 		if (_Inventory[index].GetId() != resource.ID) return;
