@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - MaxHealth: 5
-    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3731b36f4e27534f81442cd3ffd5972,
       type: 3}
     <CurrentLevel>k__BackingField: 1
     <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u04301"
@@ -23,7 +23,7 @@ MonoBehaviour:
     <Resource>k__BackingField: 0300000006000000
     <Count>k__BackingField: 3200000032000000
   - MaxHealth: 10
-    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3731b36f4e27534f81442cd3ffd5972,
       type: 3}
     <CurrentLevel>k__BackingField: 2
     <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u04302"
@@ -32,7 +32,7 @@ MonoBehaviour:
     <Resource>k__BackingField: 0300000006000000
     <Count>k__BackingField: 4b0000004b000000
   - MaxHealth: 15
-    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3731b36f4e27534f81442cd3ffd5972,
       type: 3}
     <CurrentLevel>k__BackingField: 3
     <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u04303"
@@ -41,7 +41,7 @@ MonoBehaviour:
     <Resource>k__BackingField: 0300000006000000
     <Count>k__BackingField: 6400000064000000
   - MaxHealth: 25
-    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3731b36f4e27534f81442cd3ffd5972,
       type: 3}
     <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: "\u0417\u0430\u0449\u0438\u0442\u04304"
@@ -50,7 +50,7 @@ MonoBehaviour:
     <Resource>k__BackingField: 0300000006000000
     <Count>k__BackingField: 7d0000007d000000
   - MaxHealth: 40
-    <Icon>k__BackingField: {fileID: 21300000, guid: b864e542727dd6c4a8da39d7c67a5734,
+    <Icon>k__BackingField: {fileID: 21300000, guid: c3731b36f4e27534f81442cd3ffd5972,
       type: 3}
     <CurrentLevel>k__BackingField: 5
     <Name>k__BackingField: "\u042D\u0442\u043E\u0433\u043E \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F

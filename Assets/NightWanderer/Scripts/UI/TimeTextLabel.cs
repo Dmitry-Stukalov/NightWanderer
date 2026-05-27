@@ -37,9 +37,5 @@ public class TimeTextLabel
 			newTime = Mathf.FloorToInt(newTime);
 			return $"0{newTime}";
 		}
-
-		//if (newTime == 0) return "00";
-		//else if (newTime > 0 && time < 10) return $"0{newTime}";
-		//else return newTime.ToString();
 	}
 }

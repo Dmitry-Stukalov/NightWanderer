@@ -114,7 +114,7 @@ public class ImprovementManager : MonoBehaviour
 	{
 		yield return new WaitForSeconds(3);
 
-		var newItem = _upgradePanel.Instantiate();
+		var newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 
 		foreach (var key in _improvements.Keys)
 		{
@@ -122,7 +122,7 @@ public class ImprovementManager : MonoBehaviour
 			{
 				case "Fuel":
 
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
@@ -130,14 +130,14 @@ public class ImprovementManager : MonoBehaviour
 
 				case "Mining":
 
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementMiningConfig, ImprovementMiningData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 				break;
 
 				case "Health" or "Defense" or "FireDefense":
 
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
@@ -145,7 +145,7 @@ public class ImprovementManager : MonoBehaviour
 
 				case "Engines":
 
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
@@ -153,14 +153,14 @@ public class ImprovementManager : MonoBehaviour
 
 				case "Searchlight":
 
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 
 				break;
 
 				case "SearchlightPower":
-					newItem = _upgradePanel.Instantiate();
+					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementSearchlightPowerConfig, ImprovementSearchlightPowerData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
 					break;

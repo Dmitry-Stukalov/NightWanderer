@@ -16,7 +16,8 @@ MonoBehaviour:
   - <SearchlightSpotAngle>k__BackingField: 75
     <SearchlightRange>k__BackingField: 30
     <SearchlightPower>k__BackingField: 5000
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 42787ef13312fdc4185e4dfac184a6ad,
+      type: 3}
     <CurrentLevel>k__BackingField: 1
     <Name>k__BackingField: "\u041C\u043E\u0449\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0436\u0435\u043A\u0442\u043E\u0440\u043E\u0432
       1"
@@ -28,7 +29,8 @@ MonoBehaviour:
   - <SearchlightSpotAngle>k__BackingField: 80
     <SearchlightRange>k__BackingField: 40
     <SearchlightPower>k__BackingField: 6000
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 42787ef13312fdc4185e4dfac184a6ad,
+      type: 3}
     <CurrentLevel>k__BackingField: 2
     <Name>k__BackingField: "\u041C\u043E\u0449\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0436\u0435\u043A\u0442\u043E\u0440\u043E\u0432
       2"
@@ -40,7 +42,8 @@ MonoBehaviour:
   - <SearchlightSpotAngle>k__BackingField: 85
     <SearchlightRange>k__BackingField: 50
     <SearchlightPower>k__BackingField: 7500
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 42787ef13312fdc4185e4dfac184a6ad,
+      type: 3}
     <CurrentLevel>k__BackingField: 3
     <Name>k__BackingField: "\u041C\u043E\u0449\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0436\u0435\u043A\u0442\u043E\u0440\u043E\u0432
       3"
@@ -52,7 +55,8 @@ MonoBehaviour:
   - <SearchlightSpotAngle>k__BackingField: 90
     <SearchlightRange>k__BackingField: 60
     <SearchlightPower>k__BackingField: 9000
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 42787ef13312fdc4185e4dfac184a6ad,
+      type: 3}
     <CurrentLevel>k__BackingField: 4
     <Name>k__BackingField: "\u041C\u043E\u0449\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u043E\u0436\u0435\u043A\u0442\u043E\u0440\u043E\u0432
       4"
@@ -64,7 +68,8 @@ MonoBehaviour:
   - <SearchlightSpotAngle>k__BackingField: 100
     <SearchlightRange>k__BackingField: 70
     <SearchlightPower>k__BackingField: 12000
-    <Icon>k__BackingField: {fileID: 0}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 42787ef13312fdc4185e4dfac184a6ad,
+      type: 3}
     <CurrentLevel>k__BackingField: 3
     <Name>k__BackingField: "\u042D\u0442\u043E\u0433\u043E \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u044F
       \u043D\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442"

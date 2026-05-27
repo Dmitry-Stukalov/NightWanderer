@@ -10,27 +10,15 @@ public class ResourceCellObject
 	[CreateProperty]
 	public ResourceBase _resource { get; private set; }
 	private ResourceGiver _resourceGiver;
-	//private PlayerInventoryBuilder _inventoryBuilder;
-	//private Timer _eaterPauseTimer;
-	//private int _index;
-	//private int _currentXPosition;
-	//private int _currentYPosition;
 
 
 	public event Action OnUpdate;
 
-	public ResourceCellObject(/*PlayerInventoryBuilder inventoryBuilder, int index*/)
+	public ResourceCellObject()
 	{
 		_resource = new ResourceBase();
 
 		_resource.CurrentCount = 0;
-
-		//_eaterPauseTimer = new Timer(3);
-		//_eaterPauseTimer.OnTimerEnd += EatResource;
-		//_eaterPauseTimer.SetPause();
-
-		//_inventoryBuilder = inventoryBuilder;
-		//_index = index;
 
 		OnPropertyChanged(nameof(Resource.CurrentCount));
 		OnPropertyChanged(nameof(Resource.View));
@@ -103,23 +91,6 @@ public class ResourceCellObject
 			return _resource.CurrentCount;
 		}
 	}
-
-	//private void EatResource()
-	//{
-	//	int resourceIndex = _inventoryBuilder.GetResourceNearbyIndex(_index);
-
-	//	if (resourceIndex == _index - 1 || resourceIndex == _index + 1 || resourceIndex == _index - 8 || resourceIndex == _index + 8)
-	//	{
-	//		_inventoryBuilder.EatResource(resourceIndex);
-	//	}
-	//	else
-	//	{
-	//		switch (resourceIndex)
-	//		{
-	//			case resourceIndex - index
-	//		}
-	//	}
-	//}
 
 	public void ResetResource() => _resource.ResetValue();
 

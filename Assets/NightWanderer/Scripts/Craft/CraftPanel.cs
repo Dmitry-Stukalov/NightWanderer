@@ -41,8 +41,8 @@ public class CraftPanel
 
 		for (int i = 0; i < _resourceCraftData.ResourcesIDToCraft.Count; i++)
 		{
-			var newResourceGroup = _needResourceGroup.Instantiate();
-			newResourceGroup.Q<Label>("NeedResourceCount").text = $" X{_resourceCraftData.ResourcesCountToCraft[i]}";
+			var newResourceGroup = _needResourceGroup.Instantiate().hierarchy.ElementAt(0);
+			newResourceGroup.Q<Label>("NeedResourceCount").text = $"{_resourceCraftData.ResourcesCountToCraft[i]}";
 			newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground(_craftManager.GetResourceSprite(_resourceCraftData.ResourcesIDToCraft[i]));
 			_needResourceGroupPlace.Add(newResourceGroup);
 		}

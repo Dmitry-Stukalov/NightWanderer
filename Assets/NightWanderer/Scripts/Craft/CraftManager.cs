@@ -33,7 +33,7 @@ public class CraftManager : MonoBehaviour
 
 		for (int i = 0; i < _craftConfig.CraftResources.Count; i++)
 		{
-			var newPanel = _craftPanel.Instantiate();
+			var newPanel = _craftPanel.Instantiate().hierarchy.ElementAt(0);
 			newPanel.dataSource = new CraftPanel(this, newPanel, _needResourcesGroup, _inventoryCell, _craftConfig.CraftResources[i], i);
 
 			newPanel.style.display = DisplayStyle.None;
