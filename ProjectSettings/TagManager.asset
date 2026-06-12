@@ -12,6 +12,7 @@ TagManager:
   - Sand
   - ResourceLibrary
   - Research
+  - Block
   layers:
   - Default
   - TransparentFX
