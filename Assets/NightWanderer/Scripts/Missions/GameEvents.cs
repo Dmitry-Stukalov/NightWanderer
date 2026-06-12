@@ -56,6 +56,9 @@ public static class GameEvents
 	public static Action OnDayStart;
 	public static Action OnNightStart;
 
+	public static Action OnMapFogOn;
+	public static Action OnMapFogOff;
+
 	//Sounds
 	public static Action OnMainMenuOut;
 	public static Action OnMainMenuIn;

@@ -74,7 +74,9 @@ public class PlayerUIManager : UIManager
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(1f);
+		//yield return new WaitForSeconds(58f);
+
+		yield return new WaitForSeconds(2f);
 
 		StartGame();
 	}

@@ -64,6 +64,7 @@ public class ShipMovement : MonoBehaviour
 	private bool IsDead = false;
 	private bool IsGameStart = false;
 	private bool IsFirstTimeBase = true;
+	private bool IsMapFogOn = false;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -270,6 +271,19 @@ public class ShipMovement : MonoBehaviour
 		if (Keyboard.current.escapeKey.wasPressedThisFrame) _settingsUIManager.OpenUI();
 
 		StateMachineManager.Update();
+
+		if (transform.position.y >= 40 && !IsMapFogOn)
+		{
+			IsMapFogOn = true;
+
+			GameEvents.OnMapFogOn?.Invoke();
+		}
+		if (transform.position.y < 40 && IsMapFogOn)
+		{
+			IsMapFogOn = false;
+
+			GameEvents.OnMapFogOff?.Invoke();
+		}
 
 		if (StateMachineManager.GetCurrentState() == 1 || StateMachineManager.GetCurrentState() == 2) _searchlightManager.StartMove();
 		if (StateMachineManager.GetCurrentState() == 0 || StateMachineManager.GetCurrentState() == 3) _searchlightManager.StartSearch();

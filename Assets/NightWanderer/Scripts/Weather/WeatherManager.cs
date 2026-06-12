@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -13,8 +14,9 @@ public class WeatherManager : MonoBehaviour
 	[SerializeField] private VisualEffect _sandstorm;
 	[SerializeField] private float _rainSpawnRate;
 	[SerializeField] private float _sandstormSpawnRate;
-	[SerializeField] private LocalVolumetricFog _fog;
 	[SerializeField] private float _sandstormDamage;
+	private Volume _volume;
+	private LocalVolumetricFog _fog;
 	private Timer _randomWeatherPauseTimer;
 	private Timer _randomWeatherTimer;
 	private Timer _playerGetDamageTimer;
@@ -30,6 +32,7 @@ public class WeatherManager : MonoBehaviour
 	public void Initializing()
 	{
 		_fog = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<LocalVolumetricFog>();
+		_volume = FindAnyObjectByType<Volume>();
 
 		_randomWeatherPauseTimer = new Timer(UnityEngine.Random.Range(300, 800));
 		_randomWeatherPauseTimer.OnTimerEnd += StartWeather;
@@ -49,8 +52,12 @@ public class WeatherManager : MonoBehaviour
 		_rainCurrentSpawnRate = 0;
 		_sandstormCurrentSpawnRate = 0;
 
+		MapFogOff();
+
 		GameEvents.OnInBase += HideParticles;
 		GameEvents.OnOutBase += ShowParticles;
+		GameEvents.OnMapFogOn += MapFogOn;
+		GameEvents.OnMapFogOff += MapFogOff;
 	}
 
 	private void StartWeather()
@@ -141,7 +148,65 @@ public class WeatherManager : MonoBehaviour
 
 		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 0f, 3f).SetEase(Ease.Linear);
 
+		MapFogOff();
+
 		OnWeatherChange?.Invoke();
+	}
+
+	private void MapFogOn()
+	{
+		if (_Sun.IsDayNow()) return;
+
+		//_fog.enabled = false;
+
+		DOTween.Kill(_fog);
+
+		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 0f, 0.5f).SetEase(Ease.Linear)
+			.OnComplete(() =>
+			{
+				if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
+				{
+					fogComponent.enableVolumetricFog.value = false;
+				}
+			});
+
+		if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
+		{
+			fogComponent.meanFreePath.overrideState = true;
+			fogComponent.baseHeight.overrideState = true;
+			fogComponent.maximumHeight.overrideState = true;
+			//fogComponent.meanFreePath.value = 30;
+		}
+	}
+
+	private void MapFogOff()
+	{
+		//_fog.enabled = true;
+
+		if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
+		{
+			fogComponent.enableVolumetricFog.value = true;
+		}
+
+		DOTween.Kill(_fog);
+
+		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 100f, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+			{
+				if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
+				{
+					fogComponent.meanFreePath.overrideState = false;
+					fogComponent.baseHeight.overrideState = false;
+					fogComponent.maximumHeight.overrideState = false;
+					//fogComponent.meanFreePath.value = 0;
+				}
+		});
+
+		//if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
+		//{
+		//	fogComponent.meanFreePath.overrideState = false;
+		//	fogComponent.baseHeight.overrideState = false;
+		//	//fogComponent.meanFreePath.value = 0;
+		//}
 	}
 
 	public string GetActiveWeather()
@@ -204,5 +269,7 @@ public class WeatherManager : MonoBehaviour
 	{
 		GameEvents.OnInBase -= HideParticles;
 		GameEvents.OnOutBase -= ShowParticles;
+		GameEvents.OnMapFogOn -= MapFogOn;
+		GameEvents.OnMapFogOff -= MapFogOff;
 	}
 }
