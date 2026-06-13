@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8710573240005325116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6985671184146331131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4770256499535535971}
+  m_Layer: 0
+  m_Name: ExtractionZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4770256499535535971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985671184146331131}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8710573240005325116}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &9180751991598946007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -471,6 +502,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1008082367067059064}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3998af06005fe674fa3f87835a9c49c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4770256499535535971}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3998af06005fe674fa3f87835a9c49c7,
         type: 3}
@@ -506,6 +541,7 @@ MonoBehaviour:
   <ExtractionID>k__BackingField: 11
   _resourceID: 6
   SpawnResourceZone: {fileID: 3955578677133003299}
+  _extractionPlace: {fileID: 0}
   _resourceCountMin: 8
   _resourceCountMax: 10
   MinResourceCapacity: 8

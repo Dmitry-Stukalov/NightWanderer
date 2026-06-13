@@ -4,11 +4,11 @@ using UnityEngine.VFX;
 
 public class KnockedDownResource : MonoBehaviour
 {
-	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private VisualEffect _knockedDownEffect;
 	[SerializeField] private int _resourceID;
 	[SerializeField] private int _minResourceCapacity;
 	[SerializeField] private int _maxResourceCapacity;
+	private ResourceLibrary _resourceLibrary;
 
 	private void Start()
 	{

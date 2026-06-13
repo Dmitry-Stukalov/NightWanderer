@@ -8,7 +8,8 @@ public class ResourceSource : MonoBehaviour
 	[field: SerializeField] public int ExtractionID { get; private set; }
 	[SerializeField] private int _resourceID;
 	[SerializeField] private GameObject SpawnResourceZone;
- 	[SerializeField] private int _resourceCountMin;
+	[SerializeField] private Transform _extractionPlace;
+	[SerializeField] private int _resourceCountMin;
 	[SerializeField] private int _resourceCountMax;
 	[SerializeField] private int MinResourceCapacity;
 	[SerializeField] private int MaxResourceCapacity;
@@ -31,6 +32,8 @@ public class ResourceSource : MonoBehaviour
 
 		foreach (Transform crystal in transform) _crystals.Add(crystal.gameObject);
 
+		//_extractionPlace = _crystals[_crystals.Count - 1].transform;
+		_crystals.RemoveAt(_crystals.Count - 1);
 		_crystals.RemoveAt(_crystals.Count - 1);
 
 		if (ISRemoveFirst) _crystals.RemoveAt(0);
@@ -42,7 +45,7 @@ public class ResourceSource : MonoBehaviour
 
 		//_oreMaterial.RemoveAt(_oreMaterial.Count - 1);
 
-		if (ISRemoveFirst) _oreMaterial.RemoveAt(0);
+		/*if (ISRemoveFirst)*/ _oreMaterial.RemoveAt(0);
 
 		_sun = FindAnyObjectByType<Sun>();
 		_sun.OnDayStart += () =>
@@ -75,9 +78,17 @@ public class ResourceSource : MonoBehaviour
 
 	private void HideCrystals()
 	{
-		for (int i = 0; i < _crystals.Count - math.round(_currentResourceCount * _countInCrystals); i++) _crystals[i].SetActive(false);
+		if (_crystals.Count == 1)
+		{
+			if (_currentResourceCount == 0) _crystals[0].SetActive(false);
+		}
+		else
+		{
+			for (int i = 0; i < _crystals.Count - math.round(_currentResourceCount * _countInCrystals); i++) _crystals[i].SetActive(false);
+		}
 	}
 
 	public ResourceBase GetCurrentResource() => Library.GetResourceBase(_resourceID);
 	public int GetCurrentResourceCount() => _currentResourceCount;
+	public Transform GetExtractionPlace() => _extractionPlace;
 }

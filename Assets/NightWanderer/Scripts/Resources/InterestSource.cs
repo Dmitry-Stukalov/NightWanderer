@@ -18,6 +18,7 @@ public class InterestSource : MonoBehaviour
 	{
 		foreach (Transform obj in transform) _crystals.Add(obj.gameObject);
 		_crystals.RemoveAt(0);
+		_crystals.RemoveAt(0);
 
 		for (int i = 0; i < _crystals.Count; i++) _oreMaterial.Add(_crystals[i].GetComponent<MeshRenderer>());
 
@@ -86,7 +87,8 @@ public class InterestSource : MonoBehaviour
 
 	private void Update()
 	{
-		_recoveryTimer?.Tick(Time.deltaTime);
+		if (_sun.IsTimeSkip) _recoveryTimer?.Tick(Time.deltaTime * 15);
+		else _recoveryTimer?.Tick(Time.deltaTime);
 	}
 
 	private void OnDisable()
