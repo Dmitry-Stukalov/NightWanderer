@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 public class EffectsManager : MonoBehaviour
 {
 	[SerializeField] private VisualEffect _laser;
+	//[SerializeField] private VisualEffect _vacuumCleaner;
 	[SerializeField] private GameObject[] _engineFires;
 	private VisualEffect[] _engineFiresEffect;
 	private HDAdditionalLightData[] _engineFiresLight;
@@ -14,6 +15,7 @@ public class EffectsManager : MonoBehaviour
 	public void Initializing()
 	{
 		_laser.Stop();
+		//_vacuumCleaner.Stop();
 
 		_engineFiresEffect = new VisualEffect[_engineFires.Length];
 		_engineFiresLight = new HDAdditionalLightData[_engineFires.Length];
@@ -27,6 +29,9 @@ public class EffectsManager : MonoBehaviour
 		GameEvents.OnLaserExtractionStart += () => _laser.Play();
 		GameEvents.OnExtractionEnd += () => _laser.Stop();
 		GameEvents.OnRightExtraction += () => StartCoroutine(LaserCoroutine());
+
+		//GameEvents.OnVacuumCleanerOn += () => _vacuumCleaner.Play();
+		//GameEvents.OnVacuumCleanerOff += () => _vacuumCleaner.Stop();
 
 		GameEvents.OnEnginesOnOff += EnginesOnOff;
 		GameEvents.OnRunStart += () =>
@@ -45,6 +50,9 @@ public class EffectsManager : MonoBehaviour
 		GameEvents.OnLaserExtractionStart -= () => _laser.Play();
 		GameEvents.OnExtractionEnd -= () => _laser.Stop();
 		GameEvents.OnRightExtraction -= () => StartCoroutine(LaserCoroutine());
+
+		//GameEvents.OnVacuumCleanerOn -= () => _vacuumCleaner.Play();
+		//GameEvents.OnVacuumCleanerOff -= () => _vacuumCleaner.Stop();
 
 		GameEvents.OnEnginesOnOff -= EnginesOnOff;
 		GameEvents.OnRunStart -= () =>
@@ -85,5 +93,11 @@ public class EffectsManager : MonoBehaviour
 		yield return new WaitForSeconds(0.2f);
 
 		_laser.SetBool("IsBigParticle", false);
+	}
+
+	private void Update()
+	{
+		//_vacuumCleaner.SetVector3("VacuumPosition", transform.position);
+		//Debug.Log(transform.position);
 	}
 }

@@ -222,8 +222,16 @@ public class StateMachineMovement : StateMachineState
 	{
 		if (!Cleaner.IsInitializing) return;
 
-		if (!StateManager.IsCleanerWorking) Cleaner.CleanerOn();
-		else Cleaner.CleanerOff();
+		if (!StateManager.IsCleanerWorking)
+		{
+			Cleaner.CleanerOn();
+			GameEvents.OnVacuumCleanerOn?.Invoke();
+		}
+		else
+		{
+			Cleaner.CleanerOff();
+			GameEvents.OnVacuumCleanerOff?.Invoke();
+		}
 
 		StateManager.IsCleanerWorking = !StateManager.IsCleanerWorking;
 	}

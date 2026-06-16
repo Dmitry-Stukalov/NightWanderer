@@ -59,6 +59,9 @@ public static class GameEvents
 	public static Action OnMapFogOn;
 	public static Action OnMapFogOff;
 
+	public static Action OnVacuumCleanerOn;
+	public static Action OnVacuumCleanerOff;
+
 	//Sounds
 	public static Action OnMainMenuOut;
 	public static Action OnMainMenuIn;

@@ -1,5 +1,8 @@
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -16,6 +19,8 @@ public class SettingsUIManager : UIManager
 	private Button _exitMenuButton;
 	private Button _exitButton;
 	private bool _hideCursor = true;
+	private Stack<Action> _panelsStack = new Stack<Action>();
+	public bool IsUIOpen { get; private set; } = false;
 
 	public void Initializing()
 	{
@@ -31,7 +36,7 @@ public class SettingsUIManager : UIManager
 		_backButton = _settingsUI.rootVisualElement.Q<Button>("BackButton");
 
 
-		_continueButton.RegisterCallback<ClickEvent>(CloseSettings);
+		_continueButton.RegisterCallback<ClickEvent>(CloseUI);
 		_exitMenuButton.RegisterCallback<ClickEvent>(ToMainMenu);
 		_exitButton.RegisterCallback<ClickEvent>(QuitGame);
 		_controlsButton.RegisterCallback<ClickEvent>(OpenControlsPanel);
@@ -42,12 +47,6 @@ public class SettingsUIManager : UIManager
 
 	public override void OpenUI()
 	{
-		if (Time.timeScale == 0)
-		{
-			CloseUI();
-			return;
-		}
-
 		_settingsUI.sortingOrder = 50;
 
 		Time.timeScale = 0;
@@ -57,6 +56,10 @@ public class SettingsUIManager : UIManager
 
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 		UnityEngine.Cursor.visible = true;
+
+		_panelsStack.Push(CloseUI);
+
+		IsUIOpen = true;
 
 		GameEvents.OnSettingsOpen?.Invoke();
 	}
@@ -68,37 +71,36 @@ public class SettingsUIManager : UIManager
 		Time.timeScale = 1;
 		_mainElement.style.display = DisplayStyle.None;
 
-		if (_hideCursor)
-		{
-			UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-			UnityEngine.Cursor.visible = false;
-		}
-		else _hideCursor = true;
-
-		GameEvents.OnSettingsClose?.Invoke();
-	}
-
-	private void CloseSettings(ClickEvent evt)
-	{
-		Time.timeScale = 1;
-		_mainElement.style.display = DisplayStyle.None;
-
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 		UnityEngine.Cursor.visible = false;
 
+		IsUIOpen = false;
+
 		GameEvents.OnSettingsClose?.Invoke();
 	}
+
+	private void CloseUI(ClickEvent evt) => CloseUI();
 
 	private void OpenControlsPanel(ClickEvent evt)
 	{
 		_contentBackground.style.display = DisplayStyle.None;
 		_controlsBackground.style.display = DisplayStyle.Flex;
+
+		_panelsStack.Push(CloseControlsPanel);
+	}
+
+	private void CloseControlsPanel()
+	{
+		_contentBackground.style.display = DisplayStyle.Flex;
+		_controlsBackground.style.display = DisplayStyle.None;
 	}
 
 	private void CloseControlsPanel(ClickEvent evt)
 	{
 		_contentBackground.style.display = DisplayStyle.Flex;
 		_controlsBackground.style.display = DisplayStyle.None;
+
+		_panelsStack.Pop();
 	}
 
 	private void ToMainMenu(ClickEvent evt)
@@ -111,9 +113,19 @@ public class SettingsUIManager : UIManager
 		Application.Quit();
 	}
 
+	private void Update()
+	{
+		if (Keyboard.current.escapeKey.wasPressedThisFrame && _panelsStack.Count > 0)
+		{
+			Action previousAction = _panelsStack.Pop();
+			previousAction.Invoke();
+		}
+		else if (Keyboard.current.escapeKey.wasPressedThisFrame) OpenUI();
+	}
+
 	private void OnDisable()
 	{
-		_continueButton.UnregisterCallback<ClickEvent>(CloseSettings);
+		_continueButton.UnregisterCallback<ClickEvent>(CloseUI);
 		_exitMenuButton.UnregisterCallback<ClickEvent>(ToMainMenu);
 		_controlsButton.RegisterCallback<ClickEvent>(OpenControlsPanel);
 		_backButton.RegisterCallback<ClickEvent>(CloseControlsPanel);

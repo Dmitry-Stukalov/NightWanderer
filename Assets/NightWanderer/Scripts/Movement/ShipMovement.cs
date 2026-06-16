@@ -268,8 +268,6 @@ public class ShipMovement : MonoBehaviour
 
 		if (Keyboard.current.tKey.wasPressedThisFrame) OnOffSearchLights();
 
-		if (Keyboard.current.escapeKey.wasPressedThisFrame) _settingsUIManager.OpenUI();
-
 		StateMachineManager.Update();
 
 		if (transform.position.y >= 40 && !IsMapFogOn)

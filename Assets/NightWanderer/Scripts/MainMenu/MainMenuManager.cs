@@ -1,6 +1,8 @@
 using DG.Tweening;
-using System.Collections;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -22,6 +24,7 @@ public class MainMenuManager : MonoBehaviour
 	private Button _confirmNewGameButton;
 	private Button _cancelNewGameButton;
 	private Button _cancelExitBackgroundButton;
+	private Stack<Action> _panelsStack = new Stack<Action>();
 
 	public void Initializing()
 	{
@@ -68,6 +71,15 @@ public class MainMenuManager : MonoBehaviour
 		DOTween.Kill(_cancelExitBackgroundButton);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 1, 1f);
+
+		_panelsStack.Push(CloseConfirmationNewGame);
+	}
+
+	private void CloseConfirmationNewGame()
+	{
+		DOTween.Kill(_cancelExitBackgroundButton);
+		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
+		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
 	}
 
 	private void CloseConfirmationNewGame(ClickEvent evt)
@@ -75,18 +87,30 @@ public class MainMenuManager : MonoBehaviour
 		DOTween.Kill(_cancelExitBackgroundButton);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
+
+		_panelsStack.Pop();
 	}
 
 	private void OpenControlsPanel(ClickEvent evt)
 	{
 		_menuBackground.style.display = DisplayStyle.None;
 		_controlsBackground.style.display = DisplayStyle.Flex;
+
+		_panelsStack.Push(CloseControlsPanel);
+	}
+
+	private void CloseControlsPanel()
+	{
+		_menuBackground.style.display = DisplayStyle.Flex;
+		_controlsBackground.style.display = DisplayStyle.None;
 	}
 
 	private void CloseControlsPanel(ClickEvent evt)
 	{
 		_menuBackground.style.display = DisplayStyle.Flex;
 		_controlsBackground.style.display = DisplayStyle.None;
+
+		_panelsStack.Pop();
 	}
 
 	private void OpenConfirmationExit(ClickEvent evt)
@@ -97,6 +121,15 @@ public class MainMenuManager : MonoBehaviour
 		DOTween.Kill(_cancelExitBackgroundButton);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 1, 1f);
+
+		_panelsStack.Push(CloseConfirmationExit);
+	}
+
+	private void CloseConfirmationExit()
+	{
+		DOTween.Kill(_cancelExitBackgroundButton);
+		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
+		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
 	}
 
 	private void CloseConfirmationExit(ClickEvent evt)
@@ -104,6 +137,8 @@ public class MainMenuManager : MonoBehaviour
 		DOTween.Kill(_cancelExitBackgroundButton);
 		_cancelExitBackgroundButton.style.display = DisplayStyle.None;
 		DOTween.To(() => _cancelExitBackgroundButton.resolvedStyle.opacity, x => _cancelExitBackgroundButton.style.opacity = x, 0, 1f);
+
+		_panelsStack.Pop();
 	}
 
 
@@ -116,6 +151,15 @@ public class MainMenuManager : MonoBehaviour
 	{
 		GameEvents.OnMainMenuOut?.Invoke();
 		SceneManager.LoadScene("MainScene");
+	}
+
+	private void Update()
+	{
+		if (Keyboard.current.escapeKey.wasPressedThisFrame && _panelsStack.Count > 0)
+		{
+			Action previousAction = _panelsStack.Pop();
+			previousAction.Invoke();
+		}
 	}
 
 	private void OnDisable()

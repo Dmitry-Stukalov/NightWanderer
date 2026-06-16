@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditorInternal;
 
 public class InterestSource : MonoBehaviour
 {
