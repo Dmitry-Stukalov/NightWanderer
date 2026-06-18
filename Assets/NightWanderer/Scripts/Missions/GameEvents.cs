@@ -1,4 +1,7 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public static class GameEvents
 {
@@ -72,4 +75,36 @@ public static class GameEvents
 	public static Action OnRainStart;
 	public static Action OnRainEnd;
 	public static Action<int> OnMovementChange;
+
+	//Saves
+	public static Action OnSave;
+
+	public static Action<List<Inventory>> OnInventorySave;
+	public static Action<List<int>> OnImprovementsSave;
+	public static Action<List<int>> OnStatsSave;
+	public static Action<List<int>> OnResourceSourcesSave;
+	public static Action<List<int>> OnResearchShipsSave;
+	public static Action<Vector3> OnPositionSave;
+	public static Action<Transform> OnTransformSave;
+	public static Action<Base> OnBaseSave;
+	public static Action<string> OnSceneSave;
+	public static Action<int> OnCurrentDaySave;
+	public static Action<float> OnCurrentTimeSave;
+	public static Action<int> OnCurrentMissionSave;
+	public static Action<int> OnCurrentDialogueSave;
+
+	//Load
+	public static Action<List<Inventory>> OnInventoryLoad;
+	public static Action<List<int>> OnImprovementsLoad;
+	public static Action<List<int>> OnStatsLoad;
+	public static Action<List<int>> OnResourceSourcesLoad;
+	public static Action<List<int>> OnResearchShipsLoad;
+	public static Action<Vector3> OnPositionLoad;
+	public static Action<SaveDataClass.ShipTransform> OnTransformLoad;
+	public static Action<Base> OnBaseLoad;
+	public static Action<string> OnSceneLoad;
+	public static Action<int> OnCurrentDayLoad;
+	public static Action<float> OnCurrentTimeLoad;
+	public static Action<int> OnCurrentMissionLoad;
+	public static Action<int> OnCurrentDialogueLoad;
 }

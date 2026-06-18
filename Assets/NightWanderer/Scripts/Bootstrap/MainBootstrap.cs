@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
@@ -30,12 +31,15 @@ public class MainBootstrap : MonoBehaviour
 	[Header("Base")]
 	[SerializeField] private BaseInventory _baseInventory;
 
+	private bool IsDataLoad = false;
+
+
 	private void Start()
 	{
 		SceneManager.sceneLoaded += CheckLoadScene;
 
-		SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
-		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
+		/*SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
+		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);*/
 
 		_effectsManager?.Initializing();
 
@@ -45,12 +49,15 @@ public class MainBootstrap : MonoBehaviour
 		_dialogueManager?.Initializing();
 		_settingsUIManager?.Initializing();
 
+		//GameEvents.OnSceneLoad += LoadData;
+		GameEvents.OnCurrentMissionLoad += LoadData;
+
 		StartCoroutine(StartPause());
 	}
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(5);
 
 		_playerInventoryBuilder?.Initializing();
 		_inventoryButton?.Initializing();
@@ -61,6 +68,12 @@ public class MainBootstrap : MonoBehaviour
 		_researchUIManager?.Initializing();
 		_extractionUIManager?.Initializing();
 		_settingsUIManager?.Initializing();
+
+		if (!IsDataLoad)
+		{
+			SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
+			SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
+		}
 	}
 
 	public void IntroductionSceneInitializing()
@@ -82,10 +95,38 @@ public class MainBootstrap : MonoBehaviour
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
 	}
 
-	private void CheckLoadScene(Scene scene, LoadSceneMode mode)
+	private void CheckLoadScene(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
 	{
 		if (scene.name == "IntroductionScene") IntroductionSceneInitializing();
 
 		if (scene.name == "OpenMapScene") OpenSceneInitializing();
+	}
+
+	private void LoadData(string sceneName)
+	{
+		SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
+
+		if (sceneName == "IntroductionScene" || sceneName == "") SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
+
+		if (sceneName == "OpenMapScene") SceneManager.LoadScene("OpenMapScene", LoadSceneMode.Additive);
+
+		IsDataLoad = true;
+	}
+
+	private void LoadData(int currentMission)
+	{
+		SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
+
+		if (currentMission == 0) SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
+		else SceneManager.LoadScene("OpenMapScene", LoadSceneMode.Additive);
+
+		IsDataLoad = true;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= CheckLoadScene;
+		//GameEvents.OnSceneLoad -= LoadData;
+		GameEvents.OnCurrentMissionLoad -= LoadData;
 	}
 }

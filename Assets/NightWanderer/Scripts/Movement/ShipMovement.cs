@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 
@@ -65,6 +66,7 @@ public class ShipMovement : MonoBehaviour
 	private bool IsGameStart = false;
 	private bool IsFirstTimeBase = true;
 	private bool IsMapFogOn = false;
+	private bool IsLoadData = false;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -110,6 +112,9 @@ public class ShipMovement : MonoBehaviour
 		_deathManager.OnAlive += Alive;
 
 		GameEvents.OnResourceDrop += DropResource;
+		//GameEvents.OnPositionLoad += LoadData;
+		GameEvents.OnTransformLoad += LoadData;
+		GameEvents.OnSave += SaveData;
 	}
 
 	public void OpenSceneInitializing()
@@ -298,10 +303,34 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
+	public void LoadData(/*Vector3 position*/SaveDataClass.ShipTransform shipTransform)
+	{
+		Vector3 position = new Vector3(shipTransform.X, shipTransform.Y, shipTransform.Z);
+
+		if (position == Vector3.zero) return;
+
+		transform.position = position;
+		transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+
+		IsLoadData = true;
+	}
+
+	public void SaveData()
+	{
+		GameEvents.OnSceneSave?.Invoke(SceneManager.GetActiveScene().name);
+		GameEvents.OnTransformSave?.Invoke(transform);
+		//GameEvents.OnPositionSave?.Invoke(transform.position);
+
+		Debug.Log("Данные сохранены");
+	}
+
 	private void OnDisable()
 	{
 		GameEvents.OnGameStart -= () => IsGameStart = true;
 		GameEvents.OnResourceDrop -= DropResource;
+		//GameEvents.OnPositionLoad -= LoadData;;
+		GameEvents.OnTransformLoad -= LoadData;
+		GameEvents.OnSave -= SaveData;
 
 		_defenseSystem.OnDisable();
 		_fuel.OnDisable();

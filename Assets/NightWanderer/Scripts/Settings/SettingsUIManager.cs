@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -105,11 +106,33 @@ public class SettingsUIManager : UIManager
 
 	private void ToMainMenu(ClickEvent evt)
 	{
+		GameEvents.OnSave?.Invoke();
+
+		//SceneManager.LoadScene("MainMenu");
+
+		StartCoroutine(ToMainMenuPause());
+	}
+
+	private IEnumerator ToMainMenuPause()
+	{
+		yield return new WaitForSecondsRealtime(3);
+
 		SceneManager.LoadScene("MainMenu");
+
+		Debug.Log("Главное меню загружено");
 	}
 
 	private void QuitGame(ClickEvent evt)
 	{
+		GameEvents.OnSave?.Invoke();
+		
+		StartCoroutine(QuitGamePause());
+		//Application.Quit();
+	}
+	private IEnumerator QuitGamePause()
+	{
+		yield return new WaitForSecondsRealtime(3);
+
 		Application.Quit();
 	}
 
