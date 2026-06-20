@@ -40,7 +40,7 @@ public class Base : MonoBehaviour
 		_ship.transform.SetParent(_dockingPlatform.transform, true);
 		_animator.SetBool("IsDown", true);
 
-		if (IsFirstVisit)
+		if (IsFirstVisit && !SceneManager.GetSceneByName("OpenMapScene").isLoaded)
 		{
 			GameEvents.OnFirstBaseVisit?.Invoke();
 			IsFirstVisit = false;

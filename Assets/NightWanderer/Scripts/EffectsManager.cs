@@ -26,44 +26,24 @@ public class EffectsManager : MonoBehaviour
 			_engineFiresLight[i] = _engineFires[i].GetComponentInChildren<HDAdditionalLightData>();
 		}
 
-		GameEvents.OnLaserExtractionStart += () => _laser.Play();
-		GameEvents.OnExtractionEnd += () => _laser.Stop();
-		GameEvents.OnRightExtraction += () => StartCoroutine(LaserCoroutine());
-
-		//GameEvents.OnVacuumCleanerOn += () => _vacuumCleaner.Play();
-		//GameEvents.OnVacuumCleanerOff += () => _vacuumCleaner.Stop();
+		GameEvents.OnLaserExtractionStart += ExtractionStart;
+		GameEvents.OnExtractionEnd += ExtractionEnd;
+		GameEvents.OnRightExtraction += RightExtraction;
 
 		GameEvents.OnEnginesOnOff += EnginesOnOff;
-		GameEvents.OnRunStart += () =>
-		{
-			for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.17f);
-		};
-
-		GameEvents.OnRunEnd += () => 
-		{
-			for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.13f);
-		};
+		GameEvents.OnRunStart += RunStart;
+		GameEvents.OnRunEnd += RunEnd;
 	}
 
 	private void OnDisable()
 	{
-		GameEvents.OnLaserExtractionStart -= () => _laser.Play();
-		GameEvents.OnExtractionEnd -= () => _laser.Stop();
-		GameEvents.OnRightExtraction -= () => StartCoroutine(LaserCoroutine());
-
-		//GameEvents.OnVacuumCleanerOn -= () => _vacuumCleaner.Play();
-		//GameEvents.OnVacuumCleanerOff -= () => _vacuumCleaner.Stop();
+		GameEvents.OnLaserExtractionStart -= ExtractionStart;
+		GameEvents.OnExtractionEnd -= ExtractionEnd;
+		GameEvents.OnRightExtraction -= RightExtraction;
 
 		GameEvents.OnEnginesOnOff -= EnginesOnOff;
-		GameEvents.OnRunStart -= () =>
-		{
-			for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.17f);
-		};
-
-		GameEvents.OnRunEnd -= () =>
-		{
-			for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.13f);
-		};
+		GameEvents.OnRunStart -= RunStart;
+		GameEvents.OnRunEnd -= RunEnd;
 	}
 
 	private void EnginesOnOff()
@@ -86,6 +66,21 @@ public class EffectsManager : MonoBehaviour
 		}
 	}
 
+	private void RunStart()
+	{
+		for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.17f);
+	}
+
+	private void RunEnd()
+	{
+		for (int i = 0; i < _engineFiresEffect.Length; i++) _engineFiresEffect[i].SetFloat("LifeTimeValue", 0.13f);
+	}
+
+	private void ExtractionStart() => _laser.Play();
+
+	private void ExtractionEnd() => _laser.Stop();
+	private void RightExtraction() => StartCoroutine(LaserCoroutine());
+
 	private IEnumerator LaserCoroutine()
 	{
 		_laser.SetBool("IsBigParticle", true);
@@ -93,11 +88,5 @@ public class EffectsManager : MonoBehaviour
 		yield return new WaitForSeconds(0.2f);
 
 		_laser.SetBool("IsBigParticle", false);
-	}
-
-	private void Update()
-	{
-		//_vacuumCleaner.SetVector3("VacuumPosition", transform.position);
-		//Debug.Log(transform.position);
 	}
 }

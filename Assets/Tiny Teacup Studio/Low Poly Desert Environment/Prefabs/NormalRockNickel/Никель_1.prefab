@@ -541,7 +541,7 @@ MonoBehaviour:
   <ExtractionID>k__BackingField: 11
   _resourceID: 6
   SpawnResourceZone: {fileID: 3955578677133003299}
-  _extractionPlace: {fileID: 0}
+  _extractionPlace: {fileID: 4770256499535535971}
   _resourceCountMin: 8
   _resourceCountMax: 10
   MinResourceCapacity: 8

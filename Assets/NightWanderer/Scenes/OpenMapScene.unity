@@ -3136,6 +3136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 389475207}
+  - component: {fileID: 389475208}
   m_Layer: 0
   m_Name: AluminiumResourceSources
   m_TagString: Untagged
@@ -3185,6 +3186,19 @@ Transform:
   - {fileID: 2113550832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &389475208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389475206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f2b2f228771f7429beb3641b1b62ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 2
 --- !u!1001 &407447191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6382,7 +6396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a013413ff6817d74c8d8b5a332779a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventory: {fileID: 0}
   _resourceLibrary: {fileID: 1245829333}
 --- !u!4 &884542016
 Transform:
@@ -7795,6 +7808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1076295689}
+  - component: {fileID: 1076295690}
   m_Layer: 0
   m_Name: TitanResourceSources
   m_TagString: Untagged
@@ -7844,6 +7858,19 @@ Transform:
   - {fileID: 696775121}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1076295690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076295688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f2b2f228771f7429beb3641b1b62ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 0
 --- !u!1 &1084539704
 GameObject:
   m_ObjectHideFlags: 0
@@ -7853,6 +7880,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1084539705}
+  - component: {fileID: 1084539706}
   m_Layer: 0
   m_Name: CooperResourceSources
   m_TagString: Untagged
@@ -7891,6 +7919,19 @@ Transform:
   - {fileID: 1465451218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1084539706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084539704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f2b2f228771f7429beb3641b1b62ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 1
 --- !u!1001 &1088511270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10112,6 +10153,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1589187099}
+  - component: {fileID: 1589187100}
   m_Layer: 0
   m_Name: NickelResourceSources
   m_TagString: Untagged
@@ -10159,6 +10201,19 @@ Transform:
   - {fileID: 1807309756}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1589187100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589187098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35f2b2f228771f7429beb3641b1b62ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 3
 --- !u!1 &1594271225
 GameObject:
   m_ObjectHideFlags: 0
@@ -12965,6 +13020,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1967869426}
+  - component: {fileID: 1967869427}
   m_Layer: 0
   m_Name: ResearchShip
   m_TagString: Untagged
@@ -13012,6 +13068,18 @@ Transform:
   - {fileID: 1759691161}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1967869427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967869425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90c0300a36ed4a45bae6356c4d0d54e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1978840792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14388,6 +14456,6 @@ SceneRoots:
   - {fileID: 1084539705}
   - {fileID: 389475207}
   - {fileID: 1589187099}
-  - {fileID: 1967869426}
   - {fileID: 1702032076}
+  - {fileID: 1967869426}
   - {fileID: 803530493}

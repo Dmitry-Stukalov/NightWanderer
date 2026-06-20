@@ -34,7 +34,7 @@ public class MainBootstrap : MonoBehaviour
 	private bool IsDataLoad = false;
 
 
-	private void Start()
+	private void Awake()
 	{
 		SceneManager.sceneLoaded += CheckLoadScene;
 
@@ -49,15 +49,15 @@ public class MainBootstrap : MonoBehaviour
 		_dialogueManager?.Initializing();
 		_settingsUIManager?.Initializing();
 
-		//GameEvents.OnSceneLoad += LoadData;
-		GameEvents.OnCurrentMissionLoad += LoadData;
+		GameEvents.OnSceneLoad += LoadData;
+		//GameEvents.OnCurrentMissionLoad += LoadData;
 
 		StartCoroutine(StartPause());
 	}
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSecondsRealtime(1);
 
 		_playerInventoryBuilder?.Initializing();
 		_inventoryButton?.Initializing();
@@ -69,6 +69,8 @@ public class MainBootstrap : MonoBehaviour
 		_extractionUIManager?.Initializing();
 		_settingsUIManager?.Initializing();
 
+		yield return new WaitForSecondsRealtime(3);
+
 		if (!IsDataLoad)
 		{
 			SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
@@ -78,11 +80,13 @@ public class MainBootstrap : MonoBehaviour
 
 	public void IntroductionSceneInitializing()
 	{
-		_dialogueManager.StartNewDialogue();
+		//_dialogueManager.StartNewDialogue();
 	}
 
-	public void OpenSceneInitializing()
+	public IEnumerator OpenSceneInitializing()
 	{
+		yield return new WaitForSecondsRealtime(2);
+
 		_shipMovement.OpenSceneInitializing();
 		_weatherPanel?.Initializing();
 		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
@@ -93,13 +97,14 @@ public class MainBootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlightsPower(), "SearchlightPower");
 		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
+
 	}
 
 	private void CheckLoadScene(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
 	{
 		if (scene.name == "IntroductionScene") IntroductionSceneInitializing();
 
-		if (scene.name == "OpenMapScene") OpenSceneInitializing();
+		if (scene.name == "OpenMapScene") StartCoroutine(OpenSceneInitializing());
 	}
 
 	private void LoadData(string sceneName)
@@ -126,7 +131,7 @@ public class MainBootstrap : MonoBehaviour
 	private void OnDisable()
 	{
 		SceneManager.sceneLoaded -= CheckLoadScene;
-		//GameEvents.OnSceneLoad -= LoadData;
-		GameEvents.OnCurrentMissionLoad -= LoadData;
+		GameEvents.OnSceneLoad -= LoadData;
+		//GameEvents.OnCurrentMissionLoad -= LoadData;
 	}
 }

@@ -41,6 +41,8 @@ public class ImprovementPanelBase
 		_improvementPanel.style.display = DisplayStyle.Flex;
 	}
 
+	public bool UnlockStatus() => IsUnlock;
+
 	protected virtual void Upgrade(ClickEvent evt) { }
 
 	protected virtual void UpdateData() { }

@@ -30,7 +30,7 @@ public class BaseUIManager : UIManager
 		_mainBackground = _baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
 		_blackBackground = _baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
-		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
+		GameEvents.OnFirstBaseVisit += OnFirstTimeBase;
 
 		var fuelItemBackground = _baseUI.rootVisualElement.Q<VisualElement>("FuelBackground");
 		fuelItemBackground.dataSource = new FuelRecovery(fuel, _baseUI.rootVisualElement.Q<VisualElement>("FuelForeground"));
@@ -62,6 +62,8 @@ public class BaseUIManager : UIManager
 
 		_mainElement.style.display = DisplayStyle.None;
 	}
+
+	private void OnFirstTimeBase() => StartCoroutine(OnBasePause());
 
 	private IEnumerator OnBasePause()
 	{
@@ -142,6 +144,6 @@ public class BaseUIManager : UIManager
 
 	private void OnDisable()
 	{
-		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
+		GameEvents.OnFirstBaseVisit -= OnFirstTimeBase;
 	}
 }

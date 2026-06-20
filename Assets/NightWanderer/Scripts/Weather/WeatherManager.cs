@@ -135,6 +135,8 @@ public class WeatherManager : MonoBehaviour
 
 	private void FogOn()
 	{
+		if (_fog == null) return;
+
 		DOTween.Kill(_fog);
 
 		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 100f, 20f).SetEase(Ease.Linear);
@@ -144,6 +146,8 @@ public class WeatherManager : MonoBehaviour
 
 	private void FogOff()
 	{
+		if (_fog == null) return;
+
 		DOTween.Kill(_fog);
 
 		DOTween.To(() => _fog.parameters.distanceFadeEnd, x => _fog.parameters.distanceFadeEnd = x, 0f, 3f).SetEase(Ease.Linear);
@@ -155,6 +159,8 @@ public class WeatherManager : MonoBehaviour
 
 	private void MapFogOn()
 	{
+		if (_fog == null || _volume == null) return;
+
 		if (_Sun.IsDayNow()) return;
 
 		//_fog.enabled = false;
@@ -182,6 +188,8 @@ public class WeatherManager : MonoBehaviour
 	private void MapFogOff()
 	{
 		//_fog.enabled = true;
+
+		if (_fog == null || _volume == null) return;
 
 		if (_volume.sharedProfile.TryGet<Fog>(out Fog fogComponent))
 		{

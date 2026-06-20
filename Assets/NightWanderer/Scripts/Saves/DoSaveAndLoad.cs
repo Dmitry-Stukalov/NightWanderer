@@ -3,24 +3,43 @@ using UnityEngine;
 
 public class DoSaveAndLoad : MonoBehaviour
 {
+	public static DoSaveAndLoad Instance { get; set; }
 	private SaveDataClass _saveDataClass = new SaveDataClass();
 	private string _directoryPath;
 
 	private void Awake()
 	{
+		if (Instance != null && Instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+
+		Instance = this;
+
+		DontDestroyOnLoad(gameObject);
+
 		_saveDataClass.Initializing();
 		_directoryPath = Application.dataPath + "/Source/MissionsSaves";
 
 		GameEvents.OnSave += () => StartCoroutine(SaveDataPause());
+		GameEvents.OnMainMenuOut += LoadGame;
+	}
 
-		StartCoroutine(LoadData());
+	public void LoadGame()
+	{
+		if (SaveAndLoad.IsLoadGame) StartCoroutine(LoadData());
 	}
 
 	private IEnumerator LoadData()
 	{
-		yield return new WaitForSecondsRealtime(4);
+		yield return new WaitForSecondsRealtime(2);
 
-		SaveAndLoad.Load(_directoryPath, "DataSave");
+		SaveAndLoad.Load(_directoryPath, "DataSave", true);
+
+		yield return new WaitForSecondsRealtime(10);
+
+		SaveAndLoad.Load(_directoryPath, "DataSave", false);
 
 		Debug.Log("Данные загружены");
 	}

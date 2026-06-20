@@ -52,10 +52,9 @@ public class Timer
 		MaxTime = maxtime;
 	}
 
-	public void CurrentTimeToMax()
-	{
-		CurrentTime = MaxTime;
-	}
+	public void CurrentTimeToMax() => CurrentTime = MaxTime;
+
+	public void SetCurrentTime(float currentTime) => CurrentTime = currentTime;
 
 
 	public void SetPause() => Pause = true;

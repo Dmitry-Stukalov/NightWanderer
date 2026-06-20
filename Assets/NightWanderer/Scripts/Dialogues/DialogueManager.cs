@@ -23,6 +23,9 @@ public class DialogueManager : MonoBehaviour
 
 		GameEvents.OnDialogueStart += StartNewDialogue;
 		GameEvents.OnDialogueWarningStart += StartNewDialogue;
+
+		GameEvents.OnSave += SaveData;
+		GameEvents.OnCurrentDialogueLoad += LoadData;
 	}
 
 	public void StartNewDialogue()
@@ -126,6 +129,16 @@ public class DialogueManager : MonoBehaviour
 	private void ShowBackground() => _dialogueWriter.ShowBackground();
 
 	private void HideBackground() => _dialogueWriter.HideBackground();
+
+
+
+	public void LoadData(int currentDialogue)
+	{
+		_currentDialogue = currentDialogue;
+		if (_currentDialogue == 0) StartNewDialogue();
+	}
+
+	public void SaveData() => GameEvents.OnCurrentDialogueSave?.Invoke(_currentDialogue);
 
 	private void OnDisable()
 	{

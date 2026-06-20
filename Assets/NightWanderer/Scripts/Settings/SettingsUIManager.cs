@@ -117,6 +117,8 @@ public class SettingsUIManager : UIManager
 	{
 		yield return new WaitForSecondsRealtime(3);
 
+		Time.timeScale = 1;
+
 		SceneManager.LoadScene("MainMenu");
 
 		Debug.Log("Главное меню загружено");

@@ -85,12 +85,10 @@ public class MissionsManager : MonoBehaviour
 	public void LoadData(int currentMission)
 	{
 		_currentMission = currentMission;
+		OnMissionComplete?.Invoke();
 	}
 
-	public void SaveData()
-	{
-		GameEvents.OnCurrentMissionSave?.Invoke(_currentMission);
-	}
+	public void SaveData() => GameEvents.OnCurrentMissionSave?.Invoke(_currentMission);
 
 	private void OnDisable()
 	{

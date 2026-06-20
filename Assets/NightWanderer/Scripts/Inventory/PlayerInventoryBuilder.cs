@@ -40,20 +40,6 @@ public class PlayerInventoryBuilder : MonoBehaviour
 
 		for (int i = 0; i < InventoryCellCount + 1; i++)
 		{
-			//var newCell = InventoryCell.Instantiate();
-			//var newCell2 = InventoryCell.Instantiate();
-
-			//newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
-			//newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
-
-			//newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
-			//newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
-
-			//newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
-			//newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
-			//newCell2.hierarchy.ElementAt(0).dataSource = new CellObject(false);
-			//newCell2.hierarchy.ElementAt(0).AddToClassList("BorderCell");
-
 			var newCell = InventoryCell.Instantiate().hierarchy.ElementAt(0);
 			var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
 
@@ -89,6 +75,8 @@ public class PlayerInventoryBuilder : MonoBehaviour
 				newCell2.transform.position = new Vector2(0, 10000);
 			}
 		}
+
+		GameEvents.OnSave += SaveData;
 	}
 
 	public void AddResource(ResourceBase newResource)
@@ -156,4 +144,6 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	public ResourceBase GetResourceBase(int index) => _inventoryCellsResources[index].GetResource();
 
 	public Inventory GetPlayerInventory() => _PlayerInventory;
+
+	private void SaveData() => GameEvents.OnInventorySave?.Invoke(_PlayerInventory);
 }

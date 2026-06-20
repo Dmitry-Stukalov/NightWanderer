@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.HighDefinition;
@@ -31,6 +32,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	public bool IsTimeSkip { get; set; } = false;
 
 	public event Action OnDayStart;
+	public event Action OnDayUpdate;
 	public event Action OnNightStart;
 	public event Action OnTransitionDayEnd;
 	public event Action OnTransitionNightEnd;
@@ -70,6 +72,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 			TransitionDayTimer.Continue();
 
 			OnDayStart?.Invoke();
+			OnDayUpdate?.Invoke();
 			GameEvents.OnDayStart?.Invoke();
 		};
 
@@ -82,13 +85,14 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		GameEvents.OnSkipTimeStart += () => IsTimeSkip = true;
 		GameEvents.OnSkipTimeEnd += () => IsTimeSkip = false;
 
+		GameEvents.OnCurrentTimeLoad += LoadData;
+		GameEvents.OnCurrentDayLoad += LoadData;
+		GameEvents.OnSave += SaveData;
+
 		ResetDayTimer();
 	}
 
-	private void ResetDayTimer()
-	{
-		AllDayTimer.ResetTimer(false);
-	}
+	private void ResetDayTimer() => AllDayTimer.ResetTimer(false);
 
 	public bool IsDayNow()
 	{
@@ -122,8 +126,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void TakeDamage(bool isFireDamage, float damage)
 	{
-		if (isFireDamage) Health.GetFireDamage(damage);
-		else Health.GetDamage(damage);
+		if (isFireDamage) Health?.GetFireDamage(damage);
+		else Health?.GetDamage(damage);
 	}
 
 	public int GetDayCount() => _day;
@@ -161,10 +165,28 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		}
 	}
 
+	private void LoadData(float currentTime) => AllDayTimer.SetCurrentTime(currentTime);
+
+	private void LoadData(int currentDay)
+	{
+		_day = currentDay;
+		OnDayUpdate?.Invoke();
+	}
+
+	private void SaveData()
+	{
+		GameEvents.OnCurrentTimeSave?.Invoke(AllDayTimer.CurrentTime);
+		GameEvents.OnCurrentDaySave?.Invoke(_day);
+	}
+
 	private void OnDisable()
 	{
 		GameEvents.OnSkipTimeStart -= () => IsTimeSkip = true;
 		GameEvents.OnSkipTimeEnd -= () => IsTimeSkip = false;
+
+
+		GameEvents.OnCurrentTimeLoad -= LoadData;
+		GameEvents.OnSave -= SaveData;
 	}
 }
  

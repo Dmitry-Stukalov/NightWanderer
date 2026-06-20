@@ -91,4 +91,9 @@ public class ResourceSource : MonoBehaviour
 	public ResourceBase GetCurrentResource() => Library.GetResourceBase(_resourceID);
 	public int GetCurrentResourceCount() => _currentResourceCount;
 	public Transform GetExtractionPlace() => _extractionPlace;
+	public void LoadData(int resourceCount)
+	{
+		_currentResourceCount = resourceCount;
+		HideCrystals();
+	}
 }

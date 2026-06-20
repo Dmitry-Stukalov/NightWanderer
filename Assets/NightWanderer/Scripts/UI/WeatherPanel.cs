@@ -14,6 +14,11 @@ public class WeatherPanel : MonoBehaviour
 	private List<Label> _timeTexts = new List<Label>();
 	private List<Label> _currentMissionTexts = new List<Label>();
 
+	private void Start()
+	{
+		
+	}
+
 	public void Initializing()
 	{
 		GameObject ship = GameObject.FindGameObjectWithTag("Player");
@@ -43,5 +48,20 @@ public class WeatherPanel : MonoBehaviour
 		for (int i = 0; i < _timeTexts.Count; i++) _timeTexts[i].dataSource = new TimeTextLabel(_timeTexts[i], FindAnyObjectByType<Sun>());
 		for (int i = 0; i < _currentMissionTexts.Count; i++) _currentMissionTexts[i].dataSource = new CurrentMissionText(_currentMissionTexts[i], FindFirstObjectByType<MissionsManager>());
 		for (int i = 0; i < _weatherIcons.Count; i++) _weatherIcons[i].dataSource = new WeatherIconElement(_weatherIcons[i], FindAnyObjectByType<WeatherManager>(), WeatherSprites);
+	}
+
+	private void LoadData(int currentDay)
+	{
+
+	}
+
+	private void SaveData()
+	{
+
+	}
+
+	private void OnDisable()
+	{
+		
 	}
 }

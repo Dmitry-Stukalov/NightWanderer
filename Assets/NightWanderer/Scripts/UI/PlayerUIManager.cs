@@ -116,6 +116,7 @@ public class PlayerUIManager : UIManager
 		{
 			GameEvents.OnGameStart?.Invoke();
 			OpenTutorial(new int[] {0, 1, 2, 3, 6});
+			_blackBackground.style.display = DisplayStyle.None;
 		});
 	}
 

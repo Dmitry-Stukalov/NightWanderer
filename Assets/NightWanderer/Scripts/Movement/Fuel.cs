@@ -113,6 +113,11 @@ public class Fuel : IImprovementBase
 	}
 
 	public float GetCurrentFuel() => _currentFuel;
+	public void SetCurrentFuel(float fuel)
+	{
+		_currentFuel = fuel;
+		OnFuelChange?.Invoke();
+	}
 	public float GetMaxFuel() => _config.Levels[CurrentLevel].MaxFuel;
 
 

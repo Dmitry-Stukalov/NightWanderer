@@ -12,7 +12,7 @@ public class DayTextLabel
 		_text = text;
 
 		_sun = sun;
-		_sun.OnDayStart += UpdateData;
+		_sun.OnDayUpdate += UpdateData;
 
 		UpdateData();
 	}

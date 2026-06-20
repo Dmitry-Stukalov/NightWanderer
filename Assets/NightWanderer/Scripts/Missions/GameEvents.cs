@@ -11,7 +11,7 @@ public static class GameEvents
 	public static Action<Base> OnBase;
 	public static Action OnInBase;
 	public static Action OnOutBase;
-	public static Action OnFirstBaseVisit;
+	public static Action OnFirstBaseVisit { get; set; }
 
 	//Подбор ресурса
 	public static Action<int> OnResourceCollected;
@@ -79,12 +79,13 @@ public static class GameEvents
 	//Saves
 	public static Action OnSave;
 
-	public static Action<List<Inventory>> OnInventorySave;
-	public static Action<List<int>> OnImprovementsSave;
-	public static Action<List<int>> OnStatsSave;
-	public static Action<List<int>> OnResourceSourcesSave;
-	public static Action<List<int>> OnResearchShipsSave;
-	public static Action<Vector3> OnPositionSave;
+	public static Action<Inventory> OnInventorySave;
+	public static Action<Inventory> OnBaseInventorySave;
+	public static Action<Dictionary<string, IImprovementBase>> OnImprovementsSave;
+	public static Action<Dictionary<string, bool>> OnImprovementPanelsSave;
+	public static Action<List<float>> OnStatsSave;
+	public static Action<int, Dictionary<int, int>> OnResourceSourcesSave;
+	public static Action<Dictionary<int, bool>> OnResearchShipsSave;
 	public static Action<Transform> OnTransformSave;
 	public static Action<Base> OnBaseSave;
 	public static Action<string> OnSceneSave;
@@ -94,17 +95,18 @@ public static class GameEvents
 	public static Action<int> OnCurrentDialogueSave;
 
 	//Load
-	public static Action<List<Inventory>> OnInventoryLoad;
-	public static Action<List<int>> OnImprovementsLoad;
-	public static Action<List<int>> OnStatsLoad;
-	public static Action<List<int>> OnResourceSourcesLoad;
-	public static Action<List<int>> OnResearchShipsLoad;
-	public static Action<Vector3> OnPositionLoad;
-	public static Action<SaveDataClass.ShipTransform> OnTransformLoad;
+	public static Action<SaveDataClass.InventoryData> OnInventoryLoad;		//
+	public static Action<SaveDataClass.InventoryData> OnBaseInventoryLoad;	//
+	public static Action<SaveDataClass.ImprovementData> OnImprovementsLoad; //
+	public static Action<SaveDataClass.ImprovementUnlockData> OnImprovementPanelsLoad;	//
+	public static Action<IReadOnlyList<float>> OnStatsLoad;					//
+	public static Action<int, SaveDataClass.ResourceSourceData> OnResourceSourcesLoad;	//
+	public static Action<SaveDataClass.ResearchShipData> OnResearchShipsLoad;	//
+	public static Action<SaveDataClass.ShipTransform> OnTransformLoad;		//
 	public static Action<Base> OnBaseLoad;
-	public static Action<string> OnSceneLoad;
-	public static Action<int> OnCurrentDayLoad;
-	public static Action<float> OnCurrentTimeLoad;
-	public static Action<int> OnCurrentMissionLoad;
-	public static Action<int> OnCurrentDialogueLoad;
+	public static Action<string> OnSceneLoad;					//
+	public static Action<int> OnCurrentDayLoad;					//
+	public static Action<float> OnCurrentTimeLoad;				//
+	public static Action<int> OnCurrentMissionLoad;				//
+	public static Action<int> OnCurrentDialogueLoad;			//
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
@@ -112,8 +113,8 @@ public class ShipMovement : MonoBehaviour
 		_deathManager.OnAlive += Alive;
 
 		GameEvents.OnResourceDrop += DropResource;
-		//GameEvents.OnPositionLoad += LoadData;
 		GameEvents.OnTransformLoad += LoadData;
+		GameEvents.OnStatsLoad += LoadData;
 		GameEvents.OnSave += SaveData;
 	}
 
@@ -198,7 +199,7 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.TargetShipPosition = BasePosition;
 			StateMachineManager.CurrentBase = other.GetComponent<Base>();
 
-			if (IsFirstTimeBase)
+			if (IsFirstTimeBase && !SceneManager.GetSceneByName("OpenMapScene").isLoaded)
 			{
 				GameEvents.OnBase?.Invoke(other.GetComponent<Base>());
 				GameEvents.OnMissionComplete?.Invoke(0);
@@ -206,6 +207,7 @@ public class ShipMovement : MonoBehaviour
 				GameEvents.OnCraftOpen?.Invoke("Прожектор");
 				IsFirstTimeBase = false;
 			}
+			else IsFirstTimeBase = false;
 
 			_playerUIManager.ShowHint();
 		}
@@ -315,11 +317,31 @@ public class ShipMovement : MonoBehaviour
 		IsLoadData = true;
 	}
 
+	public void LoadData(IReadOnlyList<float> stats)
+	{
+		_defenseSystem.GetHealth().SetCurrentHealth(stats[0]);
+		_defenseSystem.GetDefense().SetCurrentHealth(stats[1]);
+		_defenseSystem.GetFireDefense().SetCurrentHealth(stats[2]);
+		_fuel.SetCurrentFuel(stats[3]);
+	}
+
 	public void SaveData()
 	{
-		GameEvents.OnSceneSave?.Invoke(SceneManager.GetActiveScene().name);
+		Scene mainScene = SceneManager.GetSceneByName("OpenMapScene");
+
+		if (mainScene.isLoaded) GameEvents.OnSceneSave?.Invoke("OpenMapScene");
+		else GameEvents.OnSceneSave?.Invoke("IntroductionScene");
+
 		GameEvents.OnTransformSave?.Invoke(transform);
-		//GameEvents.OnPositionSave?.Invoke(transform.position);
+
+		List<float> stats = new List<float>();
+
+		stats.Add(_defenseSystem.GetHealth().GetCurrentHealth());
+		stats.Add(_defenseSystem.GetDefense().GetCurrentHealth());
+		stats.Add(_defenseSystem.GetFireDefense().GetCurrentHealth());
+		stats.Add(_fuel.GetCurrentFuel());
+
+		GameEvents.OnStatsSave?.Invoke(stats);
 
 		Debug.Log("Данные сохранены");
 	}
@@ -328,8 +350,8 @@ public class ShipMovement : MonoBehaviour
 	{
 		GameEvents.OnGameStart -= () => IsGameStart = true;
 		GameEvents.OnResourceDrop -= DropResource;
-		//GameEvents.OnPositionLoad -= LoadData;;
 		GameEvents.OnTransformLoad -= LoadData;
+		GameEvents.OnStatsLoad -= LoadData;
 		GameEvents.OnSave -= SaveData;
 
 		_defenseSystem.OnDisable();

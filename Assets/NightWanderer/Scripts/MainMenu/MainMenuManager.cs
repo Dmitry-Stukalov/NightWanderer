@@ -26,8 +26,13 @@ public class MainMenuManager : MonoBehaviour
 	private Button _cancelExitBackgroundButton;
 	private Stack<Action> _panelsStack = new Stack<Action>();
 
+	private string _directoryPath;
+
 	public void Initializing()
 	{
+		_directoryPath = Application.dataPath + "/Source/MissionsSaves";
+		SaveAndLoad.CheckSaveFile(_directoryPath, "DataSave");
+
 		_menuUI = GetComponent<UIDocument>();
 
 		_confirmExitBackground = _menuUI.rootVisualElement.Q<VisualElement>("ConfirmationExit");
@@ -53,6 +58,7 @@ public class MainMenuManager : MonoBehaviour
 		_cancelExitButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
 		_cancelExitBackgroundButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
 
+		_continueButton.RegisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.RegisterCallback<ClickEvent>(OpenConfirmationNewGame);
 		_cancelNewGameButton.RegisterCallback<ClickEvent>(CloseConfirmationNewGame);
 		_confirmNewGameButton.RegisterCallback<ClickEvent>(StartGame);
@@ -60,7 +66,30 @@ public class MainMenuManager : MonoBehaviour
 		_controlsButton.RegisterCallback<ClickEvent>(OpenControlsPanel);
 		_backButton.RegisterCallback<ClickEvent>(CloseControlsPanel);
 
+		if (SaveAndLoad.IsSaveFileExist) ActiveContinueButton();
+
 		GameEvents.OnMainMenuIn?.Invoke();
+	}
+
+	private void ActiveContinueButton()
+	{
+		_continueButton.RemoveFromClassList("UnactiveBackground");
+		_continueButton.RemoveFromClassList("StandartUnactiveLabel");
+		_continueButton.RemoveFromClassList("BorderAll");
+
+		_continueButton.AddToClassList("Button");
+		_continueButton.AddToClassList("GlowButton");
+		_continueButton.AddToClassList("StandartLabel");
+		_continueButton.pickingMode = PickingMode.Position;
+	}
+
+	private void ContinueGame(ClickEvent evt)
+	{
+		SaveAndLoad.IsLoadGame = true;
+
+		GameEvents.OnMainMenuOut?.Invoke();
+
+		SceneManager.LoadScene("MainScene");
 	}
 
 	private void OpenConfirmationNewGame(ClickEvent evt)
@@ -149,6 +178,7 @@ public class MainMenuManager : MonoBehaviour
 
 	private void StartGame(ClickEvent evt)
 	{
+		SaveAndLoad.IsLoadGame = false;
 		GameEvents.OnMainMenuOut?.Invoke();
 		SceneManager.LoadScene("MainScene");
 	}
@@ -169,6 +199,7 @@ public class MainMenuManager : MonoBehaviour
 		_cancelExitButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
 		_cancelExitBackgroundButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
 
+		_continueButton.UnregisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.UnregisterCallback<ClickEvent>(OpenConfirmationNewGame);
 		_cancelNewGameButton.UnregisterCallback<ClickEvent>(CloseConfirmationNewGame);
 		_confirmNewGameButton.UnregisterCallback<ClickEvent>(StartGame);

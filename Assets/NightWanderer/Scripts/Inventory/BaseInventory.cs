@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,8 @@ public class BaseInventory : MonoBehaviour
 
 			if (i == InventoryCellCount) newCell.transform.position = new Vector2(0, 10000);
 		}
+
+		GameEvents.OnSave += SaveData;
 	}
 
 	public void AddResource(ResourceBase newResource)
@@ -74,4 +77,12 @@ public class BaseInventory : MonoBehaviour
 
 	public Inventory GetBaseInventory() => _baseInventory;
 
+
+	private void SaveData() => GameEvents.OnBaseInventorySave?.Invoke(_baseInventory);
+
+
+	private void OnDisable()
+	{
+		GameEvents.OnSave -= SaveData;
+	}
 }

@@ -637,55 +637,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &352638758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 352638760}
-  - component: {fileID: 352638759}
-  m_Layer: 0
-  m_Name: Bootstrap
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
---- !u!114 &352638759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352638758}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f16afc3840dd846879c39a8d72da1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sun: {fileID: 0}
-  _resourceLibrary: {fileID: 415098942}
-  _weatherManager: {fileID: 0}
-  _lockRotation: {fileID: 0}
-  _giveStartResources: {fileID: 0}
---- !u!4 &352638760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352638758}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1119.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &355891856
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,60 +663,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 862.88, y: 31.4261, z: 1500}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &415098941
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 415098943}
-  - component: {fileID: 415098942}
-  m_Layer: 0
-  m_Name: ResourceLibrary
-  m_TagString: ResourceLibrary
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
---- !u!114 &415098942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415098941}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01ae5bd911609bf4b9c367e90af1294e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: b79e72db486f34149a417c0b5f590f2f, type: 2}
-  craftConfig: {fileID: 0}
-  Resources:
-  - {fileID: 8761220178640986812, guid: 8d7b9dcacd2e81f4b8dba5871566d308, type: 3}
-  - {fileID: 8761220178640986812, guid: 72a55c31780d288448c9db2be417d0cf, type: 3}
-  - {fileID: 8761220178640986812, guid: 1504b760e6e613f40b855ba39756e3d0, type: 3}
-  - {fileID: 1743453400618077403, guid: e98e3296e7c87224582b8038f5fc16dc, type: 3}
-  - {fileID: 8761220178640986812, guid: 929f6e1da7cb11b4eb27ccfbd441b426, type: 3}
-  - {fileID: 6648189569633795791, guid: 8111353492a2a4d45a6d78686de5654a, type: 3}
-  - {fileID: 4777566101368422024, guid: ed9a6ef5d5e1a2247b61f1f0e13d9523, type: 3}
---- !u!4 &415098943
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415098941}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1119.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1444,7 +1341,6 @@ MonoBehaviour:
   _sandstorm: {fileID: 0}
   _rainSpawnRate: 20000
   _sandstormSpawnRate: 10000
-  _fog: {fileID: 0}
   _sandstormDamage: 10
 --- !u!114 &1146735095
 MonoBehaviour:
@@ -2305,8 +2201,6 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 352638760}
-  - {fileID: 415098943}
   - {fileID: 1129859653}
   - {fileID: 273975436}
   - {fileID: 348287643}

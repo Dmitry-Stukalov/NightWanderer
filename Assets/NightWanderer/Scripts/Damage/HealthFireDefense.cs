@@ -46,6 +46,11 @@ public class HealthFireDefense : IImprovementBase
 	}
 
 	public float GetCurrentHealth() => _currentHealth;
+	public void SetCurrentHealth(float health)
+	{
+		_currentHealth = health;
+		OnHealthChange?.Invoke();
+	}
 	public float GetMaxHealth() => _config.Levels[CurrentLevel].MaxHealth;
 	public float NeedToHealing() => _config.Levels[CurrentLevel].MaxHealth - _currentHealth;
 

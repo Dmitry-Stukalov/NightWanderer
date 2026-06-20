@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Collections;
 using DG.Tweening;
+using UnityEditor.Overlays;
 
 public class ImprovementManager : MonoBehaviour
 {
@@ -38,6 +39,10 @@ public class ImprovementManager : MonoBehaviour
 		_upgradesBackground = _baseUI.rootVisualElement.Q<ScrollView>("UpgradesBackground");
 
 		GameEvents.OnImprovementOpen += UnlockImprovement;
+
+		GameEvents.OnImprovementsLoad += LoadData;
+		GameEvents.OnImprovementPanelsLoad += LoadData;
+		GameEvents.OnSave += SaveData;
 
 		StartCoroutine(StartPause());
 	}
@@ -112,7 +117,7 @@ public class ImprovementManager : MonoBehaviour
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSecondsRealtime(1);
 
 		var newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 
@@ -156,7 +161,6 @@ public class ImprovementManager : MonoBehaviour
 					newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 					newItem.dataSource = new ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>(this, newItem, _needResourceGroup, _improvements[key].Config, key);
 					_upgradesBackground.Add(newItem);
-
 				break;
 
 				case "SearchlightPower":
@@ -338,8 +342,83 @@ public class ImprovementManager : MonoBehaviour
 
 	public void Upgrade(string improvementName) => _improvements[improvementName].Upgrade();
 
+	private void LoadData(SaveDataClass.ImprovementData improvements)
+	{
+		for (int i = 0; i < improvements.ImprovementName.Count; i++)
+		{
+			for (int j = 0; j < improvements.ImprovementLevel[i]; j++)
+			{
+				Upgrade(improvements.ImprovementName[i]);
+			}
+		}
+	}
+
+	private void LoadData(SaveDataClass.ImprovementUnlockData improvements)
+	{
+		for (int i = 0; i < improvements.ImprovementName.Count; i++)
+		{
+			if (improvements.ImprovementUnlock[i]) UnlockImprovement(improvements.ImprovementName[i]);
+		}
+	}
+
+	private void SaveData()
+	{
+		GameEvents.OnImprovementsSave?.Invoke(_improvements);
+
+		Dictionary<string, bool> unlockedPanels = new Dictionary<string, bool>();
+
+		int i = 0;
+
+		foreach (var key in _improvements.Keys)
+		{
+			switch (key)
+			{
+				case "Fuel":
+					if (((ImprovementPanel<ImprovementFuelConfig, ImprovementFuelData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["Fuel"] = true;
+					else unlockedPanels["Fuel"] = false;
+					break;
+
+				case "Health":
+					if (((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["Health"] = true;
+					else unlockedPanels["Health"] = false;
+					break;
+
+				case "Defense":
+					if (((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["Defense"] = true;
+					else unlockedPanels["Defense"] = false;
+					break;
+
+				case "FireDefense":
+					if (((ImprovementPanel<ImprovementHealthConfig, ImprovementHealthData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["FireDefense"] = true;
+					else unlockedPanels["FireDefense"] = false;
+					break;
+
+				case "Engines":
+					if (((ImprovementPanel<ImprovementEnginesConfig, ImprovementEnginesData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["Engines"] = true;
+					else unlockedPanels["Engines"] = false;
+					break;
+
+				case "Searchlight":
+					if (((ImprovementPanel<ImprovementSearchlightConfig, ImprovementSearchlightData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["Searchlight"] = true;
+					else unlockedPanels["Searchlight"] = false;
+					break;
+
+				case "SearchlightPower":
+					if (((ImprovementPanel<ImprovementSearchlightPowerConfig, ImprovementSearchlightPowerData>)_upgradesBackground.contentContainer[i].dataSource).UnlockStatus()) unlockedPanels["SearchlightPower"] = true;
+					else unlockedPanels["SearchlightPower"] = false;
+					break;
+			}
+			i++;
+		}
+
+		GameEvents.OnImprovementPanelsSave?.Invoke(unlockedPanels);
+	}
+
 	private void OnDisable()
 	{
 		GameEvents.OnImprovementOpen -= UnlockImprovement;
+
+		GameEvents.OnImprovementsLoad -= LoadData;
+		GameEvents.OnSave -= SaveData;
 	}
 }

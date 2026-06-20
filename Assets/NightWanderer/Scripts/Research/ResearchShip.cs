@@ -1,3 +1,4 @@
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class ResearchShip : MonoBehaviour
@@ -21,4 +22,5 @@ public class ResearchShip : MonoBehaviour
 
 	public ResearchConfig GetResearchConfig() => config;
 	public bool IsDataUpload() => IsEmpty;
+	public void LoadData(bool isEmpty) => IsEmpty = isEmpty;
 }
