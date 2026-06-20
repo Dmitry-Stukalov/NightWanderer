@@ -101,7 +101,6 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(3, new StateMachineVoid(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, _playerUIManager, PlayerCameraRotationObject.transform));
-		//StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, PlayerCameraRotationObject, _playerUIController.GetMinigameLaser()));
 		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform, _researchUIManager));
 		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager, transform, _baseUIManager));
 		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform, _playerUIManager));
@@ -127,11 +126,7 @@ public class ShipMovement : MonoBehaviour
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSeconds(2f);
-
-		//_resourceLibrary = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
-
-		//_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
+		yield return new WaitForSeconds(0.5f);
 
 		StateMachineManager.AddState(11, new StateMachineResourceExtraction1(11, StateMachineManager, transform, _extractionUIManager, PlayerCameraRotationObject, _miningEquipment, _fuel, _extractionUIManager.GetMinigameLaser()));
 	}
@@ -203,7 +198,6 @@ public class ShipMovement : MonoBehaviour
 			{
 				GameEvents.OnBase?.Invoke(other.GetComponent<Base>());
 				GameEvents.OnMissionComplete?.Invoke(0);
-				//GameEvents.OnDialogueStart?.Invoke();
 				GameEvents.OnCraftOpen?.Invoke("Прожектор");
 				IsFirstTimeBase = false;
 			}
@@ -248,11 +242,7 @@ public class ShipMovement : MonoBehaviour
 			BasePosition = Vector3.zero;
 			StateMachineManager.TargetShipPosition = Vector3.zero;
 
-			//if (IsFirstTimeBase)
-			//{
 			GameEvents.OnMissionComplete?.Invoke(2);
-			//	IsFirstTimeBase = false;
-			//}
 
 			_playerUIManager.HideHint();
 		}

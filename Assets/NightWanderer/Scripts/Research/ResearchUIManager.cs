@@ -109,12 +109,13 @@ public class ResearchUIManager : UIManager
 
 	public override void OpenUI()
 	{
+		_researchUI.sortingOrder = 5;
 		_mainElement.style.display = DisplayStyle.Flex;
 	}
 
 	public override void CloseUI()
 	{
-		//DoAction(0);
+		_researchUI.sortingOrder = -5;
 
 		_mainElement.style.display = DisplayStyle.None;
 

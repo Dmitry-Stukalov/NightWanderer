@@ -85,6 +85,8 @@ public class BaseUIManager : UIManager
 	{
 		_mainElement.style.display = DisplayStyle.Flex;
 
+		OpenCloseUI("storage");
+
 		if (IsFirstTime) IsFirstTime = false;
 		//else baseUI.sortingOrder = 10;
 
@@ -111,7 +113,7 @@ public class BaseUIManager : UIManager
 		//OnBase = false;
 	}
 
-	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("storage");
+	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("");
 
 	private void CraftButtonClick(ClickEvent evt) => OpenCloseUI("craft");
 

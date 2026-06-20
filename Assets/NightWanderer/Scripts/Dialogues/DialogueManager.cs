@@ -26,6 +26,8 @@ public class DialogueManager : MonoBehaviour
 
 		GameEvents.OnSave += SaveData;
 		GameEvents.OnCurrentDialogueLoad += LoadData;
+
+		if (!SaveAndLoad.IsLoadGame) StartNewDialogue();
 	}
 
 	public void StartNewDialogue()

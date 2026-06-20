@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameEvents
-{
+{ 
+	//Начало игры
 	public static Action OnGameStart;
+	public static Action MainBootstrapInitializing;
+	public static Action BootstrapInitializing;
 
 	//Посещение базы
 	public static Action<Base> OnBase;
@@ -95,6 +98,8 @@ public static class GameEvents
 	public static Action<int> OnCurrentDialogueSave;
 
 	//Load
+	public static Action OnGameLoad;
+
 	public static Action<SaveDataClass.InventoryData> OnInventoryLoad;		//
 	public static Action<SaveDataClass.InventoryData> OnBaseInventoryLoad;	//
 	public static Action<SaveDataClass.ImprovementData> OnImprovementsLoad; //

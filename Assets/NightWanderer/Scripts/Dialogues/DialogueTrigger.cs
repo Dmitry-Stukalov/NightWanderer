@@ -12,7 +12,7 @@ public class DialogueTrigger : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (!other.CompareTag("Player") || IsActivated) return;
+		if (!other.CompareTag("Player") || IsActivated || SaveAndLoad.IsLoadGame) return;
 
 		IsActivated = true;
 		_dialogueManager.StartNewDialogue();

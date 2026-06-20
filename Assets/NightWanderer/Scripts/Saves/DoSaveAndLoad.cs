@@ -33,11 +33,11 @@ public class DoSaveAndLoad : MonoBehaviour
 
 	private IEnumerator LoadData()
 	{
-		yield return new WaitForSecondsRealtime(2);
+		yield return new WaitForSecondsRealtime(0.5f);
 
 		SaveAndLoad.Load(_directoryPath, "DataSave", true);
 
-		yield return new WaitForSecondsRealtime(10);
+		yield return new WaitForSecondsRealtime(5f);
 
 		SaveAndLoad.Load(_directoryPath, "DataSave", false);
 

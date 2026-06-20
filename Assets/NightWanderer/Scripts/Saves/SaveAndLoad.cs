@@ -6,8 +6,8 @@ using UnityEngine;
 
 public static class SaveAndLoad
 {
-	public static bool IsLoadGame = false;
-	public static bool IsSaveFileExist = false;
+	public static bool IsLoadGame { get; set; } = false;
+	public static bool IsSaveFileExist { get; set; } = false;
 
 	public static void Save(SaveDataClass saveDataClass, string directoryPath)
 	{
@@ -66,6 +66,7 @@ public static class SaveAndLoad
 			return;
 		}
 
+		GameEvents.OnGameLoad?.Invoke();
 		GameEvents.OnTransformLoad?.Invoke(dataSave._shipTransform);
 		GameEvents.OnCurrentMissionLoad?.Invoke(dataSave._currentMission);
 		GameEvents.OnCurrentDialogueLoad?.Invoke(dataSave._currentDialogue);

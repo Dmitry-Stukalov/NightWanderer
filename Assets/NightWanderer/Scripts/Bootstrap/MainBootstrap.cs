@@ -38,9 +38,6 @@ public class MainBootstrap : MonoBehaviour
 	{
 		SceneManager.sceneLoaded += CheckLoadScene;
 
-		/*SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
-		SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);*/
-
 		_effectsManager?.Initializing();
 
 		_searchlightManager.Initializing();
@@ -50,14 +47,13 @@ public class MainBootstrap : MonoBehaviour
 		_settingsUIManager?.Initializing();
 
 		GameEvents.OnSceneLoad += LoadData;
-		//GameEvents.OnCurrentMissionLoad += LoadData;
 
 		StartCoroutine(StartPause());
 	}
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(1f);
 
 		_playerInventoryBuilder?.Initializing();
 		_inventoryButton?.Initializing();
@@ -69,7 +65,7 @@ public class MainBootstrap : MonoBehaviour
 		_extractionUIManager?.Initializing();
 		_settingsUIManager?.Initializing();
 
-		yield return new WaitForSecondsRealtime(3);
+		yield return new WaitForSecondsRealtime(1.5f);
 
 		if (!IsDataLoad)
 		{
@@ -85,7 +81,7 @@ public class MainBootstrap : MonoBehaviour
 
 	public IEnumerator OpenSceneInitializing()
 	{
-		yield return new WaitForSecondsRealtime(2);
+		yield return new WaitForSecondsRealtime(1f);
 
 		_shipMovement.OpenSceneInitializing();
 		_weatherPanel?.Initializing();
@@ -97,7 +93,6 @@ public class MainBootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlightsPower(), "SearchlightPower");
 		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
-
 	}
 
 	private void CheckLoadScene(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
@@ -118,20 +113,9 @@ public class MainBootstrap : MonoBehaviour
 		IsDataLoad = true;
 	}
 
-	private void LoadData(int currentMission)
-	{
-		SceneManager.LoadScene("BaseScene", LoadSceneMode.Additive);
-
-		if (currentMission == 0) SceneManager.LoadScene("IntroductionScene", LoadSceneMode.Additive);
-		else SceneManager.LoadScene("OpenMapScene", LoadSceneMode.Additive);
-
-		IsDataLoad = true;
-	}
-
 	private void OnDisable()
 	{
 		SceneManager.sceneLoaded -= CheckLoadScene;
 		GameEvents.OnSceneLoad -= LoadData;
-		//GameEvents.OnCurrentMissionLoad -= LoadData;
 	}
 }

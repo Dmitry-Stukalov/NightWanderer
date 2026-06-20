@@ -69,14 +69,13 @@ public class PlayerUIManager : UIManager
 		GameEvents.OnInBase += CloseUI;
 		GameEvents.OnOutBase += OpenUI;
 
-		GameEvents.OnDeath += () => StartCoroutine(DeathPause());
+		GameEvents.OnDeath += Death;
 	}
 
 	private IEnumerator StartPause()
 	{
-		//yield return new WaitForSeconds(58f);
-
-		yield return new WaitForSeconds(2f);
+		if (SaveAndLoad.IsLoadGame) yield return new WaitForSeconds(5f);
+		else yield return new WaitForSeconds(58f);
 
 		StartGame();
 	}
@@ -97,6 +96,8 @@ public class PlayerUIManager : UIManager
 		_playerUI.sortingOrder = 0;
 	}
 
+	private void Death() => StartCoroutine(DeathPause());
+
 	private IEnumerator DeathPause()
 	{
 		yield return new WaitForSeconds(2f);
@@ -115,7 +116,7 @@ public class PlayerUIManager : UIManager
 		.OnComplete(() =>
 		{
 			GameEvents.OnGameStart?.Invoke();
-			OpenTutorial(new int[] {0, 1, 2, 3, 6});
+			if (!SaveAndLoad.IsLoadGame) OpenTutorial(new int[] {0, 1, 2, 3, 6});
 			_blackBackground.style.display = DisplayStyle.None;
 		});
 	}
@@ -219,6 +220,6 @@ public class PlayerUIManager : UIManager
 		GameEvents.OnInBase -= CloseUI;
 		GameEvents.OnOutBase -= OpenUI;
 
-		GameEvents.OnDeath -= () => StartCoroutine(DeathPause());
+		GameEvents.OnDeath -= Death;
 	}
 }

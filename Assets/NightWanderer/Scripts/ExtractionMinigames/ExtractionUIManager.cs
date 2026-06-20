@@ -21,11 +21,13 @@ public class ExtractionUIManager : UIManager
 
 	public override void OpenUI()
 	{
+		_extractionGameLaserUI.sortingOrder = 5;
 		_mainElement.style.display = DisplayStyle.Flex;
 	}
 
 	public override void CloseUI()
 	{
+		_extractionGameLaserUI.sortingOrder = -5;
 		_mainElement.style.display = DisplayStyle.None;
 	}
 

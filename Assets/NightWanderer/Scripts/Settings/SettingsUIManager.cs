@@ -115,7 +115,7 @@ public class SettingsUIManager : UIManager
 
 	private IEnumerator ToMainMenuPause()
 	{
-		yield return new WaitForSecondsRealtime(3);
+		yield return new WaitForSecondsRealtime(1);
 
 		Time.timeScale = 1;
 
@@ -133,7 +133,7 @@ public class SettingsUIManager : UIManager
 	}
 	private IEnumerator QuitGamePause()
 	{
-		yield return new WaitForSecondsRealtime(3);
+		yield return new WaitForSecondsRealtime(1);
 
 		Application.Quit();
 	}
