@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Rendering;
-using Unity.Properties;
 
 [Serializable]
 public class SaveDataClass
@@ -16,7 +14,8 @@ public class SaveDataClass
 	[field: SerializeField] public ResearchShipData ResearchShips { get; private set; } = new ResearchShipData();
 	[field: SerializeField] public Vector3 _position { get; private set; } = Vector3.zero;
 	[field: SerializeField] public ShipTransform _shipTransform { get; private set; } = new ShipTransform();
-	[field: SerializeField] public Base _currentBase { get; private set; } = null;
+	[field: SerializeField] public int _currentBase { get; private set; } = 0;
+	[field: SerializeField] public bool IsOnBase { get; private set; } = false; 
 	[field: SerializeField] public string _currentSceneName { get; private set; } = "";
 	[field: SerializeField] public int _currentDay { get; private set; } = 0;
 	[field: SerializeField] public float _currentTime { get; private set; } = 0;
@@ -81,8 +80,24 @@ public class SaveDataClass
 	}
 
 	public void SetPosition(Vector3 position) => _position = position;
-	public void SetTransform(Transform transform) => _shipTransform = new ShipTransform(transform.position.x, transform.position.y, transform.position.z, transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-	public void SetCurrentBase(Base currentBase) => _currentBase = currentBase;
+	public void SetTransform(Transform transform, int currentBase, bool isOnBase)
+	{
+		float rotationX, rotationY, rotationZ;
+		if (transform.rotation.eulerAngles.x > 180) rotationX = 360 - transform.rotation.eulerAngles.x;
+		else rotationX = transform.rotation.eulerAngles.x;
+
+		if (transform.rotation.eulerAngles.y > 180) rotationY = 360 - transform.rotation.eulerAngles.y;
+		else rotationY = transform.rotation.eulerAngles.y;
+
+		if (transform.rotation.eulerAngles.z > 180) rotationZ = 360 - transform.rotation.eulerAngles.z;
+		else rotationZ = transform.rotation.eulerAngles.z;
+
+		_shipTransform = new ShipTransform(transform.position.x, transform.position.y, transform.position.z, /*transform.rotation.eulerAngles.x*/rotationX, /*transform.rotation.eulerAngles.y*/rotationY, /*transform.rotation.eulerAngles.z*/rotationZ);
+		_currentBase = currentBase;
+		IsOnBase = isOnBase;
+	}
+
+	public void SetCurrentBase(int currentBase) => _currentBase = currentBase;
 	public void SetSceneName(string currentScene) => _currentSceneName = currentScene;
 	public void SetCurrentDay(int currentDay) => _currentDay = currentDay;
 	public void SetCurrentTime(float currentTime) => _currentTime = currentTime;

@@ -1,11 +1,11 @@
 using System.Collections;
+using System.IO;
 using UnityEngine;
 
 public class DoSaveAndLoad : MonoBehaviour
 {
 	public static DoSaveAndLoad Instance { get; set; }
 	private SaveDataClass _saveDataClass = new SaveDataClass();
-	private string _directoryPath;
 
 	private void Awake()
 	{
@@ -20,9 +20,8 @@ public class DoSaveAndLoad : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 
 		_saveDataClass.Initializing();
-		_directoryPath = Application.dataPath + "/Source/MissionsSaves";
 
-		GameEvents.OnSave += () => StartCoroutine(SaveDataPause());
+		GameEvents.OnSave += StartSaveData;
 		GameEvents.OnMainMenuOut += LoadGame;
 	}
 
@@ -35,30 +34,31 @@ public class DoSaveAndLoad : MonoBehaviour
 	{
 		yield return new WaitForSecondsRealtime(0.5f);
 
-		SaveAndLoad.Load(_directoryPath, "DataSave", true);
+		SaveAndLoad.Load(true);
 
 		yield return new WaitForSecondsRealtime(5f);
 
-		SaveAndLoad.Load(_directoryPath, "DataSave", false);
-
-		Debug.Log("Данные загружены");
+		SaveAndLoad.Load(false);
 	}
+
+	private void StartSaveData() => StartCoroutine(SaveDataPause());
 
 	private IEnumerator SaveDataPause()
 	{
-		yield return new WaitForSecondsRealtime(2);
+		yield return new WaitForSecondsRealtime(1);
 
 		SaveData();
 	}
 
 	private void SaveData()
 	{
-		SaveAndLoad.Save(_saveDataClass, _directoryPath);
+		SaveAndLoad.Save(_saveDataClass);
 	}
 
 	private void OnDisable()
 	{
 		_saveDataClass.OnDisable();
+		GameEvents.OnSave -= StartSaveData;
 	}
 
 	private void OnApplicationQuit()

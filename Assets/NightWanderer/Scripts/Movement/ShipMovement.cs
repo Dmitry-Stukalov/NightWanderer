@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 
 
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
@@ -67,7 +68,6 @@ public class ShipMovement : MonoBehaviour
 	private bool IsGameStart = false;
 	private bool IsFirstTimeBase = true;
 	private bool IsMapFogOn = false;
-	private bool IsLoadData = false;
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
@@ -75,7 +75,7 @@ public class ShipMovement : MonoBehaviour
 	{
 		StartCoroutine(StartPause());
 
-		GameEvents.OnGameStart += () => IsGameStart = true;
+		GameEvents.OnGameStart += StartGame;
 
 		_searchlights.AddConfig(_searchlightConfig);
 		_searchlightsPower.AddConfig(_searchlightPowerConfig);
@@ -123,6 +123,8 @@ public class ShipMovement : MonoBehaviour
 
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 	}
+
+	private void StartGame() => IsGameStart = true;
 
 	private IEnumerator StartPause()
 	{
@@ -295,16 +297,50 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
-	public void LoadData(/*Vector3 position*/SaveDataClass.ShipTransform shipTransform)
+	public void LoadData(/*Vector3 position*/SaveDataClass.ShipTransform shipTransform, int currentBase, bool isOnBase)
 	{
 		Vector3 position = new Vector3(shipTransform.X, shipTransform.Y, shipTransform.Z);
 
 		if (position == Vector3.zero) return;
 
-		transform.position = position;
-		transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+		if (currentBase != -1)
+		{
+			Base[] bases = FindObjectsByType<Base>(FindObjectsSortMode.None);
 
-		IsLoadData = true;
+			for (int i = 0; i < bases.Length; i++)
+			{
+				if (bases[i].GetID() == currentBase)
+				{
+					StateMachineManager.CurrentBase = bases[i];
+
+					if (isOnBase)
+					{
+						IsCanDocking = true;
+						transform.position = position;
+						StateMachineManager.TargetShipPosition = bases[i].GetPlatformPosition();
+					}
+					else
+					{
+						transform.position = position;
+						transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+						PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+						StateMachineManager.RotationX = shipTransform.RX;
+						StateMachineManager.RotationY = shipTransform.RY;
+					}
+				}
+			}
+		}
+		else
+		{
+			transform.position = position;
+			transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+			PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(shipTransform.RX, shipTransform.RY, shipTransform.RZ);
+			StateMachineManager.RotationX = shipTransform.RX;
+			StateMachineManager.RotationY = shipTransform.RY;
+		}
+
+
+		GameEvents.OnGameLoad?.Invoke();
 	}
 
 	public void LoadData(IReadOnlyList<float> stats)
@@ -322,7 +358,11 @@ public class ShipMovement : MonoBehaviour
 		if (mainScene.isLoaded) GameEvents.OnSceneSave?.Invoke("OpenMapScene");
 		else GameEvents.OnSceneSave?.Invoke("IntroductionScene");
 
-		GameEvents.OnTransformSave?.Invoke(transform);
+		if (StateMachineManager.CurrentBase == null) GameEvents.OnTransformSave?.Invoke(transform, 0, false);
+		else GameEvents.OnTransformSave?.Invoke(transform, StateMachineManager.CurrentBase.GetID(), StateMachineManager.GetCurrentState() == 20);
+
+		if (StateMachineManager.GetCurrentState() == 20) GameEvents.OnBaseSave?.Invoke(StateMachineManager.CurrentBase.GetID());
+		else GameEvents.OnBaseSave?.Invoke(-1);
 
 		List<float> stats = new List<float>();
 
@@ -332,13 +372,11 @@ public class ShipMovement : MonoBehaviour
 		stats.Add(_fuel.GetCurrentFuel());
 
 		GameEvents.OnStatsSave?.Invoke(stats);
-
-		Debug.Log("Данные сохранены");
 	}
 
 	private void OnDisable()
 	{
-		GameEvents.OnGameStart -= () => IsGameStart = true;
+		GameEvents.OnGameStart -= StartGame;
 		GameEvents.OnResourceDrop -= DropResource;
 		GameEvents.OnTransformLoad -= LoadData;
 		GameEvents.OnStatsLoad -= LoadData;

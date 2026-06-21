@@ -27,12 +27,11 @@ public class PlayerUIManager : UIManager
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
-		StartCoroutine(StartPause());
+		//StartCoroutine(StartPause());
 
 		_mainElement = _playerUI.rootVisualElement.Q<VisualElement>("MainElement");
 
 		_blackBackground = _playerUI.rootVisualElement.Q<VisualElement>("BlackBackground");
-		GameEvents.OnFirstBaseVisit += () => StartCoroutine(OnBasePause());
 
 		_tutorialPanel = _playerUI.rootVisualElement.Q<VisualElement>("TutorialPanel");
 		_tutorialPanel.dataSource = new TutorialManager(_tutorialPanel);
@@ -57,6 +56,8 @@ public class PlayerUIManager : UIManager
 
 		_statusPanels = new Dictionary<string, VisualElement>();
 
+		GameEvents.OnFirstBaseVisit += OnBase;
+
 		GameEvents.OnCriticalStatusShow += ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide += HideStatusPanel;
 
@@ -70,15 +71,25 @@ public class PlayerUIManager : UIManager
 		GameEvents.OnOutBase += OpenUI;
 
 		GameEvents.OnDeath += Death;
+
+		if (SaveAndLoad.IsLoadGame) GameEvents.OnGameLoad += StartStartPause;
+		else StartCoroutine(StartPause());
 	}
+
+	private void StartStartPause() => StartCoroutine(StartPause());
 
 	private IEnumerator StartPause()
 	{
-		if (SaveAndLoad.IsLoadGame) yield return new WaitForSeconds(5f);
-		else yield return new WaitForSeconds(58f);
+		if (!SaveAndLoad.IsLoadGame)
+		{
+			yield return new WaitForSeconds(58f);
+		}
+		else yield return new WaitForSeconds(1.7f);
 
 		StartGame();
 	}
+
+	private void OnBase() => StartCoroutine(OnBasePause());
 
 	private IEnumerator OnBasePause()
 	{
@@ -112,7 +123,7 @@ public class PlayerUIManager : UIManager
 
 	private void StartGame()
 	{
-		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 5f)
+		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 0, 3f)
 		.OnComplete(() =>
 		{
 			GameEvents.OnGameStart?.Invoke();
@@ -209,7 +220,7 @@ public class PlayerUIManager : UIManager
 	{
 		GameEvents.OnCriticalStatusShow -= ShowStatusPanel;
 		GameEvents.OnCriticalStatusHide -= HideStatusPanel;
-		GameEvents.OnFirstBaseVisit -= () => StartCoroutine(OnBasePause());
+		GameEvents.OnFirstBaseVisit -= OnBase;
 
 		GameEvents.OnResearchStart -= HideHint;
 		GameEvents.OnResearchQuit -= ShowHint;
@@ -221,5 +232,8 @@ public class PlayerUIManager : UIManager
 		GameEvents.OnOutBase -= OpenUI;
 
 		GameEvents.OnDeath -= Death;
+
+		/*if (SaveAndLoad.IsLoadGame)*/
+		GameEvents.OnGameLoad -= StartStartPause;
 	}
 }

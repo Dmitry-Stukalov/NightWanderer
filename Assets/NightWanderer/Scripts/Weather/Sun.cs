@@ -1,10 +1,5 @@
 using System;
-using System.Linq;
-using System.Threading;
-using UnityEditor.Overlays;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.Rendering.HighDefinition;
 
 public class Sun : MonoBehaviour, ICanTakeDamage
 {

@@ -1,64 +1,51 @@
 using System.IO;
 using System.Threading.Tasks;
-using Unity.Android.Gradle.Manifest;
-using UnityEditor;
 using UnityEngine;
 
 public static class SaveAndLoad
 {
 	public static bool IsLoadGame { get; set; } = false;
+	public static bool IsLoadBase { get; set; } = false;
 	public static bool IsSaveFileExist { get; set; } = false;
+	private static string _directoryPath = Path.Combine(Application.persistentDataPath, "MissionsSaves");
+	private static string _fileName = "DataSave.json";
+	private static string _fullPath = Path.Combine(_directoryPath, _fileName);
 
-	public static void Save(SaveDataClass saveDataClass, string directoryPath)
+	public static void Save(SaveDataClass saveDataClass)
 	{
+		if (!Directory.Exists(_directoryPath)) Directory.CreateDirectory(_directoryPath);
+
 		var json = JsonUtility.ToJson(saveDataClass);
 
-		var DirectoryPath = directoryPath;
-		const string fileName = "DataSave";
-
-		if (!Directory.Exists(DirectoryPath)) Directory.CreateDirectory(DirectoryPath);
-
-		File.WriteAllText($"{DirectoryPath}/{fileName}.json", json);
+		File.WriteAllText(_fullPath, json);
 	}
 
-	public static async Task Load(string directoryPath, string fileName, bool isMapLoad)
+	public static async Task Load(bool isMapLoad)
 	{
-		var DirectoryPath = directoryPath;
-
-		if (!Directory.Exists(DirectoryPath))
+		if (!Directory.Exists(_directoryPath))
 		{
-			Directory.CreateDirectory(DirectoryPath);
-			//Debug.LogError($"Cant find directory, so file doesnt exist: {DirectoryPath}");
-			FirstLoad();
+			Directory.CreateDirectory(_directoryPath);
 
 			return;
 		}
 
-		if (!fileName.Contains(".json")) fileName += ".json";
+		if (!_fileName.Contains(".json")) _fileName += ".json";
 
-		if (!File.Exists($"{DirectoryPath}/{fileName}"))
+		string fullPath = Path.Combine(_directoryPath, _fileName);
+
+		if (!File.Exists(fullPath))
 		{
-			File.Create($"{DirectoryPath}/{fileName}").Close();
-			//Debug.LogError($"File doesnt exist: {DirectoryPath}/{fileName}");
-			FirstLoad();
-
 			return;
 		}
 
-		var json = await File.ReadAllTextAsync($"{DirectoryPath}/{fileName}");
+		var json = await File.ReadAllTextAsync(fullPath);
 
 		if (json == "")
 		{
-
-			FirstLoad();
-
 			return;
 		}
 
 		var dataSave = JsonUtility.FromJson<SaveDataClass>(json);
-
-		//GameEvents.OnSceneLoad?.Invoke(dataSave._currentSceneName);
-		//GameEvents.OnCurrentMissionLoad?.Invoke(dataSave._currentMission);
 
 		if (isMapLoad)
 		{
@@ -66,8 +53,9 @@ public static class SaveAndLoad
 			return;
 		}
 
-		GameEvents.OnGameLoad?.Invoke();
-		GameEvents.OnTransformLoad?.Invoke(dataSave._shipTransform);
+		IsLoadBase = dataSave.IsOnBase;
+
+		GameEvents.OnTransformLoad?.Invoke(dataSave._shipTransform, dataSave._currentBase, dataSave.IsOnBase);
 		GameEvents.OnCurrentMissionLoad?.Invoke(dataSave._currentMission);
 		GameEvents.OnCurrentDialogueLoad?.Invoke(dataSave._currentDialogue);
 		GameEvents.OnCurrentDayLoad?.Invoke(dataSave._currentDay);
@@ -79,37 +67,27 @@ public static class SaveAndLoad
 		for (int i = 0; i < 4; i++) GameEvents.OnResourceSourcesLoad?.Invoke(i, dataSave.ResourceSources[i]);
 		GameEvents.OnResearchShipsLoad?.Invoke(dataSave.ResearchShips);
 		GameEvents.OnImprovementPanelsLoad?.Invoke(dataSave.ImprovementsUnlock);
+
+		Debug.Log("Файл загружен");
 	}
 
-	private static void FirstLoad()
+	public static void CheckSaveFile()
 	{
-		//GameEvents.OnSceneLoad?.Invoke("IntroductionScene");
-		GameEvents.OnCurrentMissionLoad?.Invoke(0);
-		GameEvents.OnCurrentDialogueLoad?.Invoke(0);
-		GameEvents.OnTransformLoad?.Invoke(new SaveDataClass.ShipTransform(0, 0, 0, 0, 0, 0));
-		Debug.Log("FirstLoad");
-		//GameEvents.OnPositionLoad?.Invoke(Vector3.zero);
-	}
-
-	public static void CheckSaveFile(string directoryPath, string fileName)
-	{
-		var DirectoryPath = directoryPath;
-
-		if (!Directory.Exists(DirectoryPath))
+		if (!Directory.Exists(_directoryPath))
 		{
-			Directory.CreateDirectory(DirectoryPath);
 			return;
 		}
 
-		if (!fileName.Contains(".json")) fileName += ".json";
+		if (!_fileName.Contains(".json")) _fileName += ".json";
 
-		if (!File.Exists($"{DirectoryPath}/{fileName}"))
+		string fullPath = Path.Combine(_directoryPath, _fileName);
+
+		if (!File.Exists(fullPath))
 		{
-			File.Create($"{DirectoryPath}/{fileName}").Close();
 			return;
 		}
 
-		var json = File.ReadAllText($"{DirectoryPath}/{fileName}");
+		var json = File.ReadAllText(fullPath);
 
 		if (json == "")
 		{

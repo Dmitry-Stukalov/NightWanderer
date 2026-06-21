@@ -30,6 +30,7 @@ public class StateMachineMovement : StateMachineState
 	protected float RotationX;
 	protected float RotationY;
 	protected bool IsCleanerWorking;
+	protected bool IsFirstLoad = true;
 
 
 	public StateMachineMovement(int id, StateMachineManager manager, GameObject playerCameraRotationObject, GameObject shipObject, Transform ship, UIManager uiManager, Transform vacuumCleanerObject, VacuumCleaner vacuumCleaner, Fuel shipFuel, JetEngines shipEngines, InputAction moveAction, InputAction upDownMoveAction, InputAction lookAction, float lookSpeed) : base(id, manager, ship, uiManager) 
@@ -80,6 +81,13 @@ public class StateMachineMovement : StateMachineState
 
 	public override void Update()
 	{
+		if (SaveAndLoad.IsLoadGame && IsFirstLoad)
+		{
+			RotationX = StateManager.RotationX;
+			RotationY = StateManager.RotationY;
+			IsFirstLoad = false;
+		}
+
 		base.Update();
 
 		if (Keyboard.current.tabKey.wasPressedThisFrame) ((PlayerUIManager)_UIManager).OpenCloseInventory();
@@ -95,7 +103,7 @@ public class StateMachineMovement : StateMachineState
 			StateManager.SetState(10);
 		}
 
-		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame)
+		if (Ship.GetComponent<ShipMovement>().IsCanDocking && Keyboard.current.fKey.wasPressedThisFrame || SaveAndLoad.IsLoadBase)
 		{
 			if (StateManager.IsCleanerWorking) VacuumCleaner();
 
@@ -103,6 +111,8 @@ public class StateMachineMovement : StateMachineState
 			StateManager.TargetCameraRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 
 			ShipFuel.Refueling(ShipFuel.GetMaxFuel());
+
+			SaveAndLoad.IsLoadBase = false;
 
 			StateManager.NextState = 20;
 			StateManager.SetState(10);
@@ -220,7 +230,7 @@ public class StateMachineMovement : StateMachineState
 
 	protected void VacuumCleaner()
 	{
-		if (!Cleaner.IsInitializing) return;
+		if (!Cleaner.IsInitializing || Time.timeScale == 0) return;
 
 		if (!StateManager.IsCleanerWorking)
 		{

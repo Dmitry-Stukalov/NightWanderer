@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 //Добавить на любую базу
 public class Base : MonoBehaviour
 {
+	[SerializeField] private int ID;
 	[SerializeField] private GameObject _dockingPlatform;
 	[SerializeField] private Animator _animator;
 	[SerializeField] private Animator _entryAnimator;
@@ -70,4 +71,5 @@ public class Base : MonoBehaviour
 	//public void CloseBaseUI() => _playerUI.OutBase();
 
 	public Vector3 GetPlatformPosition() => new Vector3(_dockingPlatform.transform.position.x, _dockingPlatform.transform.position.y + 0.7f, _dockingPlatform.transform.position.z);
+	public int GetID() => ID;
 }

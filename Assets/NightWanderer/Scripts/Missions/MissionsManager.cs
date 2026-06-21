@@ -74,7 +74,11 @@ public class MissionsManager : MonoBehaviour
 			GameEvents.OnMarkShow?.Invoke(0);
 		}
 
-		if (_currentMission == 6) GameEvents.OnMarkHide?.Invoke(0);
+		if (_currentMission == 6)
+		{
+			GameEvents.OnMarkHide?.Invoke(0);
+			GameEvents.OnDialogueStart?.Invoke();
+		}
 
 		OnMissionComplete?.Invoke();
 	}

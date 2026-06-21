@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,12 +27,9 @@ public class MainMenuManager : MonoBehaviour
 	private Button _cancelExitBackgroundButton;
 	private Stack<Action> _panelsStack = new Stack<Action>();
 
-	private string _directoryPath;
-
 	public void Initializing()
 	{
-		_directoryPath = Application.dataPath + "/Source/MissionsSaves";
-		SaveAndLoad.CheckSaveFile(_directoryPath, "DataSave");
+		SaveAndLoad.CheckSaveFile();
 
 		_menuUI = GetComponent<UIDocument>();
 
@@ -56,7 +54,7 @@ public class MainMenuManager : MonoBehaviour
 		_exitButton.RegisterCallback<ClickEvent>(OpenConfirmationExit);
 		_confirmExitButton.RegisterCallback<ClickEvent>(QuitGame);
 		_cancelExitButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
-		_cancelExitBackgroundButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
+		//_cancelExitBackgroundButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
 
 		_continueButton.RegisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.RegisterCallback<ClickEvent>(OpenConfirmationNewGame);
@@ -173,6 +171,14 @@ public class MainMenuManager : MonoBehaviour
 
 	private void QuitGame(ClickEvent evt)
 	{
+		GameEvents.OnSave?.Invoke();
+		StartCoroutine(QuiGamePause());
+	}
+
+	private IEnumerator QuiGamePause()
+	{
+		yield return new WaitForSecondsRealtime(1.5f);
+
 		Application.Quit();
 	}
 
@@ -197,7 +203,7 @@ public class MainMenuManager : MonoBehaviour
 		_exitButton.UnregisterCallback<ClickEvent>(OpenConfirmationExit);
 		_confirmExitButton.UnregisterCallback<ClickEvent>(QuitGame);
 		_cancelExitButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
-		_cancelExitBackgroundButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
+		//_cancelExitBackgroundButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
 
 		_continueButton.UnregisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.UnregisterCallback<ClickEvent>(OpenConfirmationNewGame);

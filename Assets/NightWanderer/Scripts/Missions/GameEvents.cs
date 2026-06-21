@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameEvents
-{ 
+{
 	//Начало игры
 	public static Action OnGameStart;
 	public static Action MainBootstrapInitializing;
@@ -81,6 +81,7 @@ public static class GameEvents
 
 	//Saves
 	public static Action OnSave;
+	public static Action OnDoSave;
 
 	public static Action<Inventory> OnInventorySave;
 	public static Action<Inventory> OnBaseInventorySave;
@@ -89,8 +90,8 @@ public static class GameEvents
 	public static Action<List<float>> OnStatsSave;
 	public static Action<int, Dictionary<int, int>> OnResourceSourcesSave;
 	public static Action<Dictionary<int, bool>> OnResearchShipsSave;
-	public static Action<Transform> OnTransformSave;
-	public static Action<Base> OnBaseSave;
+	public static Action<Transform, int, bool> OnTransformSave;
+	public static Action<int> OnBaseSave;
 	public static Action<string> OnSceneSave;
 	public static Action<int> OnCurrentDaySave;
 	public static Action<float> OnCurrentTimeSave;
@@ -107,8 +108,8 @@ public static class GameEvents
 	public static Action<IReadOnlyList<float>> OnStatsLoad;					//
 	public static Action<int, SaveDataClass.ResourceSourceData> OnResourceSourcesLoad;	//
 	public static Action<SaveDataClass.ResearchShipData> OnResearchShipsLoad;	//
-	public static Action<SaveDataClass.ShipTransform> OnTransformLoad;		//
-	public static Action<Base> OnBaseLoad;
+	public static Action<SaveDataClass.ShipTransform, int, bool> OnTransformLoad;		//
+	public static Action<int> OnBaseLoad;
 	public static Action<string> OnSceneLoad;					//
 	public static Action<int> OnCurrentDayLoad;					//
 	public static Action<float> OnCurrentTimeLoad;				//

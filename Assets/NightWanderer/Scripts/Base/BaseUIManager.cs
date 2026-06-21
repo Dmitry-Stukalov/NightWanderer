@@ -71,8 +71,8 @@ public class BaseUIManager : UIManager
 		_blackBackground.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
 
-		yield return new WaitForSeconds(3);
-		//yield return new WaitForSeconds(77);
+		//yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(77);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
 		//yield return new WaitForSeconds(4);
