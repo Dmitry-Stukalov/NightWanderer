@@ -170,7 +170,13 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		}
 	}
 
-	private void LoadData(float currentTime) => AllDayTimer.SetCurrentTime(currentTime);
+	private void LoadData(float currentTime)
+	{
+		AllDayTimer.SetCurrentTime(currentTime);
+
+		if (IsDayNow()) Damage = MaxDamage;
+		else Damage = 0;
+	}
 
 
 	private void LoadData(int currentDay)
