@@ -21,4 +21,15 @@ public class Bootstrap : MonoBehaviour
 		_lockRotation?.Initializing();
 		_giveStartResources?.Initializing();
 	}
+
+	private IEnumerator StartPause()
+	{
+		yield return new WaitForSecondsRealtime(0.5f);
+
+		_resourceLibrary?.Initializing();
+		_sun?.Initializing();
+		_weatherManager?.Initializing();
+		_lockRotation?.Initializing();
+		_giveStartResources?.Initializing();
+	}
 }

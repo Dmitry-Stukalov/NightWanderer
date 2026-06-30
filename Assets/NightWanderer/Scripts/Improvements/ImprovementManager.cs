@@ -116,7 +116,7 @@ public class ImprovementManager : MonoBehaviour
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(1.5f);
 
 		var newItem = _upgradePanel.Instantiate().hierarchy.ElementAt(0);
 

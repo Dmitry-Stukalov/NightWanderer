@@ -25,6 +25,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private int _day = 1;
 	private int _layerMask;
 	public bool IsTimeSkip { get; set; } = false;
+	private bool IsGameStart = false;
 
 	public event Action OnDayStart;
 	public event Action OnDayUpdate;
@@ -84,6 +85,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 		GameEvents.OnCurrentDayLoad += LoadData;
 		GameEvents.OnSave += SaveData;
 
+		GameEvents.OnGameStart += () => IsGameStart = true;
+
 		ResetDayTimer();
 	}
 
@@ -121,6 +124,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	public void TakeDamage(bool isFireDamage, float damage)
 	{
+		if (Health == null) Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
+
 		if (isFireDamage) Health?.GetFireDamage(damage);
 		else Health?.GetDamage(damage);
 	}
@@ -129,23 +134,25 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	private void Update()
 	{
+		if (!IsGameStart) return;
+
 		if (IsTimeSkip)
 		{
-			AllDayTimer.Tick(Time.deltaTime * 15);
-			TransitionDayTimer.Tick(Time.deltaTime * 15);
-			TransitionNightTimer.Tick(Time.deltaTime * 15);
+			AllDayTimer?.Tick(Time.deltaTime * 15);
+			TransitionDayTimer?.Tick(Time.deltaTime * 15);
+			TransitionNightTimer?.Tick(Time.deltaTime * 15);
 		}
         else
         {
-			AllDayTimer.Tick(Time.deltaTime);
-			TransitionDayTimer.Tick(Time.deltaTime);
-			TransitionNightTimer.Tick(Time.deltaTime);
+			AllDayTimer?.Tick(Time.deltaTime);
+			TransitionDayTimer?.Tick(Time.deltaTime);
+			TransitionNightTimer?.Tick(Time.deltaTime);
 		}
 
 		transform.rotation = Quaternion.Euler(-360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 		Moon.transform.rotation = Quaternion.Euler(360 / (AllDayTimer.MaxTime / AllDayTimer.CurrentTime), 0, 0);
 
-		TakeDamageTimer.Tick(Time.deltaTime);
+		TakeDamageTimer?.Tick(Time.deltaTime);
 
 		if (Damage > 0)
 		{
@@ -155,12 +162,16 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 			System.Array.Sort(SunRayCast, (a, b) => a.distance.CompareTo(b.distance));
 
-			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player")) TakeDamageTimer.Continue();
+			if (SunRayCast.Length > 0 && SunRayCast[0].transform.CompareTag("Player"))
+			{
+				TakeDamageTimer.Continue();
+			}
 			else TakeDamageTimer.ResetTimer(true);
 		}
 	}
 
 	private void LoadData(float currentTime) => AllDayTimer.SetCurrentTime(currentTime);
+
 
 	private void LoadData(int currentDay)
 	{
@@ -182,6 +193,8 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 		GameEvents.OnCurrentTimeLoad -= LoadData;
 		GameEvents.OnSave -= SaveData;
+
+		GameEvents.OnGameStart -= () => IsGameStart = true;
 	}
 }
  

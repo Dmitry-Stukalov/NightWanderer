@@ -50,8 +50,6 @@ public class ResourceLibrary : MonoBehaviour
 				obj.SetActive(false);
 			}
 		}
-
-		Debug.Log($"В игре всего {Resources.Length} ресурсов");
 	}
 
 	//Получение ресурса из пула

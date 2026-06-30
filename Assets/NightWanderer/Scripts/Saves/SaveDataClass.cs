@@ -34,7 +34,6 @@ public class SaveDataClass
 		GameEvents.OnResourceSourcesSave += SetResourceSources;
 		GameEvents.OnResearchShipsSave += SetResearchShips;
 		GameEvents.OnTransformSave += SetTransform;
-		GameEvents.OnBaseSave += SetCurrentBase;
 		GameEvents.OnSceneSave += SetSceneName;
 		GameEvents.OnCurrentDaySave += SetCurrentDay;
 		GameEvents.OnCurrentTimeSave += SetCurrentTime;
@@ -97,7 +96,6 @@ public class SaveDataClass
 		IsOnBase = isOnBase;
 	}
 
-	public void SetCurrentBase(int currentBase) => _currentBase = currentBase;
 	public void SetSceneName(string currentScene) => _currentSceneName = currentScene;
 	public void SetCurrentDay(int currentDay) => _currentDay = currentDay;
 	public void SetCurrentTime(float currentTime) => _currentTime = currentTime;
@@ -114,7 +112,6 @@ public class SaveDataClass
 		GameEvents.OnResourceSourcesSave -= SetResourceSources;
 		GameEvents.OnResearchShipsSave -= SetResearchShips;
 		GameEvents.OnTransformSave -= SetTransform;
-		GameEvents.OnBaseSave -= SetCurrentBase;
 		GameEvents.OnSceneSave -= SetSceneName;
 		GameEvents.OnCurrentDaySave -= SetCurrentDay;
 		GameEvents.OnCurrentTimeSave -= SetCurrentTime;

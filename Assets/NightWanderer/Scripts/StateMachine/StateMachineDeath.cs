@@ -36,6 +36,7 @@ public class StateMachineDeath : StateMachineState
 
 		if (!StateManager.IsDead && StateManager.CurrentBase != null)
 		{
+			StateManager.TargetShipPosition = StateManager.CurrentBase.GetPlatformPosition();
 			StateManager.TargetShipRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 			StateManager.TargetCameraRotation = Quaternion.Euler(0, CompareDifference(Ship.rotation.eulerAngles.y), 0);
 
@@ -44,7 +45,7 @@ public class StateMachineDeath : StateMachineState
 		}
 		else if (!StateManager.IsDead)
 		{
-			Ship.position += new Vector3(0, 3, 0);
+			//Ship.position += new Vector3(0, 3, 0);
 
 			StateManager._Animator.SetBool("IsIdle", false);
 

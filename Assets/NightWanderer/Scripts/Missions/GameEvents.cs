@@ -62,8 +62,8 @@ public static class GameEvents
 	public static Action OnDayStart;
 	public static Action OnNightStart;
 
-	public static Action OnMapFogOn;
-	public static Action OnMapFogOff;
+	public static Action OnMapFogOn { get; set; }
+	public static Action OnMapFogOff { get; set; }
 
 	public static Action OnVacuumCleanerOn;
 	public static Action OnVacuumCleanerOff;
@@ -91,7 +91,6 @@ public static class GameEvents
 	public static Action<int, Dictionary<int, int>> OnResourceSourcesSave;
 	public static Action<Dictionary<int, bool>> OnResearchShipsSave;
 	public static Action<Transform, int, bool> OnTransformSave;
-	public static Action<int> OnBaseSave;
 	public static Action<string> OnSceneSave;
 	public static Action<int> OnCurrentDaySave;
 	public static Action<float> OnCurrentTimeSave;
@@ -109,7 +108,6 @@ public static class GameEvents
 	public static Action<int, SaveDataClass.ResourceSourceData> OnResourceSourcesLoad;	//
 	public static Action<SaveDataClass.ResearchShipData> OnResearchShipsLoad;	//
 	public static Action<SaveDataClass.ShipTransform, int, bool> OnTransformLoad;		//
-	public static Action<int> OnBaseLoad;
 	public static Action<string> OnSceneLoad;					//
 	public static Action<int> OnCurrentDayLoad;					//
 	public static Action<float> OnCurrentTimeLoad;				//

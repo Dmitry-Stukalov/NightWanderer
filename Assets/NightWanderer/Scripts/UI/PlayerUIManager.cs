@@ -84,7 +84,7 @@ public class PlayerUIManager : UIManager
 		{
 			yield return new WaitForSeconds(58f);
 		}
-		else yield return new WaitForSeconds(1.7f);
+		else yield return new WaitForSeconds(5f);
 
 		StartGame();
 	}

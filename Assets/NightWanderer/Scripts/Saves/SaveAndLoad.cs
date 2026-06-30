@@ -18,6 +18,8 @@ public static class SaveAndLoad
 		var json = JsonUtility.ToJson(saveDataClass);
 
 		File.WriteAllText(_fullPath, json);
+
+		Debug.Log(_directoryPath);
 	}
 
 	public static async Task Load(bool isMapLoad)
@@ -67,6 +69,8 @@ public static class SaveAndLoad
 		for (int i = 0; i < 4; i++) GameEvents.OnResourceSourcesLoad?.Invoke(i, dataSave.ResourceSources[i]);
 		GameEvents.OnResearchShipsLoad?.Invoke(dataSave.ResearchShips);
 		GameEvents.OnImprovementPanelsLoad?.Invoke(dataSave.ImprovementsUnlock);
+
+		GameEvents.OnGameLoad?.Invoke();
 
 		Debug.Log("Файл загружен");
 	}

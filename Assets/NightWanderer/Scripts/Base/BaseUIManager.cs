@@ -113,7 +113,7 @@ public class BaseUIManager : UIManager
 		//OnBase = false;
 	}
 
-	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("");
+	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("storage");
 
 	private void CraftButtonClick(ClickEvent evt) => OpenCloseUI("craft");
 

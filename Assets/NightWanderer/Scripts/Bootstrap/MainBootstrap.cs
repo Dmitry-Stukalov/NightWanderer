@@ -38,7 +38,7 @@ public class MainBootstrap : MonoBehaviour
 
 		_effectsManager?.Initializing();
 
-		_searchlightManager.Initializing();
+		_searchlightManager.Initializing(); 
 		_baseInventory?.Initializing();
 		_missionsManager?.Initializing();
 		_dialogueManager?.Initializing();
@@ -51,7 +51,7 @@ public class MainBootstrap : MonoBehaviour
 
 	private IEnumerator StartPause()
 	{
-		yield return new WaitForSecondsRealtime(1f);
+		yield return new WaitForSecondsRealtime(1.5f);
 
 		_playerInventoryBuilder?.Initializing();
 		_inventoryButton?.Initializing();

@@ -57,6 +57,8 @@ public class ShipMovement : MonoBehaviour
 	private InputAction MoveAction;
 	private InputAction UpDownMoveAction;
 	private InputAction LookAction;
+
+	private Sun _sun;
 	public Vector3 ResourceSourcePosition { get; set; }
 	public Vector3 BasePosition { get; set; }
 	public bool IsCanMiningResource { get; set; } = false;
@@ -120,6 +122,7 @@ public class ShipMovement : MonoBehaviour
 	public void OpenSceneInitializing()
 	{
 		_resourceLibrary = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
+		_sun = FindAnyObjectByType<Sun>();
 
 		_vacuumCleaner.Initializing(_resourceLibrary, gameObject, VacuumCleanerObject, new Vector3(VacuumCleanerObject.transform.localScale.x / 2, VacuumCleanerObject.transform.localScale.y / 2, VacuumCleanerObject.transform.localScale.z / 2));
 	}
@@ -269,17 +272,20 @@ public class ShipMovement : MonoBehaviour
 
 		StateMachineManager.Update();
 
-		if (transform.position.y >= 40 && !IsMapFogOn)
+		if (_sun != null)
 		{
-			IsMapFogOn = true;
+			if (transform.position.y >= 40 && !IsMapFogOn && !_sun.IsDayNow())
+			{
+				IsMapFogOn = true;
 
-			GameEvents.OnMapFogOn?.Invoke();
-		}
-		if (transform.position.y < 40 && IsMapFogOn)
-		{
-			IsMapFogOn = false;
+				GameEvents.OnMapFogOn?.Invoke();
+			}
+			if (transform.position.y < 40 && IsMapFogOn && !_sun.IsDayNow())
+			{
+				IsMapFogOn = false;
 
-			GameEvents.OnMapFogOff?.Invoke();
+				GameEvents.OnMapFogOff?.Invoke();
+			}
 		}
 
 		if (StateMachineManager.GetCurrentState() == 1 || StateMachineManager.GetCurrentState() == 2) _searchlightManager.StartMove();
@@ -312,12 +318,14 @@ public class ShipMovement : MonoBehaviour
 				if (bases[i].GetID() == currentBase)
 				{
 					StateMachineManager.CurrentBase = bases[i];
+					GameEvents.OnBase?.Invoke(bases[i]);
 
 					if (isOnBase)
 					{
 						IsCanDocking = true;
 						transform.position = position;
 						StateMachineManager.TargetShipPosition = bases[i].GetPlatformPosition();
+
 					}
 					else
 					{
@@ -338,9 +346,6 @@ public class ShipMovement : MonoBehaviour
 			StateMachineManager.RotationX = shipTransform.RX;
 			StateMachineManager.RotationY = shipTransform.RY;
 		}
-
-
-		GameEvents.OnGameLoad?.Invoke();
 	}
 
 	public void LoadData(IReadOnlyList<float> stats)
@@ -360,9 +365,6 @@ public class ShipMovement : MonoBehaviour
 
 		if (StateMachineManager.CurrentBase == null) GameEvents.OnTransformSave?.Invoke(transform, 0, false);
 		else GameEvents.OnTransformSave?.Invoke(transform, StateMachineManager.CurrentBase.GetID(), StateMachineManager.GetCurrentState() == 20);
-
-		if (StateMachineManager.GetCurrentState() == 20) GameEvents.OnBaseSave?.Invoke(StateMachineManager.CurrentBase.GetID());
-		else GameEvents.OnBaseSave?.Invoke(-1);
 
 		List<float> stats = new List<float>();
 

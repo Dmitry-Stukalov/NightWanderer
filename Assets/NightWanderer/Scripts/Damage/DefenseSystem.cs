@@ -159,10 +159,12 @@ public class DefenseSystem
 		if (IsDefense) _damageEffect.style.backgroundImage = new StyleBackground(_defenseSprite);
 		else _damageEffect.style.backgroundImage = new StyleBackground(_damageSprite);
 
+		DOTween.Kill(_damageEffect);
+
 		DOTween.To(() => _damageEffect.resolvedStyle.opacity, x => _damageEffect.style.opacity = x, 1, 0.2f)
 			.OnComplete(() =>
 			{
-				DOTween.To(() => _damageEffect.resolvedStyle.opacity, x => _damageEffect.style.opacity = x, 0, 1f).SetDelay(1f);
+				DOTween.To(() => _damageEffect.resolvedStyle.opacity, x => _damageEffect.style.opacity = x, 0, 0.5f).SetDelay(0.5f);
 			});
 	}
 
