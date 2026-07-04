@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class StateMachineState
 {
@@ -37,5 +38,10 @@ public abstract class StateMachineState
 
 			StateManager.SetState(10);
 		}
+
+		if (Keyboard.current.tKey.wasPressedThisFrame) GameEvents.OnOffSearchlights?.Invoke();
+
+		if (ID == 1 || ID == 2) GameEvents.OnSearchlightsStartMove?.Invoke();
+		if (ID == 0 || ID == 3) GameEvents.OnSearchlightsStartSearch?.Invoke();
 	}
 }

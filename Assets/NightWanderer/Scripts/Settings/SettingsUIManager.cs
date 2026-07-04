@@ -108,8 +108,6 @@ public class SettingsUIManager : UIManager
 	{
 		GameEvents.OnSave?.Invoke();
 
-		//SceneManager.LoadScene("MainMenu");
-
 		StartCoroutine(ToMainMenuPause());
 	}
 

@@ -20,16 +20,20 @@ public class Bootstrap : MonoBehaviour
 		_weatherManager?.Initializing();
 		_lockRotation?.Initializing();
 		_giveStartResources?.Initializing();
+
+		if (!SaveAndLoad.IsLoadGame) GameEvents.OnGameStart?.Invoke();
 	}
 
-	private IEnumerator StartPause()
-	{
-		yield return new WaitForSecondsRealtime(0.5f);
+	//private IEnumerator StartPause()
+	//{
+	//	yield return new WaitForSecondsRealtime(0.5f);
 
-		_resourceLibrary?.Initializing();
-		_sun?.Initializing();
-		_weatherManager?.Initializing();
-		_lockRotation?.Initializing();
-		_giveStartResources?.Initializing();
-	}
+	//	_resourceLibrary?.Initializing();
+	//	_sun?.Initializing();
+	//	_weatherManager?.Initializing();
+	//	_lockRotation?.Initializing();
+	//	_giveStartResources?.Initializing();
+
+	//	if (!SaveAndLoad.IsLoadGame) GameEvents.OnGameStart?.Invoke();
+	//}
 }

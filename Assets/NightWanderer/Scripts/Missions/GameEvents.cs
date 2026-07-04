@@ -62,11 +62,15 @@ public static class GameEvents
 	public static Action OnDayStart;
 	public static Action OnNightStart;
 
-	public static Action OnMapFogOn { get; set; }
-	public static Action OnMapFogOff { get; set; }
+	public static Action OnMapFogOn;
+	public static Action OnMapFogOff;
 
 	public static Action OnVacuumCleanerOn;
 	public static Action OnVacuumCleanerOff;
+
+	public static Action OnOffSearchlights;
+	public static Action OnSearchlightsStartMove;
+	public static Action OnSearchlightsStartSearch;
 
 	//Sounds
 	public static Action OnMainMenuOut;

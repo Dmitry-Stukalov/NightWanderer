@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -14,9 +15,9 @@ public class Searchlight : MonoBehaviour
 	private float _startIntensity;
 	private Sequence _sequence;
 
-	public bool IsOn { get; set; } = false;
+	public bool IsOn { get; set; } = true;
 
-	public void Initializing(Sun sun)
+	public void Initializing()
 	{
 		DOTween.Init();
 
@@ -25,9 +26,9 @@ public class Searchlight : MonoBehaviour
 
 		_startRotation = _searchlightObject.transform.localRotation.eulerAngles;
 
-		sun.OnDayStart += () => IsOn = false;
+		GameEvents.OnDayStart += () => IsOn = false;
 
-		sun.OnNightStart += () => IsOn = true;
+		GameEvents.OnNightStart += () => IsOn = true;
 	}
 
 	public void SearchlightOnOff()
@@ -93,4 +94,11 @@ public class Searchlight : MonoBehaviour
 	}
 
 	public Light GetLight() => _light;
+
+	private void OnDisable()
+	{
+		GameEvents.OnDayStart -= () => IsOn = false;
+
+		GameEvents.OnNightStart -= () => IsOn = true;
+	}
 }

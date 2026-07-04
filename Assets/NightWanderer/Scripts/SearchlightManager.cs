@@ -14,10 +14,14 @@ public class SearchlightManager : MonoBehaviour
 	{
 		for (int i = 0; i < _searchlights.Length; i++)
 		{
-			_searchlights[i].Initializing(_sun);
+			_searchlights[i].Initializing();
 			_searchlights[i].PasteValues(_innerSpotAngle, _outerSpotAngle, _intensity, _range);
 			_searchlights[i].GetLight().shadows = LightShadows.Hard;
 		}
+
+		GameEvents.OnOffSearchlights += SearchlightOnOff;
+		GameEvents.OnSearchlightsStartMove += StartMove;
+		GameEvents.OnSearchlightsStartSearch += StartSearch;
 	}
 
 	public void SearchlightOnOff()
@@ -50,5 +54,12 @@ public class SearchlightManager : MonoBehaviour
 		for (int i = 0; i < _searchlights.Length; i++) _searchlights[i].StartFight();
 
 		_searchState = 3;
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnOffSearchlights -= SearchlightOnOff;
+		GameEvents.OnSearchlightsStartMove -= StartMove;
+		GameEvents.OnSearchlightsStartSearch -= StartSearch;
 	}
 }

@@ -14,7 +14,6 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private ImprovementManager _improvementManager;
 	[SerializeField] private InventoryButton _inventoryButton;
 	[SerializeField] private ResourceLibrary _resourceLibrary;
-	[SerializeField] private SearchlightManager _searchlightManager;
 	[SerializeField] private DeathManager _deathManager;
 	[SerializeField] private Sprite _defenseSprite;
 	[SerializeField] private Sprite _damageSprite;
@@ -262,13 +261,10 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
-	public void OnOffSearchLights() => _searchlightManager.SearchlightOnOff();
 
 	private void Update()
 	{
 		if (!IsGameStart || Time.timeScale == 0) return;
-
-		if (Keyboard.current.tKey.wasPressedThisFrame) OnOffSearchLights();
 
 		StateMachineManager.Update();
 
@@ -287,9 +283,6 @@ public class ShipMovement : MonoBehaviour
 				GameEvents.OnMapFogOff?.Invoke();
 			}
 		}
-
-		if (StateMachineManager.GetCurrentState() == 1 || StateMachineManager.GetCurrentState() == 2) _searchlightManager.StartMove();
-		if (StateMachineManager.GetCurrentState() == 0 || StateMachineManager.GetCurrentState() == 3) _searchlightManager.StartSearch();
 
 		if (StateMachineManager.NextState != 3)
 		{
