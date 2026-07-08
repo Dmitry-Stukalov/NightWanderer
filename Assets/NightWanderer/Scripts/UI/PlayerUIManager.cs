@@ -21,7 +21,12 @@ public class PlayerUIManager : UIManager
 	private VisualElement _tutorialPanel;
 	private VisualElement _hintPanel;
 	private VisualElement _criticalPanel;
-	private VisualElement _researchOpenPanel;
+	private VisualElement _inventoryBackground;
+	private VisualElement _recordsBackground;
+	private VisualElement _dataBaseBackground;
+	private Button _inventoryButton;
+	private Button _recordsButton;
+	private Button _dataBaseButton;
 	private Dictionary<string, VisualElement> _statusPanels;
 	private TutorialManager _tutorialManager;
 
@@ -53,6 +58,18 @@ public class PlayerUIManager : UIManager
 
 		var fireDefenseItemBackground = _playerUI.rootVisualElement.Q<VisualElement>("FireDefenseBackground");
 		fireDefenseItemBackground.dataSource = new HealthFireDefenseRecovery(fireDefense, _playerUI.rootVisualElement.Q<VisualElement>("FireDefenseForeground"));
+
+		_inventoryBackground = _playerUI.rootVisualElement.Q<VisualElement>("InventoryBackground");
+		_recordsBackground = _playerUI.rootVisualElement.Q<VisualElement>("RecordsBackground");
+		_dataBaseBackground = _playerUI.rootVisualElement.Q<VisualElement>("DataBaseBackground");
+
+		_inventoryButton = _playerUI.rootVisualElement.Q<Button>("InventoryButton");
+		_recordsButton = _playerUI.rootVisualElement.Q<Button>("RecordsButton");
+		_dataBaseButton = _playerUI.rootVisualElement.Q<Button>("DataBaseButton");
+
+		_inventoryButton.RegisterCallback<ClickEvent>(OpenInventory);
+		_recordsButton.RegisterCallback<ClickEvent>(OpenRecords);
+		_dataBaseButton.RegisterCallback<ClickEvent>(OpenDataBase);
 
 		_statusPanels = new Dictionary<string, VisualElement>();
 
@@ -148,8 +165,56 @@ public class PlayerUIManager : UIManager
 
 	public void OpenCloseInventory()
 	{
+		if (Inventory.IsOpen) OpenInventory();
 		Inventory.OpenCloseInventory();
 	}
+
+	//Ќачало методов по открытию и закрытию различных разделов в инвентаре
+
+	public void OpenInventory(ClickEvent evt)
+	{
+		CloseRecords();
+		CloseDataBase();
+		_inventoryBackground.style.display = DisplayStyle.Flex;
+	}
+
+	public void OpenInventory()
+	{
+		CloseRecords();
+		CloseDataBase();
+		_inventoryBackground.style.display = DisplayStyle.Flex;
+	}
+
+	public void CloseInventory()
+	{
+		_inventoryBackground.style.display = DisplayStyle.None;
+	}
+
+	public void OpenRecords(ClickEvent evt)
+	{
+		CloseInventory();
+		CloseDataBase();
+		_recordsBackground.style.display = DisplayStyle.Flex;
+	}
+
+	public void CloseRecords()
+	{
+		_recordsBackground.style.display = DisplayStyle.None;
+	}
+
+	public void OpenDataBase(ClickEvent evt)
+	{
+		CloseInventory();
+		CloseRecords();
+		_dataBaseBackground.style.display = DisplayStyle.Flex;
+	}
+
+	public void CloseDataBase()
+	{
+		_dataBaseBackground.style.display = DisplayStyle.None;
+	}
+
+	// онец методов по открытию и закрытию различных разделов в инвентаре
 
 	public void ShowStatusPanel(string name, string panelText)
 	{
@@ -235,5 +300,9 @@ public class PlayerUIManager : UIManager
 
 		/*if (SaveAndLoad.IsLoadGame)*/
 		GameEvents.OnGameLoad -= StartStartPause;
+
+		_inventoryButton.UnregisterCallback<ClickEvent>(OpenInventory);
+		_recordsButton.UnregisterCallback<ClickEvent>(OpenRecords);
+		_dataBaseButton.UnregisterCallback<ClickEvent>(OpenDataBase);
 	}
 }
