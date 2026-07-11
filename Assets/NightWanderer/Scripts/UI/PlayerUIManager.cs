@@ -97,11 +97,11 @@ public class PlayerUIManager : UIManager
 
 	private IEnumerator StartPause()
 	{
-		if (!SaveAndLoad.IsLoadGame)
+		/*if (!SaveAndLoad.IsLoadGame)
 		{
 			yield return new WaitForSeconds(58f);
 		}
-		else yield return new WaitForSeconds(5f);
+		else*/ yield return new WaitForSeconds(5f);
 
 		StartGame();
 	}

@@ -50,4 +50,11 @@ public class ResourceBase
 		MaxCount = 0;
 		CurrentCount = 0;
 	}
+
+	public virtual void Tick(Inventory inventory, IResourceFactory factory, int id, float deltaTime)
+	{
+
+	}
+
+	public virtual void OnDisable() { }
 }

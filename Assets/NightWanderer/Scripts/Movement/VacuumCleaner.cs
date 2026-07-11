@@ -39,6 +39,7 @@ public class VacuumCleaner : MonoBehaviour
 	private void SandCollection()
 	{
 		GameObject resource;
+		int randomNumber = Random.Range(0, 10000);
 
 		foreach (var collider in Physics.OverlapBox(_cleaner.transform.position, _halfVectorCleaner, Quaternion.identity))
 		{
@@ -46,7 +47,10 @@ public class VacuumCleaner : MonoBehaviour
 			{
 				for (int i = 0; i < 3; i++)
 				{
-					if (_sandCounts % 50 == 0 && _sandCounts != 1000 && _sandCounts != 0)
+					if (randomNumber <= 25) resource = _resourceLibrary.GetResource(7);
+					else if (randomNumber > 100 && randomNumber <= 115) resource = _resourceLibrary.GetResource(9);
+					else if (randomNumber > 500 & randomNumber <= 505) resource = _resourceLibrary.GetResource(8);
+					else if (_sandCounts % 50 == 0 && _sandCounts != 1000 && _sandCounts != 0)
 					{
 						resource = _resourceLibrary.GetResource(1);
 						GameEvents.OnDoMission?.Invoke(4, 1);

@@ -11,6 +11,7 @@ public class BaseInventory : MonoBehaviour
 	[SerializeField] private int InventoryCellCount;
 	private VisualElement Inventory;
 	private Inventory _baseInventory;
+	private ResourceLibrary _library;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
 	private bool IsProcessing = false;
 
@@ -25,7 +26,7 @@ public class BaseInventory : MonoBehaviour
 			var newCell = InventoryCell.Instantiate();
 			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(i);
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
@@ -38,6 +39,8 @@ public class BaseInventory : MonoBehaviour
 
 		GameEvents.OnSave += SaveData;
 	}
+
+	public void InitializeInventoryLibrary(ResourceLibrary library) => _library = library;
 
 	public void AddResource(ResourceBase newResource)
 	{
@@ -65,7 +68,7 @@ public class BaseInventory : MonoBehaviour
 
 		while (ResourceQueue.Count > 0)
 		{
-			_baseInventory.AddResource(ResourceQueue[0]);
+			_baseInventory.AddResource(ResourceQueue[0], false);
 			ResourceQueue.RemoveAt(0);
 
 			yield return null;
@@ -79,6 +82,10 @@ public class BaseInventory : MonoBehaviour
 
 	private void SaveData() => GameEvents.OnBaseInventorySave?.Invoke(_baseInventory);
 
+	private void Update()
+	{
+		_baseInventory.UpdateInventory(_library, Time.deltaTime);
+	}
 
 	private void OnDisable()
 	{

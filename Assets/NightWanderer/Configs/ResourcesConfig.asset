@@ -48,3 +48,18 @@ MonoBehaviour:
     <Name>k__BackingField: "\u041D\u0438\u043A\u0435\u043B\u044C"
     <ID>k__BackingField: 6
     <MaxCount>k__BackingField: 100
+  - <View>k__BackingField: {fileID: 21300000, guid: e759f15c383a2c8408b8dbaead54b263,
+      type: 3}
+    <Name>k__BackingField: "\u041A\u0430\u043C\u0435\u043D\u043D\u044B\u0439 \u0436\u0443\u043A"
+    <ID>k__BackingField: 7
+    <MaxCount>k__BackingField: 1
+  - <View>k__BackingField: {fileID: 21300000, guid: 366eaceb540f80c47a9ff393b0f5599e,
+      type: 3}
+    <Name>k__BackingField: "\u0416\u0443\u043A \u0441 \u0440\u0435\u0441\u0443\u0440\u0441\u0430\u043C\u0438"
+    <ID>k__BackingField: 8
+    <MaxCount>k__BackingField: 1
+  - <View>k__BackingField: {fileID: 21300000, guid: a11b851e9daaea544a7f0789499b8d90,
+      type: 3}
+    <Name>k__BackingField: "\u0416\u0443\u043A \u0432\u0440\u0435\u0434\u0438\u0442\u0435\u043B\u044C"
+    <ID>k__BackingField: 9
+    <MaxCount>k__BackingField: 1

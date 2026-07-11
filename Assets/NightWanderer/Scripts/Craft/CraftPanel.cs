@@ -55,7 +55,7 @@ public class CraftPanel
 		newCell.hierarchy.ElementAt(0).dataSource = new CellObject(true);
 
 		_cellResource = newCell.Q<VisualElement>("CellResource");
-		newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject();
+		newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(0);
 		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 		newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 

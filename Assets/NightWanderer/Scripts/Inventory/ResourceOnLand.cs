@@ -45,7 +45,9 @@ public class ResourceOnLand : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			other.transform.GetComponent<PlayerInventoryBuilder>().AddResource(ThisResource);
+			bool randomAdd = ThisResource.ID > 6;
+
+			other.transform.GetComponent<PlayerInventoryBuilder>().AddResource(ThisResource, randomAdd);
 			IsCollected = false;
 			ParentResource.OnRelease(gameObject);
 		}
@@ -61,5 +63,10 @@ public class ResourceOnLand : MonoBehaviour
 		else _rigidbody.useGravity = true;
 
 		_destroyTimer.Tick(Time.deltaTime);
+	}
+
+	private void OnDisable()
+	{
+		ThisResource.OnDisable();
 	}
 }

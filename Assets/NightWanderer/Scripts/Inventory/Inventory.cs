@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using TMPro;
+using System.Runtime.CompilerServices;
 
 
 //Инвентарь игрока
@@ -9,6 +10,7 @@ public class Inventory
 {
 	private int InventoryCellCount;
 	private ResourceCellObject[] _Inventory;
+	private List<int> emptyCells = new List<int>();
 	private int j = -1;
 
 	public Inventory(int inventoryCellCount)
@@ -22,12 +24,15 @@ public class Inventory
 		_Inventory[i] = obj;
 	}
 
-	public void AddResource(ResourceBase resource)
+	public void AddResource(ResourceBase resource, bool randomAdd)
 	{
 		int i = -1;
-		while (++i < InventoryCellCount)
+		j = -1;
+		emptyCells.Clear();
+
+		while (++i < InventoryCellCount - 1)
 		{
-			if (resource.CurrentCount == 0) return;
+			if (resource.CurrentCount == 0) return; 
 
 			//Ресурс есть, но он другой
 			if (_Inventory[i].GetId() != -1 && _Inventory[i].GetId() != resource.ID) continue;
@@ -36,6 +41,8 @@ public class Inventory
 			if (_Inventory[i].GetId() == -1)
 			{
 				if (j == -1) j = i;
+
+				emptyCells.Add(i);
 
 				continue;
 			}
@@ -62,15 +69,18 @@ public class Inventory
 			}
 		}
 
-		_Inventory[j].AddResource(resource);
-		j = -1;
+		if (randomAdd) _Inventory[emptyCells[Random.Range(0, emptyCells.Count)]].AddResource(resource);
+		else _Inventory[j].AddResource(resource);
 	}
 
-	public void AddResource(ResourceBase resource, int index)
+	public void AddResource(IResourceFactory factory, int resource, int index, int count)
 	{
-        if (_Inventory[index].GetId() == -1 || _Inventory[index].GetId() == resource.ID)
+        if (_Inventory[index].GetId() == -1 || _Inventory[index].GetId() == resource)
         {
-			_Inventory[index].AddResource(resource);
+			ResourceBase newResource = factory.GetResourceBase(resource);
+			newResource.CurrentCount = count;
+
+			_Inventory[index].AddResource(newResource);
         }
     }
 
@@ -83,4 +93,9 @@ public class Inventory
 
 	public int GetCellCount() => InventoryCellCount - 1;
 	public ResourceCellObject GetResourceData(int index) => _Inventory[index];
+
+	public void UpdateInventory(IResourceFactory factory, float deltaTime)
+	{
+		for (int i = 0; i < InventoryCellCount; i++) _Inventory[i].UpdateCell(this, factory, deltaTime);
+	}
 }

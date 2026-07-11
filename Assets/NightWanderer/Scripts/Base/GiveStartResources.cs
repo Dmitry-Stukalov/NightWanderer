@@ -53,7 +53,7 @@ public class GiveStartResources : MonoBehaviour
 			if (inventoryData.ResourceID[i] == -1) continue;
 			var newResource = _resourceLibrary.GetResourceBase(inventoryData.ResourceID[i]);
 			newResource.SetCount(inventoryData.ResourceCount[i]);
-			_playerInventoryBuilder.AddResource(newResource);
+			_playerInventoryBuilder.AddResource(newResource, false);
 		}
 	}
 

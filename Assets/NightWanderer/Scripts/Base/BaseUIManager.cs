@@ -67,17 +67,13 @@ public class BaseUIManager : UIManager
 
 	private IEnumerator OnBasePause()
 	{
-		//_baseUI.sortingOrder = -5;
 		_blackBackground.style.display = DisplayStyle.Flex;
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f);
 
-		//yield return new WaitForSeconds(3);
-		yield return new WaitForSeconds(77);
+		yield return new WaitForSeconds(3);
+		//yield return new WaitForSeconds(77);
 
 		DOTween.To(() => _blackBackground.resolvedStyle.opacity, x => _blackBackground.style.opacity = x, 1, 1f).OnComplete(() => _blackBackground.style.display = DisplayStyle.None);
-		//yield return new WaitForSeconds(4);
-
-		//_baseUI.sortingOrder = 10;
 	}
 
 	//Включает отображение UI на базе и выдвигает его вперед
@@ -88,14 +84,9 @@ public class BaseUIManager : UIManager
 		OpenCloseUI("storage");
 
 		if (IsFirstTime) IsFirstTime = false;
-		//else baseUI.sortingOrder = 10;
-
-		//_mainBackground.style.display = DisplayStyle.Flex;
 
 		UnityEngine.Cursor.visible = true;
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
-
-		//OnBase = true;
 	}
 
 	//Выключает отображение UI на базе и задвигает его назад
@@ -103,14 +94,8 @@ public class BaseUIManager : UIManager
 	{
 		_mainElement.style.display = DisplayStyle.None;
 
-		//_baseUI.sortingOrder = -5;
-
-		//_mainBackground.style.display = DisplayStyle.None;
-
 		UnityEngine.Cursor.visible = false;
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-
-		//OnBase = false;
 	}
 
 	private void StorageButtonClick(ClickEvent evt) => OpenCloseUI("storage");

@@ -20,6 +20,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	private VisualElement Inventory;
 	private VisualElement Inventory2;
 	private Inventory _PlayerInventory;
+	private ResourceLibrary _library;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
 	private ResourceCellObject[] _inventoryCellsResources;
 	private CellObject[] _inventoryCells;
@@ -47,7 +48,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			newCell.style.flexBasis = _inventoryCellSize;
 			newCell.style.height = _inventoryCellSize;
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(/*this, i*/);
+			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(i);
 			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 
 			newCell.dataSource = new CellObject(false);
@@ -68,7 +69,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			Inventory2.Add(newCell2);
 
 			_PlayerInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").dataSource, i);
-
+			 
 			if (i == InventoryCellCount)
 			{
 				newCell.transform.position = new Vector2(0, 10000);
@@ -79,7 +80,9 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		GameEvents.OnSave += SaveData;
 	}
 
-	public void AddResource(ResourceBase newResource)
+	public void InitializeInventoryLibrary(ResourceLibrary library) => _library = library;
+
+	public void AddResource(ResourceBase newResource, bool randomAdd)
 	{
 		if (ResourceQueue.Count > 0 && newResource.CurrentCount > 0)
 		{
@@ -94,18 +97,19 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			}
 		}
 
-		if (newResource.CurrentCount != 0) ResourceQueue.Add(newResource);
+		if (newResource.CurrentCount != 0) 
+			ResourceQueue.Add(newResource);
 
-		if (!IsProcessing) StartCoroutine(ProcessResourceQueue());
+		if (!IsProcessing) StartCoroutine(ProcessResourceQueue(randomAdd));
 	}
 
-	private IEnumerator ProcessResourceQueue()
+	private IEnumerator ProcessResourceQueue(bool randomAdd)
 	{
 		IsProcessing = true;
 
 		while (ResourceQueue.Count > 0)
 		{
-			_PlayerInventory.AddResource(ResourceQueue[0]);
+			_PlayerInventory.AddResource(ResourceQueue[0], randomAdd);
 			ResourceQueue.RemoveAt(0);
 
 			yield return null;
@@ -146,4 +150,14 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	public Inventory GetPlayerInventory() => _PlayerInventory;
 
 	private void SaveData() => GameEvents.OnInventorySave?.Invoke(_PlayerInventory);
+
+	private void Update()
+	{
+		_PlayerInventory?.UpdateInventory(_library, Time.deltaTime);
+	}
+
+	private void OnDisable()
+	{
+		GameEvents.OnSave -= SaveData;
+	}
 }

@@ -91,6 +91,8 @@ public class MainBootstrap : MonoBehaviour
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlightsPower(), "SearchlightPower");
 		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
+		_playerInventoryBuilder?.InitializeInventoryLibrary(GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
+		_baseInventory?.InitializeInventoryLibrary(GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
 	}
 
 	private void CheckLoadScene(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)

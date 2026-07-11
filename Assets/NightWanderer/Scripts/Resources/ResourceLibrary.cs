@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 //Хранит информацию о всех типах ресурсов, а также пул объектов ресурсов. Предоставляет источникам объекты из пула когда это требуется.
-public class ResourceLibrary : MonoBehaviour
+public class ResourceLibrary : MonoBehaviour, IResourceFactory
 {
 	[field: SerializeField] ResourceConfig config;
 	[field: SerializeField] ResourceCraftConfig craftConfig;
@@ -49,6 +49,40 @@ public class ResourceLibrary : MonoBehaviour
 				ResourcePool.Add(obj);
 				obj.SetActive(false);
 			}
+		}
+
+		//Создается 10 объектов каменного жука
+		for (int i = 0; i < 10; i++)
+		{
+			StoneBugResource newResource = new StoneBugResource(config.Resources[7].View, config.Resources[7].Name, config.Resources[7].ID);
+			GameObject obj = Instantiate(Resources[7], transform.position, Quaternion.identity);
+			obj.GetComponent<ResourceOnLand>().SetResource(newResource);
+			obj.GetComponent<ResourceOnLand>().ChangeParent(this);
+			ResourcePool.Add(obj);
+			obj.SetActive(false);
+		}
+
+		//Создается 10 объектов ресурсного жука
+		for (int i = 0; i < 10; i++)
+		{
+			ProducerBugResource newResource = new ProducerBugResource(config.Resources[8].View, config.Resources[8].Name, config.Resources[8].ID);
+			GameObject obj = Instantiate(Resources[8], transform.position, Quaternion.identity);
+			obj.GetComponent<ResourceOnLand>().SetResource(newResource);
+			obj.GetComponent<ResourceOnLand>().ChangeParent(this);
+			ResourcePool.Add(obj);
+			obj.SetActive(false);
+		}
+
+
+		//Создается 10 объектов жука вредителя
+		for (int i = 0; i < 10; i++)
+		{
+			EaterBugResource newResource = new EaterBugResource(config.Resources[9].View, config.Resources[9].Name, config.Resources[9].ID);
+			GameObject obj = Instantiate(Resources[9], transform.position, Quaternion.identity);
+			obj.GetComponent<ResourceOnLand>().SetResource(newResource);
+			obj.GetComponent<ResourceOnLand>().ChangeParent(this);
+			ResourcePool.Add(obj);
+			obj.SetActive(false);
 		}
 	}
 
