@@ -81,6 +81,7 @@ public class MainBootstrap : MonoBehaviour
 	{
 		yield return new WaitForSecondsRealtime(1f);
 
+
 		_shipMovement.OpenSceneInitializing();
 		_weatherPanel?.Initializing();
 		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
