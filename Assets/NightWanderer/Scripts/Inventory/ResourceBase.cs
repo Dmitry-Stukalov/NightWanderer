@@ -51,7 +51,7 @@ public class ResourceBase
 		CurrentCount = 0;
 	}
 
-	public virtual void Tick(Inventory inventory, IResourceFactory factory, int id, float deltaTime)
+	public virtual void Tick(Inventory inventory, IResourceFactory factory, Vector2Int id, float deltaTime)
 	{
 
 	}

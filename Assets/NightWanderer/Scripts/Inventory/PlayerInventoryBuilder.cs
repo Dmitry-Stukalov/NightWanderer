@@ -1,11 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static Unity.VisualScripting.Metadata;
 
 
 //ќтвечает за инвентарь игрока, добавление и удаление из него ресурсов
@@ -14,17 +13,22 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	[SerializeField] private UIDocument PlayerUI;
 	[SerializeField] private UIDocument BaseUI;
 	[SerializeField] private VisualTreeAsset InventoryCell;
+	[SerializeField] private VisualTreeAsset CreateInventoryCell;
+	[SerializeField] private VisualTreeAsset DeleteInventoryCell;
 	[SerializeField] private string InventoryElementName;
 	[SerializeField] private string InventoryElementName2;
 	[SerializeField] private int InventoryCellCount;
 	private VisualElement Inventory;
 	private VisualElement Inventory2;
-	private Inventory _PlayerInventory;
+	private List<VisualElement> _createdCells = new List<VisualElement>();
+	private List<VisualElement> _deletedCells = new List<VisualElement>();
+	private VisualElement _lastCell;
+	private Inventory _playerInventory;
 	private ResourceLibrary _library;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
-	private ResourceCellObject[] _inventoryCellsResources;
-	private CellObject[] _inventoryCells;
-	private int _inventoryCellSize;
+	private Dictionary<Vector2Int, bool> _createdInventory = new Dictionary<Vector2Int, bool>();
+	private int _inventoryCellSize, _baseInventoryCellSize;
+	private float _inventoryHalfWidth, _inventoryHalfHeight, _baseInventoryHalfWidth, _baseInventoryHalfHeight;
 	private bool IsProcessing = false;
 
 	public void Initializing()
@@ -32,53 +36,47 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		Inventory = PlayerUI.rootVisualElement.Q<VisualElement>(InventoryElementName);
 		Inventory2 = BaseUI.rootVisualElement.Q<VisualElement>(InventoryElementName2);
 
-		_PlayerInventory = new Inventory(InventoryCellCount + 1);
+		_playerInventory = new Inventory();
+		_playerInventory.InitializeArray(2, 2);
 
-		_inventoryCellsResources = new ResourceCellObject[InventoryCellCount];
-		_inventoryCells = new CellObject[InventoryCellCount];
+		_inventoryHalfWidth = Inventory.resolvedStyle.width / 2;
+		_inventoryHalfHeight = Inventory.resolvedStyle.height / 2;
+		_inventoryCellSize = (int)(Inventory.resolvedStyle.height / 5);
 
-		_inventoryCellSize = (int)(Inventory.layout.width / 8);
+		_baseInventoryHalfWidth = Inventory2.resolvedStyle.width / 2;
+		_baseInventoryHalfHeight = Inventory2.resolvedStyle.height / 2;
+		_baseInventoryCellSize = (int)(Inventory2.resolvedStyle.height / 7);
 
-		for (int i = 0; i < InventoryCellCount + 1; i++)
+		Vector2Int[] startCells = new Vector2Int[] { new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(0, 1), new Vector2Int(1, 1) };
+
+		CreateNewCell(Inventory, new Vector2Int(99, 99));
+
+		for (int i = 0 ; i < startCells.Length; i++)
 		{
-			var newCell = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+			var newCell = CreateNewCell(Inventory, startCells[i]);
 			var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
-
-			newCell.style.width = _inventoryCellSize;
-			newCell.style.flexBasis = _inventoryCellSize;
-			newCell.style.height = _inventoryCellSize;
-
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(i);
-			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
-
-			newCell.dataSource = new CellObject(false);
-			newCell.AddToClassList("BorderCell");
-
-			if (i < InventoryCellCount)
-			{
-				_inventoryCellsResources[i] = (ResourceCellObject)(newCell.Q<VisualElement>("CellResource").dataSource);
-				_inventoryCells[i] = (CellObject)newCell.dataSource;
-			}
 
 			newCell2.Q<VisualElement>("CellResource").dataSource = newCell.Q<VisualElement>("CellResource").dataSource;
 			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
 			newCell2.dataSource = new CellObject(false);
 			newCell2.AddToClassList("BorderCell");
 
-			Inventory.Add(newCell);
-			Inventory2.Add(newCell2);
+			newCell2.style.width = _baseInventoryCellSize;
+			newCell2.style.flexBasis = _baseInventoryCellSize;
+			newCell2.style.height = _baseInventoryCellSize;
 
-			_PlayerInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").dataSource, i);
-			 
-			if (i == InventoryCellCount)
-			{
-				newCell.transform.position = new Vector2(0, 10000);
-				newCell2.transform.position = new Vector2(0, 10000);
-			}
+			newCell2.style.left = _baseInventoryHalfWidth - _baseInventoryCellSize + startCells[i].x * _baseInventoryCellSize;
+			newCell2.style.top = _baseInventoryHalfHeight - _baseInventoryCellSize + startCells[i].y * _baseInventoryCellSize;
+
+			Inventory2.Add(newCell2);
 		}
 
 		GameEvents.OnSave += SaveData;
-	}
+		GameEvents.OnOpenCreateCells += ShowCreatedCells;
+		GameEvents.OnOpenCreateCells += ShowDeletedCells;
+		GameEvents.OnCloseCreateCells += HideCreatedCells;
+		GameEvents.OnCloseCreateCells2 += HideCreatedCells;
+}
 
 	public void InitializeInventoryLibrary(ResourceLibrary library) => _library = library;
 
@@ -103,13 +101,14 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		if (!IsProcessing) StartCoroutine(ProcessResourceQueue(randomAdd));
 	}
 
+	//ќчередь добавлени€ ресурса в инвентарь
 	private IEnumerator ProcessResourceQueue(bool randomAdd)
 	{
 		IsProcessing = true;
 
 		while (ResourceQueue.Count > 0)
 		{
-			_PlayerInventory.AddResource(ResourceQueue[0], randomAdd);
+			_playerInventory.AddResource(ResourceQueue[0], randomAdd);
 			ResourceQueue.RemoveAt(0);
 
 			yield return null;
@@ -118,46 +117,290 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		IsProcessing = false;
 	}
 
-	public int GetResourceNearbyIndex(int index)
+	//—оздает €чейки, которые показывают где можно создать новые €чейки инвентар€
+	public void ShowCreatedCells(ClickEvent evt)
 	{
-		int minDistance = 100;
-		int lastIndex = 100;
+		Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+		Vector2Int index;
 
-		for (int i = 0; i < InventoryCellCount; i++)
+		DeactivateCells();
+
+		foreach (var cell in _playerInventory.GetCells().Keys)
 		{
-			if (_PlayerInventory.GetResourceData(i).GetId() != -1 && _PlayerInventory.GetResourceData(i).GetId() != _PlayerInventory.GetResourceData(index).GetId() && !_inventoryCells[i].IsProtectedCell)
+			if (cell == new Vector2Int(99, 99)) continue;
+
+			foreach (var direction in directions)
 			{
-				if (minDistance > Mathf.Abs(i - index))
+				index = cell + direction;
+
+				if (!_playerInventory.CheckCell(index) && !CheckCreatedCell(index))
 				{
-					minDistance = Mathf.Abs(i - index);
-					lastIndex = i;
+					Vector2Int finalIndex = index;
+
+					var createdCell = CreateInventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+					Inventory.Add(createdCell);
+
+					createdCell.style.width = _inventoryCellSize;
+					createdCell.style.flexBasis = _inventoryCellSize;
+					createdCell.style.height = _inventoryCellSize;
+
+					createdCell.userData = finalIndex;
+					createdCell.RegisterCallback<ClickEvent>(CreateCell);
+
+					createdCell.style.left = _inventoryHalfWidth - _inventoryCellSize + finalIndex.x * _inventoryCellSize;
+					createdCell.style.top = _inventoryHalfHeight - _inventoryCellSize + finalIndex.y * _inventoryCellSize;
+
+					_createdInventory[finalIndex] = true;
+					_createdCells.Add(createdCell);
 				}
 			}
 		}
-
-		return lastIndex;
 	}
 
-	public void EatResource(int index)
+	//ѕр€чет €чейки, которые показывают куда можно добавить новые €чейки и какие можно убрать
+	public void HideCreatedCells(ClickEvent evt)
 	{
-		ResourceBase resource = new ResourceBase(_PlayerInventory.GetResourceData(index).GetResource().View, _PlayerInventory.GetResourceData(index).GetResource().Name, _PlayerInventory.GetResourceData(index).GetResource().ID, _PlayerInventory.GetResourceData(index).GetResource().MaxCount, 5);
+		_createdInventory.Clear();
+		_createdCells.Clear();
 
-		_PlayerInventory.GetResourceData(index).DeleteResource(resource);
+		Inventory.Query(className: "CreatedCell").ForEach(cell =>
+		{
+			Inventory.Remove(cell);
+		});
+
+		ActivateCells();
 	}
 
-	public ResourceBase GetResourceBase(int index) => _inventoryCellsResources[index].GetResource();
 
-	public Inventory GetPlayerInventory() => _PlayerInventory;
+	public void HideCreatedCells()
+	{
+		_createdInventory.Clear();
+		_createdCells.Clear();
 
-	private void SaveData() => GameEvents.OnInventorySave?.Invoke(_PlayerInventory);
+		Inventory.Query(className: "CreatedCell").ForEach(cell =>
+		{
+			Inventory.Remove(cell);
+		});
+
+		ActivateCells();
+	}
+
+
+	//ѕоказывает €чейки, которые можно удалить
+	public void ShowDeletedCells(ClickEvent evt)
+	{
+		Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+		Vector2Int index;
+
+		foreach (var cell in _playerInventory.GetCells().Keys)
+		{
+			if (cell == new Vector2Int(99, 99)) continue;
+
+			foreach (var direction in directions)
+			{
+				index = cell + direction;
+
+				if (_playerInventory.CheckCell(index))
+				{
+					Vector2Int finalIndex = index;
+
+					var deletedCell = DeleteInventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+					Inventory.Add(deletedCell);
+
+					deletedCell.style.width = _inventoryCellSize;
+					deletedCell.style.flexBasis = _inventoryCellSize;
+					deletedCell.style.height = _inventoryCellSize;
+
+					deletedCell.userData = finalIndex;
+					deletedCell.RegisterCallback<ClickEvent>(DeleteCell);
+
+					deletedCell.style.left = _inventoryHalfWidth - _inventoryCellSize + finalIndex.x * _inventoryCellSize;
+					deletedCell.style.top = _inventoryHalfHeight - _inventoryCellSize + finalIndex.y * _inventoryCellSize;
+
+					_deletedCells.Add(deletedCell);
+				}
+			}
+		}
+	}
+
+	//¬ключает возможность перетаскивать ресурсы по инвентарю
+	private void ActivateCells()
+	{
+		foreach (var cell in Inventory.Children())
+		{
+			cell.Q<VisualElement>("CellResource").pickingMode = PickingMode.Position;
+		}
+	}
+
+	//¬ыключает возможность перетаскивать ресурсы по инвентарю
+	private void DeactivateCells()
+	{
+		foreach (var cell in Inventory.Children())
+		{
+			cell.Q<VisualElement>("CellResource").pickingMode = PickingMode.Ignore;
+		}
+	}
+
+	//¬ызывает метод, который создает новую €чейку
+	private void CreateCell(ClickEvent evt)
+	{
+		if (evt.currentTarget is VisualElement cellObject && cellObject.userData is Vector2Int index)
+		{
+			HideCreatedCells(evt);
+
+			_playerInventory.CreateCell(index);
+
+			//CreateNewCell(Inventory, index);
+
+			var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+			newCell2.style.width = _baseInventoryCellSize;
+			newCell2.style.flexBasis = _baseInventoryCellSize;
+			newCell2.style.height = _baseInventoryCellSize;
+
+			newCell2.Q<VisualElement>("CellResource").dataSource = CreateNewCell(Inventory, index).Q<VisualElement>("CellResource").dataSource;
+			newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
+			newCell2.dataSource = new CellObject(false);
+			newCell2.AddToClassList("BorderCell");
+			newCell2.style.left = _baseInventoryHalfWidth - _baseInventoryCellSize + index.x * _baseInventoryCellSize;
+			newCell2.style.top = _baseInventoryHalfHeight - _baseInventoryCellSize + index.y * _baseInventoryCellSize;
+
+			Inventory2.Add(newCell2);
+
+			ShowCreatedCells(evt);
+			ShowDeletedCells(evt);
+		}
+	}
+
+	//¬ызывает метод, который удал€ет €чейку из инвентар€
+	private void DeleteCell(ClickEvent evt)
+	{
+		if (evt.currentTarget is VisualElement cellObject && cellObject.userData is Vector2Int index && _playerInventory.GetResourceData(index).GetId() == -1)
+		{
+			HideCreatedCells(evt);
+
+			DeleteThisCell(Inventory, index);
+
+			_playerInventory.DeleteCell(index);
+
+			ShowCreatedCells(evt);
+
+			ShowDeletedCells(evt);
+		}
+	}
+
+	//ѕровер€ет существует ли уже €чейка, котора€ показывает где можно добавить еще одну €чейку инвентар€
+	public bool CheckCreatedCell(Vector2Int cell)
+	{
+		if (_createdInventory.TryGetValue(cell, out bool cellObject))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public Vector2Int GetResourceNearbyIndex(Vector2Int index)
+	{
+		Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+		List<Vector2Int> nearbyCells = new List<Vector2Int>();
+		Vector2Int nearbyIndex;
+
+		foreach (var direction in directions)
+		{
+			nearbyIndex = index + direction;
+
+			if (_playerInventory.CheckCell(nearbyIndex)) nearbyCells.Add(nearbyIndex);
+		}
+
+		if (nearbyCells.Count > 0)
+		{
+			return nearbyCells[UnityEngine.Random.Range(0, nearbyCells.Count)];
+		}
+		else return new Vector2Int(-1, -1);
+	}
+
+	public void EatResource(Vector2Int index)
+	{
+		if (!_playerInventory.CheckCell(index))
+		{
+			Debug.Log($"ячейки с индексом: {index} не существует");
+			return;
+		}
+
+		ResourceBase resource = new ResourceBase(_playerInventory.GetResourceData(index).GetResource().View, _playerInventory.GetResourceData(index).GetResource().Name, _playerInventory.GetResourceData(index).GetResource().ID, _playerInventory.GetResourceData(index).GetResource().MaxCount, 5);
+
+		_playerInventory.GetResourceData(index).DeleteResource(resource);
+	}
+
+	//—оздает новую €чейку в инвентаре
+	private VisualElement CreateNewCell(VisualElement inventory, Vector2Int index)
+	{
+		VisualElement newCell/*, lastCell*/;
+
+		if (index != new Vector2Int(99, 99))
+		{
+			_lastCell = Inventory.Children().ElementAt(Inventory.childCount - 1);
+
+			_lastCell.style.width = _inventoryCellSize;
+			_lastCell.style.flexBasis = _inventoryCellSize;
+			_lastCell.style.height = _inventoryCellSize;
+
+			_lastCell.Q<VisualElement>("CellResource").dataSource = _playerInventory.GetResourceData(index);
+			_lastCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(_lastCell.Q<VisualElement>("CellResource"), false));
+			_lastCell.dataSource = new CellObject(false);
+
+			_lastCell.style.left = _inventoryHalfWidth - _inventoryCellSize + index.x * _inventoryCellSize;
+			_lastCell.style.top = _inventoryHalfHeight - _inventoryCellSize + index.y * _inventoryCellSize;
+		}
+
+		newCell = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+		newCell.style.width = _inventoryCellSize;
+		newCell.style.flexBasis = _inventoryCellSize;
+		newCell.style.height = _inventoryCellSize;
+
+		newCell.Q<VisualElement>("CellResource").dataSource = _playerInventory.GetResourceData(new Vector2Int(99, 99));
+		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
+		newCell.dataSource = new CellObject(false);
+
+		newCell.style.left = 99 * _inventoryCellSize;
+		newCell.style.top = 99 * _inventoryCellSize;
+
+		inventory.Add(newCell);
+
+		return _lastCell;
+	}
+
+	//”дал€ет €чейку из инвентар€
+	public void DeleteThisCell(VisualElement inventory, Vector2Int index)
+	{
+		foreach (var cell in inventory.Children())
+		{
+			if (((ResourceCellObject)cell.Q<VisualElement>("CellResource").dataSource).GetCellID() == index)
+			{
+				cell.RemoveFromHierarchy();
+				return;
+			}
+		}
+	}
+
+	public Inventory GetPlayerInventory() => _playerInventory;
+
+	private void SaveData() => GameEvents.OnInventorySave?.Invoke(_playerInventory);
 
 	private void Update()
 	{
-		_PlayerInventory?.UpdateInventory(_library, Time.deltaTime);
+		_playerInventory?.UpdateInventory(_library, Time.deltaTime);
 	}
 
 	private void OnDisable()
 	{
 		GameEvents.OnSave -= SaveData;
+		GameEvents.OnOpenCreateCells -= ShowCreatedCells;
+		GameEvents.OnOpenCreateCells -= ShowDeletedCells;
+		GameEvents.OnCloseCreateCells -= HideCreatedCells;
+		GameEvents.OnCloseCreateCells2 -= HideCreatedCells;
 	}
 }

@@ -55,7 +55,7 @@ public class CraftPanel
 		newCell.hierarchy.ElementAt(0).dataSource = new CellObject(true);
 
 		_cellResource = newCell.Q<VisualElement>("CellResource");
-		newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(0);
+		newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(new Vector2Int(0, 0));
 		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 		newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
@@ -67,8 +67,15 @@ public class CraftPanel
 
 	private void Create(ClickEvent evt)
 	{
-		if (_craftManager.TryCraft(_ID) && IsUnlock) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
-		else Debug.Log("Не хватает ресурсов");
+		if (IsUnlock)
+		{
+			if (_craftManager.TryCraft(_ID)) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
+			else Debug.Log("Не хватает ресурсов");
+		}
+
+
+		//if (_craftManager.TryCraft(_ID) && IsUnlock) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
+		//else Debug.Log("Не хватает ресурсов");
 	}
 
 	public void Unlock() => IsUnlock = true;

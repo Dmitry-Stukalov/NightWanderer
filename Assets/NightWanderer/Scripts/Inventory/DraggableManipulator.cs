@@ -12,6 +12,7 @@ public class DraggableManipulator : PointerManipulator
 	private VisualElement _newElementUnderCursor;
 	private ResourceCellObject _cellResource;
 	private Vector3 _startPosition;
+	private Vector3 _startElementPosition;
 	private bool IsEnabled;
 	private bool IsBase;
 
@@ -44,11 +45,13 @@ public class DraggableManipulator : PointerManipulator
 	private void OnPointerDown(PointerDownEvent evt)
 	{
 		_startParent = target.parent;
-
-		if (!IsBase) target.panel.visualTree.Q<VisualElement>("Inventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("Inventory").childCount - 1).Add(target);
-		else target.panel.visualTree.Q<VisualElement>("PlayerInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("PlayerInventory").childCount - 1).Add(target);
-
 		_startPosition = evt.localPosition;
+		_startElementPosition = target.transform.position;
+	
+		if (!IsBase) target.panel.visualTree.Q<VisualElement>("Inventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("Inventory").childCount - 1).Add(target);
+		//else target.panel.visualTree.Q<VisualElement>("BaseInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("BaseInventory").childCount - 1).Add(target);
+		else target.panel.visualTree.Q<VisualElement>("InvisibleInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("InvisibleInventory").childCount - 1).Add(target);
+
 		IsEnabled = true;
 		target.CapturePointer(evt.pointerId);
 	}
@@ -57,9 +60,9 @@ public class DraggableManipulator : PointerManipulator
 	{
 		if (!IsEnabled || !target.HasPointerCapture(evt.pointerId)) return;
 
-		Vector3 delta = evt.localPosition - _startPosition;
-
-		target.transform.position = new Vector3(target.transform.position.x + delta.x, target.transform.position.y + delta.y, 0);
+		Vector3 localMousePosition = target.parent.WorldToLocal(evt.position);
+		Vector3 finalPosition = localMousePosition - _startPosition;
+		target.transform.position = new Vector3(finalPosition.x, finalPosition.y, 0);
 
 		target.pickingMode = PickingMode.Ignore;
 		_newElementUnderCursor = target.panel.Pick(evt.position);

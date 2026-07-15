@@ -156,10 +156,10 @@ public class SaveDataClass
 			ResourceID = new List<int>();
 			ResourceCount = new List<int>();
 
-			for (int i = 0; i < inventory.GetCellCount(); i++)
+			foreach (var cell in inventory.GetCells().Keys)
 			{
-				ResourceID.Add(inventory.GetResourceData(i).GetResource().ID);
-				ResourceCount.Add(inventory.GetResourceData(i).GetResource().CurrentCount);
+				ResourceID.Add(inventory.GetResourceData(cell).GetResource().ID);
+				ResourceCount.Add(inventory.GetResourceData(cell).GetResource().CurrentCount);
 			}
 		}
 	}

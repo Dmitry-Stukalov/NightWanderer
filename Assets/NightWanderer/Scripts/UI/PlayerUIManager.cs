@@ -27,13 +27,13 @@ public class PlayerUIManager : UIManager
 	private Button _inventoryButton;
 	private Button _recordsButton;
 	private Button _dataBaseButton;
+	private Button _openCreateInventoryButton;
+	private Button _closeCreateInventoryButton;
 	private Dictionary<string, VisualElement> _statusPanels;
 	private TutorialManager _tutorialManager;
 
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
-		//StartCoroutine(StartPause());
-
 		_mainElement = _playerUI.rootVisualElement.Q<VisualElement>("MainElement");
 
 		_blackBackground = _playerUI.rootVisualElement.Q<VisualElement>("BlackBackground");
@@ -66,10 +66,14 @@ public class PlayerUIManager : UIManager
 		_inventoryButton = _playerUI.rootVisualElement.Q<Button>("InventoryButton");
 		_recordsButton = _playerUI.rootVisualElement.Q<Button>("RecordsButton");
 		_dataBaseButton = _playerUI.rootVisualElement.Q<Button>("DataBaseButton");
+		_openCreateInventoryButton = _playerUI.rootVisualElement.Q<Button>("CreateInventory");
+		_closeCreateInventoryButton = _playerUI.rootVisualElement.Q<Button>("CloseCreateInventory");
 
 		_inventoryButton.RegisterCallback<ClickEvent>(OpenInventory);
 		_recordsButton.RegisterCallback<ClickEvent>(OpenRecords);
 		_dataBaseButton.RegisterCallback<ClickEvent>(OpenDataBase);
+		_openCreateInventoryButton.RegisterCallback<ClickEvent>(OpenCreateCells);
+		_closeCreateInventoryButton.RegisterCallback<ClickEvent>(CloseCreateCells);
 
 		_statusPanels = new Dictionary<string, VisualElement>();
 
@@ -175,6 +179,7 @@ public class PlayerUIManager : UIManager
 	{
 		CloseRecords();
 		CloseDataBase();
+		CloseCreateCells(evt);
 		_inventoryBackground.style.display = DisplayStyle.Flex;
 	}
 
@@ -182,6 +187,7 @@ public class PlayerUIManager : UIManager
 	{
 		CloseRecords();
 		CloseDataBase();
+		CloseCreateCells();
 		_inventoryBackground.style.display = DisplayStyle.Flex;
 	}
 
@@ -215,6 +221,27 @@ public class PlayerUIManager : UIManager
 	}
 
 	// онец методов по открытию и закрытию различных разделов в инвентаре
+
+	public void OpenCreateCells(ClickEvent evt)
+	{
+		_openCreateInventoryButton.style.display = DisplayStyle.None;
+		_closeCreateInventoryButton.style.display = DisplayStyle.Flex;
+		GameEvents.OnOpenCreateCells?.Invoke(evt);
+	}
+
+	public void CloseCreateCells(ClickEvent evt)
+	{
+		_openCreateInventoryButton.style.display = DisplayStyle.Flex;
+		_closeCreateInventoryButton.style.display = DisplayStyle.None;
+		GameEvents.OnCloseCreateCells?.Invoke(evt);
+	}
+
+	public void CloseCreateCells()
+	{
+		_openCreateInventoryButton.style.display = DisplayStyle.Flex;
+		_closeCreateInventoryButton.style.display = DisplayStyle.None;
+		GameEvents.OnCloseCreateCells2?.Invoke();
+	}
 
 	public void ShowStatusPanel(string name, string panelText)
 	{
@@ -304,5 +331,7 @@ public class PlayerUIManager : UIManager
 		_inventoryButton.UnregisterCallback<ClickEvent>(OpenInventory);
 		_recordsButton.UnregisterCallback<ClickEvent>(OpenRecords);
 		_dataBaseButton.UnregisterCallback<ClickEvent>(OpenDataBase);
+		_openCreateInventoryButton.UnregisterCallback<ClickEvent>(OpenCreateCells);
+		_closeCreateInventoryButton.UnregisterCallback<ClickEvent>(CloseCreateCells);
 	}
 }

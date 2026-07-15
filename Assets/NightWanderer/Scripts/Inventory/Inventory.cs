@@ -6,96 +6,121 @@ using System.Runtime.CompilerServices;
 
 
 //»нвентарь игрока
-public class Inventory
+public class Inventory : ICellsCreator
 {
-	private int InventoryCellCount;
+	private Dictionary<Vector2Int, ResourceCellObject> _inventory = new Dictionary<Vector2Int, ResourceCellObject>();
 	private ResourceCellObject[] _Inventory;
-	private List<int> emptyCells = new List<int>();
-	private int j = -1;
+	private List<Vector2Int> emptyCells = new List<Vector2Int>();
+	private Vector2Int j = new Vector2Int(-1, -1);
 
-	public Inventory(int inventoryCellCount)
-	{
-		InventoryCellCount = inventoryCellCount;
-		_Inventory = new ResourceCellObject[InventoryCellCount];
-	}
+	public Inventory() { }
 
-	public void InitializeArray(ResourceCellObject obj, int i)
+	public void InitializeArray(int maxX, int maxY)
 	{
-		_Inventory[i] = obj;
+		_inventory.Clear();
+
+		for (int y = 0; y < maxY; y++)
+		{
+			for (int x = 0; x < maxX; x++)
+			{
+				_inventory[new Vector2Int(x, y)] = new ResourceCellObject(new Vector2Int(x, y));
+			}
+		}
+
+		_inventory[new Vector2Int(99, 99)] = new ResourceCellObject(new Vector2Int(99, 99));
 	}
 
 	public void AddResource(ResourceBase resource, bool randomAdd)
 	{
-		int i = -1;
-		j = -1;
+		//ѕередали пустой ресурс
+		if (resource.CurrentCount == 0 || resource.ID == -1) return;
+
 		emptyCells.Clear();
 
-		while (++i < InventoryCellCount - 1)
+		foreach (var key in _inventory.Keys)
 		{
-			if (resource.CurrentCount == 0) return; 
-
 			//–есурс есть, но он другой
-			if (_Inventory[i].GetId() != -1 && _Inventory[i].GetId() != resource.ID) continue;
+			if (_inventory[key].GetId() != -1 && _inventory[key].GetId() != resource.ID) continue;
 
 			//–есурса нет (€чейка пуста€)
-			if (_Inventory[i].GetId() == -1)
+			if (_inventory[key].GetId() == -1)
 			{
-				if (j == -1) j = i;
+				if (j == new Vector2Int(-1, -1)) j = key;
 
-				emptyCells.Add(i);
+				emptyCells.Add(key);
 
 				continue;
 			}
 
 			//–есурс есть, он тот же, и места в €чейке хватает дл€ получени€ / не хватает дл€ получени€
-			if (_Inventory[i].GetId() == resource.ID && _Inventory[i].GetEmptyResourceCount() >= resource.CurrentCount)
+			if (_inventory[key].GetId() == resource.ID && _inventory[key].GetEmptyResourceCount() >= resource.CurrentCount)
 			{
-				_Inventory[i].AddResource(resource);
-				j = -1;
+				_inventory[key].AddResource(resource);
+
+				j = new Vector2Int(-1, -1);
+
 				return;
 			}
 			else
 			{
-				if (_Inventory[i].GetEmptyResourceCount() != 0)
+				if (_inventory[key].GetEmptyResourceCount() != 0)
 				{
-					int countDifference = resource.CurrentCount - _Inventory[i].GetEmptyResourceCount();
-					_Inventory[i].AddResource(resource);
+					int countDifference = resource.CurrentCount - _inventory[key].GetEmptyResourceCount();
+					_inventory[key].AddResource(resource);
 					resource.CurrentCount = countDifference;
-					j = -1;
-					i = -1;
+
 					continue;
 				}
 				else continue;
 			}
 		}
 
-		if (randomAdd) _Inventory[emptyCells[Random.Range(0, emptyCells.Count)]].AddResource(resource);
-		else _Inventory[j].AddResource(resource);
+		if (randomAdd) _inventory[emptyCells[Random.Range(0, emptyCells.Count)]].AddResource(resource);
+		else _inventory[j].AddResource(resource);
 	}
 
-	public void AddResource(IResourceFactory factory, int resource, int index, int count)
+	public void AddResource(IResourceFactory factory, int resource, Vector2Int index, int count)
 	{
-        if (_Inventory[index].GetId() == -1 || _Inventory[index].GetId() == resource)
-        {
+		if (_inventory[index].GetId() == -1 || _inventory[index].GetId() == resource)
+		{
 			ResourceBase newResource = factory.GetResourceBase(resource);
 			newResource.CurrentCount = count;
 
-			_Inventory[index].AddResource(newResource);
-        }
-    }
-
-	public void DeleteResource(int index, ResourceBase resource)
-	{
-		if (_Inventory[index].GetId() != resource.ID) return;
-
-		_Inventory[index].DeleteResource(resource);
+			_inventory[index].AddResource(newResource);
+		}
 	}
 
-	public int GetCellCount() => InventoryCellCount - 1;
-	public ResourceCellObject GetResourceData(int index) => _Inventory[index];
+	public void DeleteResource(Vector2Int index, ResourceBase resource)
+	{
+		if (_inventory[index].GetId() != resource.ID) return;
+
+		_inventory[index].DeleteResource(resource);
+	}
+
+	public bool CheckCell(Vector2Int cell)
+	{
+		if (_inventory.TryGetValue(cell, out ResourceCellObject cellObject))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public void CreateCell(Vector2Int cellIndex)
+	{
+		_inventory[cellIndex] = new ResourceCellObject(cellIndex);
+	}
+
+	public void DeleteCell(Vector2Int cellIndex)
+	{
+		_inventory.Remove(cellIndex);
+	}
+
+	public Dictionary<Vector2Int, ResourceCellObject> GetCells() => _inventory;
+	public ResourceCellObject GetResourceData(Vector2Int index) => _inventory[index];
 
 	public void UpdateInventory(IResourceFactory factory, float deltaTime)
 	{
-		for (int i = 0; i < InventoryCellCount; i++) _Inventory[i].UpdateCell(this, factory, deltaTime);
+		foreach (var key in _inventory.Keys) _inventory[key].UpdateCell(this, factory, deltaTime);
 	}
 }

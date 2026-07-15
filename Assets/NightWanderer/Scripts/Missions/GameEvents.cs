@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class GameEvents
 {
@@ -71,6 +72,11 @@ public static class GameEvents
 	public static Action OnOffSearchlights;
 	public static Action OnSearchlightsStartMove;
 	public static Action OnSearchlightsStartSearch;
+
+	//UI
+	public static Action<ClickEvent> OnOpenCreateCells;
+	public static Action<ClickEvent> OnCloseCreateCells;
+	public static Action OnCloseCreateCells2;
 
 	//Sounds
 	public static Action OnMainMenuOut;

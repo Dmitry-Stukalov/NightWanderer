@@ -9,11 +9,11 @@ public class ResourceCellObject
 {
 	[CreateProperty]
 	public ResourceBase _resource { get; private set; }
-	private int ID;
+	private Vector2Int ID;
 
 	public event Action OnUpdate;
 
-	public ResourceCellObject(int id)
+	public ResourceCellObject(Vector2Int id)
 	{
 		_resource = new ResourceBase();
 
@@ -27,8 +27,8 @@ public class ResourceCellObject
 		OnPropertyChanged(nameof(IsCountVisible));
 	}
 
-	public int GetCellID() => ID;
-	public void SetCellID(int id) => ID = id;
+	public Vector2Int GetCellID() => ID;
+	public void SetCellID(Vector2Int id) => ID = id;
 	public int GetId() => _resource.ID;
 
 	public ResourceBase AddResource(ResourceBase resource)
@@ -130,6 +130,7 @@ public class ResourceCellObject
 	public int GetEmptyResourceCount() => _resource.MaxCount - _resource.CurrentCount;
 
 	public void SetResourceCount(int count) => _resource.CurrentCount = count;
+	public void SubtractResourceCount (int count) => _resource.CurrentCount -= count;
 
 	public ResourceBase GetResource() => _resource;
 

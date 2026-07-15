@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,33 +9,54 @@ public class BaseInventory : MonoBehaviour
 	[SerializeField] private UIDocument BaseUI;
 	[SerializeField] private VisualTreeAsset InventoryCell;
 	[SerializeField] private string InventoryElementName;
-	[SerializeField] private int InventoryCellCount;
+	[SerializeField] private int InventoryXCount;
+	[SerializeField] private int InventoryYCount;
 	private VisualElement Inventory;
+	private VisualElement _invisibleInventory;
 	private Inventory _baseInventory;
 	private ResourceLibrary _library;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
+	private float _inventoryHalfWidth, _inventoryHalfHeight;
+	private int _inventoryCellSize;
 	private bool IsProcessing = false;
 
 	public void Initializing()
 	{
 		Inventory = BaseUI.rootVisualElement.Q<VisualElement>(InventoryElementName);
+		_invisibleInventory = BaseUI.rootVisualElement.Q<VisualElement>("InvisibleInventory");
 
-		_baseInventory = new Inventory(InventoryCellCount + 1);
+		_baseInventory = new Inventory();
+		_baseInventory.InitializeArray(InventoryXCount, InventoryYCount);
 
-		for (int i = 0; i < InventoryCellCount + 1; i++)
+		_inventoryHalfWidth = Inventory.resolvedStyle.width / 2;
+		_inventoryHalfHeight = Inventory.resolvedStyle.height / 2;
+		_inventoryCellSize = (int)(Inventory.resolvedStyle.height / 11);
+
+		CreateNewCell(Inventory, new Vector2Int(99, 99));
+		CreateNewCell(_invisibleInventory, new Vector2Int(99, 99));
+
+		for (int y = 0; y < InventoryYCount; y++)
 		{
-			var newCell = InventoryCell.Instantiate();
-			newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
+			for (int x = 0; x < InventoryXCount; x++)
+			{
+				CreateNewCell(Inventory, new Vector2Int(x, y));
 
-			newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(i);
-			newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
-			newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
+				//var newCell = InventoryCell.Instantiate();
+				//newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
 
-			Inventory.Add(newCell);
+				//newCell.style.width = _inventoryCellSize;
+				//newCell.style.flexBasis = _inventoryCellSize;
+				//newCell.style.height = _inventoryCellSize;
 
-			_baseInventory.InitializeArray((ResourceCellObject)newCell.Q<VisualElement>("CellResource").dataSource, i);
+				//newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(new Vector2Int(x, y));
+				//newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
+				//newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
-			if (i == InventoryCellCount) newCell.transform.position = new Vector2(0, 10000);
+				//newCell.style.left = _inventoryHalfWidth - _inventoryCellSize + x * _inventoryCellSize;
+				//newCell.style.top = _inventoryHalfHeight - _inventoryCellSize + y * _inventoryCellSize;
+
+				//Inventory.Add(newCell);
+			}
 		}
 
 		GameEvents.OnSave += SaveData;
@@ -77,6 +99,44 @@ public class BaseInventory : MonoBehaviour
 		IsProcessing = false;
 	}
 
+	private VisualElement CreateNewCell(VisualElement inventory, Vector2Int index)
+	{
+		VisualElement newCell, lastCell;
+
+		if (index != new Vector2Int(99, 99))
+		{
+			lastCell = Inventory.Children().ElementAt(Inventory.childCount - 1);
+
+			lastCell.style.width = _inventoryCellSize;
+			lastCell.style.flexBasis = _inventoryCellSize;
+			lastCell.style.height = _inventoryCellSize;
+
+			lastCell.Q<VisualElement>("CellResource").dataSource = _baseInventory.GetResourceData(index);
+			lastCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(lastCell.Q<VisualElement>("CellResource"), true));
+			lastCell.dataSource = new CellObject(false);
+
+			lastCell.style.left = index.x * _inventoryCellSize;
+			lastCell.style.top = index.y * _inventoryCellSize;
+		}
+
+		newCell = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+		newCell.style.width = _inventoryCellSize;
+		newCell.style.flexBasis = _inventoryCellSize;
+		newCell.style.height = _inventoryCellSize;
+
+		newCell.Q<VisualElement>("CellResource").dataSource = _baseInventory.GetResourceData(new Vector2Int(99, 99));
+		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), true));
+		newCell.dataSource = new CellObject(false);
+
+		newCell.style.left = 99 * _inventoryCellSize;
+		newCell.style.top = 99 * _inventoryCellSize;
+
+		inventory.Add(newCell);
+
+		return newCell;
+	}
+
 	public Inventory GetBaseInventory() => _baseInventory;
 
 
@@ -84,7 +144,7 @@ public class BaseInventory : MonoBehaviour
 
 	private void Update()
 	{
-		_baseInventory.UpdateInventory(_library, Time.deltaTime);
+		_baseInventory?.UpdateInventory(_library, Time.deltaTime);
 	}
 
 	private void OnDisable()

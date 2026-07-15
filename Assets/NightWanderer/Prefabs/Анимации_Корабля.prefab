@@ -2213,7 +2213,8 @@ MonoBehaviour:
   InventoryCell: {fileID: 9197481963319205126, guid: 0af340126d084514195f9c0a6c9780a6,
     type: 3}
   InventoryElementName: BaseInventory
-  InventoryCellCount: 35
+  InventoryXCount: 5
+  InventoryYCount: 8
 --- !u!1 &4309798576603332119
 GameObject:
   m_ObjectHideFlags: 0
@@ -8686,7 +8687,6 @@ MonoBehaviour:
   _improvementManager: {fileID: 3382669220046808216}
   _inventoryButton: {fileID: 4147099259103858269}
   _resourceLibrary: {fileID: 0}
-  _searchlightManager: {fileID: 3540159435050909924}
   _deathManager: {fileID: 840460790003754741}
   _defenseSprite: {fileID: 21300000, guid: cff7cbb2722e76f4791a9cfa6d7e65a5, type: 3}
   _damageSprite: {fileID: 21300000, guid: 6ab7e92af300a65458f29d24b7ee06df, type: 3}
@@ -8740,6 +8740,10 @@ MonoBehaviour:
   PlayerUI: {fileID: 4384735025375778772}
   BaseUI: {fileID: 4912858456345129344}
   InventoryCell: {fileID: 9197481963319205126, guid: 0af340126d084514195f9c0a6c9780a6,
+    type: 3}
+  CreateInventoryCell: {fileID: 9197481963319205126, guid: 39cd2ee138ab6f04f82b76d8ee7db8ec,
+    type: 3}
+  DeleteInventoryCell: {fileID: 9197481963319205126, guid: 8a06daf07bf2b254ca7b8db5503e93af,
     type: 3}
   InventoryElementName: Inventory
   InventoryElementName2: PlayerInventory

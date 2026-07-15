@@ -56,5 +56,6 @@ MonoBehaviour:
     <ActionsWay>k__BackingField: 01000000
   ImprovementName:
   - FireDefense
-  CraftName: []
+  CraftName:
+  - "\u042F\u0447\u0435\u0439\u043A\u0430"
   StoryName: []

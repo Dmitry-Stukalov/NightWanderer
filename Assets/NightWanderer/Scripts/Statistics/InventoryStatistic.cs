@@ -16,6 +16,6 @@ public class InventoryStatistic
 
 	private void UpdateData()
 	{
-		_text.text = $"»нвентарь: {_inventory.GetCellCount()} €чеек.";
+		_text.text = $"»нвентарь: {_inventory.GetCells().Count} €чеек.";
 	}
 }

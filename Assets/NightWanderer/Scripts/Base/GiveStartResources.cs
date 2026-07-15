@@ -30,7 +30,7 @@ public class GiveStartResources : MonoBehaviour
 
 		yield return new WaitForSeconds(4);
 
-		if (!IsLoadData)
+		if (!SaveAndLoad.IsLoadGame)
 		{
 			var newResource = _resourceLibrary.GetResourceBase(3);
 			newResource.SetCount(20);
@@ -66,8 +66,6 @@ public class GiveStartResources : MonoBehaviour
 			newResource.SetCount(inventoryData.ResourceCount[i]);
 			_BaseInventory.AddResource(newResource);
 		}
-
-		IsLoadData = true;
 	}
 
 	private void OnDisable()
