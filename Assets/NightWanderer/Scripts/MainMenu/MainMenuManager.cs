@@ -54,7 +54,6 @@ public class MainMenuManager : MonoBehaviour
 		_exitButton.RegisterCallback<ClickEvent>(OpenConfirmationExit);
 		_confirmExitButton.RegisterCallback<ClickEvent>(QuitGame);
 		_cancelExitButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
-		//_cancelExitBackgroundButton.RegisterCallback<ClickEvent>(CloseConfirmationExit);
 
 		_continueButton.RegisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.RegisterCallback<ClickEvent>(OpenConfirmationNewGame);
@@ -203,7 +202,6 @@ public class MainMenuManager : MonoBehaviour
 		_exitButton.UnregisterCallback<ClickEvent>(OpenConfirmationExit);
 		_confirmExitButton.UnregisterCallback<ClickEvent>(QuitGame);
 		_cancelExitButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
-		//_cancelExitBackgroundButton.UnregisterCallback<ClickEvent>(CloseConfirmationExit);
 
 		_continueButton.UnregisterCallback<ClickEvent>(ContinueGame);
 		_newGameButton.UnregisterCallback<ClickEvent>(OpenConfirmationNewGame);

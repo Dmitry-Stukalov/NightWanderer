@@ -9,31 +9,23 @@ public class ImprovementManager : MonoBehaviour
 	[SerializeField] private UIDocument _baseUI;
 	[SerializeField] private VisualTreeAsset _upgradePanel;
 	[SerializeField] private VisualTreeAsset _needResourceGroup;
-	[SerializeField] private ResourceLibrary _library;
-	[SerializeField] private int _upgradesCount;
+	private ResourceLibrary _library;
 	private VisualElement _improvementMessageBackground;
 	private Label _improvementMessageText;
 	private Dictionary<string, IImprovementBase> _improvements = new Dictionary<string, IImprovementBase>();
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
-	private Dictionary<int, int> _resources = new Dictionary<int, int>();
 
-	private List<int> _upgradesList = new List<int>();
 	private ScrollView _upgradesBackground;
 
-	public void Initializing(Inventory playerInventory, Inventory baseInventory)
+	public void Initializing(Inventory playerInventory, Inventory baseInventory, ResourceLibrary library)
 	{
-		_library = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
+		_library = library;
 		_playerInventory = playerInventory;
 		_baseInventory = baseInventory;
 
 		_improvementMessageBackground = _baseUI.rootVisualElement.Q<VisualElement>("ImprovementMessagePanel");
 		_improvementMessageText = _baseUI.rootVisualElement.Q<Label>("ImprovementMessageText");
-
-		for (int i = 0; i < 13; i++)
-		{
-			_resources[i] = 0;
-		}
 
 		_upgradesBackground = _baseUI.rootVisualElement.Q<ScrollView>("UpgradesBackground");
 

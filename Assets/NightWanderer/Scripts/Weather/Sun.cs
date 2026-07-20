@@ -11,7 +11,7 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	[field: SerializeField] public float MaxDamage { get; set; }
 	[field: NonSerialized] public float Damage { get; set; }
 	[SerializeField] private float TakeDamagePause;
-	[field: SerializeField] public bool IsFireDamage { get; set; }
+	[field: NonSerialized] public bool IsFireDamage { get; set; } = true;
 	[SerializeField] private float AllDayLength;
 	[SerializeField] private float TransitionDayLength;
 	public Timer AllDayTimer { get; private set; }
@@ -20,8 +20,6 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	private Timer TakeDamageTimer;
 	private Ray SunRay;
 	private RaycastHit[] SunRayCast;
-	private Light _sunLight;
-	private Light _moonLight;
 	private int _day = 1;
 	private int _layerMask;
 	public bool IsTimeSkip { get; set; } = false;
@@ -37,9 +35,6 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 	{
 		Player = GameObject.FindGameObjectWithTag("Player");
 		Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
-
-		_sunLight = GetComponent<Light>();
-		_moonLight = Moon.GetComponent<Light>();
 
 		_layerMask = ~LayerMask.GetMask("DeadZoneAndTutorial");
 
@@ -118,11 +113,11 @@ public class Sun : MonoBehaviour, ICanTakeDamage
 
 	private void ResetTakeDamage()
 	{
-		TakeDamage(IsFireDamage, Damage);
+		GiveDamage(Damage, IsFireDamage);
 		TakeDamageTimer.ResetTimer(true);
 	}
 
-	public void TakeDamage(bool isFireDamage, float damage)
+	public void GiveDamage(float damage, bool isFireDamage)
 	{
 		if (Health == null) Health = Player.GetComponent<ShipMovement>().GetPlayerDefenseSystem();
 

@@ -12,10 +12,8 @@ public class CraftManager : MonoBehaviour
 	[SerializeField] private VisualTreeAsset _inventoryCell;
 	[SerializeField] private ResourceCraftConfig _craftConfig;
 	[SerializeField] private ResourceLibrary _library;
-	private ScrollView _craftBackground;
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
-	private Dictionary<int, int> _resources = new Dictionary<int, int>();
 	private Dictionary<string, VisualElement> _panels = new Dictionary<string, VisualElement>();
 
 	public void Initializing(Inventory playerInventory, Inventory baseInventory, ResourceLibrary library)
@@ -24,12 +22,7 @@ public class CraftManager : MonoBehaviour
 		_playerInventory = playerInventory;
 		_baseInventory = baseInventory;
 
-		for (int i = 0; i < 14; i++)
-		{
-			_resources[i] = 0;
-		}
-
-		_craftBackground = _baseUI.rootVisualElement.Q<ScrollView>("CraftBackground");
+		ScrollView craftBackground = _baseUI.rootVisualElement.Q<ScrollView>("CraftBackground");
 
 		for (int i = 0; i < _craftConfig.CraftResources.Count; i++)
 		{
@@ -37,7 +30,7 @@ public class CraftManager : MonoBehaviour
 			newPanel.dataSource = new CraftPanel(this, newPanel, _needResourcesGroup, _inventoryCell, _craftConfig.CraftResources[i], i);
 
 			newPanel.style.display = DisplayStyle.None;
-			_craftBackground.Add(newPanel);
+			craftBackground.Add(newPanel);
 
 			_panels[_craftConfig.CraftResources[i].Name] = newPanel;
 		}

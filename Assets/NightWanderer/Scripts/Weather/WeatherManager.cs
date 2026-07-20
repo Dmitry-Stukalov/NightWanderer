@@ -154,7 +154,7 @@ public class WeatherManager : MonoBehaviour
 
 	private void PlayerGetDamage()
 	{
-		_Sun.TakeDamage(false, _sandstormDamage);
+		_Sun.GiveDamage(_sandstormDamage, false);
 	}
 
 	private void FogOn()

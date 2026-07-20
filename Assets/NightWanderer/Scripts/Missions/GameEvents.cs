@@ -27,7 +27,6 @@ public static class GameEvents
 
 	//Добыча ресурсов
 	public static Action OnLaserExtractionStart;
-	//public static Action OnCheckResultLaser;
 	public static Action OnRightExtraction;
 	public static Action OnExtractionEnd;
 
@@ -41,15 +40,19 @@ public static class GameEvents
 	public static Action OnRunStart;
 	public static Action OnRunEnd;
 
+	//Критические статусы
 	public static Action<string, string> OnCriticalStatusShow;
 	public static Action<string> OnCriticalStatusHide;
 
+	//Диалоги
 	public static Action OnDialogueStart;
 	public static Action<int> OnDialogueWarningStart;
 
+	//Миссии
 	public static Action<int> OnMissionComplete;
 	public static Action<int, int> OnDoMission;
 
+	//Перемотка времени
 	public static Action OnSkipTimeStart;
 	public static Action OnSkipTimeEnd;
 
@@ -60,19 +63,24 @@ public static class GameEvents
 
 	public static Action<int, int> OnResourceDrop;
 
+	//Начало дня и ночи
 	public static Action OnDayStart;
 	public static Action OnNightStart;
 
+	//Включение и выключение тумана
 	public static Action OnMapFogOn;
 	public static Action OnMapFogOff;
 
+	//Включение и выключение пылесоса
 	public static Action OnVacuumCleanerOn;
 	public static Action OnVacuumCleanerOff;
 
+	//Прожектора
 	public static Action OnOffSearchlights;
 	public static Action OnSearchlightsStartMove;
 	public static Action OnSearchlightsStartSearch;
 
+	//Добавление и удаление ресурсов из инвентаря
 	public static Action<int, int> OnResourceAdd;
 	public static Action OnResourceDelete;
 

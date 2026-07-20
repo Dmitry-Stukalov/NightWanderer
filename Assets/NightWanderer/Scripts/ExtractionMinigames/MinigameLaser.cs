@@ -9,7 +9,6 @@ public class MinigameLaser
 	private Label _oreCount;
 	private VisualElement _oreIcon;
 
-	private VisualElement _mainElementLaser;
 	private VisualElement _rightPlace;
 	private VisualElement _gameSlider;
 	private ResourceSource _currentResourceSource;
@@ -17,18 +16,14 @@ public class MinigameLaser
 	private Tween _animation;
 	private Vector3 _startGameSliderPosition;
 
-	private VisualElement _mainElementFuel;
 	private VisualElement _currentFuel;
 
-	private int _needResults = 5;
-	private int _rightResults = 0;
+	private int _needResults;
+	private int _rightResults;
 
 
 	public MinigameLaser(VisualElement mainElementLaser, VisualElement mainElementFuel)
 	{
-		_mainElementLaser = mainElementLaser;
-		_mainElementFuel = mainElementFuel;
-
 		_rightPlace = mainElementLaser.Q<VisualElement>("RightPlace");
 		_gameSlider = mainElementLaser.Q<VisualElement>("GameSlider");
 		_activityName = mainElementLaser.Q<Label>("ActivityName");
@@ -45,20 +40,11 @@ public class MinigameLaser
 		_startGameSliderPosition = _gameSlider.transform.position;
 	}
 
-	private void NewPlace()
-	{
-		_rightPlace.transform.position = new Vector2(_rightPlace.transform.position.x, Random.Range(0 + _rightPlace.layout.height / 2, _parentRect.height - _rightPlace.layout.height));
-	}
+	private void NewPlace() => _rightPlace.transform.position = new Vector2(_rightPlace.transform.position.x, Random.Range(0 + _rightPlace.layout.height / 2, _parentRect.height - _rightPlace.layout.height));
 
-	private void ChangeSliderPosition()
-	{
-		_animation = DOTween.To(() => _gameSlider.style.top.value.value, x => _gameSlider.style.top = new StyleLength(x), _parentRect.height - _gameSlider.layout.height, 3f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
-	}
+	private void ChangeSliderPosition() => _animation = DOTween.To(() => _gameSlider.style.top.value.value, x => _gameSlider.style.top = new StyleLength(x), _parentRect.height - _gameSlider.layout.height, 3f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
 
-	private void StopSliderPosition()
-	{
-		_animation.Kill();
-	}
+	private void StopSliderPosition() => _animation.Kill();
 
 	public void StartGame(int needResults)
 	{
@@ -109,16 +95,12 @@ public class MinigameLaser
 		}
 		else
 		{
-			//NewPlace();
 			return false;
 		}
 
     }
 	
-	public void UpdateData()
-	{
-		_oreCount.text = $"X{_currentResourceSource.GetCurrentResourceCount()}";
-	}
+	public void UpdateData() => _oreCount.text = $"X{_currentResourceSource.GetCurrentResourceCount()}";
 
 	public void UpdateData(ResourceSource source, Fuel fuel)
 	{
@@ -135,8 +117,5 @@ public class MinigameLaser
 		_currentFuel.dataSource = fuel;
 	}
 
-	private void OnDetach(DetachFromPanelEvent evt)
-	{
-		_animation.Kill();
-	}
+	private void OnDetach(DetachFromPanelEvent evt) => _animation.Kill();
 }

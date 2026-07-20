@@ -16,7 +16,6 @@ public class BaseInventory : MonoBehaviour
 	private Inventory _baseInventory;
 	private ResourceLibrary _library;
 	private List<ResourceBase> ResourceQueue = new List<ResourceBase>();
-	private float _inventoryHalfWidth, _inventoryHalfHeight;
 	private int _inventoryCellSize;
 	private bool IsProcessing = false;
 
@@ -28,36 +27,14 @@ public class BaseInventory : MonoBehaviour
 		_baseInventory = new Inventory();
 		_baseInventory.InitializeArray(InventoryXCount, InventoryYCount);
 
-		_inventoryHalfWidth = Inventory.resolvedStyle.width / 2;
-		_inventoryHalfHeight = Inventory.resolvedStyle.height / 2;
 		_inventoryCellSize = (int)(Inventory.resolvedStyle.height / 11);
 
 		CreateNewCell(Inventory, new Vector2Int(99, 99));
 		CreateNewCell(_invisibleInventory, new Vector2Int(99, 99));
 
 		for (int y = 0; y < InventoryYCount; y++)
-		{
 			for (int x = 0; x < InventoryXCount; x++)
-			{
 				CreateNewCell(Inventory, new Vector2Int(x, y));
-
-				//var newCell = InventoryCell.Instantiate();
-				//newCell.hierarchy.ElementAt(0).dataSource = new CellObject(false);
-
-				//newCell.style.width = _inventoryCellSize;
-				//newCell.style.flexBasis = _inventoryCellSize;
-				//newCell.style.height = _inventoryCellSize;
-
-				//newCell.Q<VisualElement>("CellResource").dataSource = new ResourceCellObject(new Vector2Int(x, y));
-				//newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
-				//newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
-
-				//newCell.style.left = _inventoryHalfWidth - _inventoryCellSize + x * _inventoryCellSize;
-				//newCell.style.top = _inventoryHalfHeight - _inventoryCellSize + y * _inventoryCellSize;
-
-				//Inventory.Add(newCell);
-			}
-		}
 
 		GameEvents.OnSave += SaveData;
 	}
@@ -90,7 +67,7 @@ public class BaseInventory : MonoBehaviour
 
 		while (ResourceQueue.Count > 0)
 		{
-			_baseInventory.AddResource(ResourceQueue[0], false);
+			_baseInventory.AddResource(ResourceQueue[0], true);
 			ResourceQueue.RemoveAt(0);
 
 			yield return null;

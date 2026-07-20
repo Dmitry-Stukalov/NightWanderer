@@ -296,7 +296,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			ResourceBase craftCell = _library.GetCraftResourceBase(0);
 			craftCell.CurrentCount = 1;
 
-			_playerInventory.AddResource(craftCell, false);
+			_playerInventory.AddResource(craftCell, true);
 
 			ShowCreatedCells(evt);
 
@@ -350,7 +350,7 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	//—оздает новую €чейку в инвентаре
 	private VisualElement CreateNewCell(VisualElement inventory, Vector2Int index)
 	{
-		VisualElement newCell/*, lastCell*/;
+		VisualElement newCell;
 
 		if (index != new Vector2Int(99, 99))
 		{

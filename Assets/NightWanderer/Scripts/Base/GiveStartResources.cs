@@ -5,20 +5,17 @@ public class GiveStartResources : MonoBehaviour
 {
 	[SerializeField] private ResourceLibrary _resourceLibrary;
 	private PlayerInventoryBuilder _playerInventoryBuilder;
-	private Inventory _playerInventory;
 	private BaseInventory _BaseInventory;
-	private bool IsLoadData = false;
 
 	public void Initializing()
 	{
+		//ѕереписать использу€ Zenject
 		_playerInventoryBuilder = FindAnyObjectByType<PlayerInventoryBuilder>();
-		_playerInventory = _playerInventoryBuilder.GetPlayerInventory();
 		_BaseInventory = FindAnyObjectByType<BaseInventory>();
 
 		GameEvents.OnInventoryLoad += LoadPlayerData;
 		GameEvents.OnBaseInventoryLoad += LoadBaseData;
 
-		//GameEvents.OnImprovementOpen?.Invoke("Searchlight");
 		StartCoroutine(StartPause());
 	}
 	

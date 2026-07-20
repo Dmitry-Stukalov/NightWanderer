@@ -5,15 +5,7 @@ using UnityEngine.UIElements;
 public class CraftPanel
 {
 	private CraftManager _craftManager;
-	private VisualTreeAsset _inventoryCell;
-	private VisualElement _craftPanel;
-	private VisualTreeAsset _needResourceGroup;
-	private VisualElement _craftIcon;
-	private VisualElement _needResourceGroupPlace;
-	private VisualElement _createdCell;
 	private VisualElement _cellResource;
-	private Label _craftVisualName;
-	private Button _craftButton;
 	private ResourceCraftData _resourceCraftData;
 	private int _ID;
 	private bool IsUnlock;
@@ -23,35 +15,29 @@ public class CraftPanel
 		_resourceCraftData = resourceCraftData;
 
 		_craftManager = craftManager;
-		_craftPanel = craftPanel;
-		_needResourceGroup = needResourceGroup;
 
-		_craftIcon = craftPanel.Q<VisualElement>("CraftIcon");
-		_craftIcon.style.backgroundImage = new StyleBackground(_resourceCraftData.View);
+		VisualElement craftIcon = craftPanel.Q<VisualElement>("CraftIcon");
+		craftIcon.style.backgroundImage = new StyleBackground(_resourceCraftData.View);
 
-		_needResourceGroupPlace = craftPanel.Q<VisualElement>("NeedResourcesIcons");
+		VisualElement needResourceGroupPlace = craftPanel.Q<VisualElement>("NeedResourcesIcons");
 
-		_craftVisualName = craftPanel.Q<Label>("CraftName");
-		_craftVisualName.text = resourceCraftData.Name;
+		Label craftVisualName = craftPanel.Q<Label>("CraftName");
+		craftVisualName.text = resourceCraftData.Name;
 
-		_craftButton = craftPanel.Q<Button>("CreateButton");
-		_craftButton.RegisterCallback<ClickEvent>(Create);
+		Button craftButton = craftPanel.Q<Button>("CreateButton");
+		craftButton.RegisterCallback<ClickEvent>(Create);
 
-		_createdCell = craftPanel.Q<VisualElement>("CreatedCell");
+		VisualElement createdCell = craftPanel.Q<VisualElement>("CreatedCell");
 
 		for (int i = 0; i < _resourceCraftData.ResourcesIDToCraft.Count; i++)
 		{
-			var newResourceGroup = _needResourceGroup.Instantiate().hierarchy.ElementAt(0);
+			var newResourceGroup = needResourceGroup.Instantiate().hierarchy.ElementAt(0);
 			newResourceGroup.Q<Label>("NeedResourceCount").text = $"{_resourceCraftData.ResourcesCountToCraft[i]}";
 			newResourceGroup.Q<VisualElement>("NeedResourceIcon").style.backgroundImage = new StyleBackground(_craftManager.GetResourceSprite(_resourceCraftData.ResourcesIDToCraft[i]));
-			_needResourceGroupPlace.Add(newResourceGroup);
+			needResourceGroupPlace.Add(newResourceGroup);
 		}
-		
 
-
-		_inventoryCell = inventoryCell;
-
-		var newCell = _inventoryCell.Instantiate();
+		var newCell = inventoryCell.Instantiate();
 		newCell.hierarchy.ElementAt(0).dataSource = new CellObject(true);
 
 		_cellResource = newCell.Q<VisualElement>("CellResource");
@@ -59,7 +45,7 @@ public class CraftPanel
 		newCell.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell.Q<VisualElement>("CellResource"), false));
 		newCell.hierarchy.ElementAt(0).AddToClassList("BorderCell");
 
-		_createdCell.Add(newCell);
+		createdCell.Add(newCell);
 
 		IsUnlock = true;
 		_ID = id;
@@ -72,10 +58,6 @@ public class CraftPanel
 			if (_craftManager.TryCraft(_ID)) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
 			else Debug.Log("Не хватает ресурсов");
 		}
-
-
-		//if (_craftManager.TryCraft(_ID) && IsUnlock) ((ResourceCellObject)_cellResource.Q<VisualElement>("CellResource").dataSource).AddResource(new ResourceBase(_resourceCraftData.View, _resourceCraftData.Name, _resourceCraftData.ID, _resourceCraftData.MaxCount, 1));
-		//else Debug.Log("Не хватает ресурсов");
 	}
 
 	public void Unlock() => IsUnlock = true;

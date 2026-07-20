@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class MainBootstrap : MonoBehaviour
 {
 	[Header("Environment")]
-	//[SerializeField] private Sun _sun;
 	[SerializeField] private WeatherPanel _weatherPanel;
 
 	[Header("Player")]
@@ -55,7 +54,7 @@ public class MainBootstrap : MonoBehaviour
 		_playerInventoryBuilder?.Initializing();
 		_baseInventory?.Initializing();
 		_inventoryButton?.Initializing();
-		_shipMovement?.Initializing();
+		_shipMovement?.Initializing(_improvementManager, _inventoryButton);
 		_playerUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_baseUIManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense());
 		_statisticsManager?.Initializing(_shipMovement.GetPlayerFuel(), _shipMovement.GetPlayerDefenseSystem().GetHealth(), _shipMovement.GetPlayerDefenseSystem().GetDefense(), _shipMovement.GetPlayerDefenseSystem().GetFireDefense(), _shipMovement.GetPlayerEngines(), _playerInventoryBuilder.GetPlayerInventory(), _shipMovement.GetPlayerSearchlights());
@@ -72,33 +71,28 @@ public class MainBootstrap : MonoBehaviour
 		}
 	}
 
-	public void IntroductionSceneInitializing()
-	{
-		//_dialogueManager.StartNewDialogue();
-	}
-
 	public IEnumerator OpenSceneInitializing()
 	{
 		yield return new WaitForSecondsRealtime(1f);
 
+		ResourceLibrary library = GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>();
+
 		_shipMovement.OpenSceneInitializing();
 		_weatherPanel?.Initializing();
-		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory());
+		_improvementManager?.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), library);
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerFuel(), "Fuel");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerMiningEquipment(), "Mining");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerEngines(), "Engines");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlights(), "Searchlight");
 		_improvementManager.AddImprovement(_shipMovement.GetPlayerSearchlightsPower(), "SearchlightPower");
-		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
+		_craftManager.Initializing(_playerInventoryBuilder.GetPlayerInventory(), _baseInventory.GetBaseInventory(), library);
 		_shipSoundsManager?.Initializing(FindAnyObjectByType<Sun>());
-		_playerInventoryBuilder?.InitializeInventoryLibrary(GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
-		_baseInventory?.InitializeInventoryLibrary(GameObject.FindGameObjectWithTag("ResourceLibrary").GetComponent<ResourceLibrary>());
+		_playerInventoryBuilder?.InitializeInventoryLibrary(library);
+		_baseInventory?.InitializeInventoryLibrary(library);
 	}
 
-	private void CheckLoadScene(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+	private void CheckLoadScene(Scene scene, LoadSceneMode mode)
 	{
-		if (scene.name == "IntroductionScene") IntroductionSceneInitializing();
-
 		if (scene.name == "OpenMapScene") StartCoroutine(OpenSceneInitializing());
 	}
 

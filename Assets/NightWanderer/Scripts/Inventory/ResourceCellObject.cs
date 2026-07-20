@@ -21,8 +21,8 @@ public class ResourceCellObject
 
 		ID = id;
 
-		OnPropertyChanged(nameof(Resource.CurrentCount));
-		OnPropertyChanged(nameof(Resource.View));
+		OnPropertyChanged(nameof(ResourceBase.CurrentCount));
+		OnPropertyChanged(nameof(ResourceBase.View));
 		OnPropertyChanged(nameof(IsVisible));
 		OnPropertyChanged(nameof(IsCountVisible));
 	}
@@ -40,16 +40,7 @@ public class ResourceCellObject
 			if (resource is ProducerBugResource) _resource = new ProducerBugResource(resource.View, resource.Name, resource.ID);
 			else if (resource is StoneBugResource) _resource = new StoneBugResource(resource.View, resource.Name, resource.ID);
 			else if (resource is EaterBugResource) _resource = new EaterBugResource(resource.View, resource.Name, resource.ID);
-			else
-			{
-				_resource = new ResourceBase(resource.View, resource.Name, resource.ID, resource.MaxCount, resource.CurrentCount);
-
-				//_resource.View = resource.View;
-				//_resource.Name = resource.Name;
-				//_resource.ID = resource.ID;
-				//_resource.CurrentCount = resource.CurrentCount;
-				//_resource.MaxCount = resource.MaxCount;
-			}
+			else _resource = new ResourceBase(resource.View, resource.Name, resource.ID, resource.MaxCount, resource.CurrentCount);
 
 			resource.CurrentCount = 0;
 		}
@@ -68,9 +59,9 @@ public class ResourceCellObject
 			}
 		}
 
-		OnPropertyChanged(nameof(Resource.CurrentCount));
-		OnPropertyChanged(nameof(Resource.View));
-		OnPropertyChanged(nameof(Resource.Name));
+		OnPropertyChanged(nameof(ResourceBase.CurrentCount));
+		OnPropertyChanged(nameof(ResourceBase.View));
+		OnPropertyChanged(nameof(ResourceBase.Name));
 		OnPropertyChanged(nameof(IsVisible));
 		OnPropertyChanged(nameof(IsCountVisible));
 
@@ -86,9 +77,9 @@ public class ResourceCellObject
 		{
 			ResetResource();
 
-			OnPropertyChanged(nameof(Resource.CurrentCount));
-			OnPropertyChanged(nameof(Resource.View));
-			OnPropertyChanged(nameof(Resource.Name));
+			OnPropertyChanged(nameof(ResourceBase.CurrentCount));
+			OnPropertyChanged(nameof(ResourceBase.View));
+			OnPropertyChanged(nameof(ResourceBase.Name));
 			OnPropertyChanged(nameof(IsVisible));
 			OnPropertyChanged(nameof(IsCountVisible));
 
@@ -98,8 +89,8 @@ public class ResourceCellObject
 		{
 			_resource.CurrentCount -= resource.CurrentCount;
 
-			OnPropertyChanged(nameof(Resource.CurrentCount));
-			OnPropertyChanged(nameof(Resource.View));
+			OnPropertyChanged(nameof(ResourceBase.CurrentCount));
+			OnPropertyChanged(nameof(ResourceBase.View));
 			OnPropertyChanged(nameof(IsVisible));
 			OnPropertyChanged(nameof(IsCountVisible));
 
@@ -109,9 +100,9 @@ public class ResourceCellObject
 
 	public void UpdateData()
 	{
-		OnPropertyChanged(nameof(Resource.CurrentCount));
-		OnPropertyChanged(nameof(Resource.View));
-		OnPropertyChanged(nameof(Resource.Name));
+		OnPropertyChanged(nameof(ResourceBase.CurrentCount));
+		OnPropertyChanged(nameof(ResourceBase.View));
+		OnPropertyChanged(nameof(ResourceBase.Name));
 		OnPropertyChanged(nameof(IsVisible));
 		OnPropertyChanged(nameof(IsCountVisible));
 	}

@@ -49,7 +49,6 @@ public class DraggableManipulator : PointerManipulator
 		_startElementPosition = target.transform.position;
 	
 		if (!IsBase) target.panel.visualTree.Q<VisualElement>("Inventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("Inventory").childCount - 1).Add(target);
-		//else target.panel.visualTree.Q<VisualElement>("BaseInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("BaseInventory").childCount - 1).Add(target);
 		else target.panel.visualTree.Q<VisualElement>("InvisibleInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("InvisibleInventory").childCount - 1).Add(target);
 
 		IsEnabled = true;

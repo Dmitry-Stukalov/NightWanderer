@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Mission
 {
-	private int _ID;
 	private string _description;
 	private int _neededResources;
 	private int _currentResource;
@@ -11,7 +10,6 @@ public class Mission
 
 	public Mission(MissionData data)
 	{
-		_ID = data.ID;
 		_description = data.Description;
 		IsComplete = false;
 		IsDestinationMission = data.IsDestinationMission;

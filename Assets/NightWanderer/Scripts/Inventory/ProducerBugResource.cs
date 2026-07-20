@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -6,8 +5,6 @@ public class ProducerBugResource : ResourceBase
 {
 	private Timer _producerTimer;
 	private Timer _lifeTimer;
-	private bool _leftCell = false, _rightCell = false, _upCell = false, _downCell = false;
-	//private int _leftCell = -1, _rightCell = -1, _upCell = -1, _downCell = -1;
 	private Vector2Int _resultCell = new Vector2Int(-1, -1);
 	
 	public ProducerBugResource(Sprite view, string name, int iD) : base(view, name, iD, 1, 1)
@@ -26,18 +23,8 @@ public class ProducerBugResource : ResourceBase
 
 		if (!_producerTimer.TimerIsEnd) return;
 
-		int resourceID = UnityEngine.Random.Range(0, 7);
+		int resourceID = Random.Range(0, 7);
 
-		//_leftCell = -1;
-		//_rightCell = -1;
-		//_upCell = -1;
-		//_downCell = -1;
-		//_resultCell = -1;
-
-		_leftCell = false;
-		_rightCell = false;
-		_upCell = false;
-		_downCell = false;
 		_resultCell = new Vector2Int(-1, -1);
 
 		Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down};
@@ -58,55 +45,7 @@ public class ProducerBugResource : ResourceBase
 			}
 		}
 
-		/*if (inventory.CheckCell(id += Vector2Int.left))
-		{
-			_leftCell = true;
-
-			if (inventory.GetResourceData(id += Vector2Int.left).GetId() == resourceID)
-			{
-				_resultCell = id += Vector2Int.left;
-				GetResource(inventory, factory, resourceID);
-				return;
-			}
-		}
-
-		if (inventory.CheckCell(id += Vector2Int.right))
-		{
-			_rightCell = true;
-
-			if (inventory.GetResourceData(id += Vector2Int.right).GetId() == resourceID)
-			{
-				_resultCell = id += Vector2Int.right;
-				GetResource(inventory, factory, resourceID);
-				return;
-			}
-		}
-
-		if (inventory.CheckCell(id += Vector2Int.up))
-		{
-			_upCell = true;
-
-			if (inventory.GetResourceData(id += Vector2Int.up).GetId() == resourceID)
-			{
-				_resultCell = id += Vector2Int.up;
-				GetResource(inventory, factory, resourceID);
-				return;
-			}
-		}
-
-		if (inventory.CheckCell(id += Vector2Int.down))
-		{
-			_downCell = true;
-
-			if (inventory.GetResourceData(id += Vector2Int.down).GetId() == resourceID)
-			{
-				_resultCell = id += Vector2Int.down;
-				GetResource(inventory, factory, resourceID);
-				return;
-			}
-		}*/
-
-		int randomNumber = UnityEngine.Random.Range(0, existingCells.Count);
+		int randomNumber = Random.Range(0, existingCells.Count);
 
 		_resultCell = existingCells[randomNumber];
 		GetResource(inventory, factory, resourceID);

@@ -11,9 +11,6 @@ using UnityEditor.Rendering;
 //Хранит информацию о состояниях игрока, а также базовые значения перемещения и поворота камеры
 public class ShipMovement : MonoBehaviour
 {
-	[SerializeField] private ImprovementManager _improvementManager;
-	[SerializeField] private InventoryButton _inventoryButton;
-	[SerializeField] private ResourceLibrary _resourceLibrary;
 	[SerializeField] private DeathManager _deathManager;
 	[SerializeField] private Sprite _defenseSprite;
 	[SerializeField] private Sprite _damageSprite;
@@ -23,7 +20,6 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private BaseUIManager _baseUIManager;
 	[SerializeField] private ResearchUIManager _researchUIManager;
 	[SerializeField] private ExtractionUIManager _extractionUIManager;
-	[SerializeField] private SettingsUIManager _settingsUIManager;
 
 	[Header("Camera")]
 	[SerializeField] private GameObject PlayerCameraRotationObject;
@@ -49,6 +45,8 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] private ImprovementConfig _searchlightConfig;
 	[SerializeField] private ImprovementConfig _searchlightPowerConfig;
 
+	private ResourceLibrary _resourceLibrary;
+
 	private DefenseSystem _defenseSystem;
 	private Fuel _fuel;
 	private MiningEquipment _miningEquipment;
@@ -72,7 +70,7 @@ public class ShipMovement : MonoBehaviour
 
 	private StateMachineManager StateMachineManager = new StateMachineManager();
 
-	public void Initializing()
+	public void Initializing(ImprovementManager improvementManager, InventoryButton inventoryButton)
 	{
 		StartCoroutine(StartPause());
 
@@ -81,7 +79,7 @@ public class ShipMovement : MonoBehaviour
 		_searchlights.AddConfig(_searchlightConfig);
 		_searchlightsPower.AddConfig(_searchlightPowerConfig);
 
-		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), _improvementManager, _playerUIManager.GetVisualElement("DamageEffect"), _defenseSprite, _damageSprite);
+		_defenseSystem = new DefenseSystem(new HealthFireDefense(_healthConfig), new HealthFireDefense(_defenseConfig), new HealthFireDefense(_fireDefenseConfig), improvementManager, _playerUIManager.GetVisualElement("DamageEffect"), _defenseSprite, _damageSprite);
 		_defenseSystem.OnDeath += Death;
 
 		_fuel = new Fuel(_fuelConfig);
@@ -107,7 +105,7 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform, _playerUIManager));
 
 		StateMachineManager.SetState(0);
-		StateMachineManager.Inventory = _inventoryButton;
+		StateMachineManager.Inventory = inventoryButton;
 		if (GetComponent<Animator>() != null) StateMachineManager._Animator = GetComponent<Animator>();
 
 		_deathManager.OnAlive += Alive;
@@ -296,7 +294,7 @@ public class ShipMovement : MonoBehaviour
 		}
 	}
 
-	public void LoadData(/*Vector3 position*/SaveDataClass.ShipTransform shipTransform, int currentBase, bool isOnBase)
+	public void LoadData(SaveDataClass.ShipTransform shipTransform, int currentBase, bool isOnBase)
 	{
 		Vector3 position = new Vector3(shipTransform.X, shipTransform.Y, shipTransform.Z);
 

@@ -8,9 +8,5 @@ public interface ICanTakeDamage
 	public float Damage {  get; set; }
 	public bool IsFireDamage { get; set; }
 
-	public void TakeDamage()
-	{
-		if (IsFireDamage) Health.GetFireDamage(Damage);
-		else Health.GetDamage(Damage);
-	}
+	public void GiveDamage(float damage, bool isFireDamage) { }
 }

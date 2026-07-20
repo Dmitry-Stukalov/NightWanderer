@@ -11,7 +11,6 @@ using UnityEngine.Experimental.AI;
 public class Inventory : ICellsCreator
 {
 	private Dictionary<Vector2Int, ResourceCellObject> _inventory = new Dictionary<Vector2Int, ResourceCellObject>();
-	private ResourceCellObject[] _Inventory;
 	private List<Vector2Int> emptyCells = new List<Vector2Int>();
 	private Vector2Int j = new Vector2Int(-1, -1);
 
@@ -98,26 +97,6 @@ public class Inventory : ICellsCreator
 		if (_inventory[index].GetId() != resource.ID) return;
 
 		_inventory[index].DeleteResource(resource);
-	}
-
-	public void DeleteResource(IResourceFactory factory, int resource, int count)
-	{
-		int remains = count;
-
-		foreach (var key in _inventory.Keys)
-		{
-			ResourceBase InvResource = _inventory[key].GetResource();
-
-			if (InvResource.ID == resource)
-			{
-				ResourceBase newResource = factory.GetResourceBase(resource);
-				newResource.CurrentCount = remains;
-
-				remains = _inventory[key].DeleteResource(newResource);
-
-				if (remains == 0) return;
-			}
-		}
 	}
 
 	public void DeleteResource(ResourceBase resource)
