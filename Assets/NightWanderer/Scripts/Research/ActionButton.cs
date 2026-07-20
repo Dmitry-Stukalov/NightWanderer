@@ -29,6 +29,7 @@ public class ActionButton
 			_manager.UploadData();
 			_manager.DoAction(_id);
 		}
+		else if (_button.text == "Поднять ресурсы") _manager.GiveResources();
 		else _manager.DoAction(_id);
 	}
 

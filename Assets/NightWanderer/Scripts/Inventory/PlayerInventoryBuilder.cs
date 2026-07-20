@@ -246,13 +246,21 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	//Вызывает метод, который создает новую ячейку
 	private void CreateCell(ClickEvent evt)
 	{
+		ResourceBase craftCell = _library.GetCraftResourceBase(0);
+		craftCell.CurrentCount = 1;
+
+		if (!_playerInventory.CheckResource(craftCell))
+		{
+			Debug.Log("Не хватает ресурсов");
+			return;
+		}
+
 		if (evt.currentTarget is VisualElement cellObject && cellObject.userData is Vector2Int index)
 		{
 			HideCreatedCells(evt);
 
 			_playerInventory.CreateCell(index);
-
-			//CreateNewCell(Inventory, index);
+			_playerInventory.DeleteResource(craftCell);
 
 			var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
 
@@ -284,6 +292,11 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			DeleteThisCell(Inventory, index);
 
 			_playerInventory.DeleteCell(index);
+
+			ResourceBase craftCell = _library.GetCraftResourceBase(0);
+			craftCell.CurrentCount = 1;
+
+			_playerInventory.AddResource(craftCell, false);
 
 			ShowCreatedCells(evt);
 

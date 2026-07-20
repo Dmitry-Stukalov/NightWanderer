@@ -9,6 +9,7 @@ using System.Collections;
 public class ResearchUIManager : UIManager
 {
 	[SerializeField] private UIDocument _researchUI;
+	private Inventory _inventory;
 	private VisualElement _mainElement;
 	private VisualElement _researchHintPanel;
 	private Label _researchShipText;
@@ -17,8 +18,10 @@ public class ResearchUIManager : UIManager
 	private ResearchConfig _currentConfig;
 	private bool IsDataUpload = false;
 
-	public void Initializing()
+	public void Initializing(Inventory inventory)
 	{
+		_inventory = inventory;
+
 		_mainElement = _researchUI.rootVisualElement.Q<VisualElement>("MainElement");
 		_researchHintPanel = _researchUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
 
@@ -50,7 +53,6 @@ public class ResearchUIManager : UIManager
 
 	private void OnResearchStart()
 	{
-		//_mainElement.style.display = DisplayStyle.Flex;
 		UnityEngine.Cursor.lockState = CursorLockMode.None;
 		UnityEngine.Cursor.visible = true;
 	}
@@ -62,7 +64,6 @@ public class ResearchUIManager : UIManager
 
 	private void OnResearchQuit()
 	{
-		//_mainElement.style.display = DisplayStyle.None;
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 		UnityEngine.Cursor.visible = false;
 	}
@@ -106,6 +107,8 @@ public class ResearchUIManager : UIManager
 
 		if (_currentConfig.StoryName.Length != 0) GameEvents.OnResearchEnd?.Invoke(MatchResearch(_currentConfig.StoryName[0]));
 	}
+
+	public void GiveResources() => _currentResearchShip.GiveResources(_inventory);
 
 	public override void OpenUI()
 	{

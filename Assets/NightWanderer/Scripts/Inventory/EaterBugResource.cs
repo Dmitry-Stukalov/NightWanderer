@@ -44,7 +44,27 @@ public class EaterBugResource : ResourceBase
 		//_downCell = false;
 		//_currentCell = id;
 
-		if (inventory.CheckCell(id += Vector2Int.left))
+
+		Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+		List<Vector2Int> existingCells = new List<Vector2Int>();
+		List<Vector2Int> emptyCells = new List<Vector2Int>();
+		List<Vector2Int> resourceCells = new List<Vector2Int>();
+
+		foreach (var direction in directions)
+		{
+			if (inventory.CheckCell(id + direction))
+			{
+				existingCells.Add(id + direction);
+
+				if (inventory.GetResourceData(id + direction).GetId() == -1) emptyCells.Add(id + direction);
+				else resourceCells.Add(id + direction);
+			}
+		}
+
+		if (emptyCells.Count == existingCells.Count) Move(inventory, factory, emptyCells, id);
+		else EatResource(inventory, resourceCells, id);
+
+		/*if (inventory.CheckCell(id += Vector2Int.left))
 		{
 			_leftCell = true;
 
@@ -70,10 +90,10 @@ public class EaterBugResource : ResourceBase
 			_downCell = true;
 
 			if (inventory.GetResourceData(id += Vector2Int.down).GetId() == -1) _downCellEmpty = true;
-		}
-
-		if (_leftCellEmpty && _rightCellEmpty && _upCellEmpty && _downCellEmpty) EatResource(inventory, id);
-		else Move(inventory, factory, id);
+		}*/
+		
+		/*if (_leftCellEmpty && _rightCellEmpty && _upCellEmpty && _downCellEmpty) EatResource(inventory, id);
+		else Move(inventory, factory, id);*/
 
 		//if (id % 8 != 0 && id != 0)
 		//{
@@ -107,7 +127,7 @@ public class EaterBugResource : ResourceBase
 		//else Move(inventory, factory);
 	}
 
-	private void EatResource(Inventory inventory, Vector2Int id)
+	private void EatResource(Inventory inventory, List<Vector2Int> resourceCells, Vector2Int id)
 	{
 		List<Vector2Int> arr = new List<Vector2Int>();
 
@@ -122,7 +142,7 @@ public class EaterBugResource : ResourceBase
 		//if (_upCell > -1) arr.Add(_upCell);
 		//if (_downCell > -1) arr.Add(_downCell);
 
-		Vector2Int randomResource = arr[Random.Range(0, arr.Count)];
+		Vector2Int randomResource = resourceCells[Random.Range(0, resourceCells.Count)];
 
 		ResourceBase deletedResource = inventory.GetResourceData(randomResource).GetResource();
 		deletedResource = new ResourceBase(deletedResource.View, deletedResource.Name, deletedResource.ID, deletedResource.MaxCount, 1);
@@ -132,7 +152,7 @@ public class EaterBugResource : ResourceBase
 		_eatTimer.ResetTimer(false);
 	}
 
-	private void Move(Inventory inventory, IResourceFactory factory, Vector2Int id)
+	private void Move(Inventory inventory, IResourceFactory factory, List<Vector2Int> emptyCells, Vector2Int id)
 	{
 		List<Vector2Int> arr = new List<Vector2Int>();
 
@@ -147,7 +167,7 @@ public class EaterBugResource : ResourceBase
 		//if (_upCell == -2) arr.Add(_currentCell - 8);
 		//if (_downCell == -2) arr.Add(_currentCell + 8);
 
-		inventory.AddResource(factory, ID, arr[Random.Range(0, arr.Count)], 1);
+		inventory.AddResource(factory, ID, emptyCells[Random.Range(0, emptyCells.Count)], 1);
 		inventory.DeleteResource(id, this);
 
 		_eatTimer.ResetTimer(false);

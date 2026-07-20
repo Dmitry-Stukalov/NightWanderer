@@ -19,6 +19,19 @@ public class ResearchShip : MonoBehaviour
 		IsEmpty = true;
 	}
 
+	public void TakeResources()
+	{
+
+	}
+
+	public void GiveResources(Inventory inventory)
+	{
+		if (inventory.GetEmptyCellsCount() < config.NeedResourceID.Length) return;
+
+		for (int i = 0; i < config.NeedResourceID.Length; i++) 
+			GameEvents.OnResourceAdd(config.NeedResourceID[i], config.NeedResourceCount[i]);
+	}
+
 	public ResearchConfig GetResearchConfig() => config;
 	public bool IsDataUpload() => IsEmpty;
 	public void LoadData(bool isEmpty) => IsEmpty = isEmpty;

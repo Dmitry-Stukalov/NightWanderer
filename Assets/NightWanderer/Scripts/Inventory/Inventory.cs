@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using TMPro;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEngine.Experimental.AI;
 
 
 //Инвентарь игрока
@@ -35,6 +37,7 @@ public class Inventory : ICellsCreator
 		//Передали пустой ресурс
 		if (resource.CurrentCount == 0 || resource.ID == -1) return;
 
+		j = new Vector2Int(-1, -1);
 		emptyCells.Clear();
 
 		foreach (var key in _inventory.Keys)
@@ -97,6 +100,49 @@ public class Inventory : ICellsCreator
 		_inventory[index].DeleteResource(resource);
 	}
 
+	public void DeleteResource(IResourceFactory factory, int resource, int count)
+	{
+		int remains = count;
+
+		foreach (var key in _inventory.Keys)
+		{
+			ResourceBase InvResource = _inventory[key].GetResource();
+
+			if (InvResource.ID == resource)
+			{
+				ResourceBase newResource = factory.GetResourceBase(resource);
+				newResource.CurrentCount = remains;
+
+				remains = _inventory[key].DeleteResource(newResource);
+
+				if (remains == 0) return;
+			}
+		}
+	}
+
+	public void DeleteResource(ResourceBase resource)
+	{
+		foreach (var key in _inventory.Keys)
+		{
+			if (_inventory[key].GetId() == resource.ID)
+			{
+				if (_inventory[key].DeleteResource(resource) == 0) return;
+			}
+		}
+	}
+	
+	public bool CheckResource(ResourceBase resource)
+	{
+		int resourceCount = 0;
+
+		foreach (var key in _inventory.Keys)
+			if (_inventory[key].GetId() == resource.ID)
+				resourceCount += _inventory[key].GetResourceCount();
+
+		if (resourceCount >= resource.CurrentCount) return true;
+		else return false;
+	}
+
 	public bool CheckCell(Vector2Int cell)
 	{
 		if (_inventory.TryGetValue(cell, out ResourceCellObject cellObject))
@@ -114,6 +160,16 @@ public class Inventory : ICellsCreator
 	public void DeleteCell(Vector2Int cellIndex)
 	{
 		_inventory.Remove(cellIndex);
+	}
+
+	public int GetEmptyCellsCount()
+	{
+		int count = 0;
+
+		foreach (var key in _inventory.Keys)
+			if (_inventory[key].GetId() == -1) count++;
+
+		return count;
 	}
 
 	public Dictionary<Vector2Int, ResourceCellObject> GetCells() => _inventory;

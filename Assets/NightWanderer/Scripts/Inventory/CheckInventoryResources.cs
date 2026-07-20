@@ -51,7 +51,7 @@ public static class CheckInventoryResources
 					if (resource.GetResourceCount() > needResources[resource.GetId()])
 					{
 						resource.SubtractResourceCount(needResources[resource.GetId()]);
-						needResources[resource.GetId()] -= 0;
+						needResources[resource.GetId()] = 0;
 					}
 					else
 					{

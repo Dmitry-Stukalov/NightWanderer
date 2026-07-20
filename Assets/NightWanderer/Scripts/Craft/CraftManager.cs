@@ -44,6 +44,7 @@ public class CraftManager : MonoBehaviour
 
 		GameEvents.OnCraftOpen += UnlockCraft;
 		UnlockCraft("Прожектор");
+		UnlockCraft("Ячейка");
 	}
 
 	public Sprite GetResourceSprite(int id) => _library.GetResourceBase(id).View;

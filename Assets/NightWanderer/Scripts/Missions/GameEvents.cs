@@ -73,6 +73,9 @@ public static class GameEvents
 	public static Action OnSearchlightsStartMove;
 	public static Action OnSearchlightsStartSearch;
 
+	public static Action<int, int> OnResourceAdd;
+	public static Action OnResourceDelete;
+
 	//UI
 	public static Action<ClickEvent> OnOpenCreateCells;
 	public static Action<ClickEvent> OnCloseCreateCells;
