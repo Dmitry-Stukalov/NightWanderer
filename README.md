@@ -1,6 +1,6 @@
 # Night Wanderer
 
-An adventure 3D game with survival and horror elements, featuring a 3rd person view in the low-poly style.
+An adventure 3D game with survival and horror elements, featuring a 3rd person view in the low-poly style. (If you know Dredge, then you already understand the basic concept).
 
 ## Game Status
 
