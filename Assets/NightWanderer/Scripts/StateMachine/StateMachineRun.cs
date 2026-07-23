@@ -40,7 +40,8 @@ public class StateMachineRun : StateMachineMovement
 		{
 			StateManager.NextState = 3;
 
-			StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 2f - StateManager.DistanceToGround, Ship.transform.position.z);
+			if (Ship.transform.position.y > Ship.transform.position.y + 2f - StateManager.DistanceToGround) StateManager.TargetShipPosition = new Vector3(Ship.transform.position.x, Ship.transform.position.y + 2f - StateManager.DistanceToGround, Ship.transform.position.z);
+			else StateManager.TargetShipPosition = Ship.transform.position;
 			StateManager.TargetShipRotation = Ship.transform.rotation;
 
 			StateManager.SetState(10);

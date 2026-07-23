@@ -33,10 +33,10 @@ public class Inventory : ICellsCreator
 
 	public void AddResource(ResourceBase resource, bool randomAdd)
 	{
-		//ѕередали пустой ресурс
+		//ѕередали пустой ресурс или нет свободных €чеек
 		if (resource.CurrentCount == 0 || resource.ID == -1) return;
 
-		j = new Vector2Int(-1, -1);
+		j = new Vector2Int(-99, -99);
 		emptyCells.Clear();
 
 		foreach (var key in _inventory.Keys)
@@ -47,7 +47,7 @@ public class Inventory : ICellsCreator
 			//–есурса нет (€чейка пуста€)
 			if (_inventory[key].GetId() == -1)
 			{
-				if (j == new Vector2Int(-1, -1)) j = key;
+				if (j == new Vector2Int(-99, -99)) j = key;
 
 				emptyCells.Add(key);
 
@@ -59,7 +59,7 @@ public class Inventory : ICellsCreator
 			{
 				_inventory[key].AddResource(resource);
 
-				j = new Vector2Int(-1, -1);
+				j = new Vector2Int(-99, -99);
 
 				return;
 			}
@@ -146,7 +146,7 @@ public class Inventory : ICellsCreator
 		int count = 0;
 
 		foreach (var key in _inventory.Keys)
-			if (_inventory[key].GetId() == -1) count++;
+			if (_inventory[key].GetId() == -1 && key != new Vector2Int(-99, -99)) count++;
 
 		return count;
 	}

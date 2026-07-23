@@ -148,18 +148,23 @@ public class SaveDataClass
 	[Serializable]
 	public struct InventoryData
 	{
+		public List<Vector2Int> ResourcePlace;
 		public List<int> ResourceID;
 		public List<int> ResourceCount;
 
 		public InventoryData(Inventory inventory)
 		{
+			ResourcePlace = new List<Vector2Int>();	
 			ResourceID = new List<int>();
 			ResourceCount = new List<int>();
 
-			foreach (var cell in inventory.GetCells().Keys)
+			foreach (var key in inventory.GetCells().Keys)
 			{
-				ResourceID.Add(inventory.GetResourceData(cell).GetResource().ID);
-				ResourceCount.Add(inventory.GetResourceData(cell).GetResource().CurrentCount);
+				ResourcePlace.Add(key);
+				ResourceID.Add(inventory.GetResourceData(key).GetId());
+				ResourceCount.Add(inventory.GetResourceData(key).GetResource().CurrentCount);
+				//ResourceID.Add(inventory.GetResourceData(cell).GetResource().ID);
+				//ResourceCount.Add(inventory.GetResourceData(cell).GetResource().CurrentCount);
 			}
 		}
 	}

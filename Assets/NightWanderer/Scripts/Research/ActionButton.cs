@@ -23,13 +23,23 @@ public class ActionButton
 
 	public void OnClick(ClickEvent evt)
 	{
-		if (_button.text == "Отстыковаться") _manager.CloseUI();
+		if (_button.text == "Отстыковаться")
+		{
+			_manager.CloseUI();
+		}
 		else if (_button.text == "Загрузить данные с диска")
 		{
 			_manager.UploadData();
 			_manager.DoAction(_id);
 		}
-		else if (_button.text == "Поднять ресурсы") _manager.GiveResources();
+		else if (_button.text == "Поднять ресурсы")
+		{
+			if (_manager.GiveResources()) _manager.DoAction(_id);
+		}
+		else if (_button.text == "Использовать ресурсы")
+		{
+			if (_manager.TakeResources()) _manager.DoAction(_id);
+		}
 		else _manager.DoAction(_id);
 	}
 

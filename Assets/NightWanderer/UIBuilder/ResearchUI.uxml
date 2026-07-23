@@ -19,5 +19,8 @@
                 <ui:Button text="Уйти" name="Action" class="StandartLabel RoundingBorder GlowButton Button" style="width: 70%; align-self: center; margin-bottom: 3%;" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="ResearchMessagePanel" class="MainBackground BorderAll RoundingBorder GlowTaskPanel" style="flex-grow: 1; position: absolute; top: 85%; width: 25%; height: 3%; align-self: center; opacity: 0; background-color: rgba(255, 0, 0, 0.4);">
+            <ui:Label text="Недостаточно места в инвентаре" name="ResearchMessageText" class="StandartLabel" style="-unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/SSFBreakthrough-Bold%20SDF.asset?fileID=11400000&amp;guid=784d4999e8270b44bb87566d98892275&amp;type=2#SSFBreakthrough-Bold SDF&quot;);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -9,20 +9,25 @@ using UnityEngine.InputSystem;
 public class StateMachineTransition : StateMachineState
 {
 	private Transform PlayerCameraRotationObject;
+	protected readonly InputAction LookAction;
 	private Vector3 TargetShipPosition;
+	protected Vector2 MouseAxis;
 	private Quaternion TargetShipRotation;
 	private Quaternion TargetCameraRotation;
 	protected float RotationX;
 	protected float RotationY;
 	private float PositionTolerance = 0.01f;
 	private float RotationTolerance = 0.5f;
+	protected float LookSpeed;
 	private bool PositionReached;
 	private bool RotationReached;
 	private bool RotationCameraReached;
 
-	public StateMachineTransition(int id, StateMachineManager manager, Transform ship, UIManager uiManager, Transform playerCameraRotationObject): base(id, manager, ship, uiManager) 
+	public StateMachineTransition(int id, StateMachineManager manager, InputAction lookAction, Transform ship, UIManager uiManager, Transform playerCameraRotationObject, float lookSpeed): base(id, manager, ship, uiManager) 
 	{ 
 		PlayerCameraRotationObject = playerCameraRotationObject;
+		LookAction = lookAction;
+		LookSpeed = lookSpeed;
 	}
 	 
 	public override void Enter()
@@ -50,6 +55,8 @@ public class StateMachineTransition : StateMachineState
 
 	public override void Update()
 	{
+		if (StateManager.NextState == 3) Look();
+
 		PositionReached = Vector3.Distance(Ship.position, TargetShipPosition) <= PositionTolerance;
 		RotationReached = Quaternion.Angle(Ship.rotation /*Quaternion.Euler(StateManager.RotationX, StateManager.RotationY, Ship.rotation.z)*/, TargetShipRotation) <= RotationTolerance;
 		if (StateManager.NextState != 3) RotationCameraReached = Quaternion.Angle(PlayerCameraRotationObject.rotation, TargetCameraRotation) <= RotationTolerance;
@@ -79,6 +86,18 @@ public class StateMachineTransition : StateMachineState
 				if (StateManager.NextState != 3) PlayerCameraRotationObject.rotation = Quaternion.Slerp(PlayerCameraRotationObject.rotation, TargetCameraRotation, Time.deltaTime * 5);
 			}
 		}
+	}
+
+	protected virtual void Look()
+	{
+		MouseAxis = LookAction.ReadValue<Vector2>();
+
+		RotationX += -MouseAxis.y * LookSpeed;
+		RotationX = Mathf.Clamp(RotationX, -90, 90);
+
+		RotationY += -MouseAxis.x * LookSpeed;
+
+		PlayerCameraRotationObject.transform.rotation = Quaternion.Euler(-RotationX, -RotationY, 0);
 	}
 
 	protected virtual int CompareDifference(float angle)

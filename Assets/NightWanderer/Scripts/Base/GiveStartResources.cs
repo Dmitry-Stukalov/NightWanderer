@@ -40,6 +40,10 @@ public class GiveStartResources : MonoBehaviour
 			newResource = _resourceLibrary.GetResourceBase(1);
 			newResource.SetCount(10);
 			_BaseInventory.AddResource(newResource);
+
+			newResource = _resourceLibrary.GetCraftResourceBase(0);
+			newResource.SetCount(10);
+			_BaseInventory.AddResource(newResource);
 		}
 	}
 
@@ -47,6 +51,8 @@ public class GiveStartResources : MonoBehaviour
 	{
 		for (int i = 0; i < inventoryData.ResourceID.Count; i++)
 		{
+			if (!_playerInventoryBuilder.CheckExistingCell(inventoryData.ResourcePlace[i])) _playerInventoryBuilder.CreateCell(inventoryData.ResourcePlace[i]);
+
 			if (inventoryData.ResourceID[i] == -1) continue;
 			var newResource = _resourceLibrary.GetResourceBase(inventoryData.ResourceID[i]);
 			newResource.SetCount(inventoryData.ResourceCount[i]);

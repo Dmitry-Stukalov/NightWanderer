@@ -37,6 +37,8 @@ public class BaseInventory : MonoBehaviour
 				CreateNewCell(Inventory, new Vector2Int(x, y));
 
 		GameEvents.OnSave += SaveData;
+		GameEvents.OnResourceActivate += ActivateCells;
+		GameEvents.OnResourceDeactivate += DeactivateCells;
 	}
 
 	public void InitializeInventoryLibrary(ResourceLibrary library) => _library = library;
@@ -67,7 +69,7 @@ public class BaseInventory : MonoBehaviour
 
 		while (ResourceQueue.Count > 0)
 		{
-			_baseInventory.AddResource(ResourceQueue[0], true);
+			_baseInventory.AddResource(ResourceQueue[0], false);
 			ResourceQueue.RemoveAt(0);
 
 			yield return null;
@@ -114,6 +116,28 @@ public class BaseInventory : MonoBehaviour
 		return newCell;
 	}
 
+	//Включает возможность перетаскивать ресурсы по инвентарю
+	private void ActivateCells()
+	{
+		foreach (var cell in Inventory.Children())
+		{
+			VisualElement cellResource = cell.Q<VisualElement>("CellResource");
+
+			if (cellResource != null) cellResource.pickingMode = PickingMode.Position;
+		}
+	}
+
+	//Выключает возможность перетаскивать ресурсы по инвентарю
+	private void DeactivateCells()
+	{
+		foreach (var cell in Inventory.Children())
+		{
+			VisualElement cellResource = cell.Q<VisualElement>("CellResource");
+
+			if (cellResource != null) cellResource.pickingMode = PickingMode.Ignore;
+		}
+	}
+
 	public Inventory GetBaseInventory() => _baseInventory;
 
 
@@ -127,5 +151,7 @@ public class BaseInventory : MonoBehaviour
 	private void OnDisable()
 	{
 		GameEvents.OnSave -= SaveData;
+		GameEvents.OnResourceActivate -= ActivateCells;
+		GameEvents.OnResourceDeactivate -= DeactivateCells;
 	}
 }

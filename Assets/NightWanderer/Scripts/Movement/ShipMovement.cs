@@ -99,7 +99,7 @@ public class ShipMovement : MonoBehaviour
 		StateMachineManager.AddState(1, new StateMachineWalk(1, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(2, new StateMachineRun(2, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
 		StateMachineManager.AddState(3, new StateMachineVoid(3, StateMachineManager, PlayerCameraRotationObject, gameObject, transform, _playerUIManager, VacuumCleanerObject.transform, _vacuumCleaner, _fuel, _engines, MoveAction, UpDownMoveAction, LookAction, LookSpeed));
-		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, transform, _playerUIManager, PlayerCameraRotationObject.transform));
+		StateMachineManager.AddState(10, new StateMachineTransition(10, StateMachineManager, LookAction, transform, _playerUIManager, PlayerCameraRotationObject.transform, LookSpeed));
 		StateMachineManager.AddState(15, new StateMachineResearch(15, StateMachineManager, transform, _researchUIManager));
 		StateMachineManager.AddState(20, new StateMachineBase(20, StateMachineManager, transform, _baseUIManager));
 		StateMachineManager.AddState(50, new StateMachineDeath(50, StateMachineManager, transform, _playerUIManager));

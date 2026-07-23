@@ -1,8 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
-using static UnityEngine.Rendering.STP;
 using DG.Tweening;
 using System.Collections;
 
@@ -12,10 +10,12 @@ public class ResearchUIManager : UIManager
 	private Inventory _inventory;
 	private VisualElement _mainElement;
 	private VisualElement _researchHintPanel;
+	private VisualElement _researchMessagePanel;
 	private Label _researchShipText;
 	private List<Button> _actionButtons = new List<Button>();
 	private ResearchShip _currentResearchShip;
 	private ResearchConfig _currentConfig;
+	private Sequence _fadeSequence;
 	private bool IsDataUpload = false;
 
 	public void Initializing(Inventory inventory)
@@ -24,6 +24,7 @@ public class ResearchUIManager : UIManager
 
 		_mainElement = _researchUI.rootVisualElement.Q<VisualElement>("MainElement");
 		_researchHintPanel = _researchUI.rootVisualElement.Q<VisualElement>("ResearchOpenPanel");
+		_researchMessagePanel = _researchUI.rootVisualElement.Q<VisualElement>("ResearchMessagePanel");
 
 		_researchShipText = _researchUI.rootVisualElement.Q<Label>("ResearchShipText");
 
@@ -37,6 +38,7 @@ public class ResearchUIManager : UIManager
 		GameEvents.OnResearchStart += OnResearchStart;
 		GameEvents.OnResearchEnd += OnResearchEnd;
 		GameEvents.OnResearchQuit += OnResearchQuit;
+		GameEvents.OnResearchMessage += ShowMessagePanel;
 
 		_mainElement.style.display = DisplayStyle.None;
 	}
@@ -66,6 +68,21 @@ public class ResearchUIManager : UIManager
 	{
 		UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 		UnityEngine.Cursor.visible = false;
+	}
+
+	private void ShowMessagePanel(string message)
+	{
+		_fadeSequence.Kill();
+
+		_researchMessagePanel.Q<Label>("ResearchMessageText").text = message;
+
+		_fadeSequence = DOTween.Sequence();
+
+		_fadeSequence.Append (DOTween.To(() => _researchMessagePanel.style.opacity.value, x => _researchMessagePanel.style.opacity = x, 1, 1.5f));
+
+		_fadeSequence.AppendInterval(3f);
+
+		_fadeSequence.Append(DOTween.To(() => _researchMessagePanel.style.opacity.value, x => _researchMessagePanel.style.opacity = x, 0, 1.5f));
 	}
 
 	private IEnumerator ShowResearchOpenPanel(string newText)
@@ -108,7 +125,9 @@ public class ResearchUIManager : UIManager
 		if (_currentConfig.StoryName.Length != 0) GameEvents.OnResearchEnd?.Invoke(MatchResearch(_currentConfig.StoryName[0]));
 	}
 
-	public void GiveResources() => _currentResearchShip.GiveResources(_inventory);
+	public bool TakeResources() => _currentResearchShip.TakeResources(_inventory);
+
+	public bool GiveResources() => _currentResearchShip.GiveResources(_inventory);
 
 	public override void OpenUI()
 	{
@@ -171,6 +190,7 @@ public class ResearchUIManager : UIManager
 		GameEvents.OnResearchStart -= OnResearchStart;
 		GameEvents.OnResearchEnd -= OnResearchEnd;
 		GameEvents.OnResearchQuit -= OnResearchQuit;
+		GameEvents.OnResearchMessage -= ShowMessagePanel;
 
 		for (int i = 0; i < _actionButtons.Count; i++) ((ActionButton)_actionButtons[i].dataSource).OnDisable();
 	}

@@ -11,7 +11,6 @@ public class BaseUIManager : UIManager
 	[SerializeField] private BaseInventory _baseInventory;
 
 	private VisualElement _mainElement;
-	private VisualElement _mainBackground;
 	private VisualElement _storageBackground;
 	private VisualElement _craftBackground;
 	private VisualElement _upgradesBackground;
@@ -27,7 +26,6 @@ public class BaseUIManager : UIManager
 	public void Initializing(Fuel fuel, HealthFireDefense health, HealthFireDefense defense, HealthFireDefense fireDefense)
 	{
 		_mainElement = _baseUI.rootVisualElement.Q<VisualElement>("MainElement");
-		_mainBackground = _baseUI.rootVisualElement.Q<VisualElement>("InventoryPanel");
 
 		_blackBackground = _baseUI.rootVisualElement.Q<VisualElement>("BlackBackground");
 		GameEvents.OnFirstBaseVisit += OnFirstTimeBase;

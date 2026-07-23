@@ -12,7 +12,6 @@ public class DraggableManipulator : PointerManipulator
 	private VisualElement _newElementUnderCursor;
 	private ResourceCellObject _cellResource;
 	private Vector3 _startPosition;
-	private Vector3 _startElementPosition;
 	private bool IsEnabled;
 	private bool IsBase;
 
@@ -46,13 +45,14 @@ public class DraggableManipulator : PointerManipulator
 	{
 		_startParent = target.parent;
 		_startPosition = evt.localPosition;
-		_startElementPosition = target.transform.position;
 	
 		if (!IsBase) target.panel.visualTree.Q<VisualElement>("Inventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("Inventory").childCount - 1).Add(target);
 		else target.panel.visualTree.Q<VisualElement>("InvisibleInventory").Children().ElementAt(target.panel.visualTree.Q<VisualElement>("InvisibleInventory").childCount - 1).Add(target);
 
 		IsEnabled = true;
 		target.CapturePointer(evt.pointerId);
+
+		GameEvents.OnResourceDeactivate?.Invoke();
 	}
 
 	private void OnPointerMove(PointerMoveEvent evt)
@@ -217,6 +217,8 @@ public class DraggableManipulator : PointerManipulator
 
 		_startParent.Add(target);
 		target.transform.position = Vector3.zero;
+
+		GameEvents.OnResourceActivate?.Invoke();
 	}
 
 	private bool CheckMatch(string[] elementClass)

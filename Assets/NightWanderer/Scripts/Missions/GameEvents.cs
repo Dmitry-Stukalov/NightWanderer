@@ -52,6 +52,9 @@ public static class GameEvents
 	public static Action<int> OnMissionComplete;
 	public static Action<int, int> OnDoMission;
 
+	//Исследования
+	public static Action<string> OnResearchMessage;
+
 	//Перемотка времени
 	public static Action OnSkipTimeStart;
 	public static Action OnSkipTimeEnd;
@@ -88,6 +91,8 @@ public static class GameEvents
 	public static Action<ClickEvent> OnOpenCreateCells;
 	public static Action<ClickEvent> OnCloseCreateCells;
 	public static Action OnCloseCreateCells2;
+	public static Action OnResourceActivate;
+	public static Action OnResourceDeactivate;
 
 	//Sounds
 	public static Action OnMainMenuOut;
@@ -121,17 +126,17 @@ public static class GameEvents
 	//Load
 	public static Action OnGameLoad;
 
-	public static Action<SaveDataClass.InventoryData> OnInventoryLoad;		//
-	public static Action<SaveDataClass.InventoryData> OnBaseInventoryLoad;	//
-	public static Action<SaveDataClass.ImprovementData> OnImprovementsLoad; //
-	public static Action<SaveDataClass.ImprovementUnlockData> OnImprovementPanelsLoad;	//
-	public static Action<IReadOnlyList<float>> OnStatsLoad;					//
-	public static Action<int, SaveDataClass.ResourceSourceData> OnResourceSourcesLoad;	//
-	public static Action<SaveDataClass.ResearchShipData> OnResearchShipsLoad;	//
-	public static Action<SaveDataClass.ShipTransform, int, bool> OnTransformLoad;		//
-	public static Action<string> OnSceneLoad;					//
-	public static Action<int> OnCurrentDayLoad;					//
-	public static Action<float> OnCurrentTimeLoad;				//
-	public static Action<int> OnCurrentMissionLoad;				//
-	public static Action<int> OnCurrentDialogueLoad;			//
+	public static Action<SaveDataClass.InventoryData> OnInventoryLoad;
+	public static Action<SaveDataClass.InventoryData> OnBaseInventoryLoad;
+	public static Action<SaveDataClass.ImprovementData> OnImprovementsLoad;
+	public static Action<SaveDataClass.ImprovementUnlockData> OnImprovementPanelsLoad;
+	public static Action<IReadOnlyList<float>> OnStatsLoad;
+	public static Action<int, SaveDataClass.ResourceSourceData> OnResourceSourcesLoad;
+	public static Action<SaveDataClass.ResearchShipData> OnResearchShipsLoad;
+	public static Action<SaveDataClass.ShipTransform, int, bool> OnTransformLoad;
+	public static Action<string> OnSceneLoad;
+	public static Action<int> OnCurrentDayLoad;
+	public static Action<float> OnCurrentTimeLoad;
+	public static Action<int> OnCurrentMissionLoad;
+	public static Action<int> OnCurrentDialogueLoad;
 }

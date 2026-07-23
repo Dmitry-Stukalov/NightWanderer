@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static Unity.VisualScripting.Metadata;
-
 
 //Отвечает за инвентарь игрока, добавление и удаление из него ресурсов
 public class PlayerInventoryBuilder : MonoBehaviour
@@ -76,9 +74,20 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		GameEvents.OnOpenCreateCells += ShowDeletedCells;
 		GameEvents.OnCloseCreateCells += HideCreatedCells;
 		GameEvents.OnCloseCreateCells2 += HideCreatedCells;
+		GameEvents.OnResourceAdd += AddResearchResource;
+		GameEvents.OnResourceActivate += ActivateCells;
+		GameEvents.OnResourceDeactivate += DeactivateCells;
 }
 
 	public void InitializeInventoryLibrary(ResourceLibrary library) => _library = library;
+
+	public void AddResearchResource(int resourceID, int resourceCount)
+	{
+		ResourceBase newResource = _library.GetResourceBase(resourceID);
+		newResource.CurrentCount = resourceCount;
+
+		AddResource(newResource, true);
+	}
 
 	public void AddResource(ResourceBase newResource, bool randomAdd)
 	{
@@ -230,7 +239,9 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	{
 		foreach (var cell in Inventory.Children())
 		{
-			cell.Q<VisualElement>("CellResource").pickingMode = PickingMode.Position;
+			VisualElement cellResource = cell.Q<VisualElement>("CellResource");
+			
+			if (cellResource != null) cellResource.pickingMode = PickingMode.Position;
 		}
 	}
 
@@ -239,7 +250,9 @@ public class PlayerInventoryBuilder : MonoBehaviour
 	{
 		foreach (var cell in Inventory.Children())
 		{
-			cell.Q<VisualElement>("CellResource").pickingMode = PickingMode.Ignore;
+			VisualElement cellResource = cell.Q<VisualElement>("CellResource");
+
+			if (cellResource != null) cellResource.pickingMode = PickingMode.Ignore;
 		}
 	}
 
@@ -282,6 +295,26 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		}
 	}
 
+	public void CreateCell(Vector2Int cellPosition)
+	{
+		_playerInventory.CreateCell(cellPosition);
+
+		var newCell2 = InventoryCell.Instantiate().hierarchy.ElementAt(0);
+
+		newCell2.style.width = _baseInventoryCellSize;
+		newCell2.style.flexBasis = _baseInventoryCellSize;
+		newCell2.style.height = _baseInventoryCellSize;
+
+		newCell2.Q<VisualElement>("CellResource").dataSource = CreateNewCell(Inventory, cellPosition).Q<VisualElement>("CellResource").dataSource;
+		newCell2.Q<VisualElement>("CellResource").AddManipulator(new DraggableManipulator(newCell2.Q<VisualElement>("CellResource"), true));
+		newCell2.dataSource = new CellObject(false);
+		newCell2.AddToClassList("BorderCell");
+		newCell2.style.left = _baseInventoryHalfWidth - _baseInventoryCellSize + cellPosition.x * _baseInventoryCellSize;
+		newCell2.style.top = _baseInventoryHalfHeight - _baseInventoryCellSize + cellPosition.y * _baseInventoryCellSize;
+
+		Inventory2.Add(newCell2);
+	}
+
 	//Вызывает метод, который удаляет ячейку из инвентаря
 	private void DeleteCell(ClickEvent evt)
 	{
@@ -312,6 +345,12 @@ public class PlayerInventoryBuilder : MonoBehaviour
 			return true;
 		}
 		return false;
+	}
+
+	public bool CheckExistingCell(Vector2Int cell)
+	{
+		if (_playerInventory.CheckCell(cell)) return true;
+		else return false;
 	}
 
 	public Vector2Int GetResourceNearbyIndex(Vector2Int index)
@@ -415,5 +454,8 @@ public class PlayerInventoryBuilder : MonoBehaviour
 		GameEvents.OnOpenCreateCells -= ShowDeletedCells;
 		GameEvents.OnCloseCreateCells -= HideCreatedCells;
 		GameEvents.OnCloseCreateCells2 -= HideCreatedCells;
+		GameEvents.OnResourceAdd -= AddResearchResource;
+		GameEvents.OnResourceActivate -= ActivateCells;
+		GameEvents.OnResourceDeactivate -= DeactivateCells;
 	}
 }
