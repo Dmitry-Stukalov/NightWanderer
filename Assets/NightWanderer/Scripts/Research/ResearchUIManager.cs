@@ -7,6 +7,7 @@ using System.Collections;
 public class ResearchUIManager : UIManager
 {
 	[SerializeField] private UIDocument _researchUI;
+	[SerializeField] private VisualTreeAsset _needResourcesGroup;
 	private Inventory _inventory;
 	private VisualElement _mainElement;
 	private VisualElement _researchHintPanel;

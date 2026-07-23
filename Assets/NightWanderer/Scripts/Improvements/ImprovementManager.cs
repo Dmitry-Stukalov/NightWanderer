@@ -7,16 +7,25 @@ using DG.Tweening;
 public class ImprovementManager : MonoBehaviour
 {
 	[SerializeField] private UIDocument _baseUI;
+	[SerializeField] private VisualTreeAsset _improvementTree;
 	[SerializeField] private VisualTreeAsset _upgradePanel;
 	[SerializeField] private VisualTreeAsset _needResourceGroup;
+	[SerializeField] private float minScale = 0.1f;
+	[SerializeField] private float maxScale = 3f;
+	[SerializeField] private float zoomStep = 0.1f;
 	private ResourceLibrary _library;
 	private VisualElement _improvementMessageBackground;
+	private VisualElement _improvementTreeBackground;
 	private Label _improvementMessageText;
 	private Dictionary<string, IImprovementBase> _improvements = new Dictionary<string, IImprovementBase>();
 	private Inventory _playerInventory;
 	private Inventory _baseInventory;
 
 	private ScrollView _upgradesBackground;
+
+	private Vector2 lastMousePosition;
+	private float currentScale = 1;
+	private bool isDragging = false;
 
 	public void Initializing(Inventory playerInventory, Inventory baseInventory, ResourceLibrary library)
 	{
@@ -29,6 +38,16 @@ public class ImprovementManager : MonoBehaviour
 
 		_upgradesBackground = _baseUI.rootVisualElement.Q<ScrollView>("UpgradesBackground");
 
+		_improvementTreeBackground = _improvementTree.Instantiate().hierarchy.ElementAt(0);
+		_upgradesBackground.Add(_improvementTreeBackground);
+
+		_improvementTreeBackground.RegisterCallback<WheelEvent>(OnScrollWheel);
+
+		_improvementTreeBackground.RegisterCallback<MouseDownEvent>(MouseDown);
+		_improvementTreeBackground.RegisterCallback<MouseMoveEvent>(MouseMove);
+		_improvementTreeBackground.RegisterCallback<MouseUpEvent>(MouseUp);
+		_improvementTreeBackground.RegisterCallback<MouseLeaveEvent>(MouseLeave);
+
 		GameEvents.OnImprovementOpen += UnlockImprovement;
 
 		GameEvents.OnImprovementsLoad += LoadData;
@@ -36,6 +55,74 @@ public class ImprovementManager : MonoBehaviour
 		GameEvents.OnSave += SaveData;
 
 		StartCoroutine(StartPause());
+	}
+
+	private void OnScrollWheel(WheelEvent evt)
+	{
+		if (evt.ctrlKey || evt.actionKey)
+		{
+			evt.StopPropagation();
+
+			if (evt.delta.y < 0) currentScale += zoomStep;
+			else if (evt.delta.y > 0) currentScale -= zoomStep;
+
+			currentScale = Mathf.Clamp(currentScale, minScale, maxScale);
+
+			_improvementTreeBackground.style.scale = new Scale(new Vector3(currentScale, currentScale, 1));
+		}
+		else
+		{
+			_improvementTreeBackground.focusController.IgnoreEvent(evt);
+			evt.StopPropagation();
+		}
+	}
+
+	private void MouseDown(MouseDownEvent evt)
+	{
+		if (evt.button == 0)
+		{
+			isDragging = true;
+			lastMousePosition = evt.mousePosition;
+
+			// Захватываем мышь, чтобы движения считывались, даже если выйти за пределы кнопок
+			_improvementTreeBackground.CaptureMouse();
+			evt.StopPropagation();
+		}
+	}
+
+	private void MouseMove(MouseMoveEvent evt)
+	{
+		if (!isDragging) return;
+
+		// Вычисляем, на сколько сместилась мышь с прошлого кадра
+		Vector2 delta = evt.mousePosition - lastMousePosition;
+
+		// Двигаем scrollOffset в противоположную от мыши сторону (эффект "тянем холст")
+		// Делим на текущий масштаб, чтобы скорость перетаскивания не дергалась при зуме
+		_upgradesBackground.scrollOffset -= delta / currentScale;
+
+		// Запоминаем текущую позицию для следующего кадра
+		lastMousePosition = evt.mousePosition;
+		evt.StopPropagation();
+	}
+
+	private void MouseUp(MouseUpEvent evt)
+	{
+		if (evt.button == 0 && isDragging)
+		{
+			isDragging = false;
+			_improvementTreeBackground.ReleaseMouse(); // Отпускаем захват мыши
+			evt.StopPropagation();
+		}
+	}
+
+	private void MouseLeave(MouseLeaveEvent evt)
+	{
+		/*if (isDragging)
+		{
+			isDragging = false;
+			_improvementTreeBackground.ReleaseMouse();
+		}*/
 	}
 
 	private void ShowMessagePanel(string newText)
@@ -173,6 +260,8 @@ public class ImprovementManager : MonoBehaviour
 
 	public void UnlockImprovement(string name)
 	{
+		return;///
+
 		int i = 0;
 
 		foreach (var key in _improvements.Keys)
@@ -302,8 +391,13 @@ public class ImprovementManager : MonoBehaviour
 
 	private void OnDisable()
 	{
-		GameEvents.OnImprovementOpen -= UnlockImprovement;
+		_upgradesBackground.UnregisterCallback<WheelEvent>(OnScrollWheel);
+		_improvementTreeBackground.UnregisterCallback<MouseDownEvent>(MouseDown);
+		_improvementTreeBackground.UnregisterCallback<MouseMoveEvent>(MouseMove);
+		_improvementTreeBackground.UnregisterCallback<MouseUpEvent>(MouseUp);
+		_improvementTreeBackground.UnregisterCallback<MouseLeaveEvent>(MouseLeave);
 
+		GameEvents.OnImprovementOpen -= UnlockImprovement;
 		GameEvents.OnImprovementsLoad -= LoadData;
 		GameEvents.OnSave -= SaveData;
 	}

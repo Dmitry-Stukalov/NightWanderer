@@ -319,12 +319,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseUI: {fileID: 4912858456345129344}
+  _improvementTree: {fileID: 9197481963319205126, guid: 7831cd6433908aa498df0a4776f18d2d,
+    type: 3}
   _upgradePanel: {fileID: 9197481963319205126, guid: acd7971e00cd0ef4eba944991da359b2,
     type: 3}
   _needResourceGroup: {fileID: 9197481963319205126, guid: ed9db23d4aa7cea44aa2df80573d5c88,
     type: 3}
-  _library: {fileID: 0}
-  _upgradesCount: 10
 --- !u!1 &730614039260848482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,6 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _researchUI: {fileID: 8918072278270838794}
+  _needResourcesGroup: {fileID: 0}
 --- !u!1 &2828789795947815599
 GameObject:
   m_ObjectHideFlags: 0
@@ -5929,7 +5930,6 @@ MonoBehaviour:
   <MinDamage>k__BackingField: 20
   <MaxDamage>k__BackingField: 20
   TakeDamagePause: 2
-  <IsFireDamage>k__BackingField: 1
   AllDayLength: 500
   TransitionDayLength: 10
 --- !u!108 &6592180382814256783
@@ -8684,9 +8684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc3d9481f71d0034a8fd1318d4dc2bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _improvementManager: {fileID: 3382669220046808216}
-  _inventoryButton: {fileID: 4147099259103858269}
-  _resourceLibrary: {fileID: 0}
   _deathManager: {fileID: 840460790003754741}
   _defenseSprite: {fileID: 21300000, guid: cff7cbb2722e76f4791a9cfa6d7e65a5, type: 3}
   _damageSprite: {fileID: 21300000, guid: 6ab7e92af300a65458f29d24b7ee06df, type: 3}
@@ -8694,7 +8691,6 @@ MonoBehaviour:
   _baseUIManager: {fileID: 1833514700831445252}
   _researchUIManager: {fileID: 4781007962631526995}
   _extractionUIManager: {fileID: 6738281922160528643}
-  _settingsUIManager: {fileID: 1103783559816164516}
   PlayerCameraRotationObject: {fileID: 5054709227239046674}
   VacuumCleanerObject: {fileID: 2828789795947815599}
   _vacuumCleaner: {fileID: 1108298333170111055}
